@@ -1,0 +1,12 @@
+<h1>Editing word</h1>
+
+<%= turbo_frame_tag dom_id(@word) do %>
+  <%= render "form", word: @word %>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Show this word", @word %> |
+  <%= link_to "Back to words", words_path %>
+</div>

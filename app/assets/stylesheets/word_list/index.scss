@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+// https://fonts.google.com/specimen/Roboto#standard-styles
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+@import "variables";
+@import "words";
+
+html {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 1em;
+}
+
+main {
+  padding: 12px;
+}

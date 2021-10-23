@@ -1,0 +1,20 @@
+<div class="word-form">
+  <%= form_with(model: word) do |form| %>
+    <div class="form-field">
+      <%= form.label :english %>
+      <%= form.text_field :english, autocomplete: "off", data: { lpignore: true } %>
+    </div>
+    <div class="form-field">
+      <%= form.label :japanese %>
+      <%= form.text_field :japanese, autocomplete: "off", data: { lpignore: true } %>
+    </div>
+    <div class="form-field">
+      <%= form.label :source_name %>
+      <%= form.text_field :source_name, autocomplete: "off", data: { lpignore: true } %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit class: "submit" %>
+    </div>
+  <% end %>
+</div>

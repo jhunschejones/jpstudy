@@ -1,0 +1,11 @@
+<%= turbo_frame_tag dom_id(word) do %>
+  <div class="word">
+    <tr>
+      <td><%= word.english %></td>
+      <td lang="jp"><%= word.japanese %></td>
+      <td><%= word.source_name %></td>
+      <td><%= word.created_at.strftime("%m/%d/%Y") %></td>
+      <td><%= link_to "Edit", edit_word_path(word) %></td>
+    </tr>
+  </div>
+<% end %>

@@ -1,0 +1,18 @@
+<p class="notice"><%= notice %></p>
+
+<h1>Words</h1>
+
+<%= link_to "New word", new_word_path %>
+
+<div class="words-list">
+  <table>
+    <tr>
+      <th>English</th>
+      <th>Japanese</th>
+      <th>Source name</th>
+      <th>Word added on</th>
+      <th>Edit</th>
+    </tr>
+    <%= render @words %>
+  </table>
+</div>
