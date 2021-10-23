@@ -5,10 +5,12 @@
 
 @import "variables";
 @import "words";
+@import "component_styles";
 
 html {
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
-  font-size: 1em;
+  font-size: 1.05em;
+  color: #1F2937;
 }
 
 main {

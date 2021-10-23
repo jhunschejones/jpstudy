@@ -1,22 +1,9 @@
-<p class="notice"><%= notice %></p>
+<h1 class="page-title">Words</h1>
 
-<h1>Words</h1>
+<div class="actions">
+  <%= link_to("New word", new_word_path, class: "button-purple new-word") %>
+</div>
 
-<%= link_to("New word", new_word_path) %>
-
-<div class="words-table">
-  <div class="table-scroll-container">
-    <div class="table" role="grid">
-      <div class="table-row" role="row">
-        <div class="table-header-cell" role="columnheader">English</div>
-        <div class="table-header-cell" role="columnheader">Japanese</div>
-        <div class="table-header-cell" role="columnheader">Source name</div>
-        <div class="table-header-cell" role="columnheader">Word added</div>
-        <div class="table-header-cell" role="columnheader">Edit</div>
-      </div>
-      <div class="table-body" role="presentation">
-        <%= render(@words) %>
-      </div>
-    </div>
-  </div>
+<div class="words">
+  <%= render(@words) %>
 </div>

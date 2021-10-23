@@ -3,7 +3,7 @@ class WordsController < ApplicationController
 
   # GET /words
   def index
-    @words = Word.all
+    @words = Word.order(created_at: :desc)
   end
 
   # GET /words/1
@@ -24,7 +24,7 @@ class WordsController < ApplicationController
     @word = Word.new(word_params)
 
     if @word.save
-      redirect_to @word, notice: "Word was successfully created."
+      redirect_to words_url, notice: "Word was successfully created."
     else
       render :new, status: :unprocessable_entity
     end

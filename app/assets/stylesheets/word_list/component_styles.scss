@@ -1,0 +1,55 @@
+.button-red {
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 0.6em;
+  border-style: solid;
+  background-color: #EF4444;
+  border-color: #EF4444;
+  color: #fff;
+  font-size: 1em;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.button-purple {
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 0.6em;
+  border-style: solid;
+  background-color: #8B5CF6;
+  border-color: #8B5CF6;
+  color: #fff;
+  font-size: 1em;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.button-pink {
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 0.6em;
+  border-style: solid;
+  background-color: #F472B6;
+  border-color: #F472B6;
+  color: #fff;
+  font-size: 1em;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.button-blue {
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 0.6em;
+  border-style: solid;
+  background-color: #3498db;
+  border-color: #3498db;
+  color: #fff;
+  font-size: 1em;
+  &:hover {
+    cursor: pointer;
+  }
+}
