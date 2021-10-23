@@ -1,11 +1,19 @@
 <%= turbo_frame_tag dom_id(word) do %>
-  <div class="word">
-    <tr>
-      <td><%= word.english %></td>
-      <td lang="jp"><%= word.japanese %></td>
-      <td><%= word.source_name %></td>
-      <td><%= word.created_at.strftime("%m/%d/%Y") %></td>
-      <td><%= link_to "Edit", edit_word_path(word) %></td>
-    </tr>
+  <div class="table-row" role="row">
+    <div class="table-data-cell" role="rowheader">
+      <%= word.english %>
+    </div>
+    <div class="table-data-cell" role="gridcell" lang="jp">
+      <%= word.japanese %>
+    </div>
+    <div class="table-data-cell" role="gridcell">
+      <%= word.source_name %>
+    </div>
+    <div class="table-data-cell" role="gridcell">
+      <%= word.created_at.strftime("%m/%d/%Y") %>
+    </div>
+    <div class="table-data-cell" role="gridcell">
+      <%= link_to "Edit", edit_word_path(word) %>
+    </div>
   </div>
 <% end %>

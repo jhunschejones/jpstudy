@@ -2,17 +2,21 @@
 
 <h1>Words</h1>
 
-<%= link_to "New word", new_word_path %>
+<%= link_to("New word", new_word_path) %>
 
-<div class="words-list">
-  <table>
-    <tr>
-      <th>English</th>
-      <th>Japanese</th>
-      <th>Source name</th>
-      <th>Word added on</th>
-      <th>Edit</th>
-    </tr>
-    <%= render @words %>
-  </table>
+<div class="words-table">
+  <div class="table-scroll-container">
+    <div class="table" role="grid">
+      <div class="table-row" role="row">
+        <div class="table-header-cell" role="columnheader">English</div>
+        <div class="table-header-cell" role="columnheader">Japanese</div>
+        <div class="table-header-cell" role="columnheader">Source name</div>
+        <div class="table-header-cell" role="columnheader">Word added</div>
+        <div class="table-header-cell" role="columnheader">Edit</div>
+      </div>
+      <div class="table-body" role="presentation">
+        <%= render(@words) %>
+      </div>
+    </div>
+  </div>
 </div>

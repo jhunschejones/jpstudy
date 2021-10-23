@@ -31,44 +31,54 @@
   }
 }
 
-.words-list {
-  padding-top: 12px;
-  table {
-    border-spacing: 0px;
-    tr {
-      th, td {
-        border-right: 1px solid #bbb;
-        border-bottom: 1px solid #bbb;
-        padding: 6px 12px;
-        &:first-child{
-          border-left: 1px solid #bbb;
+.words-table {
+  padding-top: 20px;
+
+  .table-scroll-container {
+    overflow-x: scroll;
+    padding-bottom: 16px;
+
+    .table {
+      border-left: 1px solid #bbb;
+      border-bottom: 1px solid #bbb;
+      border-radius: 4px;
+
+      .table-row {
+        display: flex;
+
+        .table-header-cell { font-weight: bold; }
+        // .table-header-cell[role="columnheader"] { /* styles for the table header cells */ }
+        // .table-header-cell[role="rowheader"] { /* styles for the first cell in each row */ }
+        .table-header-cell,
+        .table-data-cell {
+          border-top: 1px solid #bbb;
+          border-right: 1px solid #bbb;
+          padding: 8px 12px;
+          flex: 1;
+
+          // === column-specific widths ===
+          &:not(:last-child) { min-width: 100px; } // all columns except the last
+          &:nth-last-child(2) { max-width: 100px; } // word added column
+          &:last-child { // edit column
+            min-width: 35px;
+            max-width: 35px;
+          }
         }
       }
-      th {
-        border-top: 1px solid #bbb;
-        text-align: left;
-        padding: 10px 12px 8px 12px;
+
+      // === Table rounded edges pt. 2 ===
+      .table-header-cell {
+        /* top-left border-radius */
+        &:first-child { border-top-left-radius: 4px; }
+        /* top-right border-radius */
+        &:last-child { border-top-right-radius: 4px; }
       }
-    }
-
-    /* top-left border-radius */
-    tr:first-child th:first-child {
-      border-top-left-radius: 4px;
-    }
-
-    /* top-right border-radius */
-    tr:first-child th:last-child {
-      border-top-right-radius: 4px;
-    }
-
-    /* bottom-left border-radius */
-    tr:last-child td:first-child {
-      border-bottom-left-radius: 4px;
-    }
-
-    /* bottom-right border-radius */
-    tr:last-child td:last-child {
-      border-bottom-right-radius: 4px;
+      turbo-frame:last-child .table-row {
+        /* bottom-right border-radius */
+        .table-data-cell:last-child { border-bottom-right-radius: 4px; }
+        /* bottom-left border-radius */
+        .table-data-cell:first-child { border-bottom-left-radius: 4px; }
+      }
     }
   }
 }
