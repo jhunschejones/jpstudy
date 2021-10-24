@@ -43,10 +43,15 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
-  # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
+  config.action_cable.allowed_request_origins = [ "http://japanese-word-list.herokuapp.com/", "https://japanese-word-list.herokuapp.com/" ]
+  config.web_socket_server_url = "wss://japanese-word-list.herokuapp.com/cable"
+
+  config.session_store :cookie_store, expire_after: 14.days, key: "__Host-japanese_word_list_session", secure: Rails.env.production?
+
+  config.action_dispatch.cookies_same_site_protection = :strict
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
@@ -56,7 +61,11 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_cache_store, {
+    url: ENV["RAILS_CACHE_URL"],
+    expires_in: 7.days,
+    size: 25.megabytes
+  }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
@@ -111,4 +120,7 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # Only affects displayed timezone, times are still stored in the DB as UTC
+  config.time_zone = "Pacific Time (US & Canada)"
 end

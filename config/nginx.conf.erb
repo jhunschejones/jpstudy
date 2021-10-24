@@ -1,0 +1,109 @@
+# Config file created starting from these refrences:
+# - https://github.com/heroku/heroku-buildpack-nginx/blob/master/config/nginx-solo-sample.conf.erb
+# - https://github.com/CareerFoundry/heroku-buildpack-nginx-pagespeed/blob/master/config/nginx.conf.erb
+# - https://gist.github.com/tompave/8590031
+# - https://acuments.com/rails-serve-static-files-with-nginx.html
+
+daemon off;
+# Heroku dynos have at least 4 cores.
+worker_processes <%= ENV['NGINX_WORKERS'] || 4 %>;
+
+events {
+	use epoll;
+	accept_mutex on;
+	worker_connections <%= ENV['NGINX_WORKER_CONNECTIONS'] || 1024 %>;
+  multi_accept on;
+}
+
+http {
+  gzip on;
+  gzip_comp_level 3;
+  gzip_min_length 500;
+  gzip_vary on;
+  gzip_buffers 16 8k;
+  gzip_proxied any;
+  gzip_types
+    application/javascript
+    application/x-javascript
+    application/json
+    application/vnd.ms-fontobject
+    application/x-font-ttf
+    application/x-web-app-manifest+json
+    application/xhtml+xml
+    application/xml
+    font/opentype
+    application/font-woff2
+    image/svg+xml
+    image/x-icon
+    text/html
+    text/css
+    text/plain
+    text/javascript
+    text/x-component;
+  gzip_disable "MSIE [1-6]\.";
+
+  real_ip_header X-Forwarded-For;
+  server_tokens off;
+  log_format l2met 'measure#nginx.service=$request_time request_id=$http_x_request_id';
+  access_log logs/nginx/access.log l2met;
+  error_log logs/nginx/error.log debug;
+  default_type application/octet-stream;
+  include mime.types;
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay on;
+  client_body_buffer_size 10K;
+  client_header_buffer_size 4k;
+  client_max_body_size <%= ENV['NGINX_CLIENT_MAX_BODY_SIZE'] || 1 %>M;
+  large_client_header_buffers 2 4k;
+	# Must read the body in 5 seconds.
+	client_body_timeout <%= ENV['NGINX_CLIENT_BODY_TIMEOUT'] || 5 %>;
+  client_header_timeout 5;
+  keepalive_timeout 5;
+  send_timeout 10;
+
+  upstream app_server {
+    server unix:/tmp/nginx.socket fail_timeout=0;
+  }
+
+	server {
+		listen <%= ENV["PORT"] %>;
+		server_name japanese-word-list.herokuapp.com;
+    keepalive_timeout 5;
+    charset utf-8;
+    root /var/www/japanese-word-list/current/public;
+    error_page 404 /404.html;
+    error_page 500 /500.html;
+    error_page 400 401 402 403 405 406 407 408 409 410 411 412 413 414 415 416 417 418 420 422 423 424 426 428 429 431 444 449 450 451 501 502 503 504 505 506 507 508 509 510 511 /error.html;
+
+    location ~ /\. {
+      deny all;
+      access_log off;
+      log_not_found off;
+      return 404;
+    }
+
+    location ~ ^/(robots.txt|humans.txt|favicon.ico) {
+      access_log off;
+      log_not_found off;
+      expires max;
+    }
+
+    location ^/(assets|packs)/ {
+      gzip_static on;
+      expires max;
+      add_header Cache-Control public;
+      add_header ETag "";
+    }
+
+    location / {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Request-Start "t=${msec}";
+      proxy_set_header Host $http_host;
+      proxy_pass http://app_server;
+      proxy_redirect off;
+      proxy_intercept_errors on;
+    }
+	}
+}
