@@ -39,10 +39,10 @@ class WordsController < ApplicationController
   end
 
   def toggle_card_created
-    if @word.cards_created_on?
-      @word.update!(cards_created_on: nil)
+    if @word.cards_created_at?
+      @word.update!(cards_created_at: nil)
     else
-      @word.update!(cards_created_on: Time.now)
+      @word.update!(cards_created_at: Time.now)
     end
     redirect_to @word
   end
@@ -56,6 +56,6 @@ class WordsController < ApplicationController
   def word_params
     params
       .require(:word)
-      .permit(:japanese, :english, :source_name, :source_reference, :cards_created_on)
+      .permit(:japanese, :english, :source_name, :source_reference, :cards_created_at)
   end
 end

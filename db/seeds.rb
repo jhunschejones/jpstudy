@@ -2,7 +2,8 @@ Word.find_or_create_by!(
   japanese: "二日酔い",
   english: "hangover",
   source_name: "Minna No Nihongo",
-  source_reference: "17"
+  source_reference: "17",
+  cards_created_at: Time.now
 )
 Word.find_or_create_by!(
   japanese: "予定",

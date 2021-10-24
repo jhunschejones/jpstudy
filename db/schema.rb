@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_10_21_232616) do
     t.text "english", null: false
     t.text "source_name"
     t.text "source_reference"
-    t.datetime "cards_created_on", precision: 6
+    t.datetime "cards_created_at", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
