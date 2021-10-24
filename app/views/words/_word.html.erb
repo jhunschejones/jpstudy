@@ -42,6 +42,8 @@
       <% end %>
     </div>
     <div class="edit"><%= link_to("✏️", edit_word_path(word)) %></div>
-    <div class="delete"><%= button_to("🗑️", word_path(word), method: :delete, data: { turbo: "false" }) %></div>
+    <div class="delete">
+      <%= button_to("🗑️", word_path(word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" } ) %>
+    </div>
   </div>
 <% end %>

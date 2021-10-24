@@ -1,0 +1,47 @@
+<h1 class="page-title">Import CSV</h1>
+
+<div class="actions">
+  <%= link_to "Words", words_path, class: "button-purple back-button" %>
+</div>
+
+<%= form_tag(upload_words_path, method: :post, multipart: true, class: "import-csv-form") do %>
+  <p>Sort your CSV so that words you have already created cards for come first. Then, map the columns in your CSV to the fields in your word list.</p>
+
+  <div class="mapping-field-row">
+    Column
+    <%= text_field_tag :english, 1, autocomplete: "off", data: { lpignore: true } %>
+    :
+    <%= label_tag :english %>
+  </div>
+  <div class="mapping-field-row">
+    Column
+    <%= text_field_tag :japanese, 2, autocomplete: "off", data: { lpignore: true } %>
+    :
+    <%= label_tag :japanese %>
+  </div>
+  <div class="mapping-field-row">
+    Column
+    <%= text_field_tag :source_refrence, 3, autocomplete: "off", data: { lpignore: true } %>
+    :
+    <%= label_tag :source_refrence, "Source refrence (i.e. Chapter 12)" %>
+  </div>
+
+  <div class="last-created-card-row-field-row">
+    <%= label_tag :last_created_card_row %>
+    <%= text_field_tag :last_created_card_row, nil, autocomplete: "off", data: { lpignore: true }, required: true %>
+  </div>
+
+  <div class="source-name-field-row">
+    <%= label_tag :source_name %>
+    <%= text_field_tag :source_name, nil, autocomplete: "off", data: { lpignore: true }, placeholder: "Minna No Nihongo..." %>
+  </div>
+
+  <%= file_field_tag :csv_file, required: true %>
+
+  <div class="includes-headers-field-row">
+    <%= label_tag :csv_includes_headers, "CSV includes headers" %>
+    <%= check_box_tag :csv_includes_headers, true, true %>
+  </div>
+
+  <%= submit_tag("Import words", class: "button-blue") %>
+<% end %>

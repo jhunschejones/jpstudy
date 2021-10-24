@@ -1,5 +1,7 @@
+require "csv"
+
 class WordsController < ApplicationController
-  before_action :set_word, only: %i[ show edit update destroy toggle_card_created ]
+  before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
   def index
     @words = Word.order(created_at: :desc)
@@ -35,7 +37,14 @@ class WordsController < ApplicationController
 
   def destroy
     @word.destroy
-    redirect_to words_url, notice: "Word was successfully destroyed."
+    respond_to do |format|
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.remove(@word)
+      }
+      format.html {
+        redirect_to words_url, notice: "Word was successfully destroyed."
+      }
+    end
   end
 
   def toggle_card_created
@@ -45,6 +54,32 @@ class WordsController < ApplicationController
       @word.update!(cards_created: true)
     end
     redirect_to @word
+  end
+
+  def import
+  end
+
+  def upload
+    if params[:csv_file]&.content_type == "text/csv"
+      CSV.read(params[:csv_file].path).each_with_index do |row, index|
+        next if index.zero? && params[:csv_includes_headers]
+
+        english = row[params[:english].to_i - 1]
+        japanese = row[params[:japanese].to_i - 1]
+        next unless english && japanese
+
+        Word.find_or_create_by(
+          english: english,
+          japanese: japanese,
+          source_name: params[:source_name],
+          source_reference: params[:source_reference] ? nil : row[params[:source_reference].to_i - 1],
+          cards_created: index < params[:last_created_card_row].to_i # this is one past the actual row index already
+        )
+      end
+    else
+      flash[:notice] = "Unsupported file format"
+    end
+    redirect_to import_words_path
   end
 
   private

@@ -3,5 +3,9 @@ Rails.application.routes.draw do
 
   resources :words do
     post :toggle_card_created
+    collection do
+      get :import
+      post :upload
+    end
   end
 end
