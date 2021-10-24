@@ -11,7 +11,7 @@
     <div class="added-on"><%= word.created_at.strftime("%m/%d/%Y") %></div>
     <div class="cards-created">
       <%= button_to(word_toggle_card_created_path(word), method: :post) do %>
-        <% if word.cards_created_at? %>
+        <% if word.cards_created? %>
           <span title="Cards created">✅</span>
         <% else %>
           <span title="No cards created yet">🆕</span>

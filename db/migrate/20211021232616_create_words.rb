@@ -5,7 +5,7 @@ class CreateWords < ActiveRecord::Migration[7.0]
       t.text :english, null: false
       t.text :source_name
       t.text :source_reference
-      t.datetime :cards_created_at
+      t.boolean :cards_created
       t.timestamps
     end
   end
