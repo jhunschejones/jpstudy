@@ -5,10 +5,12 @@
       <span class="english">(<%= word.english %>)</span>
     </div>
     <div class="source">
+      Added
+      <span class="added-on"><%= word.created_at.strftime("%m/%d/%Y") %></span>
+      >
       <span class="source-name"><%= word.source_name %></span>
       <span class="source-reference"><%= word.source_reference %></span>
     </div>
-    <div class="added-on"><%= word.created_at.strftime("%m/%d/%Y") %></div>
     <div class="resources">
       <%# The https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/save-audio-japanesepod101 chrome extension is required for this search to work %>
       <%= link_to("https://www.japanesepod101.com/japanese-dictionary/?search=#{word.japanese}", target: "_blank", title: "Jpod101 dictionary search") do %>
