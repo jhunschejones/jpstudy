@@ -1,5 +1,5 @@
 .page-title {
-  margin: 12px 0px;
+  margin: 12px 0px 0px 0px;
 }
 
 .word-form {
@@ -37,9 +37,8 @@
 
 .new-word,
 .back-button {
-  position: absolute;
-  top: 75px;
-  right: 20px;
+  float: right;
+  margin-top: -36px;
 }
 
 .word {

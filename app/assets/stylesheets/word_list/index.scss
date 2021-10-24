@@ -15,29 +15,43 @@ html {
 }
 
 nav {
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #374151;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);
-    li {
-      float: left;
-      a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        &:hover {
-          background-color: #1F2937;
-        }
-      }
+  position: relative;
+  overflow: hidden;
+  background-color: #374151;
+  height: 50px;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);
+  a {
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 1em;
+    &:hover {
+      background-color: #1F2937;
     }
+  }
+  .center-links {
+    float: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .right-links {
+    float: right;
+  }
+  @media (max-width: 600px) {
+    /* collapse links for mobile? */
   }
 }
 
 main {
-  padding: 12px;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  .page-content {
+    padding: 12px;
+    width: 700px;
+  }
 }

@@ -12,12 +12,16 @@
   </head>
   <body>
     <nav>
-      <ul>
-        <li><%= link_to("言葉", words_path )%></li>
-      </ul>
+      <div class="left-links"></div>
+      <div class="center-links">
+        <%= link_to("言葉", words_path) %>
+      </div>
+      <div class="right-links"></div>
     </nav>
     <main>
-      <%= yield %>
+      <section class="page-content">
+        <%= yield %>
+      </section>
     </main>
   </body>
 </html>
