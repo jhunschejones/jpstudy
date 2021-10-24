@@ -2,15 +2,19 @@
   <%= form_with(model: word) do |form| %>
     <div class="form-field">
       <%= form.label :english %>
-      <%= form.text_field :english, autocomplete: "off", data: { lpignore: true }, autofocus: true %>
+      <%= form.text_field :english, autocomplete: "off", data: { lpignore: true }, autofocus: true, required: true %>
     </div>
     <div class="form-field">
       <%= form.label :japanese %>
-      <%= form.text_field :japanese, autocomplete: "off", data: { lpignore: true } %>
+      <%= form.text_field :japanese, autocomplete: "off", data: { lpignore: true }, required: true %>
     </div>
     <div class="form-field">
       <%= form.label :source_name %>
       <%= form.text_field :source_name, autocomplete: "off", data: { lpignore: true } %>
+    </div>
+    <div class="form-field">
+      <%= form.label :source_reference %>
+      <%= form.text_field :source_reference, autocomplete: "off", data: { lpignore: true } %>
     </div>
 
     <div class="form-actions">

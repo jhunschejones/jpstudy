@@ -18,8 +18,9 @@ ActiveRecord::Schema.define(version: 2021_10_21_232616) do
   create_table "words", force: :cascade do |t|
     t.text "japanese", null: false
     t.text "english", null: false
-    t.datetime "cards_created_on", precision: 6
     t.text "source_name"
+    t.text "source_reference"
+    t.datetime "cards_created_on", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

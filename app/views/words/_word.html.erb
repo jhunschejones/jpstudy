@@ -4,8 +4,20 @@
       <span class="japanese" lang="jp"><%= word.japanese %></span>
       <span class="english">(<%= word.english %>)</span>
     </div>
-    <div class="source-name"><%= word.source_name %></div>
+    <div class="source">
+      <span class="source-name"><%= word.source_name %></span>
+      <span class="source-reference"><%= word.source_reference %></span>
+    </div>
     <div class="added-on"><%= word.created_at.strftime("%m/%d/%Y") %></div>
+    <div class="cards-created">
+      <%= button_to(word_toggle_card_created_path(word), method: :post) do %>
+        <% if word.cards_created_on? %>
+          <span title="Cards created">✅</span>
+        <% else %>
+          <span title="No cards created yet">🆕</span>
+        <% end %>
+      <% end %>
+    </div>
     <div class="edit"><%= link_to("✏️", edit_word_path(word)) %></div>
     <div class="delete"><%= button_to("🗑️", word_path(word), method: :delete, data: { turbo: "false" }) %></div>
   </div>

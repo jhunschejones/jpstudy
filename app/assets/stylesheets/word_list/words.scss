@@ -56,8 +56,21 @@
     font-weight: 600;
   }
   .source-name,
+  .source-reference,
   .added-on {
     color: #9CA3AF;
+  }
+  .cards-created button {
+    background: none;
+    border: none;
+    text-decoration: none;
+    position: absolute;
+    top: 4px;
+    right: 55px;
+    font-size: 1.15em;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .edit a {
     text-decoration: none;
