@@ -10,8 +10,12 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
+    <nav>
+      <ul>
+        <li><%= link_to("言葉", words_path )%></li>
+      </ul>
+    </nav>
     <main>
       <%= yield %>
     </main>

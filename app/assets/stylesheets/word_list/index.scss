@@ -11,6 +11,31 @@ html {
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-size: 1.05em;
   color: #1F2937;
+  body { margin: 0px; }
+}
+
+nav {
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #374151;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);
+    li {
+      float: left;
+      a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        &:hover {
+          background-color: #1F2937;
+        }
+      }
+    }
+  }
 }
 
 main {
