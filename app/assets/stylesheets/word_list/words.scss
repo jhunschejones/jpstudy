@@ -54,6 +54,37 @@
   border: 1px solid #F3F4F6;
   border-radius: 4px;
   position: relative;
+
+  .delete button {
+    background: none;
+    border: none;
+    text-decoration: none;
+    font-size: 1.15em;
+    float: right;
+    margin-right: -10px;
+    margin-top: -4px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .edit a {
+    text-decoration: none;
+    font-size: 1.15em;
+    float: right;
+    margin-top: -4px;
+  }
+  .cards-created button {
+    background: none;
+    border: none;
+    text-decoration: none;
+    font-size: 1.15em;
+    float: right;
+    margin-top: -4px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .translation {
     padding-bottom: 4px;
     .japanese {
@@ -62,44 +93,22 @@
     .english {
       padding-left: 4px;
     }
+    @media (max-width: 600px) {
+      span { display: block; }
+      .english { padding-left: 0px; }
+    }
   }
   .source {
     color: #9CA3AF;
     padding-bottom: 7px;
+    @media (max-width: 600px) {
+      .added-on {
+        display: block;
+      }
+    }
   }
   .resources {
     a { text-decoration: none; }
-  }
-  .cards-created button {
-    background: none;
-    border: none;
-    text-decoration: none;
-    position: absolute;
-    top: 4px;
-    right: 55px;
-    font-size: 1.15em;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .edit a {
-    text-decoration: none;
-    position: absolute;
-    top: 4px;
-    right: 34px;
-    font-size: 1.15em;
-  }
-  .delete button {
-    background: none;
-    border: none;
-    text-decoration: none;
-    position: absolute;
-    top: 4px;
-    right: 2px;
-    font-size: 1.15em;
-    &:hover {
-      cursor: pointer;
-    }
   }
 }
 
