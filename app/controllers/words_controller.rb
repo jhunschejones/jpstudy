@@ -60,26 +60,28 @@ class WordsController < ApplicationController
   end
 
   def upload
-    if params[:csv_file]&.content_type == "text/csv"
-      CSV.read(params[:csv_file].path).each_with_index do |row, index|
-        next if index.zero? && params[:csv_includes_headers]
-
-        english = row[params[:english].to_i - 1]
-        japanese = row[params[:japanese].to_i - 1]
-        next unless english && japanese
-
-        Word.find_or_create_by(
-          english: english,
-          japanese: japanese,
-          source_name: params[:source_name],
-          source_reference: params[:source_reference] ? nil : row[params[:source_reference].to_i - 1],
-          cards_created: index < params[:last_created_card_row].to_i # this is one past the actual row index already
-        )
-      end
-    else
-      flash[:notice] = "Unsupported file format"
+    unless params[:csv_file]&.content_type == "text/csv"
+      return redirect_to import_words_path, notice: "Unsupported file format"
     end
-    redirect_to import_words_path
+
+    CSV.read(params[:csv_file].path).each_with_index do |row, index|
+      next if index.zero? && params[:csv_includes_headers]
+
+      english = row[params[:english].to_i - 1]
+      japanese = row[params[:japanese].to_i - 1]
+      next unless english && japanese
+
+      Word.find_or_create_by(
+        english: english,
+        japanese: japanese,
+        source_name: params[:source_name],
+        source_reference: params[:source_reference].to_i.zero? ? nil : row[params[:source_reference].to_i - 1],
+        cards_created: index < params[:last_created_card_row].to_i, # the value submitted by the client is one past the actual row index
+        created_at: params[:created_at].to_i.zero? ? nil : word_created_time(row[params[:created_at].to_i - 1])
+      )
+    end
+
+    redirect_to words_url, notice: "Words successfully imported."
   end
 
   private
@@ -92,5 +94,21 @@ class WordsController < ApplicationController
     params
       .require(:word)
       .permit(:japanese, :english, :source_name, :source_reference, :cards_created)
+  end
+
+  def word_created_time(time_or_date_string)
+    begin
+      if time_or_date_string.size == 8
+        return Date.strptime(time_or_date_string, "%m/%d/%y")
+      elsif time_or_date_string.size == 10
+        return Date.strptime(time_or_date_string, "%m/%d/%Y")
+      end
+    rescue Date::Error
+    end
+    begin
+      return Time.parse(time_or_date_string)
+    rescue ArgumentError
+    end
+    raise "Invalid created at time"
   end
 end

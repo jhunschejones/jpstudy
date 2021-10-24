@@ -5,7 +5,11 @@
 </div>
 
 <%= form_tag(upload_words_path, method: :post, multipart: true, class: "import-csv-form") do %>
-  <p>Sort your CSV so that words you have already created cards for come first. Then, map the columns in your CSV to the fields in your word list.</p>
+  <p>
+    Prepare your CSV so that it is sorted with the words you already created
+    cards for first. Then, map the columns in your CSV to the fields in your
+    word list. If you are missing a field, set the value to '0'.
+  </p>
 
   <div class="mapping-field-row">
     Column
@@ -21,10 +25,17 @@
   </div>
   <div class="mapping-field-row">
     Column
-    <%= text_field_tag :source_refrence, 3, autocomplete: "off", data: { lpignore: true } %>
+    <%= text_field_tag :created_at, 3, autocomplete: "off", data: { lpignore: true } %>
     :
-    <%= label_tag :source_refrence, "Source refrence (i.e. Chapter 12)" %>
+    <%= label_tag :created_at, "Date added to list (mm/dd/yy or mm/dd/yyyy)" %>
   </div>
+  <div class="mapping-field-row">
+    Column
+    <%= text_field_tag :source_reference, 4, autocomplete: "off", data: { lpignore: true } %>
+    :
+    <%= label_tag :source_reference, "Source refrence (i.e. Chapter 12)" %>
+  </div>
+
 
   <div class="last-created-card-row-field-row">
     <%= label_tag :last_created_card_row %>
