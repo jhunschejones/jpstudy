@@ -1,0 +1,3 @@
+#!/bin/bash
+
+. ./tmp/.env && bundle exec rails test

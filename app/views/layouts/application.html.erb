@@ -16,10 +16,34 @@
       <div class="center-links">
         <%= link_to("言葉", words_path) %>
       </div>
-      <div class="right-links"></div>
+      <div class="right-links">
+        <% if @current_user.present? %>
+          <%= button_to("出る", logout_path, method: :delete, class: "logout-button") %>
+        <% else %>
+          <%= link_to("登録", signup_path, class: "signup-button") %>
+          <%= link_to("入る", login_path, class: "login-button") %>
+        <% end %>
+      </div>
     </nav>
     <main>
       <section class="page-content">
+        <% if flash[:alert] %>
+          <div class="flash alert" data-controller="flash">
+            <button class="close-flash-button" data-action="click->flash#close">&#x2715</button>
+            <p class="notice"><%= flash[:alert] %></p>
+          </div>
+        <% elsif flash[:notice] %>
+          <div class="flash warning" data-controller="flash">
+            <button class="close-flash-button" data-action="click->flash#close">&#x2715</button>
+            <p class="notice"><%= flash[:notice] %></p>
+          </div>
+        <% elsif flash[:success] %>
+          <div class="flash success" data-controller="flash">
+            <button class="close-flash-button" data-action="click->flash#close">&#x2715</button>
+            <p class="notice"><%= flash[:success] %></p>
+          </div>
+        <% end %>
+
         <%= yield %>
       </section>
     </main>

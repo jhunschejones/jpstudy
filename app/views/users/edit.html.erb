@@ -1,0 +1,31 @@
+<div class="user-edit-form-container">
+  <div class="user-edit-form">
+    <h2 class="title">Editing user</h2>
+
+    <%= form_with(model: @user) do |form| %>
+      <div class="field">
+        <%= form.label :name %>
+        <%= form.text_field :name, required: true %>
+      </div>
+
+      <div class="field">
+        <%= form.label :username %>
+        <%= form.text_field :username, required: true %>
+      </div>
+
+      <div class="field">
+        <%= form.label :email %>
+        <%= form.text_field :email, type: "email", required: true %>
+      </div>
+
+      <div class="field">
+        <%= form.label :password %>
+        <%= form.text_field :password, type: "password", required: true %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Update user", class: "button-blue" %>
+      </div>
+    <% end %>
+  </div>
+</div>

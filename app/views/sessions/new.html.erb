@@ -1,0 +1,16 @@
+<div class="login-form-container">
+  <div class="login-form">
+    <h2 class="title">Log in</h2>
+
+    <%= form_with(url: login_path) do |form| %>
+      <%= form.label :email %>
+      <%= form.text_field :email, type: "email" %>
+      <%= form.label :password %>
+      <%= form.text_field :password, type: "password", autocomplete: "off" %>
+
+      <div class="actions">
+        <%= form.submit "Log in", class: "button-blue" %>
+      </div>
+    <% end %>
+  </div>
+</div>
