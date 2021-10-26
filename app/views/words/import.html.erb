@@ -1,9 +1,5 @@
 <h1 class="page-title">Import CSV</h1>
 
-<div class="actions">
-  <%= link_to "Words", words_path, class: "button-purple back-button" %>
-</div>
-
 <%= form_tag(upload_words_path, method: :post, multipart: true, class: "import-csv-form") do %>
   <p>
     Prepare your CSV so that it is sorted with the words you already created

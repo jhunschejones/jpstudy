@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user, only: [:new, :create]
 
   def show
-    redirect_to @current_user unless @user == @current_user
   end
 
   def new
@@ -12,7 +11,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    redirect_to @current_user unless @user == @current_user
   end
 
   def create
@@ -27,11 +25,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    redirect_to @current_user unless @user == @current_user
     if @user.update(user_params)
-      redirect_to @user, notice: "User was successfully updated."
+      redirect_to @user, success: "User was successfully updated."
     else
-      binding.b
+      flash.now[:notice] = "Unable to update user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -39,7 +36,7 @@ class UsersController < ApplicationController
   def destroy
 
     @user.destroy
-    redirect_to users_url, notice: "User was successfully destroyed."
+    redirect_to users_url, success: "User was successfully destroyed."
   end
 
   private
@@ -49,7 +46,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :username, :email, :password)
+    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation)
   end
 
   def protect_user

@@ -4,7 +4,7 @@ class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
   def index
-    @words = Word.order(created_at: :desc)
+    @words = @current_user.words.order(created_at: :desc)
   end
 
   def show
@@ -18,19 +18,21 @@ class WordsController < ApplicationController
   end
 
   def create
-    @word = Word.new(word_params)
+    @word = Word.new(word_params.merge({ user: @current_user }))
 
     if @word.save
-      redirect_to words_url, notice: "Word was successfully created."
+      redirect_to words_url, success: "Word was successfully created."
     else
+      flash.now[:notice] = "Unable to create word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
       render :new, status: :unprocessable_entity
     end
   end
 
   def update
     if @word.update(word_params)
-      redirect_to @word, notice: "Word was successfully updated."
+      redirect_to @word, success: "Word was successfully updated."
     else
+      flash.now[:notice] = "Unable to update word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -64,6 +66,8 @@ class WordsController < ApplicationController
       return redirect_to import_words_path, notice: "Unsupported file format"
     end
 
+    words_added = 0
+    words_already_exist = 0
     CSV.read(params[:csv_file].path).each_with_index do |row, index|
       next if index.zero? && params[:csv_includes_headers]
 
@@ -71,23 +75,27 @@ class WordsController < ApplicationController
       japanese = row[params[:japanese].to_i - 1]
       next unless english && japanese
 
-      Word.find_or_create_by(
-        english: english,
-        japanese: japanese,
+      if Word.find_by(english: english, japanese: japanese, user: @current_user)
+        next words_already_exist += 1
+      end
+
+      words_added +=1 if Word.create(
+        english: english, japanese: japanese,
         source_name: params[:source_name],
         source_reference: params[:source_reference].to_i.zero? ? nil : row[params[:source_reference].to_i - 1],
         cards_created: index < params[:last_created_card_row].to_i, # the value submitted by the client is one past the actual row index
-        created_at: params[:created_at].to_i.zero? ? nil : word_created_time(row[params[:created_at].to_i - 1])
+        created_at: params[:created_at].to_i.zero? ? nil : word_created_time(row[params[:created_at].to_i - 1]),
+        user: @current_user
       )
     end
 
-    redirect_to words_url, notice: "Words successfully imported."
+    redirect_to words_url, success: "#{words_added} #{"word".pluralize(words_added)} successfully imported."
   end
 
   private
 
   def set_word
-    @word = Word.find(params[:id] || params[:word_id])
+    @word = Word.find_by(user: @current_user, id: params[:id] || params[:word_id])
   end
 
   def word_params
