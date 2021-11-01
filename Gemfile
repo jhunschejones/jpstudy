@@ -17,6 +17,8 @@ gem "turbo-rails", ">= 0.7.11"
 gem "stimulus-rails", ">= 0.4.0"
 gem "sassc-rails", "~> 2.1"
 
+gem "square.rb"
+
 gem "bootsnap", ">= 1.4.4", require: false
 
 group :development, :test do

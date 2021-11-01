@@ -19,3 +19,50 @@
   <%= link_to "Edit", edit_user_path(@user), class: "button-blue edit-button" %>
   <%= button_to "Delete your account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete your account? This action is permanent and you will cause you to lose access to the entire site.", action: "confirmation#confirm" } %>
 </div>
+
+<div class="square" data-controller="square">
+  <% if @user.subscription.active? %>
+    <h3 class="title">Manage your subscription</h3>
+    <p>
+      A monthly subscription is required to unlock full access to the site after
+      your free trial. Your payment information is processed and stored by
+      <a href="https://squareup.com/us/en/legal/general/buyer-features" target="_blank">Square</a>
+      and is not accessed by this site. You may cancel your subscription at any time.
+    </p>
+    <p>
+      <strong>Start date:</strong>
+      <%= @user.subscription.start_date %>
+    </p>
+    <p>
+      <strong>Next charge date:</strong>
+      <%= @user.subscription.next_charge_date %>
+    </p>
+    <a
+      class="square-button manage-subscription-button"
+      target="_blank"
+      data-square-target="checkoutButton"
+      data-action="square#showCheckoutWindow"
+      href="<%= @user.subscription.self_management_link %>"
+    >
+      Modify subscription on Square
+    </a>
+  <% else %>
+    <h3 class="title">Subscribe</h3>
+    <p>
+      To unlock full access to the site after your free trial, you can subscribe
+      for $1.00 a month. Your payment information is processed and stored by
+      <a href="https://squareup.com/us/en/legal/general/buyer-features" target="_blank">Square</a>
+      and is not accessed by this site. You may cancel your subscription at any time.
+    </p>
+    <a
+      class="square-button checkout-button"
+      target="_blank"
+      data-square-target="checkoutButton"
+      data-action="square#showCheckoutWindow"
+      href="https://square.link/u/oricGJt8?src=embed"
+    >
+      Subscribe with Square
+    </a>
+    <textarea class="checkout-button-html-hidden-textarea"></textarea>
+  <% end %>
+</div>
