@@ -10,6 +10,14 @@ Rails.application.routes.draw do
     delete "logout" => :destroy
   end
 
+  resources :square, only: [] do
+    collection do
+      post :subscription_created
+      post :subscription_updated
+      get :logout # redirect from square
+    end
+  end
+
   resources :words do
     post :toggle_card_created
     collection do

@@ -21,7 +21,7 @@
 </div>
 
 <div class="square" data-controller="square">
-  <% if @user.subscription.active? %>
+  <% if !@user.subscription.active? %>
     <h3 class="title">Manage your subscription</h3>
     <p>
       A monthly subscription is required to unlock full access to the site after
