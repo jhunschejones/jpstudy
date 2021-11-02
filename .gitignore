@@ -28,3 +28,6 @@
 /config/master.key
 
 *.DS_Store
+
+test_signature.rb
+test_event.json
