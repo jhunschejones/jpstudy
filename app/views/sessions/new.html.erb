@@ -7,6 +7,7 @@
       <%= form.text_field :email, type: "email" %>
       <%= form.label :password %>
       <%= form.text_field :password, type: "password", autocomplete: "off" %>
+      <%= form.hidden_field :ref_id, value: params["ref_id"] %>
 
       <div class="actions">
         <%= form.submit "Log in", class: "button-blue" %>

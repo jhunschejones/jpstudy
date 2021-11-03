@@ -43,8 +43,8 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
-  config.action_cable.allowed_request_origins = [ "http://japanese-word-list.herokuapp.com/", "https://japanese-word-list.herokuapp.com/" ]
-  config.web_socket_server_url = "wss://japanese-word-list.herokuapp.com/cable"
+  config.action_cable.allowed_request_origins = [ "http://jpstudy.herokuapp.com/", "https://jpstudy.herokuapp.com/" ]
+  config.web_socket_server_url = "wss://jpstudy.herokuapp.com/cable"
 
   config.session_store :cookie_store, expire_after: 14.days, key: "__Host-japanese_word_list_session", secure: Rails.env.production?
 
@@ -73,9 +73,12 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: "jpstudy.herokuapp.com", protocol: "https" }
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_options = { from: "support@jpstudy.app" }
+  config.action_mailer.delivery_method = :amazon_ses
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

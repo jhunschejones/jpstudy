@@ -21,7 +21,7 @@
 </div>
 
 <div class="square" data-controller="square">
-  <% if !@user.subscription.active? %>
+  <% if !@user.active_subscription.present? %>
     <h3 class="title">Manage your subscription</h3>
     <p>
       A monthly subscription is required to unlock full access to the site after
@@ -31,18 +31,18 @@
     </p>
     <p>
       <strong>Start date:</strong>
-      <%= @user.subscription.start_date %>
+      <%= @user.active_subscription.start_date %>
     </p>
     <p>
       <strong>Next charge date:</strong>
-      <%= @user.subscription.next_charge_date %>
+      <%= @user.active_subscription.next_charge_date %>
     </p>
     <a
       class="square-button manage-subscription-button"
       target="_blank"
       data-square-target="checkoutButton"
       data-action="square#showCheckoutWindow"
-      href="<%= @user.subscription.self_management_link %>"
+      href="<%= @user.active_subscription.self_management_link %>"
     >
       Modify subscription on Square
     </a>

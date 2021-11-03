@@ -31,3 +31,4 @@
 
 test_signature.rb
 test_event.json
+test_encryption.rb

@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class SquareController < ApplicationController
   skip_before_action :authenticate_user
   before_action :validate_webhook, except: [:logout]
 
@@ -14,6 +14,10 @@ class SessionsController < ApplicationController
     # 3. TODO: Send the user an email to link their subscription to their account
     #    Email should include a link to the login page along with a param that is an encrypted customer ID
     #    Singining in with the param present should un-encrypt the ID, verify it is valid, then assign it to that user
+    UserMailer
+      .with(square_customer_id: customer_id, email: billing_email)
+      .confirm_subscription_email
+      .deliver_later
   end
 
   def subscription_updated

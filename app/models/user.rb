@@ -11,9 +11,13 @@ class User < ApplicationRecord
 
   has_many :words
 
-  def subscription
-    raise "Multiple matching subscriptions" if subscriptions.size > 1
-    subscriptions.first
+  def active_subscription
+    active_subscriptions = subscriptions.filter(&:active?)
+    return nil if active_subscriptions.size.zero?
+    if active_subscriptions.size > 1
+      # TODO: what should we do with multiple active subscriptions?
+    end
+    active_subscriptions.first
   end
 
   private
@@ -40,26 +44,26 @@ class User < ApplicationRecord
     end
   end
 
-  def square_customer_id
-    @square_customer_id ||= begin
-      # https://github.com/square/square-ruby-sdk/blob/master/doc/api/customers.md#search-customers
-      result = SQUARE_CLIENT
-        .customers
-        .search_customers(
-          body: {
-            query: {
-              filter: {
-                email_address: {
-                  exact: email
-                }
-              }
-            }
-          }
-        )
-      raise "Square error #{result.errors.inspect}" if result.error?
-      matching_square_customers = result.data.customers
-      raise "Multiple matching customers" if matching_square_customers.size > 1
-      matching_square_customers.first[:id]
-    end
-  end
+  # def square_customer_id
+  #   @square_customer_id ||= begin
+  #     # https://github.com/square/square-ruby-sdk/blob/master/doc/api/customers.md#search-customers
+  #     result = SQUARE_CLIENT
+  #       .customers
+  #       .search_customers(
+  #         body: {
+  #           query: {
+  #             filter: {
+  #               email_address: {
+  #                 exact: email
+  #               }
+  #             }
+  #           }
+  #         }
+  #       )
+  #     raise "Square error #{result.errors.inspect}" if result.error?
+  #     matching_square_customers = result.data.customers
+  #     raise "Multiple matching customers" if matching_square_customers.size > 1
+  #     matching_square_customers.first[:id]
+  #   end
+  # end
 end
