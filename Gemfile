@@ -18,7 +18,6 @@ gem "stimulus-rails", ">= 0.4.0"
 gem "sassc-rails", "~> 2.1"
 
 gem "square.rb"
-gem "aws-sdk-rails"
 
 gem "bootsnap", ">= 1.4.4", require: false
 
