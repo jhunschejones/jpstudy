@@ -62,7 +62,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, {
-    url: ENV["RAILS_CACHE_URL"],
+    url: ENV["VIEW_CACHE_REDIS_URL"],
     expires_in: 7.days,
     size: 25.megabytes
   }

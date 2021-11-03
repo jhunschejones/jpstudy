@@ -81,6 +81,5 @@ test:
 #
 production:
   <<: *default
-  database: jp_study_production
-  username: jp_study
-  password: <%= ENV["JP_STUDY_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: 20
