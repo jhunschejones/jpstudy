@@ -46,7 +46,7 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = [ "http://jpstudy.herokuapp.com/", "https://jpstudy.herokuapp.com/" ]
   config.web_socket_server_url = "wss://jpstudy.herokuapp.com/cable"
 
-  config.session_store :cookie_store, expire_after: 14.days, key: "__Host-japanese_word_list_session", secure: Rails.env.production?
+  config.session_store :cookie_store, expire_after: 14.days, key: "__Host-jp_study_session", secure: Rails.env.production?
 
   config.action_dispatch.cookies_same_site_protection = :strict
 
@@ -69,7 +69,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "word_list_production"
+  # config.active_job.queue_name_prefix = "jp_study_production"
 
   config.action_mailer.perform_caching = false
 
