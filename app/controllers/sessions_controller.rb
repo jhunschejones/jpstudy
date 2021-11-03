@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       flash.discard
       # Set the square_customer_id if this login is after a confirm_subscription_email
-      if params[:ref_id]
+      if params[:ref_id].present?
         user.update!(square_customer_id: square_customer_id, password: params[:password])
       end
       redirect_to session.delete(:return_to) || root_path
@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
   private
 
   def square_customer_id
-    if params[:ref_id]
+    if params[:ref_id].present?
       decrypted_id = ActiveSupport::MessageEncryptor
         .new(ENV["MESSAGE_ENCRYPTION_KEY"])
         .decrypt_and_verify(Base64.decode64(params[:ref_id]))
