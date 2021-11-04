@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2021_11_04_210250) do
     t.boolean "verified", default: false
     t.datetime "verified_at", precision: 6
     t.string "verification_digest"
-    t.string "unconfirmed_email"
+    t.string "unverified_email"
     t.datetime "reset_sent_at", precision: 6
     t.string "reset_digest"
     t.index ["email"], name: "index_users_on_email", unique: true

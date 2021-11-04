@@ -1,4 +1,16 @@
 class UserMailer < ApplicationMailer
+  def welcome_email(user, token)
+    @user = user
+    @token = token
+    mail(to: @user.unconfirmed_email || @user.email, subject: "Welcome to jpstudy")
+  end
+
+  def password_reset_email(user, token)
+    @user = user
+    @token = token
+    mail(to: @user.email, subject: "Password reset request")
+  end
+
   def confirm_subscription_email
     @url = "https://www.jpstudy.herokuapp.com/login?ref_id=#{encrypt(params[:square_customer_id])}"
     mail(to: params[:email], subject: "Connect your jpstudy account")

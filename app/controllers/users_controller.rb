@@ -15,9 +15,12 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    token = Token.generate(expires_at: 4.hours.from_now.utc)
+    @user.verification_digest = token.digest
 
     if @user.save
-      redirect_to login_path, notice: "User was successfully created."
+      UserMailer.welcome_email(@user, token).deliver_later
+      redirect_to login_url, success: "User #{@user.username} was successfully created. Please follow the verification link in your email."
     else
       flash.now[:notice] = "Unable to create user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
       render :new, status: :unprocessable_entity
@@ -25,8 +28,24 @@ class UsersController < ApplicationController
   end
 
   def update
+    if changing_email?
+      if email_is_not_unique?
+        flash[:alert] = "Emails must be unique, please request a password reset if you cannot access your account"
+        return redirect_to edit_user_path(@user)
+      end
+
+      # securely verify new email without locking users out of their accounts
+      @user.unverified_email = user_params[:email]
+      token = Token.generate(expires_at: 4.hours.from_now.utc)
+      user.verification_digest = token.digest
+
+      UserMailer.welcome_email(@user, token).deliver_later
+      flash[:notice] = "Please follow the verification link sent to your new email to confirm the change"
+    end
+
     if @user.update(user_params)
-      redirect_to @user, success: "User was successfully updated."
+      flash[:success] = "User was successfully updated."
+      redirect_to @user
     else
       flash.now[:notice] = "Unable to update user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
       render :edit, status: :unprocessable_entity
@@ -34,7 +53,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-
     @user.destroy
     redirect_to users_url, success: "User was successfully destroyed."
   end
@@ -53,5 +71,16 @@ class UsersController < ApplicationController
     unless @user == @current_user
       redirect_to @current_user, alert: "You cannot access data for other users"
     end
+  end
+
+  def changing_email?
+    user_params[:email].present? && user_params[:email] != @user.email
+  end
+
+  def email_is_not_unique?
+    User
+      .where(email: params[:email])
+      .or(User.where(unverified_email: params[:email]))
+      .exist?
   end
 end

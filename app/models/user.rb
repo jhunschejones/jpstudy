@@ -11,6 +11,29 @@ class User < ApplicationRecord
 
   has_many :words
 
+  # Returns false on failure
+  def verify_email
+    update(
+      verified: true,
+      verification_digest: nil,
+      verified_at: Time.now
+    )
+  end
+
+  # Returns false on failure
+  def reset_password(new_password)
+    # In order to get a reset token, the user would have had to access their email,
+    # thus, we can verify their email now as well if it wasn't already verified.
+    unless self.verified?
+      self.verified = true
+      self.verification_digest = nil
+      self.verified_at = Time.now
+    end
+    self.reset_digest = nil
+    self.password = new_password
+    self.save
+  end
+
   def active_subscription
     active_subscriptions = subscriptions.filter(&:active?)
     return nil if active_subscriptions.size.zero?

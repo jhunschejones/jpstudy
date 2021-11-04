@@ -10,6 +10,11 @@ Rails.application.routes.draw do
     delete "logout" => :destroy
   end
 
+  post "password/forgot", to: "passwords#forgot"
+  post "password/reset", to: "passwords#reset"
+  get "password/reset", to: "passwords#new"
+  get "email/verify", to: "emails#verify"
+
   resources :square, only: [] do
     collection do
       post :subscription_created
