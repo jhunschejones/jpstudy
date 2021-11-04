@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "JP Study Support <support@jpstudy.app>"
+  default from: "jpstudy support <support@jpstudy.app>"
   layout "mailer"
 end
