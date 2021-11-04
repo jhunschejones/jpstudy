@@ -32,10 +32,9 @@ class SessionsController < ApplicationController
   private
 
   def square_customer_id
-    if params[:ref_id].present?
-      decrypted_id = ActiveSupport::MessageEncryptor
-        .new(ENV["MESSAGE_ENCRYPTION_KEY"])
-        .decrypt_and_verify(Base64.decode64(params[:ref_id]))
-    end
+    return nil unless params[:ref_id].present?
+    ActiveSupport::MessageEncryptor
+      .new(ENV["MESSAGE_ENCRYPTION_KEY"])
+      .decrypt_and_verify(Base64.decode64(params[:ref_id]))
   end
 end
