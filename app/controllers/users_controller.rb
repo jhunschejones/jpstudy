@@ -15,12 +15,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    token = VerificationToken.generate
-    @user.verification_digest = token.digest
+    verification_token = VerificationToken.generate
+    @user.verification_digest = verification_token.digest
+    @user.verification_sent_at = Time.now.utc
 
     if @user.save
       UserMailer
-        .with(user: user, token: token)
+        .with(user: @user, token: verification_token)
         .welcome_email
         .deliver_later
       redirect_to login_url, success: "User #{@user.username} was successfully created. Please follow the verification link in your email."
@@ -39,11 +40,11 @@ class UsersController < ApplicationController
 
       # securely verify new email without locking users out of their accounts
       @user.unverified_email = user_params[:email]
-      token = VerificationToken.generate
-      user.verification_digest = token.digest
+      verification_token = VerificationToken.generate
+      user.verification_digest = verification_token.digest
 
       UserMailer
-        .with(user: user, token: token)
+        .with(user: @user, token: verification_token)
         .welcome_email
         .deliver_later
       flash[:notice] = "Please follow the verification link sent to your new email to confirm the change"

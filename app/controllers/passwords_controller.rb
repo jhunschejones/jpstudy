@@ -13,12 +13,12 @@ class PasswordsController < ApplicationController
     user = User.find_by(email: params[:email])
 
     if user.present?
-      token = ResetToken.generate
+      reset_token = ResetToken.generate
       UserMailer
-        .with(user: user, token: token)
+        .with(user: user, token: reset_token)
         .password_reset_email
         .deliver_later
-      user.update(reset_sent_at: Time.now.utc, reset_digest: token.digest)
+      user.update(reset_sent_at: Time.now.utc, reset_digest: reset_token.digest)
     end
     # Do not tell the user if an account exists for a specified email
     redirect_to login_url, notice: "Please check your email for a password reset link"

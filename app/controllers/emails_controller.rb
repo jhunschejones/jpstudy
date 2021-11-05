@@ -7,10 +7,14 @@ class EmailsController < ApplicationController
       return redirect_to login_url
     end
 
-    token = Token.new(params[:token])
-    user = User.find_by(verification_digest: token.digest)
+    if params[:user_id].blank?
+      flash[:alert] = "Missing user id. Please follow the link from your verification email."
+      return redirect_to login_url
+    end
 
-    unless user.present? && VerificationToken.valid?(user: user, token: token)
+    user = User.find_by(id: params[:user_id])
+
+    unless user.present? && VerificationToken.is_valid?(user: user, token: params[:token])
       return redirect_to login_url, alert: "Invalid link. Use 'forgot password' to generate a new link."
     end
 

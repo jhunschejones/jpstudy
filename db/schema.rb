@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_11_04_210250) do
     t.string "square_customer_id"
     t.boolean "verified", default: false
     t.datetime "verified_at", precision: 6
+    t.datetime "verification_sent_at", precision: 6
     t.string "verification_digest"
     t.string "unverified_email"
     t.datetime "reset_sent_at", precision: 6
