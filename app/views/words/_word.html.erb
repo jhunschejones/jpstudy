@@ -1,15 +1,25 @@
 <%= turbo_frame_tag dom_id(word) do %>
   <div class="word">
     <div class="delete">
-      <%= button_to("🗑️", word_path(word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" } ) %>
+      <%= button_to(word_path(word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" }) do %>
+        <%= heroicon "trash", variant: :outline %>
+      <% end %>
     </div>
-    <div class="edit"><%= link_to("✏️", edit_word_path(word)) %></div>
+    <div class="edit">
+      <%= link_to(edit_word_path(word)) do %>
+        <%= heroicon "pencil-alt", variant: :outline %>
+      <% end %>
+    </div>
     <div class="cards-created">
       <%= button_to(word_toggle_card_created_path(word), method: :post) do %>
         <% if word.cards_created? %>
-          <span title="Cards created">✅</span>
+          <span title="Cards created">
+            <%= heroicon "check", options: { class: "checked" } %>
+          </span>
         <% else %>
-          <span title="No cards created yet">🆕</span>
+          <span title="No cards created yet">
+            <%= heroicon "plus", variant: :outline, options: { class: "unchecked" } %>
+          </span>
         <% end %>
       <% end %>
     </div>

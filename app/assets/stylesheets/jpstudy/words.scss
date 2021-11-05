@@ -1,5 +1,8 @@
 .page-title {
   margin: 12px 0px 0px 0px;
+  &:lang(jp) {
+    font-weight: 400;
+  }
 }
 
 .word-form {
@@ -49,35 +52,40 @@
   border-radius: 4px;
   position: relative;
 
-  .delete button {
-    background: none;
-    border: none;
-    text-decoration: none;
-    font-size: 1.15em;
-    float: right;
-    margin-right: -10px;
-    margin-top: -4px;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .edit a {
-    text-decoration: none;
-    font-size: 1.15em;
-    float: right;
-    margin-top: -4px;
-  }
+  .delete button,
+  .edit a,
   .cards-created button {
     background: none;
     border: none;
-    text-decoration: none;
-    font-size: 1.15em;
     float: right;
-    margin-top: -4px;
-    &:hover {
-      cursor: pointer;
+    text-decoration: none;
+    margin-top: -3px;
+    color: #D1D5DB;
+    padding: 1px;
+    font-size: 0.8em;
+    cursor: default;
+    .icon-solid,
+    .icon-outline {
+      height: 20px;
+      &:hover {
+        cursor: pointer;
+      }
+      &.unchecked {
+        color: #9CA3AF;
+      }
+      &.checked {
+        color: #10B981;
+      }
     }
   }
+
+  .delete button {
+    margin-right: -9px;
+  }
+  // .edit a {
+  // }
+  // .cards-created button {
+  // }
 
   .translation {
     padding-bottom: 4px;

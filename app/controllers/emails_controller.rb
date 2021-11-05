@@ -4,28 +4,29 @@ class EmailsController < ApplicationController
   def verify
     [:token, :user_id].each do |required_param|
       if params[required_param].blank?
-        return redirect_to login_url, alert: "Missing #{required_param}. Please follow the link from your verification email."
+        flash[:alert] = "Missing #{required_param}. Please follow the link from your verification email."
+        return redirect_to login_url
       end
     end
 
     user = User.find_by(id: params[:user_id])
 
     unless user.present? && VerificationToken.is_valid?(user: user, token: params[:token])
-      return redirect_to login_url, alert: "Invalid link. Use 'forgot password' to generate a new link."
+      flash[:alert] = "Invalid link. Use 'forgot password' to generate a new link."
+      return redirect_to login_url
     end
 
     unless user.verify_email
-      return render :new, alert: user.errors.full_messages
+      flash[:alert] = "Unable to verify email: #{user.errors.full_messages.map(&:downcase).join(", ")}"
+      return redirect_to login_url
     end
 
     # If this is being used for an email change, update the new email
     if user.unverified_email
-      user.update(
-        email: user.unverified_email,
-        unverified_email: nil
-      )
+      user.update!(email: user.unverified_email, unverified_email: nil)
     end
 
+    reset_session
     redirect_to login_url, success: "Email successfully verified! Please log in to use your account."
   end
 end

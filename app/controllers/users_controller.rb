@@ -24,10 +24,11 @@ class UsersController < ApplicationController
         .with(user: @user, token: verification_token)
         .welcome_email
         .deliver_later
-      redirect_to login_url, success: "User #{@user.username} was successfully created. Please follow the verification link in your email."
+      flash[:success] = "User #{@user.username} was successfully created. Please follow the verification link in your email."
+      redirect_to login_url
     else
-      flash.now[:notice] = "Unable to create user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
-      render :new, status: :unprocessable_entity
+      flash[:alert] = "Unable to create user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
+      redirect_to new_user_path
     end
   end
 
@@ -39,9 +40,10 @@ class UsersController < ApplicationController
       end
 
       # securely verify new email without locking users out of their accounts
-      @user.unverified_email = user_params[:email]
       verification_token = VerificationToken.generate
-      user.verification_digest = verification_token.digest
+      @user.unverified_email = user_params[:email]
+      @user.verification_digest = verification_token.digest
+      @user.verification_sent_at = Time.now.utc
 
       UserMailer
         .with(user: @user, token: verification_token)
@@ -50,18 +52,18 @@ class UsersController < ApplicationController
       flash[:notice] = "Please follow the verification link sent to your new email to confirm the change"
     end
 
-    if @user.update(user_params)
-      flash[:success] = "User was successfully updated."
-      redirect_to @user
+    if @user.update(user_params.except(:email))
+      redirect_to @user, success: "User was successfully updated."
     else
-      flash.now[:notice] = "Unable to update user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
-      render :edit, status: :unprocessable_entity
+      flash[:alert] = "Unable to update user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
+      redirect_to edit_user_path(@user)
     end
   end
 
   def destroy
     @user.destroy
-    redirect_to users_url, success: "User was successfully destroyed."
+    reset_session
+    redirect_to root_url, alert: "Your account has been deleted."
   end
 
   private
@@ -76,7 +78,7 @@ class UsersController < ApplicationController
 
   def protect_user
     unless @user == @current_user
-      redirect_to @current_user, alert: "You cannot access data for other users"
+      redirect_to @current_user, alert: "You cannot access data that belongs to other users"
     end
   end
 
@@ -86,8 +88,8 @@ class UsersController < ApplicationController
 
   def email_is_not_unique?
     User
-      .where(email: params[:email])
-      .or(User.where(unverified_email: params[:email]))
-      .exist?
+      .where(email: user_params[:email])
+      .or(User.where(unverified_email: user_params[:email]))
+      .exists?
   end
 end

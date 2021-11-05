@@ -16,8 +16,8 @@
 </p>
 
 <div class="user-actions">
-  <%= link_to "Edit", edit_user_path(@user), class: "button-blue edit-button" %>
-  <%= button_to "Delete your account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete your account? This action is permanent and you will cause you to lose access to the entire site.", action: "confirmation#confirm" } %>
+  <%= link_to("Edit", edit_user_path(@user), class: "button-blue edit-button") %>
+  <%= button_to("Delete your account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete your account? This action is permanent and you will cause you to lose access to the entire site.", action: "confirmation#confirm" }) %>
 </div>
 
 <div class="square" data-controller="square">

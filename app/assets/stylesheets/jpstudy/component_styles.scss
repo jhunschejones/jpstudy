@@ -7,6 +7,10 @@
   border-color: #EF4444;
   color: #fff;
   font-size: 1em;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   &:hover {
     cursor: pointer;
   }
@@ -21,6 +25,10 @@
   border-color: #8B5CF6;
   color: #fff;
   font-size: 1em;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   &:hover {
     cursor: pointer;
   }
@@ -35,6 +43,10 @@
   border-color: #F472B6;
   color: #fff;
   font-size: 1em;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   &:hover {
     cursor: pointer;
   }
@@ -49,7 +61,26 @@
   border-color: #3B82F6;
   color: #fff;
   font-size: 1em;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   &:hover {
     cursor: pointer;
   }
+}
+
+.icon-solid,
+.icon-outline {
+  height: 22px;
+}
+
+.create-button-icon {
+  height: 24px;
+  margin: -2px 0px -2px -8px;
+}
+
+.edit-button-icon {
+  height: 20px;
+  margin: -3px 0px -3px -4px;
 }

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     @current_user ||= session[:user_id].present? ? User.find_by(id: session[:user_id]) : nil
     unless @current_user.present?
       session[:return_to] ||= request.url
-      redirect_to login_url, notice: "You do not have permission to access that page"
+      redirect_to login_url, notice: "ようこそ！ Please log in to access your jpstudy account"
     end
   end
 end

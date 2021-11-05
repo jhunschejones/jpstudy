@@ -1,7 +1,10 @@
 <h1 class="page-title">Words</h1>
 
 <div class="actions">
-  <%= link_to("New word", new_word_path, class: "button-purple new-word") %>
+  <%= link_to(new_word_path, class: "button-purple new-word") do %>
+    <%= heroicon "plus", options: { class: "create-button-icon" } %>
+    New word
+  <% end %>
 </div>
 
 <div class="words">

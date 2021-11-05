@@ -16,6 +16,7 @@ gem "importmap-rails", ">= 0.3.4"
 gem "turbo-rails", ">= 0.7.11"
 gem "stimulus-rails", ">= 0.4.0"
 gem "sassc-rails", "~> 2.1"
+gem "heroicon"
 
 gem "square.rb"
 

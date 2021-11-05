@@ -14,14 +14,36 @@
     <nav>
       <div class="left-links"></div>
       <div class="center-links">
-        <%= link_to("言葉", words_path) %>
+        <%= link_to(words_path) do %>
+          <%= heroicon "collection" %>
+          <small class="icon-subtext">Words</small>
+        <% end %>
+        <%= link_to(import_words_path) do %>
+          <%= heroicon "upload" %>
+          <small class="icon-subtext">Import</small>
+        <% end %>
+        <% if @current_user %>
+          <%= link_to(@current_user) do %>
+            <%= heroicon "user-circle" %>
+            <small class="icon-subtext">Profile</small>
+          <% end %>
+        <% end %>
       </div>
       <div class="right-links">
         <% if @current_user.present? %>
-          <%= button_to("出る", logout_path, method: :delete, class: "logout-button") %>
+          <%= button_to(logout_path, method: :delete, class: "logout-button") do %>
+            <%= heroicon "logout" %>
+            <small class="icon-subtext">Logout</small>
+          <% end %>
         <% else %>
-          <%= link_to("登録", signup_path, class: "signup-button") %>
-          <%= link_to("入る", login_path, class: "login-button") %>
+          <%= link_to(signup_path, class: "signup-button") do %>
+            <%= heroicon "user-add" %>
+            <small class="icon-subtext">Signup</small>
+          <% end %>
+          <%= link_to(login_path, class: "login-button") do %>
+            <%= heroicon "login" %>
+            <small class="icon-subtext">Login</small>
+          <% end %>
         <% end %>
       </div>
     </nav>
