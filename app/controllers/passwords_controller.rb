@@ -25,14 +25,10 @@ class PasswordsController < ApplicationController
   end
 
   def reset
-    if params[:token].blank?
-      flash[:alert] = "Missing reset token. Please follow the link from your reset email."
-      return redirect_to login_url
-    end
-
-    if params[:user_id].blank?
-      flash[:alert] = "Missing user id. Please follow the link from your reset email."
-      return redirect_to login_url
+    [:token, :user_id].each do |required_param|
+      if params[required_param].blank?
+        return redirect_to login_url, alert: "Missing #{required_param}. Please follow the link from your verification email."
+      end
     end
 
     if params[:password].blank? || params[:password_confirmation].blank? || params[:email].blank?
@@ -55,7 +51,7 @@ class PasswordsController < ApplicationController
     if user.reset_password(params[:password])
       redirect_to login_url, success: "Password successfully reset! Please log in with your new password."
     else
-      return render render :new, alert: user.errors.full_messages
+      redirect_to password_reset_path, alert: user.errors.full_messages
     end
   end
 end
