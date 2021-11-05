@@ -10,7 +10,7 @@ class EmailsController < ApplicationController
     token = Token.new(params[:token])
     user = User.find_by(verification_digest: token.digest)
 
-    unless user.present? && token.valid_for?(user.verification_digest)
+    unless user.present? && VerificationToken.valid?(user: user, token: token)
       return redirect_to login_url, alert: "Invalid link. Use 'forgot password' to generate a new link."
     end
 
@@ -19,10 +19,10 @@ class EmailsController < ApplicationController
     end
 
     # If this is being used for an email change, update the new email
-    if user.unconfirmed_email
+    if user.unverified_email
       user.update(
-        email: user.unconfirmed_email,
-        unconfirmed_email: nil
+        email: user.unverified_email,
+        unverified_email: nil
       )
     end
 

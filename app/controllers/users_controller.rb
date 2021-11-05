@@ -15,11 +15,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    token = Token.generate(expires_at: 4.hours.from_now.utc)
+    token = VerificationToken.generate
     @user.verification_digest = token.digest
 
     if @user.save
-      UserMailer.welcome_email(@user, token).deliver_later
+      UserMailer
+        .with(user: user, token: token)
+        .welcome_email
+        .deliver_later
       redirect_to login_url, success: "User #{@user.username} was successfully created. Please follow the verification link in your email."
     else
       flash.now[:notice] = "Unable to create user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
@@ -36,10 +39,13 @@ class UsersController < ApplicationController
 
       # securely verify new email without locking users out of their accounts
       @user.unverified_email = user_params[:email]
-      token = Token.generate(expires_at: 4.hours.from_now.utc)
+      token = VerificationToken.generate
       user.verification_digest = token.digest
 
-      UserMailer.welcome_email(@user, token).deliver_later
+      UserMailer
+        .with(user: user, token: token)
+        .welcome_email
+        .deliver_later
       flash[:notice] = "Please follow the verification link sent to your new email to confirm the change"
     end
 

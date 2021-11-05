@@ -10,9 +10,11 @@ Rails.application.routes.draw do
     delete "logout" => :destroy
   end
 
+  get "password/forgot", to: "passwords#forgot_form"
   post "password/forgot", to: "passwords#forgot"
+  get "password/reset", to: "passwords#reset_form"
   post "password/reset", to: "passwords#reset"
-  get "password/reset", to: "passwords#new"
+
   get "email/verify", to: "emails#verify"
 
   resources :square, only: [] do

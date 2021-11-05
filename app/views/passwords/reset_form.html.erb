@@ -1,0 +1,29 @@
+<div class="password-reset-form-container">
+  <div class="password-reset-form" data-controller="signup">
+    <h2 class="title">Password reset</h2>
+
+    <%= form_tag(password_reset_path) do |form| %>
+      <div class="field">
+        <%= label_tag :email %>
+        <%= text_field_tag :email, nil, type: "email", required: true %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :password %>
+        <%= text_field_tag :password, nil, type: "password", required: true, data: { signup_target: "password", action: "change->signup#validatePassword" } %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :password_confirmation %>
+        <%= text_field_tag :password_confirmation, nil, type: "password", required: true, data: { signup_target: "passwordConfirmation", action: "keyup->signup#validatePassword" } %>
+      </div>
+
+      <%= hidden_field_tag :token, params[:token] %>
+      <%= hidden_field_tag :user_id, params[:user_id] %>
+
+      <div class="actions">
+        <%= submit_tag "Reset password", class: "button-blue" %>
+      </div>
+    <% end %>
+  </div>
+</div>

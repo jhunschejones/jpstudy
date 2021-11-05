@@ -1,13 +1,13 @@
 class UserMailer < ApplicationMailer
-  def welcome_email(user, token)
-    @user = user
-    @token = token
-    mail(to: @user.unconfirmed_email || @user.email, subject: "Welcome to jpstudy")
+  def welcome_email
+    @user = params[:user]
+    @token = params[:token]
+    mail(to: @user.unverified_email || @user.email, subject: "Welcome to jpstudy")
   end
 
-  def password_reset_email(user, token)
-    @user = user
-    @token = token
+  def password_reset_email
+    @user = params[:user]
+    @token = params[:token]
     mail(to: @user.email, subject: "Password reset request")
   end
 

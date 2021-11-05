@@ -1,0 +1,16 @@
+<div class="password-forgot-form-container">
+  <div class="password-forgot-form">
+    <h2 class="title">Forgot password</h2>
+
+    <%= form_tag(password_forgot_path) do |form| %>
+      <div class="field">
+        <%= label_tag :email %>
+        <%= text_field_tag :email, nil, type: "email", required: true %>
+      </div>
+
+      <div class="actions">
+        <%= submit_tag "Request reset", class: "button-blue" %>
+      </div>
+    <% end %>
+  </div>
+</div>
