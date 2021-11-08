@@ -22,6 +22,10 @@
           <%= heroicon "upload" %>
           <small class="icon-subtext">Import</small>
         <% end %>
+        <%= link_to(export_words_path) do %>
+          <%= heroicon "download" %>
+          <small class="icon-subtext">Export</small>
+        <% end %>
         <% if @current_user %>
           <%= link_to(@current_user) do %>
             <%= heroicon "user-circle" %>

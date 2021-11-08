@@ -41,8 +41,13 @@ nav {
   .right-links {
     float: right;
   }
-  @media (max-width: 600px) {
-    /* collapse links for mobile? */
+  @media (max-width: 470px) {
+    .left-links { display: none; }
+    .center-links {
+      position: initial;
+      transform: unset;
+      // float: left;
+    }
   }
 }
 

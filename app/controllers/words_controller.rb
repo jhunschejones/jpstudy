@@ -61,6 +61,9 @@ class WordsController < ApplicationController
   def import
   end
 
+  def export
+  end
+
   def upload
     unless params[:csv_file]&.content_type == "text/csv"
       return redirect_to import_words_path, notice: "Unsupported file format"
@@ -90,6 +93,22 @@ class WordsController < ApplicationController
     end
 
     redirect_to words_url, success: "#{words_added} #{"word".pluralize(words_added)} successfully imported."
+  end
+
+  def download
+    attributes = [:english, :japanese, :source_name, :source_reference, :cards_created]
+
+    csv = CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      @current_user.words.find_each do |word|
+        csv << attributes.map { |attr| word.send(attr) }
+      end
+    end
+
+    respond_to do |format|
+      format.csv { send_data(csv, filename: "words_export.csv") }
+    end
   end
 
   private

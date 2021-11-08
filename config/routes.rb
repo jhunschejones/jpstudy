@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     collection do
       get :import
       post :upload
+      get :export
+      get :download
     end
   end
 end
