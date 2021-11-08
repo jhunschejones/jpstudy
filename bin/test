@@ -1,3 +1,3 @@
 #!/bin/bash
 
-. ./tmp/.env && bundle exec rails test
+. ./tmp/.env && exec bundle exec rails test
