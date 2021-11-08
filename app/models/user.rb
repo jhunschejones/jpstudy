@@ -13,6 +13,11 @@ class User < ApplicationRecord
 
   before_destroy :clean_up_square_data
 
+  # specify which param is used for path helper methods
+  def to_param
+    username
+  end
+
   # Returns false on failure
   def verify_email
     update(verified: true, verification_digest: nil, verified_at: Time.now.utc)

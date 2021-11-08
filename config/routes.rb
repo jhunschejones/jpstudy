@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root to: "words#index"
 
-  resources :users, except: [:index]
+  resources :users, except: [:index], param: :username
   get "signup" => "users#new"
 
   controller :sessions do
