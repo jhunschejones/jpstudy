@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true
   validates :password, presence: true, confirmation: true, length: { minimum: 12 }, if: :password
-  validates :username, presence: true, uniqueness: true
+  validates :username, presence: true, uniqueness: true, length: { minimum: 1, maximum: 39 }, format: { with: /\A[a-zA-Z0-9]\z/, message: "can only contain letters and numbers" }
 
   has_many :words, dependent: :destroy
 
