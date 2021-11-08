@@ -1,4 +1,9 @@
 class User < ApplicationRecord
+  VALID_USER_ROLES = [
+    USER_ROLE = "user".freeze,
+    ADMIN_ROLE = "admin".freeze
+  ].freeze
+
   has_secure_password
 
   encrypts :name
@@ -8,6 +13,7 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :password, presence: true, confirmation: true, length: { minimum: 12 }, if: :password
   validates :username, presence: true, uniqueness: true, length: { minimum: 1, maximum: 39 }, format: { with: /\A[a-zA-Z0-9]\z/, message: "can only contain letters and numbers" }
+  validates :role, inclusion: { in: VALID_USER_ROLES, message: "must be one of [#{VALID_USER_ROLES.join(", ")}]" }
 
   has_many :words, dependent: :destroy
 
