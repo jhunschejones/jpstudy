@@ -97,7 +97,7 @@ class WordsController < ApplicationController
   end
 
   def download
-    attributes = [:english, :japanese, :source_name, :source_reference, :cards_created]
+    attributes = [:english, :japanese, :source_name, :source_reference, :cards_created, :added_on]
 
     csv = CSV.generate(headers: true) do |csv|
       csv << attributes

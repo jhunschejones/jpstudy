@@ -4,4 +4,8 @@ class Word < ApplicationRecord
   validates_presence_of :source_name, :if => :source_reference?, message: "is required for source reference"
 
   belongs_to :user
+
+  def added_on
+    created_at.strftime("%m/%d/%Y")
+  end
 end
