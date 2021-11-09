@@ -12,7 +12,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true
   validates :password, presence: true, confirmation: true, length: { minimum: 12 }, if: :password
-  validates :username, presence: true, uniqueness: true, length: { minimum: 1, maximum: 39 }, format: { with: /\A[a-zA-Z0-9]\z/, message: "can only contain letters and numbers" }
+  validates :username, presence: true, uniqueness: true, length: { minimum: 1, maximum: 39 }, format: { with: /\A[a-zA-Z0-9]+\z/, message: "can only contain letters and numbers" }
   validates :role, inclusion: { in: VALID_USER_ROLES, message: "must be one of [#{VALID_USER_ROLES.join(", ")}]" }
 
   has_many :words, dependent: :destroy
@@ -27,6 +27,11 @@ class User < ApplicationRecord
   # Returns false on failure
   def verify_email
     update(verified: true, verification_digest: nil, verified_at: Time.now.utc)
+  end
+
+  def trial_active?
+    return false if trail_ends_at.nil?
+    trail_ends_at.utc > Time.now.utc
   end
 
   # Returns false on failure

@@ -4,8 +4,8 @@ class Subscription
 
   def initialize(props)
     @id = props[:id]
-    @start_date = props[:start_date]
-    @next_charge_date = props[:charged_through_date]
+    @start_date = Time.parse(props[:start_date])
+    @next_charge_date = Time.parse(props[:charged_through_date])
     @status = props[:status]
     @buyer_self_management_token = props[:buyer_self_management_token]
   end

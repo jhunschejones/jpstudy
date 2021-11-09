@@ -1,6 +1,7 @@
 require "csv"
 
 class WordsController < ApplicationController
+  before_action :secure_behind_subscription
   before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
   def index
