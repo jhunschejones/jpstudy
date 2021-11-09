@@ -24,29 +24,29 @@ class WordsController < ApplicationController
     if @word.save
       redirect_to words_url, success: "Word was successfully created."
     else
-      flash.now[:notice] = "Unable to create word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
-      render :new, status: :unprocessable_entity
+      flash[:notice] = "Unable to create word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
+      redirect_to new_word_path
     end
   end
 
   def update
     if @word.update(word_params)
-      redirect_to @word, success: "Word was successfully updated."
+      respond_to do |format|
+        format.turbo_stream { redirect_to @word }
+        # only return flash if this is an HTML request
+        format.html { redirect_to @word, success: "Word was successfully updated." }
+      end
     else
-      flash.now[:notice] = "Unable to update word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
-      render :edit, status: :unprocessable_entity
+      flash[:notice] = "Unable to update word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
+      redirect_to edit_word_path(@word)
     end
   end
 
   def destroy
     @word.destroy
     respond_to do |format|
-      format.turbo_stream {
-        render turbo_stream: turbo_stream.remove(@word)
-      }
-      format.html {
-        redirect_to words_url, notice: "Word was successfully destroyed."
-      }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@word) }
+      format.html { redirect_to words_url, notice: "Word was successfully destroyed." }
     end
   end
 
