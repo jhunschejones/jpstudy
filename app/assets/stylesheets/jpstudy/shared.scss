@@ -26,7 +26,6 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     .icon-subtext {
       font-size: 0.7em;
     }
@@ -41,7 +40,7 @@ nav {
   .right-links {
     float: right;
   }
-  @media (max-width: 470px) {
+  @media (max-width: 575px) {
     .left-links { display: none; }
     .center-links {
       position: initial;
