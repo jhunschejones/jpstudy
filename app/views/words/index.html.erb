@@ -1,4 +1,9 @@
-<h1 class="page-title">Words</h1>
+<h1 class="page-title">
+  Words
+  <%= link_to(word_list_instructions_path, title: "What does this feature do?") do %>
+    <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+  <% end %>
+</h1>
 
 <div class="actions">
   <%= link_to(new_word_path, class: "button-purple new-word") do %>

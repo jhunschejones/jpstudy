@@ -2,28 +2,26 @@
 
 <%= form_tag(upload_words_path, method: :post, multipart: true, class: "import-csv-form") do %>
   <p>
-    Prepare your CSV so that it is sorted with the words you already created
-    cards for first. Then, map the columns in your CSV to the fields in your
-    word list. If you are missing a field, set the value to '0'.
+    Prepare a sorted CSV of words to import into jpstudy. You will want to have words you have already created flashcards for first, followed by new words at the end of the file. Use the "column" fields to map the columns in your CSV to the specific pieces of data we need. If you do not have a field for a given piece of data, set the value to "0".
   </p>
 
   <div class="mapping-field-row">
     Column
     <%= text_field_tag :english, 1, autocomplete: "off", data: { lpignore: true } %>
     :
-    <%= label_tag :english %>
+    <%= label_tag :english, "English word" %>
   </div>
   <div class="mapping-field-row">
     Column
     <%= text_field_tag :japanese, 2, autocomplete: "off", data: { lpignore: true } %>
     :
-    <%= label_tag :japanese %>
+    <%= label_tag :japanese, "Japanese word" %>
   </div>
   <div class="mapping-field-row">
     Column
     <%= text_field_tag :created_at, 3, autocomplete: "off", data: { lpignore: true } %>
     :
-    <%= label_tag :created_at, "Date added to list (mm/dd/yy or mm/dd/yyyy)" %>
+    <%= label_tag :created_at, "Date added to your list (mm/dd/yy or mm/dd/yyyy)" %>
   </div>
   <div class="mapping-field-row">
     Column
@@ -32,15 +30,14 @@
     <%= label_tag :source_reference, "Source refrence (i.e. Chapter 12)" %>
   </div>
 
-
-  <div class="last-created-card-row-field-row">
-    <%= label_tag :last_created_card_row %>
-    <%= text_field_tag :last_created_card_row, nil, autocomplete: "off", data: { lpignore: true }, required: true %>
-  </div>
-
   <div class="source-name-field-row">
     <%= label_tag :source_name %>
     <%= text_field_tag :source_name, nil, autocomplete: "off", data: { lpignore: true }, placeholder: "Minna No Nihongo..." %>
+  </div>
+
+  <div class="last-created-card-row-field-row">
+    <%= label_tag :last_created_card_row, "All cards above this row in the sorted CSV have already been created" %>
+    <%= text_field_tag :last_created_card_row, nil, autocomplete: "off", data: { lpignore: true }, required: true %>
   </div>
 
   <%= file_field_tag :csv_file, required: true %>

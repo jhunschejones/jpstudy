@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   controller :static_pages do
     get "about" => :about
+    get "word_list_instructions" => :word_list_instructions
   end
 
   controller :sessions do
