@@ -1,24 +1,4 @@
-# README
+# jpstudy
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Overview
+jpstudy is a web app that provides a custom set of Japanese language study tools designed to supplement existing online resources. It is currently under construction for an alpha release.
