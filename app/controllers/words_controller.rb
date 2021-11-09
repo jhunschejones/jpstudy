@@ -5,7 +5,8 @@ class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
   def index
-    @words = @current_user.words.order(created_at: :desc)
+    @words = @current_user.words.order(created_at: :desc).order(id: :desc)
+    @words = @words.cards_not_created if params[:filter] == "cards_not_created"
   end
 
   def show

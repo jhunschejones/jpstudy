@@ -5,6 +5,8 @@ class Word < ApplicationRecord
 
   belongs_to :user
 
+  scope :cards_not_created, -> { where(cards_created: false) }
+
   def added_on
     created_at.strftime("%m/%d/%Y")
   end
