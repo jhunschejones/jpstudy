@@ -1,17 +1,37 @@
-<h1 class="page-title">
-  Words
-  <%= link_to(word_list_instructions_path, title: "What does this feature do?") do %>
-    <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
-  <% end %>
-</h1>
+<div class="words-list-page">
+  <h1 class="page-title">
+    Words
+    <%= link_to(word_list_instructions_path, title: "What does this feature do?") do %>
+      <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+    <% end %>
+  </h1>
 
-<div class="actions">
-  <%= link_to(new_word_path, class: "button-purple new-word") do %>
-    <%= heroicon "plus", options: { class: "create-button-icon" } %>
-    New word
-  <% end %>
-</div>
+  <div class="actions">
+    <%= link_to(new_word_path, class: "button-purple new-word") do %>
+      <%= heroicon "plus", options: { class: "create-button-icon" } %>
+      New word
+    <% end %>
+  </div>
 
-<div class="words">
-  <%= render(@words) %>
+  <div class="filters">
+    <% if params[:filter] == "cards_not_created" %>
+      <%= link_to words_path, title: "Only show words without cards", class: "filter-on" do %>
+        <%= heroicon "adjustments" %>
+        <span class="filter-description">
+          Only words without cards
+        </span>
+      <% end %>
+    <% else %>
+      <%= link_to words_path(filter: "cards_not_created"), title: "Show all words", class: "filter-off" do %>
+        <%= heroicon "adjustments" %>
+        <span class="filter-description">
+          All words
+        </span>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="words-list-container">
+    <%= render(@words) %>
+  </div>
 </div>

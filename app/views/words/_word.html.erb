@@ -1,5 +1,10 @@
 <%= turbo_frame_tag dom_id(word) do %>
-  <div class="word">
+  <div
+    class="word"
+    data-controller="word"
+    data-word-cards-created-value="<%= word.cards_created? %>"
+    data-word-target="wordCard"
+  >
     <div class="delete">
       <%= button_to(word_path(word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" }) do %>
         <%= heroicon "trash", variant: :outline %>

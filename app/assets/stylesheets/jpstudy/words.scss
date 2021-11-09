@@ -34,9 +34,35 @@
   }
 }
 
-.words {
-  padding-top: 12px;
+.words-list-page {
+  .page-title {
+    a { text-decoration: none; }
+  }
+  .filters {
+    padding: 8px 0px 20px 0px;
+    a {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      float: left;
+    }
+    .filter-description {
+      color: #9CA3AF;
+      padding-left: 6px;
+    }
+    .filter-on svg {
+      color: #10B981;
+    }
+    .filter-off svg {
+      color: #9CA3AF;
+    }
+  }
+
+  .words-list-container {
+    padding-top: 6px;
+  }
 }
+
 
 .new-word,
 .back-button {
@@ -51,6 +77,8 @@
   border: 1px solid #F3F4F6;
   border-radius: 4px;
   position: relative;
+
+  &.hidden { display: none; }
 
   .delete button,
   .edit a,
