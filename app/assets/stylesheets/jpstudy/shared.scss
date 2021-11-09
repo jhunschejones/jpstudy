@@ -46,7 +46,11 @@ nav {
     .center-links {
       position: initial;
       transform: unset;
-      // float: left;
+    }
+  }
+  @media (max-width: 350px) {
+    .import-link, .export-link {
+      display: none;
     }
   }
 }

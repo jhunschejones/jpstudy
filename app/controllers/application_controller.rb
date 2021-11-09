@@ -5,10 +5,14 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_user
-    @current_user ||= session[:user_id].present? ? User.find_by(id: session[:user_id]) : nil
+    set_current_user
     unless @current_user.present?
       session[:return_to] ||= request.url
       redirect_to login_url, notice: "ようこそ！ Please log in to access your jpstudy account"
     end
+  end
+
+  def set_current_user
+    @current_user ||= session[:user_id].present? ? User.find_by(id: session[:user_id]) : nil
   end
 end

@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  root to: "words#index"
+  root to: "static_pages#about"
 
-  resources :users, except: [:index], param: :username
-  get "signup" => "users#new"
+  controller :static_pages do
+    get "about" => :about
+  end
 
   controller :sessions do
     get "login" => :new
@@ -16,6 +17,9 @@ Rails.application.routes.draw do
   post "password/reset", to: "passwords#reset"
 
   get "email/verify", to: "emails#verify"
+
+  resources :users, except: [:index], param: :username
+  get "signup" => "users#new"
 
   resources :square, only: [] do
     collection do

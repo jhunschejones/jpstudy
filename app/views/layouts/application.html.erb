@@ -18,13 +18,17 @@
           <%= heroicon "collection" %>
           <small class="icon-subtext">Words</small>
         <% end %>
-        <%= link_to(import_words_path) do %>
+        <%= link_to(import_words_path, class: "import-link") do %>
           <%= heroicon "upload" %>
           <small class="icon-subtext">Import</small>
         <% end %>
-        <%= link_to(export_words_path) do %>
+        <%= link_to(export_words_path, class: "export-link") do %>
           <%= heroicon "download" %>
           <small class="icon-subtext">Export</small>
+        <% end %>
+        <%= link_to(about_path) do %>
+          <%= heroicon "heart" %>
+          <small class="icon-subtext">About</small>
         <% end %>
         <% if @current_user %>
           <%= link_to(@current_user) do %>
