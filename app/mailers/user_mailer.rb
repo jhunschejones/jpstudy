@@ -12,7 +12,7 @@ class UserMailer < ApplicationMailer
   end
 
   def confirm_subscription_email
-    @url = "https://www.jpstudy.herokuapp.com/login?ref_id=#{encrypt(params[:square_customer_id])}"
+    @encrypted_square_customer_id = encrypt(params[:square_customer_id])
     mail(to: params[:email], subject: "Connect your jpstudy account")
   end
 
