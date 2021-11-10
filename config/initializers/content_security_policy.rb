@@ -29,6 +29,8 @@ end
 
 # If you are using UJS then enable automatic nonce generation
 Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
+# https://github.com/hotwired/turbo/pull/291
+Rails.application.config.content_security_policy_nonce_directives = ["script-src"]
 
 # https://github.com/hotwired/turbo/issues/294#issuecomment-877842232
 # Rails.application.config.content_security_policy_nonce_generator = -> (request) do
