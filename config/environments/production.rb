@@ -25,7 +25,9 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress CSS using a preprocessor.
-  config.assets.css_compressor = :purger
+  # config.assets.css_compressor = :purger
+  # NOTE: The sassc-rails gem is automatically used for CSS compression if included
+  #       in the Gemfile and no config.assets.css_compressor option is set.
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false

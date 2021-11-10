@@ -228,7 +228,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   debug (>= 1.0.0)
   heroicon
-  importmap-rails (>= 0.3.4)
+  importmap-rails (~> 0.8)
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.0.alpha2)
@@ -236,7 +236,7 @@ DEPENDENCIES
   sassc-rails (~> 2.1)
   selenium-webdriver
   square.rb
-  stimulus-rails (>= 0.4.0)
+  stimulus-rails (~> 0.7)
   turbo-rails (~> 0.8)
   tzinfo-data
   web-console (>= 4.1.0)
