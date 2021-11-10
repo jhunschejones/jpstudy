@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec heroku run rails c -a jpstudy
