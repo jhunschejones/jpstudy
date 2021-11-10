@@ -30,8 +30,8 @@ class User < ApplicationRecord
   end
 
   def trial_active?
-    return false if trail_ends_at.nil?
-    trail_ends_at.utc > Time.now.utc
+    return false if trial_ends_at.nil?
+    trial_ends_at.utc > Time.now.utc
   end
 
   # Returns false on failure
