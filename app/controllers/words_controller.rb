@@ -122,7 +122,7 @@ class WordsController < ApplicationController
   def word_params
     params
       .require(:word)
-      .permit(:japanese, :english, :source_name, :source_reference, :cards_created)
+      .permit(:japanese, :english, :source_name, :source_reference, :note, :cards_created)
   end
 
   def word_created_time(time_or_date_string)

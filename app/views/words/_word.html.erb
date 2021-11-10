@@ -15,6 +15,14 @@
         <%= heroicon "pencil-alt", variant: :outline %>
       <% end %>
     </div>
+    <% if word.note.present? %>
+      <div class="note">
+        <div class="tooltip">
+          <%= heroicon "annotation", variant: :outline %>
+          <span class="tooltiptext"><%= word.note %></span>
+        </div>
+      </div>
+    <% end %>
     <div class="cards-created">
       <%= button_to(word_toggle_card_created_path(word), method: :post) do %>
         <% if word.cards_created? %>

@@ -17,6 +17,11 @@
       <%= form.text_field :source_reference, autocomplete: "off", data: { lpignore: true } %>
     </div>
 
+    <div class="form-field">
+      <%= form.label :note %>
+      <%= form.text_area :note, rows: 3, cols: 32, data: { lpignore: true } %>
+    </div>
+
     <div class="form-actions">
       <%= form.submit class: "button-blue submit" %>
     </div>
