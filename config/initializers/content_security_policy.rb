@@ -28,7 +28,17 @@ if Rails.env.production?
 end
 
 # If you are using UJS then enable automatic nonce generation
-Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
+# Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
+
+# https://github.com/hotwired/turbo/issues/294#issuecomment-877842232
+Rails.application.config.content_security_policy_nonce_generator = -> (request) do
+  # use the same csp nonce for turbo requests
+  if request.env['HTTP_TURBO_REFERRER'].present?
+    request.env['HTTP_X_TURBO_NONCE']
+  else
+    SecureRandom.base64(16)
+  end
+end
 
 # Set the nonce only to specific directives
 # Rails.application.config.content_security_policy_nonce_directives = %w(script-src)
