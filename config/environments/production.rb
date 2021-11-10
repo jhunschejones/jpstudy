@@ -45,8 +45,8 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
-  config.action_cable.allowed_request_origins = [ "http://jpstudy.herokuapp.com/", "https://jpstudy.herokuapp.com/" ]
-  config.web_socket_server_url = "wss://jpstudy.herokuapp.com/cable"
+  config.action_cable.allowed_request_origins = [ "https://www.jpstudy.app/" ]
+  config.web_socket_server_url = "wss://www.jpstudy.app/cable"
 
   config.session_store :cookie_store, expire_after: 14.days, key: "__Host-jpstudy_session", secure: Rails.env.production?
 
@@ -75,7 +75,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: "jpstudy.herokuapp.com", protocol: "https" }
+  config.action_mailer.default_url_options = { host: "jpstudy.app", protocol: "https" }
 
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true

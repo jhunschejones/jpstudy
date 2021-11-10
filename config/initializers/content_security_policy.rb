@@ -13,7 +13,7 @@ if Rails.env.production?
     policy.script_src      :self, "https://js-agent.newrelic.com", "https://bam.nr-data.net"
     policy.style_src       :self, "https://fonts.googleapis.com", :unsafe_inline # TODO: remove unsafe_inline after https://github.com/hotwired/turbo/issues/294#issuecomment-877842232
     # https://docs.newrelic.com/docs/browser/new-relic-browser/getting-started/compatibility-requirements-browser-monitoring
-    policy.connect_src     :self, "https://bam.nr-data.net", "https://bam-cell.nr-data.net", "wss://jpstudy.herokuapp.com/cable"
+    policy.connect_src     :self, "https://bam.nr-data.net", "https://bam-cell.nr-data.net", "wss://www.jpstudy.app/cable"
 
     policy.form_action     :self
     policy.base_uri        :self
