@@ -43,8 +43,11 @@
   <%= file_field_tag :csv_file, required: true %>
 
   <div class="includes-headers-field-row">
-    <%= label_tag :csv_includes_headers, "CSV includes headers" %>
-    <%= check_box_tag :csv_includes_headers, true, true %>
+    <span class="label-text">CSV includes headers</span>
+    <%= label_tag :csv_includes_headers, class: "switch" do %>
+      <%= check_box_tag :csv_includes_headers, true, true %>
+      <span class="slider round"></span>
+    <% end %>
   </div>
 
   <%= submit_tag("Import words", class: "button-blue") %>

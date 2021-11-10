@@ -261,27 +261,32 @@
     }
   }
   input[type="file"] {
-    font-size: 1em; // going over 1em here breaks the mobile layout
-    margin: 6px 0px 0px 1px;
-    display: block;
-    margin-top: 20px;
-  }
-  input[type="submit"] {
-    margin-top: 24px;
-    display: block;
+    font-size: 1em;
+    margin: 16px 0px 0px 1px;
+    width: 100%;
   }
   ::-webkit-file-upload-button {
     // to style the file upload button
+    padding: 2px 6px;
     border-radius: 0.6em;
     border-style: solid;
-    background-color: #D1D5DB;
+    border-color: #D1D5DB;
+    background-color: #E5E7EB;
+    cursor: pointer;
+    color: #1F2937;
   }
   .includes-headers-field-row {
-    padding-top: 18px;
-    input[type="checkbox"] {
-      font-size: 1.1em;
-      transform: scale(1.2);
+    padding-top: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .label-text {
+      margin-right: 6px;
     }
+  }
+  input[type="submit"] {
+    margin-top: 26px;
+    display: block;
   }
 }
 
