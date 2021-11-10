@@ -42,7 +42,7 @@
     }
   }
   .form-actions {
-    padding-top: 14px;
+    padding-top: 10px;
   }
 }
 
@@ -202,11 +202,11 @@
       color: #fff;
       text-align: center;
       border-radius: 6px;
-      padding: 5px;
+      padding: 5px 8px;
       position: absolute;
       z-index: 1;
       top: 120%;
-      left: 30%;
+      left: 22%;
       margin-left: -60px;
       font-size: 0.8em;
       &::after {
@@ -261,7 +261,7 @@
     }
   }
   input[type="file"] {
-    font-size: 1.1em;
+    font-size: 1em; // going over 1em here breaks the mobile layout
     margin: 6px 0px 0px 1px;
     display: block;
     margin-top: 20px;
@@ -270,15 +270,17 @@
     margin-top: 24px;
     display: block;
   }
-  // ::-webkit-file-upload-button {
-  //   // to style the file upload button
-  //   display: none;
-  // }
+  ::-webkit-file-upload-button {
+    // to style the file upload button
+    border-radius: 0.6em;
+    border-style: solid;
+    background-color: #D1D5DB;
+  }
   .includes-headers-field-row {
     padding-top: 18px;
     input[type="checkbox"] {
       font-size: 1.1em;
-      transform: scale(1.4);
+      transform: scale(1.2);
     }
   }
 }
