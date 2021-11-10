@@ -18,6 +18,8 @@ class UsersController < ApplicationController
     verification_token = VerificationToken.generate
     @user.verification_digest = verification_token.digest
     @user.verification_sent_at = Time.now.utc
+    @user.trial_starts_at = Time.now.utc
+    @user.trail_ends_at = Time.now.utc + 30.days
 
     if @user.save
       UserMailer
