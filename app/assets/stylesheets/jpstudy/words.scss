@@ -160,11 +160,15 @@
       font-size: 1.4em;
     }
     .english {
-      padding-left: 4px;
+      .right-arrow {
+        height: 12px;
+        color: #9CA3AF;
+      }
     }
     @media (max-width: 600px) {
       span { display: block; }
       .english { padding-left: 0px; }
+      .right-arrow { display: none; }
     }
   }
   .source {
@@ -173,6 +177,9 @@
     @media (max-width: 600px) {
       .added-on {
         display: block;
+      }
+      .large-only {
+        display: none;
       }
     }
   }
