@@ -28,7 +28,7 @@ class SquareController < ApplicationController
   # Special redirect link for Square to send users to after checking out
   def logout
     reset_session
-    redirect_to login_url, notice: "Follow the link in your email to finalize your subscription."
+    redirect_to login_url, success: "Follow the link in your email to finalize your subscription."
   end
 
   private
