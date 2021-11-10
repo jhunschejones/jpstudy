@@ -135,6 +135,10 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
+  config.active_record.encryption.primary_key = ENV.fetch("PRIMARY_KEY")
+  config.active_record.encryption.deterministic_key = ENV.fetch("DETERMINISTIC_KEY")
+  config.active_record.encryption.key_derivation_salt = ENV.fetch("KEY_DERIVATION_SALT")
+
   # Only affects displayed timezone, times are still stored in the DB as UTC
   config.time_zone = "Pacific Time (US & Canada)"
 end
