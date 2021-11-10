@@ -24,7 +24,7 @@
       </div>
     <% end %>
     <div class="cards-created">
-      <%= button_to(word_toggle_card_created_path(word), method: :post) do %>
+      <%= button_to(word_toggle_card_created_path(word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
         <% if word.cards_created? %>
           <span title="Cards created">
             <%= heroicon "check", options: { class: "checked" } %>
