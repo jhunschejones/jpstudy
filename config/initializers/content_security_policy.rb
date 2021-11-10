@@ -33,8 +33,8 @@ end
 # https://github.com/hotwired/turbo/issues/294#issuecomment-877842232
 Rails.application.config.content_security_policy_nonce_generator = -> (request) do
   # use the same csp nonce for turbo requests
-  if request.env['HTTP_TURBO_REFERRER'].present?
-    request.env['HTTP_X_TURBO_NONCE']
+  if request.env["HTTP_TURBO_REFERRER"].present?
+    request.env["HTTP_X_TURBO_NONCE"]
   else
     SecureRandom.base64(16)
   end
