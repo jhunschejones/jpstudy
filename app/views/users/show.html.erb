@@ -1,70 +1,72 @@
-<h2 class="title">User details</h2>
+<div class="user-profile-page">
+  <h2 class="title">User details</h2>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @user.name %>
+  </p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
+  <p>
+    <strong>Username:</strong>
+    <%= @user.username %>
+  </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+  <p>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </p>
 
-<p>
-  <strong>
-    Trial <%= @user.trial_active? ? "expires" : "expired" %>:
-  </strong>
-  <%= @user.trial_ends_at.strftime("%m/%d/%Y") %>
-</p>
+  <p>
+    <strong>
+      Trial <%= @user.trial_active? ? "expires" : "expired" %>:
+    </strong>
+    <%= @user.trial_ends_at.strftime("%m/%d/%Y") %>
+  </p>
 
-<div class="user-actions">
-  <%= link_to("Edit", edit_user_path(@user), class: "button-blue edit-button") %>
-  <%= button_to("Delete your account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete your account? This action is permanent and you will cause you to lose access to the entire site.", action: "confirmation#confirm" }) %>
-</div>
+  <div class="user-actions">
+    <%= link_to("Edit", edit_user_path(@user), class: "button-blue edit-button") %>
+    <%= button_to("Delete your account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete your account? This action is permanent and you will cause you to lose access to the entire site.", action: "confirmation#confirm" }) %>
+  </div>
 
-<div class="square">
-  <% if @user.active_subscription.present? %>
-    <h3 class="title">Manage your subscription</h3>
-    <p>
-      A monthly subscription is required to unlock full access to the site after
-      your free trial. Your payment information is processed and stored by
-      <a href="https://squareup.com/us/en/legal/general/buyer-features" target="_blank">Square</a>
-      and is not accessed by this site. You may cancel your subscription at any time.
-    </p>
-    <p>
-      <strong>Start date:</strong>
-      <%= @user.active_subscription.start_date.strftime("%m/%d/%Y") %>
-    </p>
-    <p>
-      <strong>Next charge date:</strong>
-      <%= @user.active_subscription.next_charge_date.strftime("%m/%d/%Y") %>
-    </p>
-    <a
-      class="square-button manage-subscription-button"
-      target="_blank"
-      href="<%= @user.active_subscription.self_management_link %>"
-    >
-      Manage subscription with Square
-    </a>
-  <% else %>
-    <h3 class="title">Subscribe</h3>
-    <p>
-      To unlock full access to the site after your free trial, you can subscribe
-      for $1.00 a month. Your payment information is processed and stored by
-      <a href="https://squareup.com/us/en/legal/general/buyer-features" target="_blank">Square</a>
-      and is not accessed by this site. You may cancel your subscription at any time.
-    </p>
-    <a
-      class="square-button checkout-button"
-      href="https://square.link/u/oricGJt8?src=embed"
-    >
-      Subscribe with Square
-    </a>
-    <textarea class="checkout-button-html-hidden-textarea"></textarea>
-  <% end %>
+  <div class="square">
+    <% if @user.active_subscription.present? %>
+      <h3 class="title">Manage your subscription</h3>
+      <p>
+        A monthly subscription is required to unlock full access to the site after
+        your free trial. Your payment information is processed and stored by
+        <a href="https://squareup.com/us/en/legal/general/buyer-features" target="_blank">Square</a>
+        and is not accessed by this site. You may cancel your subscription at any time.
+      </p>
+      <p>
+        <strong>Start date:</strong>
+        <%= @user.active_subscription.start_date.strftime("%m/%d/%Y") %>
+      </p>
+      <p>
+        <strong>Next charge date:</strong>
+        <%= @user.active_subscription.next_charge_date.strftime("%m/%d/%Y") %>
+      </p>
+      <a
+        class="square-button manage-subscription-button"
+        target="_blank"
+        href="<%= @user.active_subscription.self_management_link %>"
+      >
+        Manage subscription with Square
+      </a>
+    <% else %>
+      <h3 class="title">Subscribe</h3>
+      <p>
+        To unlock full access to the site after your free trial, you can subscribe
+        for $1.00 a month. Your payment information is processed and stored by
+        <a href="https://squareup.com/us/en/legal/general/buyer-features" target="_blank">Square</a>
+        and is not accessed by this site. You may cancel your subscription at any time.
+      </p>
+      <a
+        class="square-button checkout-button"
+        href="https://square.link/u/oricGJt8?src=embed"
+      >
+        Subscribe with Square
+      </a>
+      <textarea class="checkout-button-html-hidden-textarea"></textarea>
+    <% end %>
+  </div>
 </div>

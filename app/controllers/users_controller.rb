@@ -65,7 +65,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     reset_session
-    redirect_to root_url, alert: "Your account has been deleted."
+    redirect_to root_path, alert: "Your account has been deleted."
   end
 
   private

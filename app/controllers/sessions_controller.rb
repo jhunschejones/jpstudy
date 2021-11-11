@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     if session[:user_id]
-      redirect_to session.delete(:return_to) || root_path
+      redirect_to session.delete(:return_to) || words_path
     else
       render :new
     end
