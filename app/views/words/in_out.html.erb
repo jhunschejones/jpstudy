@@ -6,7 +6,17 @@
   </p>
 
   <div class="actions">
-    <%= link_to "Import words", import_words_path, class: "button-purple" %>
-    <%= link_to "Export words", export_words_path, class: "button-blue" %>
+    <%= link_to "Import tool", import_words_path, class: "button-purple" %>
+    <%= link_to "Export tool", export_words_path, class: "button-blue" %>
+  </div>
+
+  <h3>DANGER ZONE</h3>
+
+  <p>
+    Use this button clear all the words you have previously added. Please note this is a destructive action and cannot be undone.
+  </p>
+
+  <div class="actions">
+    <%= button_to "Delete all words", destroy_all_words_path, method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete all the words you've added? This action is permanent and cannot be undone.", action: "confirmation#confirm" } %>
   </div>
 </div>

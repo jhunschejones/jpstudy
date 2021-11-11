@@ -1,8 +1,18 @@
-<h1 class="page-title">Export CSV</h1>
+<div class="words-export-page">
+  <h1 class="page-title">Export CSV</h1>
 
-<p>
-  Export a simple CSV of your word list for data backup or to use in another
-  study tool.
-</p>
+  <p>
+    Download a CSV of your word list for data backup or to use in another study tool. Choose to export all words you have created, or just the words marked as "cards not created."
+  </p>
 
-<%= link_to("Export words", download_words_path(format: :csv), target: "_blank", class: "button-blue export-button") %>
+  <div class="actions">
+    <%= link_to(download_words_path(format: :csv), target: "_blank", class: "button-blue export-button") do %>
+      <%= heroicon "document-download", variant: :outline, options: { class: "download-icon" } %>
+      All words
+    <% end %>
+    <%= link_to(download_words_path(format: :csv, filter: "cards_not_created"), target: "_blank", class: "button-blue export-button") do %>
+      <%= heroicon "document-download", variant: :outline, options: { class: "download-icon" } %>
+      Words without cards
+    <% end %>
+  </div>
+</div>

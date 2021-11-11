@@ -23,9 +23,17 @@
     <%= @user.trial_ends_at.strftime("%m/%d/%Y") %>
   </p>
 
+  <p class="word-limit-field">
+    <strong>Word limit:</strong>
+    <%= @user.word_limit %>
+    <%= link_to(word_limit_path, title: "What is a word limit?") do %>
+      <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+    <% end %>
+  </p>
+
   <div class="user-actions">
-    <%= link_to("Edit", edit_user_path(@user), class: "button-blue edit-button") %>
-    <%= button_to("Delete your account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete your account? This action is permanent and you will cause you to lose access to the entire site.", action: "confirmation#confirm" }) %>
+    <%= link_to("Edit profile", edit_user_path(@user), class: "button-blue edit-button") %>
+    <%= button_to("Delete account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete your account? This action is permanent and you will cause you to lose access to the entire site.", action: "confirmation#confirm" }) %>
   </div>
 
   <div class="square">

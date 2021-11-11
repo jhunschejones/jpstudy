@@ -3,6 +3,7 @@ class User < ApplicationRecord
     USER_ROLE = "user".freeze,
     ADMIN_ROLE = "admin".freeze
   ].freeze
+  DEFAULT_WORD_LIMIT = 1000.freeze
 
   has_secure_password
 

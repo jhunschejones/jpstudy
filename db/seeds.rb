@@ -5,7 +5,8 @@ dev_user = User.find_by(email: ENV.fetch("DEV_USER_EMAIL")) || begin
     username: ENV.fetch("DEV_USER_USERNAME"),
     password: ENV.fetch("DEV_USER_PASSWORD"),
     password_confirmation: ENV.fetch("DEV_USER_PASSWORD"),
-    verified: true
+    verified: true,
+    word_limit: User::DEFAULT_WORD_LIMIT
   )
 end
 

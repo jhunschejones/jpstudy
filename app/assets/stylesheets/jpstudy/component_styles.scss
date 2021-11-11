@@ -1,13 +1,13 @@
-.button-red {
+.basic-button {
   -webkit-appearance: none;
   font-weight: 400;
   text-decoration: none;
   padding: 8px 16px;
   border-radius: 0.6em;
   border-style: solid;
-  background-color: #EF4444;
-  border-color: #EF4444;
-  color: #fff;
+  background-color: #F1F5F9;
+  border-color: #F1F5F9;
+  color: #0F172A;
   font-size: 1em;
 
   display: flex;
@@ -15,66 +15,55 @@
   align-items: center;
   &:hover {
     cursor: pointer;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #F1F5F9;
+    border-color: #F1F5F9;
+  }
+}
+
+.button-red {
+  @extend .basic-button;
+  background-color: #EF4444;
+  border-color: #EF4444;
+  color: #fff;
+  &:disabled {
+    background-color: #F87171;
+    border-color: #F87171;
   }
 }
 
 .button-purple {
-  -webkit-appearance: none;
-  font-weight: 400;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 0.6em;
-  border-style: solid;
+  @extend .basic-button;
   background-color: #8B5CF6;
   border-color: #8B5CF6;
   color: #fff;
-  font-size: 1em;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
+  &:disabled {
+    background-color: #A78BFA;
+    border-color: #A78BFA;
   }
 }
 
 .button-pink {
-  -webkit-appearance: none;
-  font-weight: 400;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 0.6em;
-  border-style: solid;
+  @extend .basic-button;
   background-color: #F472B6;
   border-color: #F472B6;
   color: #fff;
-  font-size: 1em;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
+  &:disabled {
+    background-color: #F9A8D4;
+    border-color: #F9A8D4;
   }
 }
 
 .button-blue {
-  -webkit-appearance: none;
-  font-weight: 400;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 0.6em;
-  border-style: solid;
+  @extend .basic-button;
   background-color: #3B82F6;
   border-color: #3B82F6;
   color: #fff;
-  font-size: 1em;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
+  &:disabled {
+    background-color: #60A5FA;
+    border-color: #60A5FA;
   }
 }
 

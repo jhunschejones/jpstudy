@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   controller :static_pages do
     get "about" => :about
     get "word_list_instructions" => :word_list_instructions
+    get "word_limit" => :word_limit_explanation
   end
 
   controller :sessions do
@@ -42,6 +43,7 @@ Rails.application.routes.draw do
       post :upload
       get :export
       get :download
+      delete :destroy_all
     end
   end
 end

@@ -4,6 +4,15 @@ class WordsController < ApplicationController
   before_action :secure_behind_subscription
   before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
+  ORDERED_CSV_FIELDS = [
+    :english,
+    :japanese,
+    :source_name,
+    :source_reference,
+    :cards_created,
+    :added_to_list_on
+  ].freeze
+
   def index
     @words = @current_user.words.order(created_at: :desc).order(id: :desc)
     @words = @words.cards_not_created if params[:filter] == "cards_not_created"
@@ -71,49 +80,78 @@ class WordsController < ApplicationController
 
   def upload
     unless params[:csv_file]&.content_type == "text/csv"
-      return redirect_to import_words_path, notice: "Unsupported file format"
+      return redirect_to import_words_path, alert: "Missing CSV file or unsupported file format"
     end
 
     words_added = 0
+    words_updated = 0
     words_already_exist = 0
     CSV.read(params[:csv_file].path).each_with_index do |row, index|
-      next if index.zero? && params[:csv_includes_headers]
+      if index.zero?
+        return redirect_to import_words_path, alert: "Incorrectly formatted CSV" if row.size != ORDERED_CSV_FIELDS.size
+        next if params[:csv_includes_headers]
+      end
 
-      english = row[params[:english].to_i - 1]
-      japanese = row[params[:japanese].to_i - 1]
-      next unless english && japanese
+      english = row[0]
+      japanese = row[1]
+      added_to_list_at = row[5].present? ? time_or_date_from(row[5]) : nil
+      cards_created = ["true", "t", "x", "yes", "y"].include?(row[4].downcase)
+      source_name = row[2].present? ? row[2] : nil
+      source_reference = row[3].present? ? row[3] : nil
 
-      if Word.find_by(english: english, japanese: japanese, user: @current_user)
+      if word = Word.find_by(english: english, japanese: japanese, user: @current_user)
+        if params[:overwrite_matching_words]
+          words_updated += 1 if word.update(
+            source_name: source_name,
+            source_reference: source_reference,
+            cards_created: cards_created,
+            added_to_list_at: added_to_list_at
+          )
+        end
+
         next words_already_exist += 1
       end
 
       words_added +=1 if Word.create(
-        english: english, japanese: japanese,
-        source_name: params[:source_name],
-        source_reference: params[:source_reference].to_i.zero? ? nil : row[params[:source_reference].to_i - 1],
-        cards_created: index < params[:last_created_card_row].to_i, # the value submitted by the client is one past the actual row index
-        created_at: params[:created_at].to_i.zero? ? nil : word_created_time(row[params[:created_at].to_i - 1]),
+        english: english,
+        japanese: japanese,
+        source_name: source_name,
+        source_reference: source_reference,
+        cards_created: cards_created,
+        added_to_list_at: added_to_list_at,
         user: @current_user
       )
     end
 
-    redirect_to words_url, success: "#{words_added} #{"word".pluralize(words_added)} successfully imported."
+    flash[:success] =
+      if params[:overwrite_matching_words]
+        "#{words_updated} existing #{"word".pluralize(words_updated)} updated, #{words_added} new #{"word".pluralize(words_added)} imported."
+      else
+        "#{words_added} new #{"word".pluralize(words_added)} imported, #{words_already_exist} #{"word".pluralize(words_already_exist)} already exist."
+      end
+    redirect_to in_out_words_path
   end
 
   def download
-    attributes = [:english, :japanese, :source_name, :source_reference, :cards_created, :added_on]
-
     csv = CSV.generate(headers: true) do |csv|
-      csv << attributes
+      csv << ORDERED_CSV_FIELDS # add headers
 
-      @current_user.words.find_each do |word|
-        csv << attributes.map { |attr| word.send(attr) }
+      words = @current_user.words
+      words = words.cards_not_created if params[:filter] == "cards_not_created"
+
+      words.find_each do |word|
+        csv << ORDERED_CSV_FIELDS.map { |attr| word.send(attr) }
       end
     end
 
     respond_to do |format|
-      format.csv { send_data(csv, filename: "words_export.csv") }
+      format.csv { send_data(csv, filename: "words_export_#{Time.now.utc.to_i}.csv") }
     end
+  end
+
+  def destroy_all
+    destroyed_words_count = @current_user.words.destroy_all.size
+    redirect_to in_out_words_path, success: "#{destroyed_words_count} #{"word".pluralize(destroyed_words_count)} deleted."
   end
 
   private
@@ -128,7 +166,7 @@ class WordsController < ApplicationController
       .permit(:japanese, :english, :source_name, :source_reference, :note, :cards_created)
   end
 
-  def word_created_time(time_or_date_string)
+  def time_or_date_from(time_or_date_string)
     begin
       if time_or_date_string.size == 8
         return Date.strptime(time_or_date_string, "%m/%d/%y")

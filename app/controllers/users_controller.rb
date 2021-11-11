@@ -14,12 +14,16 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
     verification_token = VerificationToken.generate
-    @user.verification_digest = verification_token.digest
-    @user.verification_sent_at = Time.now.utc
-    @user.trial_starts_at = Time.now.utc
-    @user.trial_ends_at = Time.now.utc + 30.days
+    @user = User.new(
+      user_params.merge({
+        verification_digest: verification_token.digest,
+        verification_sent_at: Time.now.utc,
+        trial_starts_at: Time.now.utc,
+        trial_ends_at: Time.now.utc + 30.days,
+        word_limit: User::DEFAULT_WORD_LIMIT,
+      })
+    )
 
     if @user.save
       UserMailer

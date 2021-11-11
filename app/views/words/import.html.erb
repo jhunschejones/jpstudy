@@ -1,54 +1,42 @@
-<h1 class="page-title">Import CSV</h1>
+<div class="words-import-page">
+  <h1 class="page-title">Import CSV</h1>
 
-<%= form_tag(upload_words_path, method: :post, multipart: true, class: "import-csv-form") do %>
   <p>
-    Prepare a sorted CSV of words to import into jpstudy. You will want to have words you have already created flashcards for first, followed by new words at the end of the file. Use the "column" fields to map the columns in your CSV to the specific pieces of data we need. If you do not have a field for a given piece of data, set the value to "0".
+    Prepare a CSV of words to import into your jpstudy word list. The CSV collums will need to exactly match the following format. The first two columns are <strong>required</strong> to be present and the remaining columns may be left blank if desired.
   </p>
 
-  <div class="mapping-field-row">
-    Column
-    <%= text_field_tag :english, 1, autocomplete: "off", data: { lpignore: true } %>
-    :
-    <%= label_tag :english, "English word" %>
-  </div>
-  <div class="mapping-field-row">
-    Column
-    <%= text_field_tag :japanese, 2, autocomplete: "off", data: { lpignore: true } %>
-    :
-    <%= label_tag :japanese, "Japanese word" %>
-  </div>
-  <div class="mapping-field-row">
-    Column
-    <%= text_field_tag :created_at, 3, autocomplete: "off", data: { lpignore: true } %>
-    :
-    <%= label_tag :created_at, "Date added to your list (mm/dd/yy or mm/dd/yyyy)" %>
-  </div>
-  <div class="mapping-field-row">
-    Column
-    <%= text_field_tag :source_reference, 4, autocomplete: "off", data: { lpignore: true } %>
-    :
-    <%= label_tag :source_reference, "Source refrence (i.e. Chapter 12)" %>
-  </div>
+  <ul class="csv-format">
+    <li>[0]<strong>English word or phrase</strong></li>
+    <li>[1]<strong>Japanese word or phrase</strong></li>
+    <li>[2]Source name (i.e. Minna no Nihongo)</li>
+    <li>[3]Source reference (i.e. Chapter 12)</li>
+    <li>[4]Cards created (true/false)</li>
+    <li>[5]Added to list on (date)</li>
+  </ul>
 
-  <div class="source-name-field-row">
-    <%= label_tag :source_name %>
-    <%= text_field_tag :source_name, nil, autocomplete: "off", data: { lpignore: true }, placeholder: "Minna No Nihongo..." %>
-  </div>
+  <%= form_tag(upload_words_path, method: :post, multipart: true, class: "import-csv-form") do %>
+    <%= file_field_tag :csv_file %>
 
-  <div class="last-created-card-row-field-row">
-    <%= label_tag :last_created_card_row, "All cards above this row in the sorted CSV have already been created" %>
-    <%= text_field_tag :last_created_card_row, nil, autocomplete: "off", data: { lpignore: true }, required: true %>
-  </div>
+    <div class="includes-headers-field-row">
+      <%= label_tag :csv_includes_headers, class: "switch" do %>
+        <%= check_box_tag :csv_includes_headers, true, true %>
+        <span class="slider round"></span>
+      <% end %>
+      <span class="label-text">CSV includes headers</span>
+    </div>
 
-  <%= file_field_tag :csv_file, required: true %>
+    <p class="inner-form-instructions">
+      The import tool will prevent the creation of duplicate words based on the first two columns of the CSV. You may also use this tool to <em>update</em> existing words for easier bulk changes.
+    </p>
 
-  <div class="includes-headers-field-row">
-    <span class="label-text">CSV includes headers</span>
-    <%= label_tag :csv_includes_headers, class: "switch" do %>
-      <%= check_box_tag :csv_includes_headers, true, true %>
-      <span class="slider round"></span>
-    <% end %>
-  </div>
+    <div class="overwrite-matching-words-field-row">
+      <%= label_tag :overwrite_matching_words, class: "switch" do %>
+        <%= check_box_tag :overwrite_matching_words, true, false %>
+        <span class="slider round"></span>
+      <% end %>
+      <span class="label-text">Overwrite matching words</span>
+    </div>
 
-  <%= submit_tag("Import words", class: "button-blue") %>
-<% end %>
+    <%= submit_tag("Import words", class: "button-purple", data: { controller: "disable", disable_with_value: "Importing...", action: "disable#disableButton", disable_target: "button" }) %>
+  <% end %>
+</div>

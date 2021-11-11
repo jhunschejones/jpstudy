@@ -223,84 +223,79 @@
   }
 }
 
-.import-csv-form {
-  font-size: 1.1em;
-  .mapping-field-row {
-    margin-bottom: 4px;
-    input {
-      width: 25px;
-      font-size: 1.1em;
-      border-radius: 4px;
-      border: 1px solid #bbb;
-      padding: 12px;
-      height: 12px;
-      &:focus {
-        outline-color: #3B82F6;
-      }
-    }
-  }
-  .last-created-card-row-field-row,
-  .source-name-field-row {
-    padding: 8px 0px;
-    input {
-      display: block;
-      font-size: 1.1em;
-      border-radius: 4px;
-      border: 1px solid #bbb;
-      padding: 12px;
-      width: 200px;
-      height: 12px;
-      &:focus {
-        outline-color: #3B82F6;
-      }
-    }
-    label {
-      display: block;
-      padding: 8px 0px 5px 0px;
-      font-weight: 500;
-    }
-  }
-  input[type="file"] {
-    font-size: 1em;
-    margin: 16px 0px 0px 1px;
-    width: 100%;
-  }
-  ::-webkit-file-upload-button {
-    // to style the file upload button
-    padding: 2px 6px;
-    border-radius: 0.6em;
-    border-style: solid;
-    border-color: #D1D5DB;
-    background-color: #E5E7EB;
-    cursor: pointer;
-    color: #1F2937;
-  }
-  .includes-headers-field-row {
-    padding-top: 12px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    .label-text {
-      margin-right: 6px;
-    }
-  }
-  input[type="submit"] {
-    margin-top: 26px;
-    display: block;
-  }
-}
-
-.export-button {
-  float: left;
-}
-
 .words-in-out-page {
+  h3 {
+    margin-top: 36px
+  }
   .actions {
     a {
-      float: left;
+      display: inline-block;
       &:not(:last-child) {
         margin-right: 8px;
       }
+    }
+  }
+}
+
+.words-export-page {
+  .actions {
+    margin-top: 28px;
+    .export-button {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      width: fit-content;
+      padding-left: 12px;
+      &:not(:last-child) {
+        margin: 0px 6px 6px 0px;
+      }
+      .download-icon {
+        margin-right: 2px;
+      }
+    }
+  }
+}
+
+.words-import-page {
+  .csv-format {
+    font-family: 'Roboto Mono', monospace;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .import-csv-form {
+    margin-top: 28px;
+    font-size: 1.1em;
+    input[type="file"] {
+      font-size: 1em;
+      margin: 0px 0px 14px 1px;
+      width: 100%;
+    }
+    ::-webkit-file-upload-button {
+      // to style the file upload button
+      padding: 2px 6px;
+      border-radius: 0.6em;
+      border-style: solid;
+      border-color: #D1D5DB;
+      background-color: #E5E7EB;
+      cursor: pointer;
+      color: #1F2937;
+    }
+    .inner-form-instructions {
+      margin-top: 36px;
+    }
+    .includes-headers-field-row,
+    .overwrite-matching-words-field-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .label-text {
+        margin-left: 6px;
+      }
+    }
+    input[type="submit"] {
+      margin-top: 36px;
+      display: block;
     }
   }
 }

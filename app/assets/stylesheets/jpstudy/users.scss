@@ -49,6 +49,16 @@
   .title {
     margin: 12px 0px 0px 0px;
   }
+  .word-limit-field {
+    display: flex;
+    align-items: top;
+    strong {
+      margin-right: 5px;
+    }
+    .info-icon {
+      margin: -3px 0px 0px 3px;
+    }
+  }
 }
 
 .user-stats-page {

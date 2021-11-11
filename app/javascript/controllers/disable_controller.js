@@ -5,8 +5,11 @@ export default class extends Controller {
   static targets = [ "button" ]
 
   disableButton() {
-    console.log("here")
-    this.buttonTarget.innerHTML = this.withValue;
+    if (this.buttonTarget.nodeName == "INPUT") {
+      this.buttonTarget.value = this.withValue;
+    } else {
+      this.buttonTarget.innerHTML = this.withValue;
+    }
     this.buttonTarget.disabled = true;
     // The form stops here unless we manually submit it now
     // https://discuss.hotwired.dev/t/triggering-turbo-frame-with-js/1622/46
