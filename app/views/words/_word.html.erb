@@ -47,11 +47,13 @@
 
     <div class="source">
       <span class="added-on">Added <%= word.added_on %></span>
-      <span class="source-name">
-        <span class="large-only">from </span>
-        <%= word.source_name %>,
-      </span>
-      <span class="source-reference"><%= word.source_reference %></span>
+      <% if word.source_name.present? %>
+        <span class="source-name">
+          <span class="large-only">from </span>
+          <%= word.source_name %><%= word.source_reference.present? ? "," : "" %>
+        </span>
+        <span class="source-reference"><%= word.source_reference %></span>
+      <% end %>
     </div>
 
     <div class="resources">
