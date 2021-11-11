@@ -60,6 +60,9 @@ class WordsController < ApplicationController
     redirect_to @word
   end
 
+  def in_out
+  end
+
   def import
   end
 

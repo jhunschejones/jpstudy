@@ -293,3 +293,14 @@
 .export-button {
   float: left;
 }
+
+.words-in-out-page {
+  .actions {
+    a {
+      float: left;
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+}

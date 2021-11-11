@@ -19,7 +19,11 @@ Rails.application.routes.draw do
 
   get "email/verify", to: "emails#verify"
 
-  resources :users, except: [:index], param: :username
+  resources :users, except: [:index], param: :username do
+    member do
+      get :stats
+    end
+  end
   get "signup" => "users#new"
 
   resources :square, only: [] do
@@ -33,6 +37,7 @@ Rails.application.routes.draw do
   resources :words do
     post :toggle_card_created
     collection do
+      get :in_out
       get :import
       post :upload
       get :export

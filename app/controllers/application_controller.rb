@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     set_current_user
     unless @current_user.present?
       session[:return_to] ||= request.url
-      redirect_to login_url, notice: "ようこそ！ Please log in to access your jpstudy account"
+      redirect_to login_url, notice: "ようこそ！ Please log in to access your account and full site functionality."
     end
   end
 

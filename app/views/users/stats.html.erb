@@ -1,0 +1,26 @@
+<div class="user-stats-page">
+  <h1 class="page-title">Your stats</h1>
+
+  <p>
+    Statistics can be a motivating way to see how your daily choices are adding up to tangible progress toward your study goals. At jpstudy, we don't collect user data like location or last login date, but we'd love to tell you about the stats we <em>do</em> know, based on the content you've created!
+  </p>
+
+  <div class="stats">
+    <p>
+      <strong>Total words created:</strong>
+      <%= @total_words_created_count %>
+    </p>
+    <p>
+      <strong>Words with cards created:</strong>
+      <%= @words_with_cards_created_count %>
+    </p>
+    <p>
+      <strong>New words ready for cards:</strong>
+      <%= @words_ready_for_cards_count %>
+    </p>
+  </div>
+
+  <p class="contact">
+    Questions? Other stats you'd like to see? We'd love to hear your thoughts! You can reach us any time at <a href="mailto:support@jpstudy.app">support@jpstudy.app</a>.
+  </p>
+</div>

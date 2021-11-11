@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :stats]
   before_action :protect_user, except: [:new, :create]
   skip_before_action :authenticate_user, only: [:new, :create]
 
@@ -66,6 +66,12 @@ class UsersController < ApplicationController
     @user.destroy
     reset_session
     redirect_to root_path, alert: "Your account has been deleted."
+  end
+
+  def stats
+    @total_words_created_count = @current_user.words.count
+    @words_with_cards_created_count = @current_user.words.where(cards_created: true).count
+    @words_ready_for_cards_count = @current_user.words.cards_not_created.count
   end
 
   private
