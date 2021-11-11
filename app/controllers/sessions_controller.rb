@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       if params[:ref_id].present?
         user.update!(square_customer_id: square_customer_id, password: params[:password])
       end
-      redirect_to session.delete(:return_to) || root_path
+      redirect_to session.delete(:return_to) || words_path
     else
       redirect_to login_url, alert: "Invalid email/password combination"
     end
