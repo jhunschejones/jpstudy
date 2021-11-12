@@ -42,8 +42,8 @@ class WordsController < ApplicationController
   def update
     if @word.update(word_params)
       respond_to do |format|
-        format.turbo_stream { flash.now[:success] = "Word was successfully updated." }
-        format.html { redirect_to @word, success: "Word was successfully updated." }
+        format.turbo_stream { flash.now[:success] = "'#{@word.japanese}' was successfully updated." }
+        format.html { redirect_to @word, success: "'#{@word.japanese}' was successfully updated." }
       end
     else
       flash[:notice] = "Unable to update word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
@@ -54,8 +54,8 @@ class WordsController < ApplicationController
   def destroy
     @word.destroy
     respond_to do |format|
-      format.turbo_stream { flash.now[:notice] = "Word was successfully destroyed." }
-      format.html { redirect_to words_path, notice: "Word was successfully destroyed." }
+      format.turbo_stream { flash.now[:notice] = "'#{@word.japanese}' was successfully deleted." }
+      format.html { redirect_to words_path, notice: "'#{@word.japanese}' was successfully deleted." }
     end
   end
 
@@ -156,7 +156,7 @@ class WordsController < ApplicationController
   private
 
   def set_word
-    @word = Word.find_by(user: @current_user, id: params[:id] || params[:word_id])
+    @word = @current_user.words.find(params[:id] || params[:word_id])
   end
 
   def word_params

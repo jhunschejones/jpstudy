@@ -43,6 +43,15 @@
   }
   .form-actions {
     padding-top: 10px;
+    display: flex;
+    align-items: center;
+    input[type="submit"] {
+      display: inline-block;
+    }
+  }
+  .back-button {
+    display: inline-block;
+    margin-left: 8px;
   }
 }
 
@@ -75,8 +84,7 @@
   }
 }
 
-.new-word,
-.back-button {
+.new-word {
   float: right;
   margin-top: -36px;
 }

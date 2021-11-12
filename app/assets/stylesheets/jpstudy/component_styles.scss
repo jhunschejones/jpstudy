@@ -5,10 +5,11 @@
   padding: 8px 16px;
   border-radius: 0.6em;
   border-style: solid;
-  background-color: #F1F5F9;
-  border-color: #F1F5F9;
+  background-color: #E5E7EB;
+  border-color: #E5E7EB;
   color: #0F172A;
   font-size: 1em;
+  width: fit-content;
 
   display: flex;
   flex-direction: row;
@@ -18,8 +19,8 @@
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: #F1F5F9;
-    border-color: #F1F5F9;
+    background-color: #F3F4F6;
+    border-color: #F3F4F6;
   }
 }
 

@@ -27,6 +27,7 @@
 
     <div class="form-actions">
       <%= form.submit class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
+      <%= link_to "Cancel", word_path(word), class: "basic-button back-button" %>
     </div>
   <% end %>
 </div>
