@@ -25,7 +25,7 @@
 
   <p class="word-limit-field">
     <strong>Word limit:</strong>
-    <%= @user.word_limit %>
+    <%= @user.word_limit || "None" %>
     <%= link_to(word_limit_path, title: "What is a word limit?") do %>
       <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
     <% end %>
