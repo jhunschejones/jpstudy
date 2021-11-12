@@ -6,6 +6,7 @@
     <title>jpstudy</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="turbo-cache-control" content="no-preview"><%# there may be another way to solve this, but the data-turbo-preview was causing subsaquent flash messages not to appear after an initial flash was removed once %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
@@ -60,18 +61,24 @@
     <main>
       <section class="page-content">
         <% if flash[:alert] %>
-          <div class="flash alert" data-controller="flash">
-            <button class="close-flash-button" data-action="click->flash#close">&#x2715</button>
+          <div class="flash alert" data-controller="flash" data-flash-target="flashContainer">
+            <button class="close-flash-button" data-action="click->flash#close">
+              <%= heroicon "x" %>
+            </button>
             <p class="notice"><%= flash[:alert] %></p>
           </div>
         <% elsif flash[:notice] %>
-          <div class="flash warning" data-controller="flash">
-            <button class="close-flash-button" data-action="click->flash#close">&#x2715</button>
+          <div class="flash warning" data-controller="flash" data-flash-target="flashContainer">
+            <button class="close-flash-button" data-action="click->flash#close">
+              <%= heroicon "x" %>
+            </button>
             <p class="notice"><%= flash[:notice] %></p>
           </div>
         <% elsif flash[:success] %>
-          <div class="flash success" data-controller="flash">
-            <button class="close-flash-button" data-action="click->flash#close">&#x2715</button>
+          <div class="flash success" data-controller="flash" data-flash-target="flashContainer">
+            <button class="close-flash-button" data-action="click->flash#close">
+              <%= heroicon "x" %>
+            </button>
             <p class="notice"><%= flash[:success] %></p>
           </div>
         <% end %>

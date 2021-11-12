@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = [ "flashContainer" ]
 
-  close(event) {
-    const flash = event.target.parentNode;
-    flash.parentNode.removeChild(flash);
+  close() {
+    this.flashContainerTarget.parentNode.removeChild(this.flashContainerTarget);
   }
 }
