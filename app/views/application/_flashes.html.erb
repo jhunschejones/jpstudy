@@ -1,0 +1,14 @@
+<%# inspiration for putting the partial in this directory: https://thoughtbot.com/blog/directory-for-shared-partials-in-rails %>
+<div id="flashes" data-turbo-cache="false">
+  <% [:alert, :notice, :success].each do |flash_type| %>
+    <% if flash[flash_type] %>
+      <div class="flash <%= flash_type %>" data-controller="flash" data-flash-target="flashContainer">
+        <button class="close-flash-button" data-action="click->flash#close">
+          <%= heroicon "x" %>
+        </button>
+        <p class="message"><%= flash[flash_type] %></p>
+      </div>
+      <% break %><%# this helps us match the previous behavior, showing only the highest priority flash if multiple are set %>
+    <% end %>
+  <% end %>
+</div>

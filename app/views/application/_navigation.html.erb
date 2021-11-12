@@ -1,0 +1,49 @@
+<%# inspiration for putting the partial in this directory: https://thoughtbot.com/blog/directory-for-shared-partials-in-rails %>
+<nav>
+  <div class="left-links">
+    <%# nothing here yet %>
+  </div>
+  <div class="center-links">
+    <%= link_to(words_path) do %>
+      <%= heroicon "collection" %>
+      <small class="icon-subtext">Words</small>
+    <% end %>
+    <% if @current_user %>
+      <%= link_to(stats_user_path(@current_user)) do %>
+        <%= heroicon "presentation-chart-bar" %>
+        <small class="icon-subtext">Stats</small>
+      <% end %>
+    <% end %>
+    <%= link_to(in_out_words_path, class: "in-out-link") do %>
+      <%= heroicon "switch-vertical" %>
+      <small class="icon-subtext">I/O</small>
+    <% end %>
+    <%= link_to(about_path) do %>
+      <%= heroicon "heart" %>
+      <small class="icon-subtext">About</small>
+    <% end %>
+    <% if @current_user %>
+      <%= link_to(@current_user) do %>
+        <%= heroicon "user-circle" %>
+        <small class="icon-subtext">Profile</small>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="right-links">
+    <% if @current_user.present? %>
+      <%= button_to(logout_path, method: :delete, class: "logout-button") do %>
+        <%= heroicon "logout" %>
+        <small class="icon-subtext">Logout</small>
+      <% end %>
+    <% else %>
+      <%= link_to(signup_path, class: "signup-button") do %>
+        <%= heroicon "user-add" %>
+        <small class="icon-subtext">Signup</small>
+      <% end %>
+      <%= link_to(login_path, class: "login-button") do %>
+        <%= heroicon "login" %>
+        <small class="icon-subtext">Login</small>
+      <% end %>
+    <% end %>
+  </div>
+</nav>
