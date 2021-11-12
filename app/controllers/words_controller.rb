@@ -42,8 +42,7 @@ class WordsController < ApplicationController
   def update
     if @word.update(word_params)
       respond_to do |format|
-        format.turbo_stream { redirect_to @word }
-        # only return flash if this is an HTML request
+        format.turbo_stream { flash.now[:success] = "Word was successfully updated." }
         format.html { redirect_to @word, success: "Word was successfully updated." }
       end
     else
@@ -55,8 +54,8 @@ class WordsController < ApplicationController
   def destroy
     @word.destroy
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(@word) }
-      format.html { redirect_to words_url, notice: "Word was successfully destroyed." }
+      format.turbo_stream { flash.now[:notice] = "Word was successfully destroyed." }
+      format.html { redirect_to words_path, notice: "Word was successfully destroyed." }
     end
   end
 
