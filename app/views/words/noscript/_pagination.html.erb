@@ -1,0 +1,14 @@
+<noscript>
+  <% if @page == 1 %>
+    <span class="light-gray"><%= @page %></span>
+    &nbsp;
+  <% elsif @page > 1 %>
+    <%= link_to "< #{@page - 1}", words_path(page: @page - 1), class: "link-blue" %>
+    &nbsp;
+    <span class="light-gray"><%= @page %></span>
+    &nbsp;
+  <% end %>
+  <% if @next_page %>
+    <%= link_to "#{@next_page} >", words_path(page: @next_page), class: "link-blue" %>
+  <% end %>
+</noscript>

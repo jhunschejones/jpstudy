@@ -112,6 +112,20 @@ main {
   }
 }
 
-.info-icon {
+.light-gray {
   color: #9CA3AF;
+}
+
+.info-icon {
+  @extend .light-gray;
+}
+
+.contents-vertically-centered {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+.link-blue {
+  color: #3B82F6;
 }

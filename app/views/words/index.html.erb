@@ -16,9 +16,11 @@
   <%= render "filters" %>
 
   <div class="words-list-container">
+    <%= render "words/noscript/page_number" %>
     <%= turbo_frame_tag "words_#{@page}" do %>
       <%= render partial: "words/word", collection: @words, cached: true %>
 
+      <%= render "words/noscript/pagination" %>
       <% if @next_page %>
         <%= turbo_frame_tag "words_#{@next_page}", loading: :lazy, src: words_path(page: @next_page) do %>
           <h3 class="loading-message">
