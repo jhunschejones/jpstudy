@@ -29,10 +29,10 @@
       <%= render "words/noscript/pagination" %>
       <% if @next_page %>
         <%= turbo_frame_tag "words_#{@next_page}", loading: :lazy, src: words_path(page: @next_page) do %>
-          <h3 class="loading-message">
+          <div class="loading-message">
             <div class="loader"></div>
             <span>Loading more words...</span>
-          </h3>
+          </div>
         <% end %>
       <% end %>
     <% end %>

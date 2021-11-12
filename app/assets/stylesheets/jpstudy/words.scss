@@ -93,6 +93,8 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+      color: #9CA3AF;
+      padding: 8px 0px;
       .loader {
         border: 3px solid #fff; /* negative space */
         border-top: 3px solid #D1D5DB; /* spinning part */
