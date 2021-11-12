@@ -1,0 +1,50 @@
+<div
+  class="word skeleton-word"
+  data-controller="word"
+  data-word-cards-created-value="false"
+  data-word-target="wordCard"
+>
+  <div class="delete">
+    <button disabled>
+      <%= heroicon "trash", variant: :outline %>
+    </button>
+  </div>
+  <div class="edit">
+    <a disabled>
+      <%= heroicon "pencil-alt", variant: :outline %>
+    </a>
+  </div>
+  <div class="cards-created">
+    <button disabled>
+      <span title="No cards created yet">
+        <%= heroicon "plus", variant: :outline, options: { class: "unchecked" } %>
+      </span>
+    </button>
+  </div>
+
+  <div class="translation">
+    <span class="japanese" lang="jp">骨格</span>
+    <span class="english">
+      <%= heroicon "chevron-right", variant: :outline, options: { class: "right-arrow" } %>
+      <span class="english-text">skeleton</span>
+    </span>
+  </div>
+
+    <div class="source">
+      <span class="added-on">Added 11/12/2021</span>
+      <span class="source-name">
+        <span class="large-only">from </span>
+        Jisho.org
+      </span>
+      <span class="source-reference"></span>
+    </div>
+
+  <div class="resources">
+    <span class="skeleton-resource-link">&nbsp;</span>
+    <span class="skeleton-resource-link"></span>
+    <span class="skeleton-resource-link"></span>
+    <span class="skeleton-resource-link"></span>
+    <span class="skeleton-resource-link"></span>
+    <span class="skeleton-resource-link"></span>
+  </div>
+</div>

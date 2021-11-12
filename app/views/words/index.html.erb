@@ -29,9 +29,12 @@
       <%= render "words/noscript/pagination" %>
       <% if @next_page %>
         <%= turbo_frame_tag "words_#{@next_page}", loading: :lazy, src: words_path(page: @next_page) do %>
-          <div class="loading-message">
-            <div class="loader"></div>
-            <span>Loading more words...</span>
+          <div class="loading-container">
+            <% cache("skeleton_words_v1", skip_digest: true) do %>
+              <% WordsController::WORDS_PER_PAGE.times do %>
+                <%= render "skeleton_word" %>
+              <% end %>
+            <% end %>
           </div>
         <% end %>
       <% end %>
