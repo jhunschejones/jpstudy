@@ -4,7 +4,7 @@ class Word < ApplicationRecord
   validates_presence_of :source_name, :if => :source_reference?, message: "is required for source reference"
   validate :user_word_limit_not_exceeded, on: :create
 
-  belongs_to :user
+  belongs_to :user, counter_cache: true
 
   scope :cards_not_created, -> { where(cards_created: false) }
 
@@ -15,7 +15,8 @@ class Word < ApplicationRecord
   private
 
   def user_word_limit_not_exceeded
-    if user.word_limit && user.words.count >= user.word_limit
+    # calling `user.words.size` here means we use the counter_cache instead of making an extra query
+    if user.word_limit && user.words.size >= user.word_limit
       errors.add(:user_word_limit, "exceeded")
     end
   end

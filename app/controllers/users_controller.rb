@@ -73,9 +73,9 @@ class UsersController < ApplicationController
   end
 
   def stats
-    @total_words_created_count = @current_user.words.count
-    @words_with_cards_created_count = @current_user.words.where(cards_created: true).count
-    @words_ready_for_cards_count = @current_user.words.cards_not_created.count
+    @total_words_created_count = @current_user.words.size
+    @words_with_cards_created_count = @current_user.words.where(cards_created: true).size
+    @words_ready_for_cards_count = @current_user.words.cards_not_created.size
   end
 
   private

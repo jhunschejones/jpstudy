@@ -32,6 +32,6 @@
   </div>
 
   <div class="words-list-container">
-    <%= render(@words) %>
+    <%= render partial: "words/word", collection: @words, cached: true %>
   </div>
 </div>
