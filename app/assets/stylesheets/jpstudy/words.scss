@@ -60,7 +60,9 @@
     a { text-decoration: none; }
   }
   .filters {
-    padding: 8px 0px 20px 0px;
+    padding: 8px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
     a {
       text-decoration: none;
       display: flex;
@@ -74,13 +76,19 @@
     .filter-on svg {
       color: #10B981;
     }
-    .filter-off svg {
+    .filter-off svg,
+    .search-results svg {
       color: #9CA3AF;
     }
   }
 
   .words-list-container {
     padding-top: 6px;
+    .no-words-message {
+      text-align: center;
+      padding-top: 40px;
+      color: #9CA3AF;
+    }
     .loading-message {
       display: flex;
       flex-direction: row;
@@ -323,6 +331,35 @@
     input[type="submit"] {
       margin-top: 36px;
       display: block;
+    }
+  }
+}
+
+
+.words-search-page {
+  form {
+    max-width: 400px;
+    width: 100%;
+    label {
+      display: block;
+      padding: 8px 0px 5px 0px;
+      font-weight: 500;
+    }
+    input[type="text"] {
+      display: block;
+      font-size: 1.1em;
+      border-radius: 4px;
+      border: 1px solid #bbb;
+      padding: 12px;
+      margin-bottom: 5px;
+      width: 93%;
+      height: 12px;
+      &:focus {
+        outline-color: #3B82F6;
+      }
+    }
+    input[type="submit"] {
+      margin-top: 12px;
     }
   }
 }

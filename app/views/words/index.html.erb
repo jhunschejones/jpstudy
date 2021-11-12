@@ -16,6 +16,12 @@
   <%= render "filters" %>
 
   <div class="words-list-container">
+    <% if @words.size.zero? %>
+      <div class="no-words-message">
+        <p>No matching words 🙅</p>
+      </div>
+    <% end %>
+
     <%= render "words/noscript/page_number" %>
     <%= turbo_frame_tag "words_#{@page}" do %>
       <%= render partial: "words/word", collection: @words, cached: true %>

@@ -15,12 +15,19 @@ class WordsController < ApplicationController
   WORDS_PER_PAGE = 10.freeze
 
   def index
-    @page = params[:page] ? params[:page].to_i : 1
+    @page = params[:page] ? params[:page].to_i : 1 # force pagination to conserve memory
     @offset = (@page - 1) * WORDS_PER_PAGE
+
     @words = @current_user.words.order(created_at: :desc).order(id: :desc)
     @words = @words.cards_not_created if params[:filter] == "cards_not_created"
+    if params[:search]
+      @words = @words.where(english: params[:search]).or(@words.where(japanese: params[:search]))
+    end
     @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
     @next_page = @page + 1 if @words.size == WORDS_PER_PAGE
+  end
+
+  def search
   end
 
   def show
@@ -62,6 +69,11 @@ class WordsController < ApplicationController
       format.turbo_stream { flash.now[:notice] = "'#{@word.japanese}' was successfully deleted." }
       format.html { redirect_to words_path, notice: "'#{@word.japanese}' was successfully deleted." }
     end
+  end
+
+  def destroy_all
+    destroyed_words_count = @current_user.words.destroy_all.size
+    redirect_to in_out_words_path, success: "#{destroyed_words_count} #{"word".pluralize(destroyed_words_count)} deleted."
   end
 
   def toggle_card_created
@@ -151,11 +163,6 @@ class WordsController < ApplicationController
     respond_to do |format|
       format.csv { send_data(csv, filename: "words_export_#{Time.now.utc.to_i}.csv") }
     end
-  end
-
-  def destroy_all
-    destroyed_words_count = @current_user.words.destroy_all.size
-    redirect_to in_out_words_path, success: "#{destroyed_words_count} #{"word".pluralize(destroyed_words_count)} deleted."
   end
 
   private

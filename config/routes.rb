@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       get :export
       get :download
       delete :destroy_all
+      get :search
     end
   end
 end

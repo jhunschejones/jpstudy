@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_010258) do
+ActiveRecord::Schema.define(version: 2021_11_12_203153) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "plpgsql"
 
   create_table "users", force: :cascade do |t|
@@ -40,8 +41,8 @@ ActiveRecord::Schema.define(version: 2021_11_12_010258) do
   end
 
   create_table "words", force: :cascade do |t|
-    t.text "japanese", null: false
-    t.text "english", null: false
+    t.citext "japanese", null: false
+    t.citext "english", null: false
     t.text "source_name"
     t.text "source_reference"
     t.boolean "cards_created"
