@@ -6,7 +6,12 @@
     <title>jpstudy</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <meta name="turbo-cache-control" content="no-preview"><%# there may be another way to solve this, but the data-turbo-preview was causing subsaquent flash messages not to appear after an initial flash was removed once %>
+    <% if flash[:alert] || flash[:notice] || flash[:success] %>
+      <%# There may be another way to solve this, but the data-turbo-preview was %>
+      <%# causing subsequent flash messages not to appear after an initial flash %>
+      <%# was removed once. %>
+      <meta name="turbo-cache-control" content="no-preview">
+    <% end %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
