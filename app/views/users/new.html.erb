@@ -10,7 +10,7 @@
 
       <div class="field">
         <%= form.label :username %>
-        <%= form.text_field :username, required: true %>
+        <%= form.text_field :username, required: true, pattern: "[a-zA-Z0-9]{1,39}", title: "Username can only contain letters and numbers and must be 1-39 characters in length" %>
       </div>
 
       <div class="field">
@@ -20,12 +20,12 @@
 
       <div class="field">
         <%= form.label :password %>
-        <%= form.text_field :password, type: "password", required: true, data: { signup_target: "password", action: "change->signup#validatePassword" } %>
+        <%= form.text_field :password, type: "password", required: true, minlength: 12, data: { signup_target: "password", action: "change->signup#validatePassword" } %>
       </div>
 
       <div class="field">
         <%= form.label :password_confirmation %>
-        <%= form.text_field :password_confirmation, type: "password", required: true, data: { signup_target: "passwordConfirmation", action: "keyup->signup#validatePassword" } %>
+        <%= form.text_field :password_confirmation, type: "password", required: true, minlength: 12, data: { signup_target: "passwordConfirmation", action: "keyup->signup#validatePassword" } %>
       </div>
 
       <div class="actions">

@@ -34,7 +34,7 @@ class WordsController < ApplicationController
     if @word.save
       redirect_to words_url, success: "Word was successfully created."
     else
-      flash[:notice] = "Unable to create word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
+      flash[:notice] = "Unable to create word: #{@word.errors.full_messages.join(", ")}"
       redirect_to new_word_path
     end
   end

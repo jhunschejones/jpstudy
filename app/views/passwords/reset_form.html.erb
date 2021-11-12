@@ -10,12 +10,12 @@
 
       <div class="field">
         <%= label_tag :password %>
-        <%= text_field_tag :password, nil, type: "password", required: true, data: { signup_target: "password", action: "change->signup#validatePassword" } %>
+        <%= text_field_tag :password, nil, type: "password", required: true, minlength: 12, data: { signup_target: "password", action: "change->signup#validatePassword" } %>
       </div>
 
       <div class="field">
         <%= label_tag :password_confirmation %>
-        <%= text_field_tag :password_confirmation, nil, type: "password", required: true, data: { signup_target: "passwordConfirmation", action: "keyup->signup#validatePassword" } %>
+        <%= text_field_tag :password_confirmation, nil, type: "password", required: true, minlength: 12, data: { signup_target: "passwordConfirmation", action: "keyup->signup#validatePassword" } %>
       </div>
 
       <%= hidden_field_tag :token, params[:token] %>

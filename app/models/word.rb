@@ -1,5 +1,5 @@
 class Word < ApplicationRecord
-  validates :japanese, presence: true, uniqueness: { scope: [:english, :user] }
+  validates :japanese, presence: true, uniqueness: { scope: [:english, :user], message: "-English combination already exists" }
   validates :english, presence: true
   validates_presence_of :source_name, :if => :source_reference?, message: "is required for source reference"
   validate :user_word_limit_not_exceeded, on: :create
@@ -15,7 +15,7 @@ class Word < ApplicationRecord
   private
 
   def user_word_limit_not_exceeded
-    if user.words.count >= user.word_limit
+    if user.word_limit && user.words.count >= user.word_limit
       errors.add(:user_word_limit, "exceeded")
     end
   end

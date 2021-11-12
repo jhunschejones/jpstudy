@@ -10,7 +10,7 @@
 
       <div class="field">
         <%= form.label :username %>
-        <%= form.text_field :username, required: true %>
+        <%= form.text_field :username, required: true, pattern: "[a-zA-Z0-9]{1,39}", title: "Username can only contain letters and numbers and must be 1-39 characters in length" %>
       </div>
 
       <div class="field">
