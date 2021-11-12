@@ -18,8 +18,8 @@
         <%= text_field_tag :password_confirmation, nil, type: "password", required: true, minlength: 12, data: { signup_target: "passwordConfirmation", action: "keyup->signup#validatePassword" } %>
       </div>
 
-      <%= hidden_field_tag :token, params[:token] %>
-      <%= hidden_field_tag :user_id, params[:user_id] %>
+      <%= hidden_field_tag :token, params[:token]&.strip %>
+      <%= hidden_field_tag :user_id, params[:user_id]&.strip %>
 
       <div class="actions">
         <%= submit_tag "Reset password", class: "button-blue" %>

@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # Don't show these attributes in logs
+  self.filter_attributes = [:password, :verification_digest, :reset_digest]
+
   VALID_USER_ROLES = [
     USER_ROLE = "user".freeze,
     ADMIN_ROLE = "admin".freeze

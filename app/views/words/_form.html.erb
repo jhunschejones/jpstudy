@@ -2,22 +2,22 @@
   <%= form_with(model: word) do |form| %>
     <div class="form-field">
       <%= form.label :english %>
-      <%= form.text_field :english, autocomplete: "off", data: { lpignore: true }, autofocus: true, required: true %>
+      <%= form.text_field :english, required: true, autocomplete: "off", data: { lpignore: true }, autofocus: true %>
     </div>
 
     <div class="form-field">
       <%= form.label :japanese %>
-      <%= form.text_field :japanese, autocomplete: "off", data: { lpignore: true }, required: true %>
+      <%= form.text_field :japanese, required: true, autocomplete: "off", data: { lpignore: true } %>
     </div>
 
     <div class="form-field">
       <%= form.label :source_name %>
-      <%= form.text_field :source_name, autocomplete: "off", data: { lpignore: true, word_form_target: "sourceName", action: "change->word-form#validateSource" } %>
+      <%= form.text_field :source_name, autocomplete: "off", data: { lpignore: true, word_form_target: "sourceName", action: "word-form#validateSource" } %>
     </div>
 
     <div class="form-field">
       <%= form.label :source_reference %>
-      <%= form.text_field :source_reference, autocomplete: "off", data: { lpignore: true, word_form_target: "sourceReference", action: "keyup->word-form#validateSource" } %>
+      <%= form.text_field :source_reference, autocomplete: "off", required: true, data: { lpignore: true, word_form_target: "sourceReference", action: "keyup->word-form#validateSource" } %>
     </div>
 
     <div class="form-field">
@@ -25,8 +25,10 @@
       <%= form.text_area :note, rows: 3, cols: 32, data: { lpignore: true } %>
     </div>
 
+    <%= form.hidden_field :check, value: nil, required: true %>
+
     <div class="form-actions">
-      <%= form.submit class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
+      <%= form.submit class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton:!capture", disable_target: "button" } %>
       <%= link_to "Cancel", (word.id.present? ? word_path(word) : :back), class: "basic-button back-button" %>
     </div>
   <% end %>

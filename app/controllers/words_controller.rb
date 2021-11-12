@@ -15,13 +15,13 @@ class WordsController < ApplicationController
   WORDS_PER_PAGE = 10.freeze
 
   def index
-    @page = params[:page] ? params[:page].to_i : 1 # force pagination to conserve memory
+    @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
     @offset = (@page - 1) * WORDS_PER_PAGE
 
     @words = @current_user.words.order(created_at: :desc).order(id: :desc)
-    @words = @words.cards_not_created if params[:filter] == "cards_not_created"
-    if params[:search]
-      @words = @words.where(english: params[:search]).or(@words.where(japanese: params[:search]))
+    @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
+    if filter_params[:search]
+      @words = @words.where(english: filter_params[:search]).or(@words.where(japanese: filter_params[:search]))
     end
     @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
     @next_page = @page + 1 if @words.size == WORDS_PER_PAGE
@@ -44,7 +44,7 @@ class WordsController < ApplicationController
     @word = Word.new(word_params.merge({ user: @current_user }))
 
     if @word.save
-      redirect_to words_url, success: "Word was successfully created."
+      redirect_to words_url, success: "'#{@word.japanese}' was successfully created."
     else
       flash[:notice] = "Unable to create word: #{@word.errors.full_messages.join(", ")}"
       redirect_to new_word_path
@@ -175,6 +175,13 @@ class WordsController < ApplicationController
     params
       .require(:word)
       .permit(:japanese, :english, :source_name, :source_reference, :note, :cards_created)
+      .each_value { |value| value.try(:strip!) }
+  end
+
+  def filter_params
+    params
+      .permit(:filter, :search, :page)
+      .each_value { |value| value.try(:strip!) }
   end
 
   def time_or_date_from(time_or_date_string)

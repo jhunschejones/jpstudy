@@ -1,5 +1,5 @@
 class Word < ApplicationRecord
-  validates :japanese, presence: true, uniqueness: { scope: [:english, :user], message: "-English combination already exists" }
+  validates :japanese, presence: true, uniqueness: { scope: [:english, :user], message: "+ English combination already exists" }
   validates :english, presence: true
   validates_presence_of :source_name, :if => :source_reference?, message: "is required for source reference"
   validate :user_word_limit_not_exceeded, on: :create

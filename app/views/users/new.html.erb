@@ -5,7 +5,7 @@
     <%= form_with(model: @user) do |form| %>
       <div class="field">
         <%= form.label :name %>
-        <%= form.text_field :name, required: true %>
+        <%= form.text_field :name, required: true, autofocus: true %>
       </div>
 
       <div class="field">
