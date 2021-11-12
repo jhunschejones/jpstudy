@@ -12,10 +12,15 @@ class WordsController < ApplicationController
     :cards_created,
     :added_to_list_on
   ].freeze
+  WORDS_PER_PAGE = 10.freeze
 
   def index
+    @page = params[:page] ? params[:page].to_i : 1
+    @offset = (@page - 1) * WORDS_PER_PAGE
     @words = @current_user.words.order(created_at: :desc).order(id: :desc)
     @words = @words.cards_not_created if params[:filter] == "cards_not_created"
+    @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
+    @next_page = @page + 1 if @words.size == WORDS_PER_PAGE
   end
 
   def show

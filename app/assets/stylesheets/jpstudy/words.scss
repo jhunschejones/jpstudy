@@ -81,6 +81,25 @@
 
   .words-list-container {
     padding-top: 6px;
+    .loading-message {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .loader {
+        border: 3px solid #fff; /* negative space */
+        border-top: 3px solid #D1D5DB; /* spinning part */
+        border-bottom: 3px solid #D1D5DB; /* spinning part */
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        animation: spin 1s linear infinite;
+        margin-right: 8px;
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      }
+    }
   }
 }
 

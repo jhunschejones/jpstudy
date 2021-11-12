@@ -1,0 +1,17 @@
+<div class="filters">
+  <% if params[:filter] == "cards_not_created" %>
+    <%= link_to words_path, title: "Only show words without cards", class: "filter-on" do %>
+      <%= heroicon "adjustments" %>
+      <span class="filter-description">
+        Only words without cards
+      </span>
+    <% end %>
+  <% else %>
+    <%= link_to words_path(filter: "cards_not_created"), title: "Show all words", class: "filter-off" do %>
+      <%= heroicon "adjustments" %>
+      <span class="filter-description">
+        All words
+      </span>
+    <% end %>
+  <% end %>
+</div>
