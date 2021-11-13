@@ -98,6 +98,7 @@ class WordsController < ApplicationController
   end
 
   def export
+    @japanese_words_without_cards = @current_user.words.cards_not_created.pluck(:japanese)
   end
 
   def upload
