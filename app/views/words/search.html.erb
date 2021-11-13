@@ -11,7 +11,8 @@
       </div>
 
       <div class="actions">
-        <%= submit_tag "Search", class: "button-blue" %>
+        <%# name: nil prevents `commit` param from showing up in search path %>
+        <%= submit_tag "Search", name: nil, class: "button-blue" %>
       </div>
     <% end %>
   </div>
