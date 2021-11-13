@@ -7,7 +7,7 @@
 if Rails.env.production?
   Rails.application.config.content_security_policy do |policy|
     policy.default_src     :none
-    policy.font_src        :self
+    policy.font_src        :self, "https://fonts.gstatic.com"
     policy.img_src         :self
     policy.object_src      :none
     policy.script_src      :self, "https://js-agent.newrelic.com", "https://bam.nr-data.net"
