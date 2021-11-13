@@ -17,9 +17,7 @@
 
   <div class="words-list-container">
     <% if @words.size.zero? %>
-      <div class="no-words-message">
-        <p>No matching words 🙅</p>
-      </div>
+      <%= render "empty_words_message" %>
     <% end %>
 
     <%= render "words/noscript/page_number" %>

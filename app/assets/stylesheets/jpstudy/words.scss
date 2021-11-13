@@ -88,6 +88,14 @@
       text-align: center;
       padding-top: 40px;
       color: #9CA3AF;
+      p {
+        margin: 4px 0px;
+      }
+      @media (max-width: 460px) {
+        p {
+          display: inline;
+        }
+      }
     }
     .loading-container {
 

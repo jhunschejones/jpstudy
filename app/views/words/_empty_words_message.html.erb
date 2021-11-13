@@ -1,0 +1,12 @@
+<div class="no-words-message">
+  <% if @current_user.words.size.zero? %>
+    <p>
+      Welcome! 👋 It looks like you haven't added any words yet.
+    </p>
+    <p>
+      Get started with <%= link_to "manual creation", new_word_path, class: "link-blue" %> or take a look at our <%= link_to "import tools", in_out_words_path, class: "link-blue" %>.
+    </p>
+  <% else %>
+    <p>No matching words 🙅</p>
+  <% end %>
+</div>

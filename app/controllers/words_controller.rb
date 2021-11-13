@@ -139,6 +139,10 @@ class WordsController < ApplicationController
       )
     end
 
+    if @current_user.word_limit && @current_user.words.size >= @current_user.word_limit
+      flash[:alert] = "You have reached your #{view_context.link_to("word limit", word_limit_path)}. Some new words may not have been added."
+    end
+
     flash[:success] =
       if params[:overwrite_matching_words]
         "#{words_updated} existing #{"word".pluralize(words_updated)} updated, #{words_added} new #{"word".pluralize(words_added)} imported."

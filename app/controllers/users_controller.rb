@@ -59,9 +59,9 @@ class UsersController < ApplicationController
     end
 
     if @user.update(user_params.except(:email))
-      redirect_to @user, success: "User was successfully updated."
+      redirect_to @user, success: "Your user details have been updated."
     else
-      flash[:alert] = "Unable to update user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
+      flash[:alert] = "Unable to update user details: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
       redirect_to edit_user_path(@user)
     end
   end

@@ -59,22 +59,28 @@
     <div class="resources">
       <%# The https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/save-audio-japanesepod101 chrome extension is required for this search to work %>
       <%= link_to("https://www.japanesepod101.com/japanese-dictionary/?search=#{word.japanese}", target: "_blank", title: "Jpod101 dictionary search") do %>
-        <img src="https://www.japanesepod101.com/static/images/japanesepod101/favicon.ico" height="20px">
+        <%# https://www.japanesepod101.com/static/images/japanesepod101/favicon.ico %>
+        <%= image_tag "resource_icons/jpod101.png", height: "20px" %>
       <% end %>
       <%= link_to("https://www.japandict.com/?s=#{word.japanese}&lang=eng", target: "_blank", title: "JapanDict search") do %>
-        <img src="https://www.japandict.com/favicon-96x96.png?v=3.8" height="20px">
+        <%# https://www.japandict.com/favicon-96x96.png?v=3.8 %>
+       <%= image_tag "resource_icons/japandict.png", height: "20px" %>
       <% end %>
       <%= link_to("https://jisho.org/search/#{word.japanese}", target: "_blank", title: "Jisho search") do %>
-        <img src="https://assets.jisho.org/assets/favicon-062c4a0240e1e6d72c38aa524742c2d558ee6234497d91dd6b75a182ea823d65.ico" height="20px">
+        <%# https://assets.jisho.org/assets/favicon-062c4a0240e1e6d72c38aa524742c2d558ee6234497d91dd6b75a182ea823d65.ico %>
+        <%= image_tag "resource_icons/jisho.png", height: "20px" %>
       <% end %>
       <%= link_to("https://forvo.com/word/#{word.japanese}/#ja", target: "_blank", title: "Forvo search") do %>
-        <img src="https://forvo.com/apple-touch-icon.png" height="20px">
+        <%# https://forvo.com/apple-touch-icon.png %>
+        <%= image_tag "resource_icons/forvo.png", height: "20px" %>
       <% end %>
       <%= link_to("https://tatoeba.org/en/sentences/search?from=jpn&has_audio=yes&native=&orphans=no&query=#{word.japanese}&sort=relevance&sort_reverse=&tags=&to=&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=&trans_unapproved=&trans_user=&unapproved=no&user=", target: "_blank", title: "Tatoeba sentence search") do %>
-        <img src="https://tatoeba.org/img/tatoeba.svg?1634498597" height="20px">
+        <%# https://tatoeba.org/img/tatoeba.svg?1634498597 %>
+        <%= image_tag "resource_icons/tatoeba.png", height: "20px" %>
       <% end %>
       <%= link_to("https://www.japanesepod101.com/jpstudys/?search=#{word.japanese}&coreX=2000", target: "_blank", title: "Jpod101 sentence search") do %>
-        <img src="https://d1pra95f92lrn3.cloudfront.net/media/thumb/23728_256square.jpg" height="20px">
+        <%# https://d1pra95f92lrn3.cloudfront.net/media/thumb/23728_256square.jpg %>
+        <%= image_tag "resource_icons/jpod101_2000.jpg", height: "20px" %>
       <% end %>
     </div>
   </div>

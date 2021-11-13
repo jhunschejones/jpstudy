@@ -1,6 +1,6 @@
 <div class="user-edit-form-container">
   <div class="user-edit-form">
-    <h2 class="title">Editing user</h2>
+    <h2 class="title">Edit your user details</h2>
 
     <%= form_with(model: @user) do |form| %>
       <div class="field">
@@ -19,7 +19,7 @@
       </div>
 
       <div class="actions">
-        <%= form.submit "Update user", class: "button-blue" %>
+        <%= form.submit "Update", class: "button-blue" %>
       </div>
     <% end %>
   </div>
