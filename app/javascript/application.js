@@ -24,3 +24,77 @@ import "controllers"
 //     }
 //   }
 // });
+
+// === some basic keyboard shortcuts for site navigation ===
+(function () {
+  var keysPressed = {}
+
+  document.onkeydown = function(e) {
+    switch (e.key) {
+      // letters reflect variant printed with `shift + option + key`
+      case "Shift":
+        keysPressed["shift"] = true;
+        break;
+      case "Alt":
+        keysPressed["option"] = true;
+        break;
+      case "Í":
+        keysPressed["s"] = true;
+        break;
+      case "„":
+        keysPressed["w"] = true;
+        break;
+      case "˜":
+        keysPressed["n"] = true;
+        break;
+      case "Å":
+        keysPressed["a"] = true;
+        break;
+      case "Ç":
+        keysPressed["c"] = true;
+        break;
+      case "´":
+        keysPressed["e"] = true;
+        break;
+      case "ˆ":
+        keysPressed["i"] = true;
+        break;
+      case "ˇ":
+        keysPressed["t"] = true;
+        break;
+    }
+
+    if (keysPressed["shift"] && keysPressed["option"] && keysPressed["s"]) {
+      e.preventDefault(); // stops key value from being entered into an input field
+      return window.location = "/words/search";
+    }
+    if (keysPressed["shift"] && keysPressed["option"] && keysPressed["w"]) {
+      e.preventDefault();
+      return window.location = "/words";
+    }
+    if (
+      (keysPressed["shift"] && keysPressed["option"] && keysPressed["n"]) ||
+      (keysPressed["shift"] && keysPressed["option"] && keysPressed["a"])
+    ) {
+      e.preventDefault();
+      return window.location = "/words/new";
+    }
+    if (keysPressed["shift"] && keysPressed["option"] && keysPressed["c"]) {
+      e.preventDefault();
+      return window.location = "/words?filter=cards_not_created";
+    }
+    if (keysPressed["shift"] && keysPressed["option"] && keysPressed["e"]) {
+      e.preventDefault();
+      return window.location = "/words/export";
+    }
+    if (keysPressed["shift"] && keysPressed["option"] && keysPressed["i"]) {
+      e.preventDefault();
+      return window.location = "/words/import";
+    }
+  };
+
+  document.onkeyup = function() {
+    // reset on key up
+    keysPressed = {}
+  }
+})();
