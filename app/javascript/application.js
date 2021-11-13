@@ -38,6 +38,9 @@ import "controllers"
       case "Alt":
         keysPressed["option"] = true;
         break;
+      case "Escape":
+        keysPressed["escape"] = true;
+        break;
       case "Í":
         keysPressed["s"] = true;
         break;
@@ -77,6 +80,10 @@ import "controllers"
       (keysPressed["shift"] && keysPressed["option"] && keysPressed["a"])
     ) {
       e.preventDefault();
+      const newWordBtton = document.querySelector("#new-word-form .new-word");
+      if (newWordBtton) {
+        return newWordBtton.click();
+      }
       return window.location = "/words/new";
     }
     if (keysPressed["shift"] && keysPressed["option"] && keysPressed["c"]) {
@@ -90,6 +97,13 @@ import "controllers"
     if (keysPressed["shift"] && keysPressed["option"] && keysPressed["i"]) {
       e.preventDefault();
       return window.location = "/words/import";
+    }
+    if (keysPressed["escape"]) {
+      const newWordBackButton = document.querySelector(".words-list-page #new-word-form .back-button");
+      if (newWordBackButton) {
+        e.preventDefault();
+        return newWordBackButton.click();
+      }
     }
   };
 
