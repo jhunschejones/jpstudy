@@ -72,6 +72,7 @@
       display: flex;
       align-items: center;
       float: left;
+      width: fit-content;
       &:not(:last-child) {
         margin-bottom: 2px;
       }
