@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# CABLE_REDIS_URL
+# exec heroku redis:cli REDIS_URL -a jpstudy
+
+# VIEW_CACHE_REDIS_URL
+exec heroku redis:cli HEROKU_REDIS_JADE -a jpstudy
+
+# set timeout for VIEW_CACHE_REDIS_URL
+# heroku redis:timeout HEROKU_REDIS_JADE -a jpstudy --seconds 60
+
+# set expiration policy for VIEW_CACHE_REDIS_URL
+# heroku redis:maxmemory HEROKU_REDIS_JADE -a jpstudy --policy allkeys-lru
+
+# see all redis info
+# heroku redis:info -a jpstudy
