@@ -1,27 +1,24 @@
 <div class="filters">
   <% if params[:search] %>
-    <% new_params = params[:filter] ? { filter: params[:filter]&.strip } : {} %>
-    <%= link_to words_path(new_params), title: "Your search", class: "search-results" do %>
+    <%= link_to words_path(filter_params_minus(:search)), title: "Your search", class: "search-results" do %>
       <%= heroicon "search", variant: :outline %>
       <span class="filter-description">
-        Search: '<%= params[:search]&.strip %>'
+        You searched: '<%= params[:search]&.strip %>'
       </span>
     <% end %>
   <% end %>
   <% if params[:filter] == "cards_not_created" %>
-    <% new_params = params[:search] ? { search: params[:search]&.strip } : {} %>
-    <%= link_to words_path(new_params), title: "Only showing words without cards", class: "filter-on" do %>
+    <%= link_to words_path(filter_params_minus(:filter)), title: "Only showing words without cards", class: "filter-on" do %>
       <%= heroicon "adjustments" %>
       <span class="filter-description">
-        Only words without cards
+        Filtered to words without cards
       </span>
     <% end %>
   <% else %>
-    <% new_params = params[:search] ? { filter: "cards_not_created", search: params[:search]&.strip } : { filter: "cards_not_created" } %>
-    <%= link_to words_path(new_params), title: "Showing all words", class: "filter-off" do %>
+    <%= link_to words_path(filter_params_plus(filter: "cards_not_created")), title: "Showing all words", class: "filter-off" do %>
       <%= heroicon "adjustments" %>
       <span class="filter-description">
-        All words
+        No cards filter
       </span>
     <% end %>
   <% end %>

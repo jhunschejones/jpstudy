@@ -26,7 +26,7 @@
 
       <%= render "words/noscript/pagination" %>
       <% if @next_page %>
-        <%= turbo_frame_tag "words_#{@next_page}", loading: :lazy, src: words_path(page: @next_page) do %>
+        <%= turbo_frame_tag "words_#{@next_page}", loading: :lazy, src: words_path(filter_params_plus(page: @next_page)) do %>
           <div class="loading-container">
             <% cache("skeleton_words_v1", skip_digest: true) do %>
               <% WordsController::WORDS_PER_PAGE.times do %>

@@ -60,6 +60,7 @@
     a { text-decoration: none; }
   }
   .filters {
+    margin-top: 10px;
     padding: 8px 0px 0px 0px;
     display: flex;
     flex-direction: column;
@@ -68,16 +69,19 @@
       display: flex;
       align-items: center;
       float: left;
+      &:not(:last-child) {
+        margin-bottom: 2px;
+      }
     }
     .filter-description {
       color: #9CA3AF;
       padding-left: 6px;
     }
-    .filter-on svg {
+    .filter-on svg,
+    .search-results svg {
       color: #10B981;
     }
-    .filter-off svg,
-    .search-results svg {
+    .filter-off svg {
       color: #9CA3AF;
     }
   }

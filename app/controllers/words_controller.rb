@@ -19,10 +19,10 @@ class WordsController < ApplicationController
     @offset = (@page - 1) * WORDS_PER_PAGE
 
     @words = @current_user.words.order(created_at: :desc).order(id: :desc)
-    @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
     if filter_params[:search]
-      @words = @words.where(english: filter_params[:search]).or(@words.where(japanese: filter_params[:search]))
+      @words = @words.where("english LIKE :search OR japanese LIKE :search", search: "%#{filter_params[:search]}%")
     end
+    @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
     @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
     @next_page = @page + 1 if @words.size == WORDS_PER_PAGE
   end
