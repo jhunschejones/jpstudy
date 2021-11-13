@@ -7,4 +7,4 @@ Rails.application.config.filter_parameters += [
 ]
 
 # it's okay to log these parameters
-Rails.application.config.filter_parameters -= [:source_name]
+Rails.application.config.filter_parameters -= [:source_name, :username]
