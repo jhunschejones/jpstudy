@@ -25,7 +25,9 @@
 
   <p class="word-limit-field">
     <strong>Word limit:</strong>
-    <%= @user.word_limit || "None" %>
+    <span class="<%= @current_user.has_reached_word_limit? ? "alert-red" : "" %>">
+      <%= @user.word_limit || "None" %>
+    </span>
     <%= link_to(word_limit_path, title: "What is a word limit?") do %>
       <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
     <% end %>

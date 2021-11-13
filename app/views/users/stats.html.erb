@@ -8,7 +8,13 @@
   <div class="stats">
     <p>
       <strong>Total words:</strong>
-      <%= @total_words_created_count %>
+      <span class="<%= @current_user.has_reached_word_limit? ? "alert-red" : "" %>">
+        <%= @total_words_created_count %>
+      </span>
+      <span class="light-gray"> / <%= @current_user.word_limit || "♾️" %></span>
+      <%= link_to(word_limit_path, title: "What is a word limit?") do %>
+        <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+      <% end %>
     </p>
     <p>
       <strong>Words with cards created:</strong>

@@ -15,8 +15,7 @@ class Word < ApplicationRecord
   private
 
   def user_word_limit_not_exceeded
-    # calling `user.words.size` here means we use the counter_cache instead of making an extra query
-    if user.word_limit && user.words.size >= user.word_limit
+    if user.has_reached_word_limit?
       errors.add(:user_word_limit, "exceeded")
     end
   end

@@ -38,6 +38,11 @@ class User < ApplicationRecord
     trial_ends_at.utc > Time.now.utc
   end
 
+  def has_reached_word_limit?
+    # calling `words.size` here uses the counter_cache instead of making an extra query
+    word_limit && words.size >= word_limit
+  end
+
   # Returns false on failure
   def reset_password(new_password)
     # In order to get a reset token, the user would have had to access their email,

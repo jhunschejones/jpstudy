@@ -113,10 +113,6 @@ main {
   }
 }
 
-.light-gray {
-  color: #9CA3AF;
-}
-
 .info-icon {
   @extend .light-gray;
 }
@@ -129,4 +125,12 @@ main {
 
 .link-blue {
   color: #3B82F6;
+}
+
+.light-gray {
+  color: #9CA3AF;
+}
+
+.alert-red {
+  color: #DC2626;
 }
