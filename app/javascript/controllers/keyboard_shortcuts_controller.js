@@ -18,6 +18,9 @@ export default class extends Controller {
         case "Escape":
           keysPressed["escape"] = true;
           break;
+        case "Enter":
+          keysPressed["enter"] = true;
+          break;
         case "Í":
           keysPressed["s"] = true;
           break;
@@ -78,14 +81,18 @@ export default class extends Controller {
       if (keysPressed["escape"]) {
         const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
         if (flashCloseButtons.length > 0) {
-          e.preventDefault();
           return flashCloseButtons.forEach(button => { button.click(); });
         }
 
         const newWordBackButton = document.querySelector(".words-list-page #new-word-form .back-button");
         if (newWordBackButton) {
-          e.preventDefault();
           return newWordBackButton.click();
+        }
+      }
+      if (keysPressed["enter"]) {
+        const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
+        if (flashCloseButtons.length > 0) {
+          return flashCloseButtons.forEach(button => { button.click(); });
         }
       }
     };
