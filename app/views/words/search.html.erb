@@ -1,16 +1,18 @@
 <div class="words-search-page">
-  <h1 class="page-title">Word search</h1>
+  <div class="search-form-container">
+    <h1 class="page-title">Word search</h1>
 
-  <br/>
+    <br/>
 
-  <%= form_tag(words_path, method: :get) do |form| %>
-    <div class="field">
-      <%= label_tag "English or Japanese" %>
-      <%= text_field_tag :search, nil, type: "text" %>
-    </div>
+    <%= form_tag(words_path, method: :get) do |form| %>
+      <div class="field">
+        <%= label_tag :search, "English or Japanese" %>
+        <%= text_field_tag :search, nil, type: "text" %>
+      </div>
 
-    <div class="actions">
-      <%= submit_tag "Search", class: "button-blue" %>
-    </div>
-  <% end %>
+      <div class="actions">
+        <%= submit_tag "Search", class: "button-blue" %>
+      </div>
+    <% end %>
+  </div>
 </div>

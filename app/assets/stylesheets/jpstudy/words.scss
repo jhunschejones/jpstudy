@@ -3,6 +3,9 @@
   &:lang(jp) {
     font-weight: 400;
   }
+  .home-link {
+    color: inherit;
+  }
 }
 
 .word-form {
@@ -333,29 +336,35 @@
 
 
 .words-search-page {
-  form {
-    max-width: 400px;
+  .search-form-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    label {
-      display: block;
-      padding: 8px 0px 5px 0px;
-      font-weight: 500;
-    }
-    input[type="text"] {
-      display: block;
-      font-size: 1.1em;
-      border-radius: 4px;
-      border: 1px solid #bbb;
-      padding: 12px;
-      margin-bottom: 5px;
-      width: 93%;
-      height: 12px;
-      &:focus {
-        outline-color: #3B82F6;
+    align-items: center;
+    form {
+      max-width: 400px;
+      width: 100%;
+      label {
+        display: block;
+        padding: 8px 0px 5px 0px;
+        font-weight: 500;
       }
-    }
-    input[type="submit"] {
-      margin-top: 12px;
+      input[type="text"] {
+        display: block;
+        font-size: 1.1em;
+        border-radius: 4px;
+        border: 1px solid #bbb;
+        padding: 12px;
+        margin-bottom: 5px;
+        width: 93%;
+        height: 12px;
+        &:focus {
+          outline-color: #3B82F6;
+        }
+      }
+      input[type="submit"] {
+        margin-top: 12px;
+      }
     }
   }
 }

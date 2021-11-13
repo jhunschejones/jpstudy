@@ -17,7 +17,7 @@
 
     <div class="form-field">
       <%= form.label :source_reference %>
-      <%= form.text_field :source_reference, autocomplete: "off", required: true, data: { lpignore: true, word_form_target: "sourceReference", action: "keyup->word-form#validateSource" } %>
+      <%= form.text_field :source_reference, autocomplete: "off", data: { lpignore: true, word_form_target: "sourceReference", action: "keyup->word-form#validateSource" } %>
     </div>
 
     <div class="form-field">
@@ -25,10 +25,8 @@
       <%= form.text_area :note, rows: 3, cols: 32, data: { lpignore: true } %>
     </div>
 
-    <%= form.hidden_field :check, value: nil, required: true %>
-
     <div class="form-actions">
-      <%= form.submit class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton:!capture", disable_target: "button" } %>
+      <%= form.submit id: "create-word-button", class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton:!capture", disable_target: "button" } %>
       <%= link_to "Cancel", (word.id.present? ? word_path(word) : :back), class: "basic-button back-button" %>
     </div>
   <% end %>
