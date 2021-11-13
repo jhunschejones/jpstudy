@@ -1,7 +1,10 @@
 class EmailsController < ApplicationController
   skip_before_action :authenticate_user
+  before_action :set_current_user # tries to look up user from session and silently continues if one cannot be found
 
   def verify
+    return redirect_to @current_user, notice: "You are already logged in to your account!" if @current_user
+
     [:token, :user_id].each do |required_param|
       if params[required_param].blank?
         flash[:alert] = "Missing #{required_param}. Please follow the link from your verification email."

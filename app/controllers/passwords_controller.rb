@@ -1,10 +1,13 @@
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user
+  before_action :set_current_user, only: [:forgot_form, :reset_form] # tries to look up user from session and silently continues if one cannot be found
 
   def forgot_form
+    return redirect_to @current_user, notice: "You are already logged in to your account!" if @current_user
   end
 
   def reset_form
+    return redirect_to @current_user, notice: "You are already logged in to your account!" if @current_user
   end
 
   def forgot

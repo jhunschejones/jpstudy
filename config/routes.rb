@@ -2,15 +2,15 @@ Rails.application.routes.draw do
   root to: "static_pages#about"
 
   controller :static_pages do
-    get "about", to: :about
-    get "word_list_instructions", to: :word_list_instructions
-    get "word_limit", to: :word_limit_explanation
+    get "about" => :about
+    get "word_list_instructions" => :word_list_instructions
+    get "word_limit" => :word_limit_explanation
   end
 
   controller :sessions do
-    get "login", to: :new
-    post "login", to: :create
-    delete "logout", to: :destroy
+    get "login" => :new
+    post "login" => :create
+    delete "logout" => :destroy
   end
 
   get "password/forgot", to: "passwords#forgot_form"

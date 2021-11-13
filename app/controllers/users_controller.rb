@@ -2,11 +2,13 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :stats]
   before_action :protect_user, except: [:new, :create]
   skip_before_action :authenticate_user, only: [:new, :create]
+  before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
 
   def show
   end
 
   def new
+    return redirect_to @current_user, notice: "You are already logged in to your account!" if @current_user
     @user = User.new
   end
 
