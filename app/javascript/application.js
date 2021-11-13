@@ -99,6 +99,12 @@ import "controllers"
       return window.location = "/words/import";
     }
     if (keysPressed["escape"]) {
+      const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
+      if (flashCloseButtons.length > 0) {
+        e.preventDefault();
+        return flashCloseButtons.forEach(button => { button.click(); });
+      }
+
       const newWordBackButton = document.querySelector(".words-list-page #new-word-form .back-button");
       if (newWordBackButton) {
         e.preventDefault();
