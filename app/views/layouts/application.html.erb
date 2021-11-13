@@ -14,10 +14,9 @@
     <%# end %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <noscript>
-      <%= stylesheet_link_tag "noscript", "data-turbo-track": "reload" %>
-    </noscript>
+    <noscript><%= stylesheet_link_tag "noscript", "data-turbo-track": "reload" %></noscript>
     <%= javascript_importmap_tags %>
+    <%= favicon_link_tag asset_path("favicon.ico") %>
   </head>
   <body>
     <%= render "navigation" %>
