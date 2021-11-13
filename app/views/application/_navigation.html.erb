@@ -8,6 +8,10 @@
       <%= heroicon "collection" %>
       <small class="icon-subtext">Words</small>
     <% end %>
+    <%= link_to(search_words_path) do %>
+      <%= heroicon "search", variant: :outline %>
+      <small class="icon-subtext">Search</small>
+    <% end %>
     <% if @current_user %>
       <%= link_to(stats_user_path(@current_user)) do %>
         <%= heroicon "presentation-chart-bar" %>
@@ -18,7 +22,7 @@
       <%= heroicon "switch-vertical" %>
       <small class="icon-subtext">I/O</small>
     <% end %>
-    <%= link_to(about_path) do %>
+    <%= link_to(about_path, class: "about-link") do %>
       <%= heroicon "heart" %>
       <small class="icon-subtext">About</small>
     <% end %>

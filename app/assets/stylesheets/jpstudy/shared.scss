@@ -40,14 +40,20 @@ nav {
   .right-links {
     float: right;
   }
-  @media (max-width: 575px) {
+  @media (max-width: 660px) {
     .left-links { display: none; }
     .center-links {
       position: initial;
       transform: unset;
     }
   }
+  @media (max-width: 400px) {
+    .about-link {
+      display: none;
+    }
+  }
   @media (max-width: 350px) {
+
     .in-out-link {
       display: none;
     }
