@@ -1,14 +1,10 @@
 <% if @word.valid? %>
   <%= turbo_stream.prepend "words_1", @word %>
   <%= turbo_stream.replace "new-word-form" do %>
-    <%= turbo_frame_tag "new-word-form" do %>
-      <%= link_to(new_word_path, class: "button-purple new-word") do %>
-        <%= heroicon "plus", options: { class: "create-button-icon" } %>
-        New word
-      <% end %>
-    <% end %>
+    <%= render "words/new_word_button" %>
   <% end %>
 <% else %>
+  <%# coppied from app/views/words/_form.html.erb:30 %>
   <%= turbo_stream.replace "create-word-button" do %>
     <%= submit_tag "Create word", id: "create-word-button", class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton:!capture", disable_target: "button" } %>
   <% end %>

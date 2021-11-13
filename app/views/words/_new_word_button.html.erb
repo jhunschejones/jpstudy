@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "new-word-form" do %>
+  <%= link_to(new_word_path, class: "button-purple new-word") do %>
+    <%= heroicon "plus", options: { class: "create-button-icon" } %>
+    New word
+  <% end %>
+<% end %>
