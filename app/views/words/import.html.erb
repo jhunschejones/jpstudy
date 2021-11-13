@@ -19,7 +19,7 @@
     <%= file_field_tag :csv_file %>
 
     <div class="includes-headers-field-row">
-      <%= label_tag :csv_includes_headers, class: "switch" do %>
+      <%= label_tag :csv_includes_headers, class: "switch", tabindex: "-1" do %>
         <%= check_box_tag :csv_includes_headers, true, true %>
         <span class="slider round"></span>
       <% end %>
@@ -31,7 +31,7 @@
     </p>
 
     <div class="overwrite-matching-words-field-row">
-      <%= label_tag :overwrite_matching_words, class: "switch" do %>
+      <%= label_tag :overwrite_matching_words, class: "switch", tabindex: "-1" do %>
         <%= check_box_tag :overwrite_matching_words, true, false %>
         <span class="slider round"></span>
       <% end %>

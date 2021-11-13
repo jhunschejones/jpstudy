@@ -1,13 +1,11 @@
 <div class="words-search-page">
   <div class="search-form-container">
     <h1 class="page-title">Word search</h1>
-
     <br/>
-
     <%= form_tag(words_path, method: :get) do |form| %>
       <div class="field">
         <%= label_tag :search, "English or Japanese" %>
-        <%= text_field_tag :search, nil, type: "text" %>
+        <%= text_field_tag :search, nil, type: "text", autofocus: true %>
       </div>
 
       <div class="actions">

@@ -2,15 +2,15 @@ Rails.application.routes.draw do
   root to: "static_pages#about"
 
   controller :static_pages do
-    get "about" => :about
-    get "word_list_instructions" => :word_list_instructions
-    get "word_limit" => :word_limit_explanation
+    get "about", to: :about
+    get "word_list_instructions", to: :word_list_instructions
+    get "word_limit", to: :word_limit_explanation
   end
 
   controller :sessions do
-    get "login" => :new
-    post "login" => :create
-    delete "logout" => :destroy
+    get "login", to: :new
+    post "login", to: :create
+    delete "logout", to: :destroy
   end
 
   get "password/forgot", to: "passwords#forgot_form"
@@ -20,18 +20,18 @@ Rails.application.routes.draw do
 
   get "email/verify", to: "emails#verify"
 
+  get "/signup", to: "users#new"
   resources :users, except: [:index], param: :username do
     member do
       get :stats
     end
   end
-  get "signup" => "users#new"
 
   resources :square, only: [] do
     collection do
       post :subscription_created
       post :subscription_updated
-      get :logout # redirect from square
+      get :logout # a redirect from square checkout
     end
   end
 
