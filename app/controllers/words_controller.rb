@@ -10,7 +10,8 @@ class WordsController < ApplicationController
     :source_name,
     :source_reference,
     :cards_created,
-    :added_to_list_on
+    :added_to_list_on,
+    :note
   ].freeze
   WORDS_PER_PAGE = 10.freeze
 
@@ -44,10 +45,15 @@ class WordsController < ApplicationController
     @word = Word.new(word_params.merge({ user: @current_user }))
 
     if @word.save
-      redirect_to words_url, success: "'#{@word.japanese}' was successfully created."
+      respond_to do |format|
+        format.turbo_stream { flash.now[:success] = "'#{@word.japanese}' was successfully created." }
+        format.html { redirect_to words_url, success: "'#{@word.japanese}' was successfully created." }
+      end
     else
-      flash[:notice] = "Unable to create word: #{@word.errors.full_messages.join(", ")}"
-      redirect_to new_word_path
+      respond_to do |format|
+        format.turbo_stream { flash.now[:notice] = "Unable to create word: #{@word.errors.full_messages.join(", ")}" }
+        format.html { redirect_to new_word_path, notice: "Unable to create word: #{@word.errors.full_messages.join(", ")}" }
+      end
     end
   end
 
@@ -110,10 +116,11 @@ class WordsController < ApplicationController
 
       english = row[0]
       japanese = row[1]
-      added_to_list_at = row[5].present? ? time_or_date_from(row[5]) : nil
-      cards_created = ["true", "t", "x", "yes", "y"].include?(row[4].downcase)
       source_name = row[2].present? ? row[2] : nil
       source_reference = row[3].present? ? row[3] : nil
+      cards_created = ["true", "t", "x", "yes", "y"].include?(row[4].downcase)
+      added_to_list_at = row[5].present? ? time_or_date_from(row[5]) : nil
+      note = row[6].present? ? row[6] : nil
 
       if word = Word.find_by(english: english, japanese: japanese, user: @current_user)
         if params[:overwrite_matching_words]
@@ -121,7 +128,8 @@ class WordsController < ApplicationController
             source_name: source_name,
             source_reference: source_reference,
             cards_created: cards_created,
-            added_to_list_at: added_to_list_at
+            added_to_list_at: added_to_list_at,
+            note: note
           )
         end
 
@@ -135,6 +143,7 @@ class WordsController < ApplicationController
         source_reference: source_reference,
         cards_created: cards_created,
         added_to_list_at: added_to_list_at,
+        note: note,
         user: @current_user
       )
     end

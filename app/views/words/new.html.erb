@@ -2,4 +2,6 @@
 
 <br/>
 
-<%= render "form", word: @word %>
+<%= turbo_frame_tag "new-word-form" do %>
+  <%= render "form", word: @word %>
+<% end %>
