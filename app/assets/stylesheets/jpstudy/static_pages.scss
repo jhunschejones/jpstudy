@@ -1,6 +1,7 @@
 .about-page,
 .word-list-instructions-page,
-.word-limit-explanation-page {
+.word-limit-explanation-page,
+.keyboard-shortcuts-page {
   h1.title {
     margin: 12px 0px 32px 0px;
     @media (max-width: 600px) {
@@ -19,5 +20,19 @@
   p.contact {
     font-style: italic;
     margin-top: 32px;
+  }
+  .code-block {
+    font-family: 'Roboto Mono', monospace;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      svg {
+        margin: 0px 12px;
+      }
+    }
   }
 }

@@ -44,13 +44,13 @@ export default class extends Controller {
           break;
       }
 
-      if (keysPressed["shift"] && keysPressed["option"] && keysPressed["s"]) {
-        e.preventDefault(); // stops key value from being entered into an input field
-        return window.location = "/words/search";
-      }
       if (keysPressed["shift"] && keysPressed["option"] && keysPressed["w"]) {
-        e.preventDefault();
+        e.preventDefault(); // stops key value from being entered into an input field
         return window.location = "/words";
+      }
+      if (keysPressed["shift"] && keysPressed["option"] && keysPressed["s"]) {
+        e.preventDefault();
+        return window.location = "/words/search";
       }
       if (
         (keysPressed["shift"] && keysPressed["option"] && keysPressed["n"]) ||
