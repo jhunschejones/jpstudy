@@ -39,6 +39,9 @@ export default class extends Controller {
         case "´":
           keysPressed["e"] = true;
           break;
+        case "Ï":
+          keysPressed["f"] = true;
+          break;
         case "ˆ":
           keysPressed["i"] = true;
           break;
@@ -47,18 +50,18 @@ export default class extends Controller {
           break;
       }
 
-      if (keysPressed["shift"] && keysPressed["option"] && keysPressed["w"]) {
+      if (
+        (e.shiftKey && e.altKey && keysPressed["w"]) ||
+        (e.shiftKey && e.altKey && keysPressed["a"])
+      ) {
         e.preventDefault(); // stops key value from being entered into an input field
         return window.location = "/words";
       }
-      if (keysPressed["shift"] && keysPressed["option"] && keysPressed["s"]) {
+      if (e.shiftKey && e.altKey && keysPressed["s"]) {
         e.preventDefault();
         return window.location = "/words/search";
       }
-      if (
-        (keysPressed["shift"] && keysPressed["option"] && keysPressed["n"]) ||
-        (keysPressed["shift"] && keysPressed["option"] && keysPressed["a"])
-      ) {
+      if (e.shiftKey && e.altKey && keysPressed["n"]) {
         e.preventDefault();
         const newWordBtton = document.querySelector("#new-word-form .new-word");
         if (newWordBtton) {
@@ -66,15 +69,18 @@ export default class extends Controller {
         }
         return window.location = "/words/new";
       }
-      if (keysPressed["shift"] && keysPressed["option"] && keysPressed["c"]) {
+      if (
+        (e.shiftKey && e.altKey && keysPressed["c"]) ||
+        (e.shiftKey && e.altKey && keysPressed["f"])
+      ) {
         e.preventDefault();
         return window.location = "/words?filter=cards_not_created";
       }
-      if (keysPressed["shift"] && keysPressed["option"] && keysPressed["e"]) {
+      if (e.shiftKey && e.altKey && keysPressed["e"]) {
         e.preventDefault();
         return window.location = "/words/export";
       }
-      if (keysPressed["shift"] && keysPressed["option"] && keysPressed["i"]) {
+      if (e.shiftKey && e.altKey && keysPressed["i"]) {
         e.preventDefault();
         return window.location = "/words/import";
       }
