@@ -21,21 +21,15 @@ export default class extends Controller {
         case "Enter":
           keysPressed["enter"] = true;
           break;
-        case "Í":
-          keysPressed["s"] = true;
-          break;
-        case "„":
-          keysPressed["w"] = true;
-          break;
-        case "˜":
-          keysPressed["n"] = true;
-          break;
         case "Å":
           keysPressed["a"] = true;
           break;
         case "Ç":
           keysPressed["c"] = true;
           break;
+        // case "Î":
+        //   keysPressed["d"] = true;
+        //   break;
         case "´":
           keysPressed["e"] = true;
           break;
@@ -45,8 +39,20 @@ export default class extends Controller {
         case "ˆ":
           keysPressed["i"] = true;
           break;
-        case "ˇ":
-          keysPressed["t"] = true;
+        case "˜":
+          keysPressed["n"] = true;
+          break;
+        case "Í":
+          keysPressed["s"] = true;
+          break;
+        // case "ˇ":
+        //   keysPressed["t"] = true;
+        //   break;
+        case "¨":
+          keysPressed["u"] = true;
+          break;
+        case "„":
+          keysPressed["w"] = true;
           break;
       }
 
@@ -57,9 +63,12 @@ export default class extends Controller {
         e.preventDefault(); // stops key value from being entered into an input field
         return window.location = "/words";
       }
-      if (e.shiftKey && e.altKey && keysPressed["s"]) {
+      if (
+        (e.shiftKey && e.altKey && keysPressed["c"]) ||
+        (e.shiftKey && e.altKey && keysPressed["f"])
+      ) {
         e.preventDefault();
-        return window.location = "/words/search";
+        return window.location = "/words?filter=cards_not_created";
       }
       if (e.shiftKey && e.altKey && keysPressed["n"]) {
         e.preventDefault();
@@ -69,12 +78,9 @@ export default class extends Controller {
         }
         return window.location = "/words/new";
       }
-      if (
-        (e.shiftKey && e.altKey && keysPressed["c"]) ||
-        (e.shiftKey && e.altKey && keysPressed["f"])
-      ) {
+      if (e.shiftKey && e.altKey && keysPressed["s"]) {
         e.preventDefault();
-        return window.location = "/words?filter=cards_not_created";
+        return window.location = "/words/search";
       }
       if (e.shiftKey && e.altKey && keysPressed["e"]) {
         e.preventDefault();
@@ -83,6 +89,10 @@ export default class extends Controller {
       if (e.shiftKey && e.altKey && keysPressed["i"]) {
         e.preventDefault();
         return window.location = "/words/import";
+      }
+      if (e.shiftKey && e.altKey && keysPressed["u"]) {
+        e.preventDefault();
+        return document.querySelector("#stats-nav-link").click();
       }
       if (keysPressed["escape"]) {
         const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
