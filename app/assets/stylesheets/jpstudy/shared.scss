@@ -75,6 +75,7 @@ footer {
   overflow: hidden;
   background-color: white;
   height: 50px;
+  font-size: 0.9em;
   @media (max-width: 700px) {
     display: flex;
     flex-direction: column;
@@ -83,17 +84,15 @@ footer {
   }
   span {
     @extend .light-gray;
-    font-size: 1em;
     background-color: inherit;
     padding: 6px 12px;
   }
-  a, button {
+  a {
     @extend .light-gray;
     float: left;
     text-align: center;
     margin: 0px 12px;
     text-decoration: none;
-    font-size: 1em;
     background-color: inherit;
     border: none;
   }
