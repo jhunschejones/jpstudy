@@ -63,7 +63,7 @@ main {
   display: flex;
   width: 100%;
   justify-content: center;
-  min-height: 95vh;
+  min-height: 90vh;
   .page-content {
     padding: 12px 12px 24px 12px;
     width: 700px;
@@ -73,41 +73,29 @@ main {
 footer {
   position: relative;
   overflow: hidden;
-  background-color: #374151;
+  background-color: white;
   height: 50px;
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: fit-content;
   }
   span {
-    color: #9CA3AF;
+    @extend .light-gray;
     font-size: 1em;
-    background-color: #374151;
+    background-color: inherit;
     padding: 6px 12px;
   }
   a, button {
+    @extend .light-gray;
     float: left;
-    color: white;
     text-align: center;
-    padding: 6px 12px;
+    margin: 0px 12px;
     text-decoration: none;
     font-size: 1em;
-    background-color: #374151;
+    background-color: inherit;
     border: none;
-    height: 100%;
-    &:hover {
-      background-color: #1F2937;
-      cursor: pointer;
-    }
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    .icon-subtext {
-      font-size: 0.7em;
-    }
   }
   .left-links {
     height: 100%;
@@ -127,15 +115,14 @@ footer {
   }
   .right-links {
     float: right;
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       display: none;
     }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     .left-links,
     .center-links {
       position: relative;
-      height: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -143,6 +130,10 @@ footer {
       transform: none;
       top: 0;
       left: 0;
+
+    }
+    .center-links {
+      padding: 4px 0px 16px 0px;
     }
   }
 }
@@ -216,4 +207,10 @@ footer {
 
 .alert-red {
   color: #DC2626;
+}
+
+hr {
+  height: 2px;
+  background-color: #E5E7EB;
+  border: none;
 }
