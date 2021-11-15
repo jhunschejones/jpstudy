@@ -20,12 +20,14 @@
   </head>
   <body>
     <%= render "navigation" %>
+
     <main>
       <section class="page-content" data-controller="keyboard-shortcuts">
         <%= render "flashes" %>
         <%= yield %>
       </section>
     </main>
+
     <footer>
       <div class="left-links"><span>© <%= Time.now.utc.year %> jpstudy</span></div>
       <div class="center-links">
