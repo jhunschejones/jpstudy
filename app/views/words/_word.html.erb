@@ -85,8 +85,11 @@
       <%= link_to("https://www.google.com/search?q=#{word.japanese}&source=lnms&tbm=isch", target: "_blank", title: "Google image search") do %>
         <%= image_tag "resource_icons/google-images.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://www.123rf.com/stock-photo/#{word.english.gsub(/[^\w\s]/, "").strip}.html", target: "_blank", title: "123RF Image search") do %>
+      <%= link_to("https://www.123rf.com/stock-photo/#{english_with_only_letters(word)}.html", target: "_blank", title: "123RF image search") do %>
         <%= image_tag "resource_icons/123rf.png", height: "20px" %>
+      <% end %>
+      <%= link_to("https://unsplash.com/s/photos/#{english_with_only_letters(word)}", target: "_blank", title: "Unsplash image search") do %>
+        <%= image_tag "resource_icons/unsplash.png", height: "20px" %>
       <% end %>
     </div>
   </div>

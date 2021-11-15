@@ -1,4 +1,8 @@
 module WordsHelper
+  def english_with_only_letters(word)
+    word.english.gsub(/[^\w\s]/, "").strip
+  end
+
   def filter_params_plus(additional_param_hash)
     raise "param hash required" unless additional_param_hash.is_a? Hash
     filter_params.merge(additional_param_hash)
