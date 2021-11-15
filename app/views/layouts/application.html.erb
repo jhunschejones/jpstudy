@@ -26,5 +26,15 @@
         <%= yield %>
       </section>
     </main>
+    <footer>
+      <div class="left-links"><span>© <%= Time.now.utc.year %> jpstudy</span></div>
+      <div class="center-links">
+        <%= link_to "About", about_path %>
+        <a>Terms</a>
+        <a>Privacy</a>
+        <a href="mailto:support@jpstudy.app">Contact</a>
+      </div>
+      <div class="right-links"></div>
+    </footer>
   </body>
 </html>
