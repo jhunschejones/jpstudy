@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_203153) do
+ActiveRecord::Schema.define(version: 2021_11_15_032658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_203153) do
     t.citext "english", null: false
     t.text "source_name"
     t.text "source_reference"
-    t.boolean "cards_created"
+    t.boolean "cards_created", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
