@@ -82,6 +82,12 @@
         <%# https://d1pra95f92lrn3.cloudfront.net/media/thumb/23728_256square.jpg %>
         <%= image_tag "resource_icons/jpod101_2000.jpg", height: "20px" %>
       <% end %>
+      <%= link_to("https://www.google.com/search?q=#{word.japanese}&source=lnms&tbm=isch", target: "_blank", title: "Google image search") do %>
+        <%= image_tag "resource_icons/google-images.png", height: "20px" %>
+      <% end %>
+      <%= link_to("https://www.123rf.com/stock-photo/#{word.english.gsub(/[^\w\s]/, "").strip}.html", target: "_blank", title: "123RF Image search") do %>
+        <%= image_tag "resource_icons/123rf.png", height: "20px" %>
+      <% end %>
     </div>
   </div>
 <% end %>
