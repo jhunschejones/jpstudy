@@ -68,7 +68,7 @@ export default class extends Controller {
         (e.shiftKey && e.altKey && keysPressed["f"])
       ) {
         e.preventDefault();
-        return window.location = "/words?filter=cards_not_created";
+        return window.location = "/words?filter=cards_not_created&order=oldest_first";
       }
       if (e.shiftKey && e.altKey && keysPressed["n"]) {
         e.preventDefault();

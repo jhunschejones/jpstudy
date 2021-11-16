@@ -18,12 +18,14 @@ class WordsController < ApplicationController
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
     @offset = (@page - 1) * WORDS_PER_PAGE
+    @order = filter_params[:order] == "oldest_first" ? :asc : :desc
 
-    @words = @current_user.words.order(created_at: :desc).order(id: :desc)
+    @words = @current_user.words.order(created_at: @order)
     if filter_params[:search]
-      @words = @words.where("english LIKE :search OR japanese LIKE :search", search: "%#{filter_params[:search]}%")
+      @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search]}%")
     end
     @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
+
     @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
     @next_page = @page + 1 if @words.size == WORDS_PER_PAGE
   end
@@ -194,7 +196,7 @@ class WordsController < ApplicationController
 
   def filter_params
     params
-      .permit(:filter, :search, :page)
+      .permit(:filter, :search, :page, :order)
       .each_value { |value| value.try(:strip!) }
   end
 

@@ -7,6 +7,21 @@
       </span>
     <% end %>
   <% end %>
+  <% if params[:order] == "oldest_first" %>
+    <%= link_to words_path(filter_params_minus(:order)), title: "Showing oldest words first", class: "filter-on" do %>
+      <%= heroicon "arrow-down" %>
+      <span class="filter-description">
+        Oldest first
+      </span>
+    <% end %>
+  <% else %>
+    <%= link_to words_path(filter_params_plus(order: "oldest_first")), title: "Showing newest words first", class: "filter-off" do %>
+      <%= heroicon "arrow-up" %>
+      <span class="filter-description">
+        Newest first
+      </span>
+    <% end %>
+  <% end %>
   <% if params[:filter] == "cards_not_created" %>
     <%= link_to words_path(filter_params_minus(:filter)), title: "Only showing words without cards", class: "filter-on" do %>
       <%= heroicon "adjustments" %>

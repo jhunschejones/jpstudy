@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: "static_pages#about"
+  root to: "words#index"
 
   controller :static_pages do
     get "about" => :about

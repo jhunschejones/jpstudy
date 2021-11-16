@@ -16,6 +16,9 @@ module WordsHelper
   private
 
   def filter_params
-    params.to_unsafe_hash.slice(:search, :filter).each_value { |value| value.try(:strip!) }
+    params
+      .to_unsafe_hash
+      .slice(:search, :filter, :order)
+      .each_value { |value| value.try(:strip!) }
   end
 end
