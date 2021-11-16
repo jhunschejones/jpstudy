@@ -92,7 +92,8 @@ class UsersController < ApplicationController
 
   def protect_user
     unless @user == @current_user
-      redirect_to @current_user, alert: "You cannot access data that belongs to other users"
+      # don't tell the user that they found another user's account
+      head :not_found
     end
   end
 
