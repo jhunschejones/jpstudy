@@ -20,7 +20,7 @@ class WordsController < ApplicationController
     @offset = (@page - 1) * WORDS_PER_PAGE
     @order = filter_params[:order] == "oldest_first" ? :asc : :desc
 
-    @words = @current_user.words.order(created_at: @order)
+    @words = @current_user.words.order(added_to_list_at: @order).order(created_at: @order)
     if filter_params[:search]
       @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search]}%")
     end
