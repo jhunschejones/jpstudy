@@ -17,11 +17,6 @@ class WordsController < ApplicationController
   WORDS_PER_PAGE = 10.freeze
 
   def index
-    # Removing filter parameters before adding new words
-    if !filter_params[:page] && params[:message_code] == "001"
-      redirect_to words_path, notice: "All filters have been removed so that you can add new words to the top of your list."
-    end
-
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
     @offset = (@page - 1) * WORDS_PER_PAGE
     @order = filter_params[:order] == "oldest_first" ? :asc : :desc
@@ -96,7 +91,10 @@ class WordsController < ApplicationController
     else
       @word.update!(cards_created: true, cards_created_at: Time.now.utc)
     end
-    redirect_to @word
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @word }
+    end
   end
 
   def in_out

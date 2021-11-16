@@ -1,5 +1,8 @@
 <% if @word.valid? %>
-  <%= turbo_stream.prepend "words_1", @word %>
+  <%= turbo_stream.prepend "words_1" do %>
+    <%= render partial: "words/word", locals: { word: @word, is_new_word: true } %>
+  <% end %>
+
   <%= turbo_stream.replace "new-word-form" do %>
     <%= render "words/new_word_button" %>
   <% end %>
