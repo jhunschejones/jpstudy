@@ -63,10 +63,7 @@ export default class extends Controller {
         e.preventDefault(); // stops key value from being entered into an input field
         return window.location = "/words";
       }
-      if (
-        (e.shiftKey && e.altKey && keysPressed["c"]) ||
-        (e.shiftKey && e.altKey && keysPressed["f"])
-      ) {
+      if (e.shiftKey && e.altKey && keysPressed["c"]) {
         e.preventDefault();
         return window.location = "/words?filter=cards_not_created&order=oldest_first";
       }
@@ -78,7 +75,7 @@ export default class extends Controller {
         }
         return window.location = "/words/new";
       }
-      if (e.shiftKey && e.altKey && keysPressed["s"]) {
+      if (e.shiftKey && e.altKey && keysPressed["f"]) {
         e.preventDefault();
         return window.location = "/words/search";
       }
@@ -90,7 +87,7 @@ export default class extends Controller {
         e.preventDefault();
         return window.location = "/words/import";
       }
-      if (e.shiftKey && e.altKey && keysPressed["u"]) {
+      if (e.shiftKey && e.altKey && keysPressed["s"]) {
         e.preventDefault();
         return document.querySelector("#stats-nav-link").click();
       }

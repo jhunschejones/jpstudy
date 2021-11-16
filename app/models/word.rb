@@ -12,6 +12,10 @@ class Word < ApplicationRecord
     (added_to_list_at.present? ? added_to_list_at : created_at).strftime("%m/%d/%Y")
   end
 
+  def cards_created_on
+    cards_created_at.present? ? cards_created_at.strftime("%m/%d/%Y") : nil
+  end
+
   private
 
   def user_word_limit_not_exceeded

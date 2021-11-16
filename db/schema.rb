@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_15_032658) do
+ActiveRecord::Schema.define(version: 2021_11_16_073956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_11_15_032658) do
     t.bigint "user_id"
     t.text "note"
     t.datetime "added_to_list_at", precision: 6
+    t.datetime "cards_created_at", precision: 6
     t.index ["user_id", "japanese", "english"], name: "index_words_on_user_id_and_japanese_and_english", unique: true
     t.index ["user_id"], name: "index_words_on_user_id"
   end

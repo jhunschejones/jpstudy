@@ -24,6 +24,16 @@
       <strong>New words ready for cards:</strong>
       <%= @words_ready_for_cards_count %>
     </p>
+    <p>
+      <strong>Words with cards created today:</strong>
+      <% if @words_with_cards_created_today >= 5 %>
+        <strong class="success-green">
+          <%= @words_with_cards_created_today %>
+        </strong>
+      <% else %>
+        <%= @words_with_cards_created_today %>
+      <% end %>
+    </p>
   </div>
 
   <p class="contact">

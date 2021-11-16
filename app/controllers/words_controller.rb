@@ -10,6 +10,7 @@ class WordsController < ApplicationController
     :source_name,
     :source_reference,
     :cards_created,
+    :cards_created_on,
     :added_to_list_on,
     :note
   ].freeze
@@ -91,9 +92,9 @@ class WordsController < ApplicationController
 
   def toggle_card_created
     if @word.cards_created?
-      @word.update!(cards_created: false)
+      @word.update!(cards_created: false, cards_created_at: nil)
     else
-      @word.update!(cards_created: true)
+      @word.update!(cards_created: true, cards_created_at: Time.now.utc)
     end
     redirect_to @word
   end
@@ -127,8 +128,9 @@ class WordsController < ApplicationController
       source_name = row[2].present? ? row[2] : nil
       source_reference = row[3].present? ? row[3] : nil
       cards_created = ["true", "t", "x", "yes", "y"].include?(row[4].downcase)
-      added_to_list_at = row[5].present? ? time_or_date_from(row[5]) : nil
-      note = row[6].present? ? row[6] : nil
+      cards_created_at = row[5].present? ? time_or_date_from(row[5]) : nil
+      added_to_list_at = row[6].present? ? time_or_date_from(row[6]) : nil
+      note = row[7].present? ? row[7] : nil
 
       if word = Word.find_by(english: english, japanese: japanese, user: @current_user)
         if params[:overwrite_matching_words]
@@ -136,6 +138,7 @@ class WordsController < ApplicationController
             source_name: source_name,
             source_reference: source_reference,
             cards_created: cards_created,
+            cards_created_at: cards_created_at,
             added_to_list_at: added_to_list_at,
             note: note
           )
@@ -150,6 +153,7 @@ class WordsController < ApplicationController
         source_name: source_name,
         source_reference: source_reference,
         cards_created: cards_created,
+        cards_created_at: cards_created_at,
         added_to_list_at: added_to_list_at,
         note: note,
         user: @current_user
