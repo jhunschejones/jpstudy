@@ -9,7 +9,7 @@
   <% end %>
   <% if params[:order] == "oldest_first" %>
     <%= link_to words_path(filter_params_minus(:order)), title: "Showing oldest words first", class: "filter-on" do %>
-      <%= heroicon "arrow-down" %>
+      <%= heroicon "arrow-up" %> <%# gets flipped in CSS %>
       <span class="filter-description">
         Oldest first
       </span>
@@ -24,16 +24,16 @@
   <% end %>
   <% if params[:filter] == "cards_not_created" %>
     <%= link_to words_path(filter_params_minus(:filter)), title: "Only showing words without cards", class: "filter-on" do %>
-      <%= heroicon "adjustments" %>
+      <%= heroicon "adjustments" %> <%# gets flipped in CSS %>
       <span class="filter-description">
-        Filtered to words without cards
+        Words without cards
       </span>
     <% end %>
   <% else %>
     <%= link_to words_path(filter_params_plus(filter: "cards_not_created")), title: "Showing all words", class: "filter-off" do %>
       <%= heroicon "adjustments" %>
       <span class="filter-description">
-        Cards filter off
+        All matching
       </span>
     <% end %>
   <% end %>

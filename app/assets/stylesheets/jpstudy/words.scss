@@ -81,9 +81,12 @@
       color: #9CA3AF;
       padding-left: 6px;
     }
+    .filter-on svg {
+      transform: rotate(180deg);
+    }
     .filter-on svg,
     .search-results svg {
-      color: #10B981;
+      color: #8B5CF6;
     }
     .filter-off svg {
       color: #9CA3AF;

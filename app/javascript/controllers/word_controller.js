@@ -13,7 +13,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("initialize")
     // Only filter in JS if this is a new word added by turbo_stream
     if (!this.applyJsFilters()) {
       return;
