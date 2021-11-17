@@ -28,7 +28,7 @@
     <div class="form-actions">
       <%# currently duplicated in app/views/words/create.turbo_stream.erb:7 %>
       <%= form.submit id: "create-word-button", class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
-      <%= link_to "Cancel", (word.id.present? ? word_path(word) : :back), class: "basic-button back-button" %>
+      <%= link_to "Cancel", (word.id.present? ? word_path(word) : :back), class: "basic-button back-button", data: { turbo: (word.id.present? ? true : false) } %>
     </div>
   <% end %>
 </div>

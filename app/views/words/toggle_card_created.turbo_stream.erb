@@ -1,3 +1,3 @@
 <%= turbo_stream.prepend "words_1" do %>
-  <%= render partial: "words/word", locals: { word: @word, is_new_word: true } %>
+  <%= render partial: "words/word", locals: { word: @word, apply_js_filters: true } %>
 <% end %>
