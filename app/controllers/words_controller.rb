@@ -210,17 +210,13 @@ class WordsController < ApplicationController
 
   def time_or_date_from(time_or_date_string)
     begin
-      if time_or_date_string.size == 8
-        return Date.strptime(time_or_date_string, "%m/%d/%y")
-      elsif time_or_date_string.size == 10
-        return Date.strptime(time_or_date_string, "%m/%d/%Y")
-      end
+      return Date.strptime(time_or_date_string, "%m/%d/%y")
     rescue Date::Error
     end
     begin
       return Time.parse(time_or_date_string)
     rescue ArgumentError
     end
-    raise "Invalid created at time"
+    raise "Invalid time or date #{time_or_date_string}"
   end
 end
