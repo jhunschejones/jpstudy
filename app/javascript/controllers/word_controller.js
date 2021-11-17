@@ -76,9 +76,11 @@ export default class extends Controller {
     // assuming we're in decending order here, as is the current usecase
     const newestDate = wordsAddedOnDates[wordsAddedOnDates.length - 1];
     const thisWordsDate = new Date(this.addedOnValue);
-    // if the newest date on the page is still earlier than this date, return false
-    // this will result in us hiding new words when showing oldest first
-    if (newestDate <= thisWordsDate) {
+    // If the newest date on the page is still earlier than this date, and there
+    // is a multiple of the max words per page on the page, return false.
+    // This will prevent us from adding new words when showing oldest first.
+    // the new word will then appear for real when the page is reached.
+    if (newestDate <= thisWordsDate && allOtherWords.length % 10 == 0) {
       return false;
     }
 
