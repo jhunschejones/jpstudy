@@ -5,7 +5,7 @@
     <%= form_tag(words_path, method: :get) do |form| %>
       <div class="field">
         <%= label_tag :search, "English or Japanese" %>
-        <%= text_field_tag :search, nil, type: "text", autofocus: true %>
+        <%= text_field_tag :search, nil, type: "text", autofocus: true, required: true, maxlength: 30 %>
       </div>
 
       <div class="actions">

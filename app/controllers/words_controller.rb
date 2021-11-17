@@ -15,6 +15,7 @@ class WordsController < ApplicationController
     :note
   ].freeze
   WORDS_PER_PAGE = 10.freeze
+  MAX_SEARCH_LENGTH = 30.freeze
 
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
@@ -23,7 +24,7 @@ class WordsController < ApplicationController
 
     @words = @current_user.words.order(added_to_list_at: @order).order(created_at: @order)
     if filter_params[:search]
-      @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search]}%")
+      @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH-1]}%")
     end
     @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
 
