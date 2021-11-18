@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :stats]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :stats, :before_you_go]
   before_action :protect_user, except: [:new, :create]
   skip_before_action :authenticate_user, only: [:new, :create]
   before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
@@ -79,6 +79,9 @@ class UsersController < ApplicationController
     @words_with_cards_created_count = @current_user.words.where(cards_created: true).size
     @words_ready_for_cards_count = @current_user.words.cards_not_created.size
     @words_with_cards_created_today = @current_user.words.where(cards_created_at: Date.today.all_day).size
+  end
+
+  def before_you_go
   end
 
   private

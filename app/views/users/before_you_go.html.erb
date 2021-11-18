@@ -1,0 +1,25 @@
+<div class="before-you-go-page">
+  <h1 class="page-title">Before you go...</h1>
+
+  <p>
+    🚗 It looks like you are ready to move on to your next language learning tool! Before you go, make sure that you download the content you created on jpstudy. Once you delete your account, we will go ahead and close out your subscription through Square and delete all your user content. <strong>Content deletion happens very quickly and is a permanent action</strong> so make sure you take what you need before you go! 👋
+  </p>
+
+  <p>
+    It's been a pleasure serving you and we wish you all the best on your language learning journey. 🙇 頑張って！
+  </p>
+
+  <br/>
+
+  <div class="user-actions">
+    <%= link_to("Export words", export_words_path, class: "button-blue") %>
+    <%= button_to("Delete account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "⚠️ Are you sure you want to delete your account? This action is permanent and will cause you to lose access to the site and any content you created. ⚠️", action: "confirmation#confirm" }) %>
+  </div>
+
+  <br/>
+  <br/>
+
+  <p class="contact">
+    Do you have any questions or feedback about jpstudy? We'd love to hear your thoughts! You can reach us any time at <a href="mailto:support@jpstudy.app">support@jpstudy.app</a>.
+  </p>
+</div>

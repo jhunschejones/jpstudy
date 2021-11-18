@@ -35,7 +35,7 @@
 
   <div class="user-actions">
     <%= link_to("Edit profile", edit_user_path(@user), class: "button-blue edit-button") %>
-    <%= button_to("Delete account", user_path(@user), method: :delete, class: "button-red", data: { controller: "confirmation", confirmation_message_value: "⚠️ Are you sure you want to delete your account? This action is permanent and will cause you to lose access to the entire site. ⚠️", action: "confirmation#confirm" }) %>
+    <%= link_to("Delete account", before_you_go_user_path(@user), class: "button-red") %>
   </div>
 
   <div class="square">
