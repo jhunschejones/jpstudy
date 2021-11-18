@@ -118,8 +118,15 @@
 .word {
   margin: 12px 0px;
   padding: 8px 12px;
+  // == materialize shadow
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  border: 1px solid #F3F4F6;
+  // == medium tailwind shadow
+  // box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  // == small tailwind shadow
+  // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border-style: solid;
+  border-width: 1px;
+  border-color: #F3F4F6;
   border-radius: 4px;
   position: relative;
 
