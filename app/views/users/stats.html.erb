@@ -34,7 +34,7 @@
     </p>
     <p>
       <strong>Words with cards created today:</strong>
-      <% if @words_with_cards_created_today >= @current_user.daily_word_target %>
+      <% if @current_user.daily_word_target && @words_with_cards_created_today >= @current_user.daily_word_target %>
         <strong class="success-green">
           <%= @words_with_cards_created_today %>
         </strong>
