@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :users, except: [:index], param: :username do
     member do
       get :stats
+      get :edit_targets
       get :before_you_go
     end
   end

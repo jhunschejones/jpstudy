@@ -20,7 +20,7 @@
     <strong>
       Trial <%= @user.trial_active? ? "expires" : "expired" %>:
     </strong>
-    <%= @user.trial_ends_at.strftime("%m/%d/%Y") %>
+    <%= @user.trial_ends_at&.strftime("%m/%d/%Y") %>
   </p>
 
   <p class="word-limit-field">

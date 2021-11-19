@@ -25,8 +25,16 @@
       <%= @words_ready_for_cards_count %>
     </p>
     <p>
+      <strong>Next word goal:</strong>
+      <%= @current_user.next_word_goal %>
+    </p>
+    <p>
+      <strong>Daily word target:</strong>
+      <%= @current_user.daily_word_target %>
+    </p>
+    <p>
       <strong>Words with cards created today:</strong>
-      <% if @words_with_cards_created_today >= 5 %>
+      <% if @words_with_cards_created_today >= @current_user.daily_word_target %>
         <strong class="success-green">
           <%= @words_with_cards_created_today %>
         </strong>
@@ -34,6 +42,12 @@
         <%= @words_with_cards_created_today %>
       <% end %>
     </p>
+  </div>
+
+  <br/>
+
+  <div class="actions">
+    <%= link_to "Edit targets", edit_targets_user_path, class: "button-blue" %>
   </div>
 
   <p class="contact">

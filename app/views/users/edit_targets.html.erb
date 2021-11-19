@@ -1,0 +1,21 @@
+<div class="user-edit-form-container">
+  <div class="user-word-target-form">
+    <h2 class="title">Edit your target</h2>
+
+    <%= form_with(model: @user) do |form| %>
+      <div class="field">
+        <%= form.label :next_word_goal %>
+        <%= form.text_field :next_word_goal, type: "number", placeholder: 1500 %>
+      </div>
+
+      <div class="field">
+        <%= form.label :daily_word_target %>
+        <%= form.text_field :daily_word_target, type: "number", placeholder: 5 %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Update", class: "button-blue" %>
+      </div>
+    <% end %>
+  </div>
+</div>

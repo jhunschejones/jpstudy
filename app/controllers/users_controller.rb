@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :stats, :before_you_go]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :stats, :edit_targets, :before_you_go]
   before_action :protect_user, except: [:new, :create]
   skip_before_action :authenticate_user, only: [:new, :create]
   before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
@@ -41,6 +41,11 @@ class UsersController < ApplicationController
   end
 
   def update
+    if user_target_params.present?
+      @user.update(user_target_params)
+      return redirect_to stats_user_path(@user), success: "Your targets have been updated."
+    end
+
     if changing_email?
       if email_is_not_unique?
         flash[:alert] = "Emails must be unique, please request a password reset if you cannot access your account"
@@ -81,6 +86,9 @@ class UsersController < ApplicationController
     @words_with_cards_created_today = @current_user.words.where(cards_created_at: Date.today.all_day).size
   end
 
+  def edit_targets
+  end
+
   def before_you_go
   end
 
@@ -92,6 +100,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :username, :email, :password, :password_confirmation)
+  end
+
+  def user_target_params
+    params.require(:user).permit(:next_word_goal, :daily_word_target)
   end
 
   def protect_user

@@ -4,7 +4,8 @@
   width: 100%;
   justify-content: center;
   .signup-form,
-  .user-edit-form {
+  .user-edit-form,
+  .user-word-target-form {
     max-width: 400px;
     width: 100%;
     label {
@@ -13,6 +14,7 @@
       font-weight: 500;
     }
     input[type="text"],
+    input[type="number"],
     input[type="email"],
     input[type="password"] {
       display: block;
