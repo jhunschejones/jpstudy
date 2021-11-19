@@ -21,19 +21,23 @@
       <%= @words_with_cards_created_count %>
     </p>
     <p>
-      <strong>New words ready for cards:</strong>
+      <strong>Words ready for cards:</strong>
       <%= @words_ready_for_cards_count %>
     </p>
     <p>
-      <strong>Next word goal:</strong>
-      <%= @current_user.next_word_goal %>
+      <strong>Next learning goal:</strong>
+      <% if @current_user.next_word_goal %>
+        <%= pluralize @current_user.next_word_goal, "word" %>
+      <% end %>
     </p>
     <p>
-      <strong>Daily word target:</strong>
-      <%= @current_user.daily_word_target %>
+      <strong>Study target:</strong>
+      <% if @current_user.daily_word_target %>
+        <%= pluralize @current_user.daily_word_target, "new card" %> per day
+      <% end %>
     </p>
     <p>
-      <strong>Words with cards created today:</strong>
+      <strong>Cards created today:</strong>
       <% if @current_user.daily_word_target && @words_with_cards_created_today >= @current_user.daily_word_target %>
         <strong class="success-green">
           <%= @words_with_cards_created_today %>
@@ -42,6 +46,12 @@
         <%= @words_with_cards_created_today %>
       <% end %>
     </p>
+    <% if @days_to_word_target %>
+      <p>
+        <strong>Time to learning goal:</strong>
+        <%= distance_of_time_in_words(@days_to_word_target.days) %>
+      </p>
+    <% end %>
   </div>
 
   <br/>
