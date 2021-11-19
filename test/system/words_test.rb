@@ -64,7 +64,11 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal first_page, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words visible on the first page are different than expected"
 
       # Scroll to the bottom of the current window
-      page.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+      page.scroll_to :bottom
+
+      sleep TURBO_WAIT_SECONDS
+
+      page.scroll_to :bottom
 
       sleep TURBO_WAIT_SECONDS
 
