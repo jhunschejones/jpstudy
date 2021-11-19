@@ -57,4 +57,10 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  config.active_record.encryption.primary_key = ENV.fetch("PRIMARY_KEY")
+  config.active_record.encryption.deterministic_key = ENV.fetch("DETERMINISTIC_KEY")
+  config.active_record.encryption.key_derivation_salt = ENV.fetch("KEY_DERIVATION_SALT")
+  config.time_zone = "Pacific Time (US & Canada)"
+  config.active_record.encryption.encrypt_fixtures = true
 end

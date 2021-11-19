@@ -1,15 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+carl:
+  name: Carl Fox
+  username: carliscool
+  email: carl@dafox.com
+  role: "user"
+  password_digest: <%= BCrypt::Password.create('secret_secret') %>
+  trial_ends_at: <%= Time.now + 1.day %>
 
-one:
-  name: MyString
-  username: MyString
-  email: MyString
-  password: MyString
-  role: MyString
-
-two:
-  name: MyString
-  username: MyString
-  email: MyString
-  password: MyString
-  role: MyString
+daisy:
+  name: Daisy Bear
+  username: daisyistheboss
+  email: daisy@dafox.com
+  role: "user"
+  password_digest: <%= BCrypt::Password.create('secret_secret') %>
+  trial_ends_at: <%= Time.now + 1.day %>
