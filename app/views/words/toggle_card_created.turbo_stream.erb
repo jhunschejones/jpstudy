@@ -1,3 +1,3 @@
-<%= turbo_stream.prepend "words_1" do %>
-  <%= render partial: "words/word", locals: { word: @word, apply_js_filters: true } %>
+<%= turbo_stream.replace @word do %>
+  <%= render partial: "words/word", locals: { word: @word, apply_js_filters: params[:filter] == "cards_not_created" } %>
 <% end %>
