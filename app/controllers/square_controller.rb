@@ -6,7 +6,7 @@ class SquareController < ApplicationController
   def subscription_created
     # https://developer.squareup.com/reference/square/webhooks/subscription.created
     # 1. Get customer_id out of the order body
-    customer_id = JSON.parse(request.body).dig("data", "object", "subscription", "customer_id")
+    customer_id = params.dig("data", "object", "subscription", "customer_id")
     # 2. Look up the customer in Square to get their :email_address
     # https://github.com/square/square-ruby-sdk/blob/master/doc/api/customers.md#search-customers
     result = SQUARE_CLIENT.customers.retrieve_customer(customer_id: customer_id)
