@@ -28,7 +28,7 @@ class PasswordsController < ApplicationController
   end
 
   def reset
-    [:token, :user_id].each do |required_param|
+    [:token, :username].each do |required_param|
       if params[required_param].blank?
         return redirect_to login_url, alert: "Missing #{required_param}. Please follow the link from your verification email."
       end
@@ -44,7 +44,7 @@ class PasswordsController < ApplicationController
       return redirect_to password_reset_path(token: params[:token])
     end
 
-    user = User.find_by(id: params[:user_id])
+    user = User.find_by(username: params[:username])
 
     unless user.present? && ResetToken.is_valid?(user: user, token: params[:token])
       flash[:alert] =  "Invalid or expired link. Please check your email or generate a new link."

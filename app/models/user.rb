@@ -96,7 +96,9 @@ class User < ApplicationRecord
       result = SQUARE_CLIENT.subscriptions.cancel_subscription(subscription_id: subscription.id)
       raise "Square error #{result.errors.inspect}" if result.error?
     end
-    result = SQUARE_CLIENT.customers.delete_customer(customer_id: square_customer_id)
-    raise "Square error #{result.errors.inspect}" if result.error?
+    if square_customer_id
+      result = SQUARE_CLIENT.customers.delete_customer(customer_id: square_customer_id)
+      raise "Square error #{result.errors.inspect}" if result.error?
+    end
   end
 end

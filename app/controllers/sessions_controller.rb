@@ -2,11 +2,18 @@ class SessionsController < ApplicationController
   skip_before_action :authenticate_user
 
   def new
+    # Users who are logged in don't need to log in again
     if session[:user_id]
-      redirect_to session.delete(:return_to) || words_path
-    else
-      render :new
+      return redirect_to session.delete(:return_to) || words_path
     end
+
+    # Provide a controlled list of hard-coded messages to use with redirects
+    case params[:message_id]
+    when "S01"
+      flash.now[:success] = "🙏 Thank you for subscribing! Please follow the link in your email to finalize your subscription."
+    end
+
+    render :new
   end
 
   def create
@@ -26,7 +33,7 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
-    redirect_to login_url, notice: "Succesfully logged out"
+    redirect_to login_url, notice: "Succesfully logged out 👋"
   end
 
   private

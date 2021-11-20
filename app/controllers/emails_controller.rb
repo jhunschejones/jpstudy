@@ -5,14 +5,14 @@ class EmailsController < ApplicationController
   def verify
     return redirect_to @current_user, notice: "You are already logged in to your account!" if @current_user
 
-    [:token, :user_id].each do |required_param|
+    [:token, :username].each do |required_param|
       if params[required_param].blank?
         flash[:alert] = "Missing #{required_param}. Please follow the link from your verification email."
         return redirect_to login_url
       end
     end
 
-    user = User.find_by(id: params[:user_id])
+    user = User.find_by(username: params[:username])
 
     unless user.present? && VerificationToken.is_valid?(user: user, token: params[:token])
       flash[:alert] = "Invalid link. Use 'forgot password' to generate a new link."

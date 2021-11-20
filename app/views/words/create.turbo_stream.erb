@@ -6,6 +6,8 @@
   <%= turbo_stream.replace "new-word-form" do %>
     <%= render "words/new_word_button" %>
   <% end %>
+
+  <%= turbo_stream.remove "no-words-message" %>
 <% else %>
   <%# coppied from app/views/words/_form.html.erb:30 %>
   <%= turbo_stream.replace "create-word-button" do %>

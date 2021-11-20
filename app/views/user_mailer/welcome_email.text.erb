@@ -2,6 +2,6 @@ Welcome to jpstudy, <%= @user.username %>. You now have a jpstudy.app account
 registered under this email address. To verify your email and access your
 account, please follow this link:
 
-<%= email_verify_url(token: @token.to_s, user_id: @user.id) %>
+<%= email_verify_url(token: @token.to_s, username: @user.username) %>
 
 See you inside!
