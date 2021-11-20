@@ -24,3 +24,12 @@ import "controllers"
 //     }
 //   }
 // });
+
+// === Force-remove styles from coppied text ===
+document.addEventListener("copy", function(event) {
+  const textOnly = document.getSelection().toString();
+  const clipdata = event.clipboardData || window.clipboardData;
+  clipdata.setData("text/plain", textOnly);
+  clipdata.setData("text/html", textOnly);
+  event.preventDefault();
+});
