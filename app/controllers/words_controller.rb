@@ -198,7 +198,7 @@ class WordsController < ApplicationController
   def word_params
     params
       .require(:word)
-      .permit(:japanese, :english, :source_name, :source_reference, :note, :cards_created)
+      .permit(:japanese, :english, :source_name, :source_reference, :note, :cards_created, :cards_created_at)
       .each_value { |value| value.try(:strip!) }
   end
 
