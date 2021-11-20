@@ -19,6 +19,8 @@ class SquareController < ApplicationController
       .with(square_customer_id: customer_id, email: billing_email)
       .confirm_subscription_email
       .deliver_later
+
+    head :ok
   end
 
   def subscription_updated
