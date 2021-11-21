@@ -39,6 +39,7 @@
   </div>
 
   <div class="square">
+    <%# NOTE: this session value should only be used for caching this fragment %>
     <% should_cache = session[:revalidate_subscription_at] && Time.at(session[:revalidate_subscription_at].to_i).utc >= Time.now.utc %>
     <% cache_if(should_cache, "subscription/#{@current_user.id}/#{session[:revalidate_subscription_at]}", skip_digest: true) do %>
       <% if @user.active_subscription.present? %>
@@ -55,19 +56,17 @@
         </p>
         <p>
           <strong>Next charge date:</strong>
-          <%# only used when caching this fragment %>
+          <%# NOTE: this session value should only be used for caching this fragment %>
           <% session[:revalidate_subscription_at] = @user.active_subscription.next_charge_date.utc.to_i %>
           <%= @user.active_subscription.next_charge_date.strftime("%m/%d/%Y") %>
         </p>
-        <a
-          class="square-button manage-subscription-button"
-          target="_blank"
-          href="<%= @user.active_subscription.self_management_link %>"
-        >
-          Manage subscription with Square
-        </a>
+        <div>
+          <a href="<%= @user.active_subscription.self_management_link %>" class="square-button manage-subscription-button" target="_blank">
+            Manage subscription with Square
+          </a>
+        </div>
       <% else %>
-        <%# only used when caching this fragment %>
+        <%# NOTE: this session value should only be used for caching this fragment %>
         <% session[:revalidate_subscription_at] = nil %>
         <h3 class="title">Subscribe</h3>
         <p>
@@ -76,13 +75,21 @@
           <a href="https://squareup.com/us/en/legal/general/buyer-features" target="_blank">Square</a>
           and is not accessed by this site. You may cancel your subscription at any time.
         </p>
-        <a
-          class="square-button checkout-button"
-          href="https://square.link/u/oricGJt8?src=embed"
-        >
-          Subscribe with Square
-        </a>
-        <textarea class="checkout-button-html-hidden-textarea"></textarea>
+
+        <div>
+          <a href="https://square.link/u/oricGJt8?src=embed" class="square-button checkout-button">
+            Subscribe with Square
+          </a>
+        </div>
+
+        <br/>
+
+        <p class="contact light-gray">
+          <em>If you have already subscribed and are still seeing this message, please follow
+          the link in your email to confirm your subscription. If you are still having trouble
+          with your subscription please contact us at <a href="mailto:support@jpstudy.app" class="link-blue">support@jpstudy.app</a>
+          for additional help.</em>
+        </p>
       <% end %>
     <% end %>
   </div>
