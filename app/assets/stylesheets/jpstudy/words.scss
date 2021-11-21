@@ -43,6 +43,9 @@
         outline-color: #3B82F6;
       }
     }
+    input[type="date"] {
+      -webkit-appearance: none;
+    }
   }
   .form-actions {
     padding-top: 10px;

@@ -28,7 +28,7 @@
     <% if word.cards_created_at %>
       <div class="form-field">
         <%= form.label :cards_created_at %>
-        <%= form.date_field :cards_created_at, { lpignore: true } %>
+        <%= form.date_field :cards_created_at, maxlength: 10, minlength: 6,  autocomplete: "off", data: { lpignore: true } %>
       </div>
     <% end %>
 
