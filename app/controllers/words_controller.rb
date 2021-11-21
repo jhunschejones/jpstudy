@@ -62,7 +62,7 @@ class WordsController < ApplicationController
   end
 
   def update
-    updated_word_params = word_params[:cards_created_at].empty? ? word_params
+    updated_word_params = word_params[:cards_created_at].blank? ? word_params
       : word_params.merge({ cards_created_at: time_or_date_from(word_params[:cards_created_at]) })
 
     if @word.update(updated_word_params)
