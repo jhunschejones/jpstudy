@@ -137,6 +137,37 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal updated_english, word_to_edit.reload.english, "the word was not updated in the DB as expected"
     end
 
+    test "can toggle cards_created" do
+      word_to_toggle = words(:切れる)
+
+      login(users(:carl))
+      assert_selector "h1", text: "Words"
+
+      origional_word_order = page.all(".word:not(.skeleton-word) .japanese").collect(&:text)
+      sleep TURBO_WAIT_SECONDS
+
+      assert_changes "Word.find_by(japanese: '切れる').cards_created" do
+        page.all("#word_#{word_to_toggle.id} .cards-created button").first.click
+        sleep TURBO_WAIT_SECONDS * 2
+      end
+
+      word_order_after_toggle = page.all(".word:not(.skeleton-word) .japanese").collect(&:text)
+
+      assert_equal origional_word_order, word_order_after_toggle, "Toggling cards created at should not change word order when no filters are applied"
+
+      # Filter to only words without cards
+      click_on "Unfiltered"
+      sleep TURBO_WAIT_SECONDS
+
+      assert_selector "#word_#{word_to_toggle.id}", count: 1
+      page.find("#word_#{word_to_toggle.id} .cards-created button").click
+
+      sleep TURBO_WAIT_SECONDS
+
+      # toggling cards created should cause the card to no longer show up
+      assert_selector "#word_#{word_to_toggle.id}", count: 0
+    end
+
     test "can delete a word from the word list" do
       word_to_delete = words(:無理)
 

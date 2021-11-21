@@ -1,11 +1,11 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  if ENV["USE_HEADFULL_BROWSER"]
-    driven_by :selenium, using: :chrome, screen_size: [1000, 1000]
-  else
-    driven_by :selenium, using: :headless_chrome
-  end
+  driven_by(
+    :selenium,
+    using: ENV["USE_HEADFULL_BROWSER"] ? :chrome : :headless_chrome,
+    screen_size: [1000, 1000]
+  )
 
   def login(user)
     visit login_url
