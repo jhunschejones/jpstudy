@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 class WordsTest < ApplicationSystemTestCase
-  TURBO_WAIT_SECONDS = 0.08.freeze # wait for page to update with turbo_stream
+  TURBO_WAIT_SECONDS = 0.08 # wait for page to update with turbo_stream
 
   describe "users with an active trial" do
     test "can view the word list and use filters" do
@@ -133,7 +133,7 @@ class WordsTest < ApplicationSystemTestCase
 
       # confirm the new word was added in the UI
       assert_selector ".word .english", text: updated_english
-       # confirm the new word was updated in the DB
+      # confirm the new word was updated in the DB
       assert_equal updated_english, word_to_edit.reload.english, "the word was not updated in the DB as expected"
     end
 

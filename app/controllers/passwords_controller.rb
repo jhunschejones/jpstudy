@@ -47,7 +47,7 @@ class PasswordsController < ApplicationController
     user = User.find_by(username: params[:username])
 
     unless user.present? && ResetToken.is_valid?(user: user, token: params[:token])
-      flash[:alert] =  "Invalid or expired link. Please check your email or generate a new link."
+      flash[:alert] = "Invalid or expired link. Please check your email or generate a new link."
       return redirect_to login_url
     end
 

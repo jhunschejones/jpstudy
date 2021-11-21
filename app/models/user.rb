@@ -3,10 +3,10 @@ class User < ApplicationRecord
   self.filter_attributes = [:password, :verification_digest, :reset_digest]
 
   VALID_USER_ROLES = [
-    USER_ROLE = "user".freeze,
-    ADMIN_ROLE = "admin".freeze
-  ].freeze
-  DEFAULT_WORD_LIMIT = 1000.freeze
+    USER_ROLE = "user",
+    ADMIN_ROLE = "admin"
+  ]
+  DEFAULT_WORD_LIMIT = 1000
 
   has_secure_password
 
@@ -47,14 +47,14 @@ class User < ApplicationRecord
   def reset_password(new_password)
     # In order to get a reset token, the user would have had to access their email,
     # thus, we can verify their email now as well if it wasn't already verified.
-    unless self.verified?
+    unless verified?
       self.verified = true
       self.verification_digest = nil
       self.verified_at = Time.now.utc
     end
     self.reset_digest = nil
     self.password = new_password
-    self.save
+    save
   end
 
   def active_subscription

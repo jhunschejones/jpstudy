@@ -1,6 +1,6 @@
 class TokenSerializer < ActiveJob::Serializers::ObjectSerializer
   def serialize?(argument)
-    argument.kind_of?(Token)
+    argument.is_a?(Token)
   end
 
   def serialize(token)

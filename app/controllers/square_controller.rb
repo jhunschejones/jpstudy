@@ -44,7 +44,7 @@ class SquareController < ApplicationController
     hmac_64 = Base64.encode64(hmac).strip
 
     if header_signature != hmac_64
-      return head :forbidden
+      head :forbidden
     end
   end
 end

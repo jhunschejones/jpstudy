@@ -13,9 +13,9 @@ class WordsController < ApplicationController
     :cards_created_on,
     :added_to_list_on,
     :note
-  ].freeze
-  WORDS_PER_PAGE = 10.freeze
-  MAX_SEARCH_LENGTH = 30.freeze
+  ]
+  WORDS_PER_PAGE = 10
+  MAX_SEARCH_LENGTH = 30
 
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
