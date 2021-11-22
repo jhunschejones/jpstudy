@@ -24,7 +24,7 @@ class WordsController < ApplicationController
 
     @words = @current_user.words.order(added_to_list_at: @order).order(created_at: @order)
     if filter_params[:search]
-      @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH-1]}%")
+      @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH - 1]}%")
     end
     @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
 
@@ -149,7 +149,7 @@ class WordsController < ApplicationController
         next words_already_exist += 1
       end
 
-      words_added +=1 if Word.create(
+      words_added += 1 if Word.create(
         english: english,
         japanese: japanese,
         source_name: source_name,
