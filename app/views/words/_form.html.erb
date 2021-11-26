@@ -32,6 +32,10 @@
       </div>
     <% end %>
 
+    <% filter_params.each do |(k, v)| %>
+      <%= hidden_field_tag k, v %>
+    <% end %>
+
     <div class="form-actions">
       <%# currently duplicated in app/views/words/create.turbo_stream.erb:7 %>
       <%= form.submit id: "create-word-button", class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
