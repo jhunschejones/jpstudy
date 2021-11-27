@@ -124,12 +124,12 @@ class WordsController < ApplicationController
 
       english = row[0]
       japanese = row[1]
-      source_name = row[2].present? ? row[2] : nil
-      source_reference = row[3].present? ? row[3] : nil
+      source_name = row[2].presence
+      source_reference = row[3].presence
       cards_created = ["true", "t", "x", "yes", "y"].include?(row[4].downcase)
-      cards_created_at = row[5].present? ? time_or_date_from(row[5]) : nil
-      added_to_list_at = row[6].present? ? time_or_date_from(row[6]) : nil
-      note = row[7].present? ? row[7] : nil
+      cards_created_at = row[5].presence && time_or_date_from(row[5])
+      added_to_list_at = row[6].presence && time_or_date_from(row[6])
+      note = row[7].presence
 
       if (word = Word.find_by(english: english, japanese: japanese, user: @current_user))
         if params[:overwrite_matching_words]

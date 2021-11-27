@@ -13,7 +13,7 @@ class Word < ApplicationRecord
   end
 
   def cards_created_on
-    cards_created_at.present? ? cards_created_at.strftime("%m/%d/%Y") : nil
+    cards_created_at.presence && cards_created_at.strftime("%m/%d/%Y")
   end
 
   private

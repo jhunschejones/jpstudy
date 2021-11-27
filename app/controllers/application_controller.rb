@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_user
-    @current_user ||= session[:user_id].present? ? User.find_by(id: session[:user_id]) : nil
+    @current_user ||= session[:user_id].presence && User.find_by(id: session[:user_id])
   end
 
   def subscription_already_verified?
