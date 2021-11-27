@@ -1,6 +1,8 @@
 require "csv"
 
 class WordsController < ApplicationController
+  class InvalidDateOrTime < StandardError; end
+
   before_action :secure_behind_subscription
   before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
@@ -16,6 +18,7 @@ class WordsController < ApplicationController
   ]
   WORDS_PER_PAGE = 10
   MAX_SEARCH_LENGTH = 30
+  WORD_BATCH_SIZE = 1000
 
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
@@ -127,8 +130,8 @@ class WordsController < ApplicationController
       source_name = row[2].presence
       source_reference = row[3].presence
       cards_created = ["true", "t", "x", "yes", "y"].include?(row[4].downcase)
-      cards_created_at = row[5].presence && time_or_date_from(row[5])
-      added_to_list_at = row[6].presence && time_or_date_from(row[6])
+      cards_created_at = row[5].presence && date_or_time_from(row[5])
+      added_to_list_at = row[6].presence && date_or_time_from(row[6])
       note = row[7].presence
 
       if (word = Word.find_by(english: english, japanese: japanese, user: @current_user))
@@ -176,11 +179,16 @@ class WordsController < ApplicationController
     csv = CSV.generate(headers: true) do |csv|
       csv << ORDERED_CSV_FIELDS # add headers
 
-      words = @current_user.words.order(added_to_list_at: :desc).order(created_at: :desc)
+      words = @current_user.words.order(added_to_list_at: :asc).order(created_at: :asc)
       words = words.cards_not_created if params[:filter] == "cards_not_created"
 
-      words.find_each do |word|
-        csv << ORDERED_CSV_FIELDS.map { |attr| word.send(attr) }
+      # manually grabbing ids to use in batch because `.find_each` does not respect ordering
+      word_ids = words.pluck(:id)
+      word_ids.in_groups_of(WORD_BATCH_SIZE, false).each do |word_ids_batch|
+        # refrencing the same words ActiveRelation here to keep our other sorting and where clauses
+        words.where(id: word_ids_batch).each do |word|
+          csv << ORDERED_CSV_FIELDS.map { |attr| word.send(attr) }
+        end
       end
     end
 
@@ -202,7 +210,7 @@ class WordsController < ApplicationController
       .each_value { |value| value.try(:strip!) }
 
     if prepared_params[:cards_created_at].present?
-      prepared_params.merge({ cards_created_at: time_or_date_from(prepared_params[:cards_created_at]) })
+      prepared_params.merge({ cards_created_at: date_or_time_from(prepared_params[:cards_created_at]) })
     else
       prepared_params
     end
@@ -214,18 +222,29 @@ class WordsController < ApplicationController
       .each_value { |value| value.try(:strip!) }
   end
 
-  def time_or_date_from(time_or_date_string)
-    begin
-      if time_or_date_string.split("/").last.size == 4
-        return Date.strptime(time_or_date_string, "%m/%d/%Y")
+  def date_or_time_from(time_or_date_string)
+    # === Attempt to parse a date ===
+    if time_or_date_string.is_a?(String)
+      begin
+        if time_or_date_string.split("/").last.size == 4
+          return Date.strptime(time_or_date_string, "%m/%d/%Y")
+        end
+        return Date.strptime(time_or_date_string, "%m/%d/%y")
+      rescue Date::Error
       end
-      return Date.strptime(time_or_date_string, "%m/%d/%y")
-    rescue Date::Error
     end
+
+    # === Attempt to parse a time ===
     begin
-      return Time.parse(time_or_date_string)
-    rescue ArgumentError
+      if time_or_date_string.is_a?(String)
+        return Time.parse(time_or_date_string)
+      end
+      if time_or_date_string.is_a?(Integer)
+        return Time.at(time_or_date_string)
+      end
+    rescue ArgumentError, TypeError
     end
-    raise "Invalid time or date #{time_or_date_string}"
+
+    raise InvalidDateOrTime.new(time_or_date_string)
   end
 end

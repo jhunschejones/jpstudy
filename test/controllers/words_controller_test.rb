@@ -132,4 +132,44 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
   end
+
+  describe "#date_or_time_from" do
+    it "parses a short month, short day, short year datetime string" do
+      assert_equal Date.new(2021, 1, 3), WordsController.new.send(:date_or_time_from, "1/3/21")
+    end
+
+    it "parses a short month, long day, short year datetime string" do
+      assert_equal Date.new(2021, 1, 15), WordsController.new.send(:date_or_time_from, "1/15/21")
+    end
+
+    it "parses a long month, long day, short year datetime string" do
+      assert_equal Date.new(2021, 10, 15), WordsController.new.send(:date_or_time_from, "10/15/21")
+    end
+
+    it "parses a short month, short day, long year datetime string" do
+      assert_equal Date.new(2021, 1, 3), WordsController.new.send(:date_or_time_from, "1/3/2021")
+    end
+
+    it "parses a short month, long day, long year datetime string" do
+      assert_equal Date.new(2021, 1, 15), WordsController.new.send(:date_or_time_from, "1/15/2021")
+    end
+
+    it "parses a long month, long day, long year datetime string" do
+      assert_equal Date.new(2021, 10, 15), WordsController.new.send(:date_or_time_from, "10/15/2021")
+    end
+
+    it "parses an integer timestamp" do
+      assert_equal Word.last.created_at.to_time.change(usec: 0), WordsController.new.send(:date_or_time_from, Word.last.created_at.to_i)
+    end
+
+    it "parses a string timestamp" do
+      assert_equal Word.last.created_at.to_time.change(usec: 0), WordsController.new.send(:date_or_time_from, Word.last.created_at.to_s)
+    end
+
+    it "raises on invalid date or time" do
+      assert_raises WordsController::InvalidDateOrTime, "space_cats" do
+        WordsController.new.send(:date_or_time_from, "space_cats")
+      end
+    end
+  end
 end
