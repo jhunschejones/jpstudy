@@ -173,6 +173,8 @@ class WordsController < ApplicationController
         "#{words_added} new #{"word".pluralize(words_added)} imported, #{words_already_exist} #{"word".pluralize(words_already_exist)} already #{"exist".pluralize(words_added)}."
       end
     redirect_to in_out_words_path
+  rescue InvalidDateOrTime => error
+    redirect_to import_words_path, alert: "Some words were unable to be imported: invalid date format: '#{error.message}'. Please use 'mm/dd/yyyy' formatted dates."
   end
 
   def download
