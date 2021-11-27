@@ -134,7 +134,7 @@ class WordsController < ApplicationController
       added_to_list_at = row[6].present? ? time_or_date_from(row[6]) : nil
       note = row[7].present? ? row[7] : nil
 
-      if word = Word.find_by(english: english, japanese: japanese, user: @current_user)
+      if (word = Word.find_by(english: english, japanese: japanese, user: @current_user))
         if params[:overwrite_matching_words]
           words_updated += 1 if word.update(
             source_name: source_name,

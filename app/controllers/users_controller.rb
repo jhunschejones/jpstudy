@@ -23,7 +23,7 @@ class UsersController < ApplicationController
         verification_sent_at: Time.now.utc,
         trial_starts_at: Time.now.utc,
         trial_ends_at: Time.now.utc + 30.days,
-        word_limit: User::DEFAULT_WORD_LIMIT,
+        word_limit: User::DEFAULT_WORD_LIMIT
       })
     )
 
@@ -85,11 +85,10 @@ class UsersController < ApplicationController
     @words_ready_for_cards_count = @current_user.words.cards_not_created.size
     @words_with_cards_created_today = @current_user.words.where(cards_created_at: Date.today.all_day).size
 
+    # Instance variable gets set to nil if next_word_goal and daily_word_target are not configured yet
     @days_to_word_target =
       if @current_user.next_word_goal && @current_user.daily_word_target && @current_user.next_word_goal > @words_with_cards_created_count
         ((@current_user.next_word_goal - @words_with_cards_created_count).to_f / @current_user.daily_word_target.to_f).ceil
-      else
-        nil
       end
   end
 
