@@ -14,8 +14,10 @@ class Token
   end
 
   def valid_for?(compare_to_digest)
-    # BCrypt overrides the definitin of `==` here, this is not a direct string comparison
+    # BCrypt overrides the definition of `==` here, this is not a direct string comparison
     not_expired? && BCrypt::Password.new(compare_to_digest) == @token
+  rescue BCrypt::Errors::InvalidHash
+    false
   end
 
   def to_s
