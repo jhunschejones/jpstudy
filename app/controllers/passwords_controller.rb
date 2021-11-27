@@ -1,17 +1,16 @@
 class PasswordsController < ApplicationController
   skip_before_action :authenticate_user
   before_action :set_current_user, only: [:forgot_form, :reset_form] # tries to look up user from session and silently continues if one cannot be found
+  before_action :redirect_logged_in_user, only: [:forgot_form, :reset_form]
 
   def forgot_form
-    return redirect_to @current_user, notice: "You are already logged in to your account!" if @current_user
   end
 
   def reset_form
-    return redirect_to @current_user, notice: "You are already logged in to your account!" if @current_user
   end
 
   def forgot
-    return redirect_to login_url, alert: "Email not present" if params[:email].blank?
+    return redirect_to login_url, alert: "Email is required for a password reset" if params[:email].blank?
 
     user = User.find_by(email: params[:email])
 
@@ -55,6 +54,14 @@ class PasswordsController < ApplicationController
       redirect_to login_url, success: "Password successfully reset! Please log in with your new password."
     else
       redirect_to password_reset_path, alert: user.errors.full_messages
+    end
+  end
+
+  private
+
+  def redirect_logged_in_user
+    if @current_user
+      redirect_to @current_user, notice: "You are already logged in to your account!"
     end
   end
 end
