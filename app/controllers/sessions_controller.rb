@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
-    redirect_to login_url, notice: "Succesfully logged out 👋"
+    redirect_to login_url, notice: "Succesfully logged out. またね！"
   end
 
   private
