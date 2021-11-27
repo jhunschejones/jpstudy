@@ -115,6 +115,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       end
       assert_redirected_to in_out_words_path
       assert_equal "49 new words imported, 1 word already exists.", flash[:success]
+
+      new_word = Word.find_by(japanese: "大人")
+      assert_equal "adult", new_word.english
+      assert_equal "FF 625", new_word.source_name
+      assert new_word.cards_created
+      assert_equal users(:carl).id, new_word.user_id
+      assert_equal "10/05/2020", new_word.added_to_list_on
     end
   end
 
