@@ -106,6 +106,16 @@ class WordsControllerTest < ApplicationControllerTestCase
       end
       assert_redirected_to user_path(users(:elemouse))
     end
+
+    it "uploads a valid CSV" do
+      login(users(:carl))
+      csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
+      assert_difference "Word.count", 49 do
+        post upload_words_path, params: { csv_file: csv_file, csv_includes_headers: true }
+      end
+      assert_redirected_to in_out_words_path
+      assert_equal "49 new words imported, 1 word already exists.", flash[:success]
+    end
   end
 
   describe "#download" do
