@@ -25,6 +25,8 @@ class SessionsController < ApplicationController
     else
       redirect_to login_url, alert: "Invalid email/password combination"
     end
+  rescue ActiveSupport::MessageEncryptor::InvalidMessage
+    redirect_to login_url, alert: "Invalid token. If you are trying to confirm your subscription, please try following the link from your email."
   end
 
   def destroy
