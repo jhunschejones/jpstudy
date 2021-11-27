@@ -1,5 +1,5 @@
-require "test_helper"
+require "application_controller_test_case"
 
-class WordsControllerTest < ActionDispatch::IntegrationTest
+class WordsControllerTest < ApplicationControllerTestCase
   # TODO: add controller tests here
 end
