@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# . ./tmp/.env && exec bundle exec rails test
-. ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple WEB_CONCURRENCY=1 RAILS_MAX_THREADS=1 exec bundle exec bin/rails test:system
+. ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple WEB_CONCURRENCY=1 RAILS_MAX_THREADS=1 \
+exec bundle exec bin/rails test:system test # calling the test commands in this order will run unit and system tests
