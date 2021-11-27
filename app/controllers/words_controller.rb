@@ -176,7 +176,7 @@ class WordsController < ApplicationController
     csv = CSV.generate(headers: true) do |csv|
       csv << ORDERED_CSV_FIELDS # add headers
 
-      words = @current_user.words
+      words = @current_user.words.order(added_to_list_at: :desc).order(created_at: :desc)
       words = words.cards_not_created if params[:filter] == "cards_not_created"
 
       words.find_each do |word|
@@ -216,6 +216,9 @@ class WordsController < ApplicationController
 
   def time_or_date_from(time_or_date_string)
     begin
+      if time_or_date_string.split("/").last.size == 4
+        return Date.strptime(time_or_date_string, "%m/%d/%Y")
+      end
       return Date.strptime(time_or_date_string, "%m/%d/%y")
     rescue Date::Error
     end
