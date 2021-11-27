@@ -12,8 +12,6 @@ class SessionsController < ApplicationController
     when "S01"
       flash.now[:success] = "🙏 Thank you for subscribing! Please follow the link in your email to finalize your subscription."
     end
-
-    render :new
   end
 
   def create
@@ -22,9 +20,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       flash.discard
       # Set the square_customer_id if this login is after a confirm_subscription_email
-      if params[:ref_id].present?
-        user.update!(square_customer_id: square_customer_id, password: params[:password])
-      end
+      user.update!(square_customer_id: square_customer_id) if params[:ref_id].present?
       redirect_to session.delete(:return_to) || words_path
     else
       redirect_to login_url, alert: "Invalid email/password combination"
