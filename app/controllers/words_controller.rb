@@ -62,10 +62,7 @@ class WordsController < ApplicationController
   end
 
   def update
-    updated_word_params = word_params[:cards_created_at].blank? ? word_params
-      : word_params.merge({ cards_created_at: time_or_date_from(word_params[:cards_created_at]) })
-
-    if @word.update(updated_word_params)
+    if @word.update(word_params)
       respond_to do |format|
         format.turbo_stream { flash.now[:success] = "'#{@word.japanese}' was successfully updated." }
         format.html { redirect_to @word, success: "'#{@word.japanese}' was successfully updated." }
@@ -199,10 +196,16 @@ class WordsController < ApplicationController
   end
 
   def word_params
-    params
+    prepared_params = params
       .require(:word)
       .permit(:japanese, :english, :source_name, :source_reference, :note, :cards_created, :cards_created_at)
       .each_value { |value| value.try(:strip!) }
+
+    if prepared_params[:cards_created_at].present?
+      prepared_params.merge({ cards_created_at: time_or_date_from(prepared_params[:cards_created_at]) })
+    else
+      prepared_params
+    end
   end
 
   def filter_params
