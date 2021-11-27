@@ -13,3 +13,11 @@ daisy:
   role: "user"
   password_digest: <%= BCrypt::Password.create('secret_secret') %>
   trial_ends_at: <%= Time.now + 1.day %>
+
+elemouse:
+  name: Elemouse Danger
+  username: elemouseisreal
+  email: elemouse@dafox.com
+  role: "user"
+  password_digest: <%= BCrypt::Password.create('secret_secret') %>
+  trial_ends_at: <%= Time.now - 1.day %>
