@@ -182,9 +182,9 @@ class WordsController < ApplicationController
       words = @current_user.words.order(added_to_list_at: :asc).order(created_at: :asc)
       words = words.cards_not_created if params[:filter] == "cards_not_created"
 
-      # manually grabbing ids to use in batch because `.find_each` does not respect ordering
+      # manually grabbing ids to use in batch because `.find_each` does not respect ordering by a custom field
       word_ids = words.pluck(:id)
-      word_ids.in_groups_of(WORD_BATCH_SIZE, false).each do |word_ids_batch|
+      word_ids.each_slice(WORD_BATCH_SIZE) do |word_ids_batch|
         # refrencing the same words ActiveRelation here to keep our other sorting and where clauses
         words.where(id: word_ids_batch).each do |word|
           csv << ORDERED_CSV_FIELDS.map { |attr| word.send(attr) }
