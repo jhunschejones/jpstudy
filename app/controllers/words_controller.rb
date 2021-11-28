@@ -49,7 +49,7 @@ class WordsController < ApplicationController
   end
 
   def create
-    @word = Word.new(word_params.merge({ user: @current_user }))
+    @word = Word.new(word_params.merge({ user: @current_user, added_to_list_at: Time.now.utc }))
 
     if @word.save
       respond_to do |format|
@@ -209,6 +209,7 @@ class WordsController < ApplicationController
     prepared_params = params
       .require(:word)
       .permit(:japanese, :english, :source_name, :source_reference, :note, :cards_created, :cards_created_at)
+      .reject { |_, value| value.blank? }
       .each_value { |value| value.try(:strip!) }
 
     if prepared_params[:cards_created_at].present?
