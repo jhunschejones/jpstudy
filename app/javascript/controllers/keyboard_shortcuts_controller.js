@@ -101,6 +101,11 @@ export default class extends Controller {
         if (newWordBackButton) {
           return newWordBackButton.click();
         }
+
+        const editWordBackButton = document.querySelector(".words-list-page .words-list-container .word-form .back-button");
+        if (editWordBackButton) {
+          return editWordBackButton.click();
+        }
       }
       if (keysPressed["enter"]) {
         const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
