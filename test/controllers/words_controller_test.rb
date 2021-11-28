@@ -41,6 +41,31 @@ class WordsControllerTest < ApplicationControllerTestCase
       end
       assert_redirected_to user_path(users(:elemouse))
     end
+
+    it "sets the added_to_list_at timestamp on card creation" do
+      login(users(:carl))
+      freeze_time do
+        assert_difference "Word.count", 1 do
+          post words_path, params: { word: { english: "new", japanese: "新し" } }
+        end
+        assert_equal "新し", Word.last.japanese
+        assert_equal Time.now.utc, Word.last.added_to_list_at
+        assert_redirected_to words_path
+      end
+    end
+
+    it "leaves optional attributes as nil when not provided" do
+      login(users(:carl))
+      assert_difference "Word.count", 1 do
+        post words_path, params: { word: { english: "new", japanese: "新し" } }
+      end
+      assert_equal "新し", Word.last.japanese
+      assert_nil Word.last.cards_created_at
+      assert_nil Word.last.note
+      assert_nil Word.last.source_name
+      assert_nil Word.last.source_reference
+      assert_redirected_to words_path
+    end
   end
 
   describe "#update" do
