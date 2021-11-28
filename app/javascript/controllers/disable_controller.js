@@ -1,7 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { with: String };
+  static values = {
+    with: String,
+    useDirectFormSubmit: Boolean,
+  };
   static targets = [ "button" ]
 
   disableButton() {
@@ -19,7 +22,13 @@ export default class extends Controller {
     }
     this.buttonTarget.disabled = true;
 
-    // The form submission halts here unless we manually re-send an event
+    // Allow configuration of direct form submission via data-values (for non-turbo workflows)
+    if (this.hasUseDirectFormSubmitValue && this.useDirectFormSubmitValue == true) {
+      return form.submit();
+    }
+
+    // The form submission does not work here when using Turbo unless we
+    // manually re-send the event.
     // https://discuss.hotwired.dev/t/triggering-turbo-frame-with-js/1622/46
     form.dispatchEvent(new CustomEvent("submit", { bubbles: true }));
   }

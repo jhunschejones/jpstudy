@@ -11,7 +11,7 @@
     data-word-target="wordCard"
   >
     <div class="delete">
-      <%= button_to(word_path(word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" }) do %>
+      <%= button_to(word_path(word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm", turbo: !(defined?(delete_without_turbo) && delete_without_turbo) }) do %>
         <%= heroicon "trash", variant: :outline %>
       <% end %>
     </div>

@@ -11,7 +11,7 @@
 <% else %>
   <%# coppied from app/views/words/_form.html.erb:30 %>
   <%= turbo_stream.replace "create-word-button" do %>
-    <%= submit_tag "Create Word", id: "create-word-button", class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton:!capture", disable_target: "button" } %>
+    <%= submit_tag "Create Word", id: "create-word-button", class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", disable_use_direct_form_submit_value: request.referrer.nil?, action: "disable#disableButton", disable_target: "button" } %>
   <% end %>
 <% end %>
 

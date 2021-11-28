@@ -3,5 +3,5 @@
 <br/>
 
 <%= turbo_frame_tag dom_id(@word) do %>
-  <%= render(@word) %>
+  <%= render(@word, delete_without_turbo: controller_name == "words" && action_name == "show") %>
 <% end %>
