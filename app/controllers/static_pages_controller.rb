@@ -9,7 +9,6 @@ class StaticPagesController < ApplicationController
   end
 
   def word_limit_explanation
-    @word_limit = User::DEFAULT_WORD_LIMIT
   end
 
   def keyboard_shortcuts
