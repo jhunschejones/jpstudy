@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def page_subtitle(action_name, controller_name)
+  def page_subtitle_helper
     if controller_name == "users"
       return " | profile" if action_name == "show"
       return " | update profile" if action_name == "edit"
