@@ -41,7 +41,7 @@ jobs:
     - name: Install dependent libraries for postgres
       run: sudo apt-get install libpq-dev
     - name: Setup Database
-      run: bundle exec rake db:create db:migrate
+      run: bundle exec rails db:create db:migrate
     - name: Run unit tests
       run: bundle exec rails test
     - name: Set up chromedriver
