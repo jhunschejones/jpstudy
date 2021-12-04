@@ -1,0 +1,50 @@
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0.3'
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Install dependent libraries for postgres
+      run: sudo apt-get install libpq-dev
+    - name: Setup Database
+      run: bundle exec rake db:create db:migrate
+      env:
+        RAILS_ENV: test
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+    - name: Run tests
+      run: bundle exec rails test # start with just running the unit tests
+      env:
+        PRIMARY_KEY: ${{ secrets.PRIMARY_KEY }}
+        DETERMINISTIC_KEY: ${{ secrets.DETERMINISTIC_KEY }}
+        KEY_DERIVATION_SALT: ${{ secrets.KEY_DERIVATION_SALT }}
+        SQUARE_ACCESS_TOKEN: ${{ secrets.SQUARE_ACCESS_TOKEN }}
+        MESSAGE_ENCRYPTION_KEY: ${{ secrets.MESSAGE_ENCRYPTION_KEY }}
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
