@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -21,6 +20,15 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    env: # shared for all steps
+      RAILS_ENV: test
+      PRIMARY_KEY: ${{ secrets.PRIMARY_KEY }}
+      DETERMINISTIC_KEY: ${{ secrets.DETERMINISTIC_KEY }}
+      KEY_DERIVATION_SALT: ${{ secrets.KEY_DERIVATION_SALT }}
+      SQUARE_ACCESS_TOKEN: ${{ secrets.SQUARE_ACCESS_TOKEN }}
+      MESSAGE_ENCRYPTION_KEY: ${{ secrets.MESSAGE_ENCRYPTION_KEY }}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
     steps:
     - name: Check out repository code
@@ -34,20 +42,16 @@ jobs:
       run: sudo apt-get install libpq-dev
     - name: Setup Database
       run: bundle exec rake db:create db:migrate
-      env:
-        RAILS_ENV: test
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        PRIMARY_KEY: ${{ secrets.PRIMARY_KEY }}
-        DETERMINISTIC_KEY: ${{ secrets.DETERMINISTIC_KEY }}
-        KEY_DERIVATION_SALT: ${{ secrets.KEY_DERIVATION_SALT }}
-    - name: Run tests
-      run: bundle exec rails test # start with just running the unit tests
-      env:
-        PRIMARY_KEY: ${{ secrets.PRIMARY_KEY }}
-        DETERMINISTIC_KEY: ${{ secrets.DETERMINISTIC_KEY }}
-        KEY_DERIVATION_SALT: ${{ secrets.KEY_DERIVATION_SALT }}
-        SQUARE_ACCESS_TOKEN: ${{ secrets.SQUARE_ACCESS_TOKEN }}
-        MESSAGE_ENCRYPTION_KEY: ${{ secrets.MESSAGE_ENCRYPTION_KEY }}
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
+    - name: Run unit tests
+      run: bundle exec rails test
+    - name: Set up chromedriver
+      uses: nanasess/setup-chromedriver@master
+      with:
+        # Optional: do not specify to match Chrome's version
+        chromedriver-version: '88.0.4324.96'
+    - run: |
+        export DISPLAY=:99
+        chromedriver --url-base=/wd/hub &
+        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+    - name: Run system tests
+      run: bundle exec rails test:system
