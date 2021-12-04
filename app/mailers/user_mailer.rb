@@ -20,7 +20,7 @@ class UserMailer < ApplicationMailer
 
   def encrypt(square_customer_id)
     encrypted_id = ActiveSupport::MessageEncryptor
-      .new(ENV["MESSAGE_ENCRYPTION_KEY"])
+      .new(ENV.fetch("MESSAGE_ENCRYPTION_KEY"))
       .encrypt_and_sign(square_customer_id)
     Base64.encode64(encrypted_id)
   end
