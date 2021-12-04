@@ -91,6 +91,7 @@ class WordsTest < ApplicationSystemTestCase
     end
 
     test "can add a word to the word list" do
+      words_before = Word.count
       login(users(:carl))
       assert_selector "h1", text: "Words"
 
@@ -103,11 +104,13 @@ class WordsTest < ApplicationSystemTestCase
       fill_in "Japanese", with: "もう少し"
 
       click_on "Create Word"
+      sleep TURBO_WAIT_SECONDS
+      assert_equal words_before + 1, Word.count
 
       # confirm still on the words page
       assert_selector "h1", text: "Words"
 
-      # confirm the new word was added
+      # confirm the new word was added to the word list
       assert_selector ".word .japanese", text: "もう少し"
       assert_selector ".word .english", text: "a little more"
     end
@@ -185,6 +188,54 @@ class WordsTest < ApplicationSystemTestCase
       assert_selector ".word .english", text: word_to_delete.japanese, count: 0
       # confirm the new word was deleted in the DB
       assert_nil Word.find_by(japanese: word_to_delete.japanese), "the word was not deleted in the DB as expected"
+    end
+
+    test "can add a word from the new word page without Turbo" do
+      words_before = Word.count
+
+      login(users(:carl))
+      sleep TURBO_WAIT_SECONDS
+      visit new_word_url
+
+      # confirm we are on the new words page
+      assert_selector ".page-title", text: "Add a new word"
+
+      fill_in "English", with: "a little more"
+      fill_in "Japanese", with: "もう少し"
+
+      click_on "Create Word"
+      sleep TURBO_WAIT_SECONDS
+      assert_equal words_before + 1, Word.count
+
+      # should redirect to word list page
+      assert_selector ".page-title", text: "Words"
+    end
+
+    test "can edit a word on the word show page with Turbo" do
+      updated_english = "#{words(:無理).english} (updated)"
+
+      login(users(:carl))
+      sleep TURBO_WAIT_SECONDS
+      visit word_url(words(:無理))
+
+      # confirm we are on the word show page
+      assert_selector ".page-title", text: "Word details"
+
+      page.find("#word_#{words(:無理).id} .edit a").click
+
+      # confirm form was loaded with turbo on the same page
+      assert_selector ".page-title", text: "Word details"
+
+      fill_in "English", with: updated_english
+
+      click_on "Update Word"
+
+      sleep TURBO_WAIT_SECONDS
+
+      # confirm we are still on the word show page
+      assert_selector ".page-title", text: "Word details"
+
+      assert_equal updated_english, words(:無理).reload.english
     end
   end
 end
