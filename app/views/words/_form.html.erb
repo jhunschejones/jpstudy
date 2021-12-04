@@ -1,6 +1,5 @@
 <div class="word-form" data-controller="word-form">
-  <%# request.referrer is nil when we're on a normal form page and it has a url when we've gotten the form dropped into another page with Turbo %>
-  <%= form_with(model: word, html: { data: { turbo: request.referrer.present? } }) do |form| %>
+  <%= form_with(model: word, html: { data: { turbo: use_turbo_for_word_form? } }) do |form| %>
     <div class="form-field">
       <%= form.label :english %>
       <%= form.text_field :english, required: true, autocomplete: "off", data: { lpignore: true }, autofocus: true %>
@@ -46,7 +45,7 @@
           data: {
             controller: "disable",
             disable_with_value: "Saving...",
-            disable_use_direct_form_submit_value: request.referrer.nil?, # request.referrer is nil when we're on a normal form page and it has a url when we've gotten the form dropped into another page with Turbo
+            disable_use_direct_form_submit_value: !use_turbo_for_word_form?,
             action: "disable#disableButton",
             disable_target: "button"
           }
