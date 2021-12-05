@@ -18,6 +18,7 @@ if Rails.env.production?
     policy.form_action     :self
     policy.base_uri        :self
     policy.frame_ancestors :none
+    policy.frame_src       :self
 
     # If you are using webpack-dev-server then specify webpack-dev-server host
     # policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035"

@@ -12,7 +12,7 @@ gem "redis", "~> 4.0"
 
 gem "bcrypt", "~> 3.1.7"
 
-gem "importmap-rails", "0.9.1" # avoiding an issue for Safari in 0.9.2 that's not quite fixed yet in 0.9.3 https://github.com/rails/importmap-rails/releases
+gem "importmap-rails", "~> 0.9"
 gem "turbo-rails", "~> 0.9"
 gem "stimulus-rails", "~> 0.7"
 gem "sassc-rails", "~> 2.1"
