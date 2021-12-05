@@ -44,6 +44,10 @@ jobs:
       run: bundle exec rails db:create db:migrate
     - name: Run unit tests
       run: bundle exec rails test
+
+    # === Everything below here is for the system tests ===
+    - name: Install missing fonts # required for showing Knanji characters during system tests
+      run: sudo apt-get install fonts-ipafont-mincho fonts-ipafont-gothic
     - name: Install ChromeDriver
       uses: nanasess/setup-chromedriver@master
     - name: Start ChromeDriver
