@@ -54,3 +54,9 @@ jobs:
     - name: Run system tests
       run: bundle exec rails test:system
       continue-on-error: true # so it begins...
+    - name: Save failed test screenshots
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-screenshots
+        path: /home/runner/work/jpstudy/jpstudy/tmp/screenshots/*.png
