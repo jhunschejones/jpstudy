@@ -18,7 +18,11 @@ if Rails.env.production?
     policy.form_action     :self
     policy.base_uri        :self
     policy.frame_ancestors :none
-    policy.frame_src       :self
+
+    # this is required for es-module-shims
+    # https://github.com/guybedford/es-module-shims#import-rewriting
+    # in theory it's still relatively safe as you cannot load a Blob from another origin using `blob:`
+    policy.frame_src       :blob
 
     # If you are using webpack-dev-server then specify webpack-dev-server host
     # policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035"
