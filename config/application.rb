@@ -1,6 +1,7 @@
 require_relative "boot"
 
 require "rails/all"
+require "newrelic_rpm"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -18,5 +19,8 @@ module Jpstudy
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # https://docs.newrelic.com/docs/logs/logs-context/configure-logs-context-ruby/#enable-rails
+    config.log_formatter = ::NewRelic::Agent::Logging::DecoratingFormatter.new
   end
 end
