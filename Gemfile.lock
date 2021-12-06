@@ -138,6 +138,7 @@ GEM
     msgpack (1.4.2)
     multi_json (1.15.0)
     multipart-post (2.1.1)
+    newrelic_rpm (8.2.0)
     nio4r (2.5.8)
     nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
@@ -247,6 +248,7 @@ DEPENDENCIES
   heroicon
   importmap-rails (~> 0.9)
   minitest-spec-rails
+  newrelic_rpm
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.0.alpha2)
