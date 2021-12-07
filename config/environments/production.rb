@@ -110,11 +110,7 @@ Rails.application.configure do
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  elsif ENV["RAILS_LOG_TO_NR"].present?
-    # https://docs.newrelic.com/docs/logs/logs-context/configure-logs-context-ruby/#rails-adv-config
-    config.logger = ::NewRelic::Agent::Logging::DecoratingLogger.new(
-      "log/application.log"
-    )
+    config.log_tags  = [ "jpstudy" ]
   end
 
   # Do not dump schema after migrations.
