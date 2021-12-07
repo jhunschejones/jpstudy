@@ -4,12 +4,16 @@
     <span class="admin-item">
       Release <%= ENV["HEROKU_RELEASE_VERSION"] %>
     </span>
-    <span class="admin-item desktop-only-link">
+    <span class="admin-item desktop-only">
       <%= ENV["HEROKU_SLUG_DESCRIPTION"] %>
     </span>
-    <span class="admin-item desktop-only-link">
+    <span class="admin-item desktop-only">
       <%= Time.parse(ENV["HEROKU_RELEASE_CREATED_AT"]).localtime.to_formatted_s(:long) %>
       <%= Time.now.localtime.strftime("%Z") %>
+    </span>
+    <span class="admin-item desktop-only">
+      <% user_count = Rails.cache.fetch("user-count/#{Date.today}") { User.count } %>
+      <%= pluralize user_count, "user" %>
     </span>
   </div>
 
