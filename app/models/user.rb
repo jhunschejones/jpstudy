@@ -43,6 +43,10 @@ class User < ApplicationRecord
     word_limit && words.size >= word_limit
   end
 
+  def can_access_admin_tools?
+    role == ADMIN_ROLE
+  end
+
   # Returns false on failure
   def reset_password(new_password)
     # In order to get a reset token, the user would have had to access their email,

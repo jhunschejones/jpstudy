@@ -19,6 +19,9 @@
     <%= favicon_link_tag asset_path(Rails.env.production? ? "favicon.ico" : "dev-favicon.ico") %>
   </head>
   <body>
+    <% if @current_user&.can_access_admin_tools? %>
+      <%= render "admin_tools" %>
+    <% end %>
     <%= render "navigation" %>
 
     <main>
