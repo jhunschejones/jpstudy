@@ -6,11 +6,11 @@ html {
 }
 
 .admin-tools-bar {
+  display: none;
   position: relative;
   overflow: hidden;
   background-color: #374151;
   padding: 4px;
-  display: flex;
   justify-content: space-between;
   .admin-details,
   .admin-links {

@@ -5,8 +5,9 @@ export default class extends Controller {
 
   connect() {
     if (localStorage.getItem("hideAdminTools")) {
-      this.close();
+      return this.close();
     }
+    this.adminToolsBarTarget.style.display = "flex";
   }
 
   close() {
