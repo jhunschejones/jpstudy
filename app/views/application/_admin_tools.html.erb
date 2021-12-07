@@ -17,6 +17,12 @@
         Users: <%= user_count %>
       </span>
     </span>
+    <span class="admin-item desktop-only environment-specs-admin-item">
+      <%= heroicon "beaker", variant: :outline, options: { class: "environment-specs-icon" } %>
+      <span class="environment-specs">
+        Ruby <%= RUBY_VERSION %>, Rails <%= Rails.version %>
+      </span>
+    </span>
   </div>
 
   <div class="admin-links">

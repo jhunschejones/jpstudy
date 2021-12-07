@@ -37,29 +37,46 @@ html {
   .admin-details {
     margin-left: 2px;
     .admin-item {
-      &:not([style*="display:none"]):not(:first-child)::before {
+      &:not([style*="display:none"]):not(:last-child)::after {
         content: "|";
         color: #6B7280;
-        padding: 0px 5px 0px 7px;
+        padding: 0px 7px 0px 5px;
+      }
+    }
+    .user-count-admin-item,
+    .environment-specs-admin-item {
+      cursor: default;
+      .user-count,
+      .environment-specs {
+        display: none;
+      }
+      .user-count-icon,
+      .environment-specs-icon {
+        height: 1em;
+        margin-bottom: -2px;
       }
     }
     .user-count-admin-item {
-      cursor: default;
-      .user-count {
-        display: none;
-      }
-      .user-count-icon {
-        height: 1em;
-        margin-bottom: -2px;
-        margin-left: -2px;
-        &:hover {
+      &:hover {
+        .user-count-icon {
           display: none;
-          ~ .user-count {
-            display: inline-block;
-          }
+        }
+        .user-count {
+          display: inline-block;
         }
       }
     }
+    .environment-specs-admin-item {
+      &:hover {
+        .environment-specs-icon {
+          display: none;
+        }
+        .environment-specs {
+          display: inline-block;
+        }
+      }
+    }
+
   }
   .admin-links {
     .admin-item {
@@ -328,4 +345,8 @@ hr {
   height: 2px;
   background-color: #E5E7EB;
   border: none;
+}
+
+.hidden {
+  display: none;
 }
