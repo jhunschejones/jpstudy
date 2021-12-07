@@ -14,6 +14,9 @@
     <%# end %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <% if @current_user&.can_access_admin_tools? %>
+      <%= stylesheet_link_tag "admin-tools", "data-turbo-track": "reload" %>
+    <% end %>
     <noscript><%= stylesheet_link_tag "noscript", "data-turbo-track": "reload" %></noscript>
     <%= javascript_importmap_tags %>
     <%= favicon_link_tag asset_path(Rails.env.production? ? "favicon.ico" : "dev-favicon.ico") %>

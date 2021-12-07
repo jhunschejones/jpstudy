@@ -5,7 +5,10 @@
       Release <%= ENV["HEROKU_RELEASE_VERSION"] %>
     </span>
     <span class="admin-item desktop-only">
-      <%= ENV["HEROKU_SLUG_DESCRIPTION"] %>
+      <a href="https://github.com/jhunschejones/jpstudy/commit/<%= ENV["HEROKU_SLUG_COMMIT"] %>" target="_blank">
+        <%= heroicon "code", variant: :outline, options: { class: "code-icon" } %>
+        <%= ENV["HEROKU_SLUG_COMMIT"][0..6] %>
+      </a>
     </span>
     <span class="admin-item desktop-only">
       <%= Time.parse(ENV["HEROKU_RELEASE_CREATED_AT"]).localtime.strftime("%b. %d, %Y %H:%M %Z") %>
