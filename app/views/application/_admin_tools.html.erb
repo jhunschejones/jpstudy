@@ -1,33 +1,44 @@
 <div class="admin-tools-bar" data-controller="admin-tools" data-admin-tools-target="adminToolsBar">
   <div class="admin-details">
+    <%# https://devcenter.heroku.com/articles/dyno-metadata %>
     <span class="admin-item">
       Release <%= ENV["HEROKU_RELEASE_VERSION"] %>
     </span>
     <span class="admin-item desktop-only-link">
-      "<%= ENV["HEROKU_SLUG_DESCRIPTION"] %>"
+      <%= ENV["HEROKU_SLUG_DESCRIPTION"] %>
     </span>
     <span class="admin-item desktop-only-link">
       <%= Time.parse(ENV["HEROKU_RELEASE_CREATED_AT"]).localtime.to_formatted_s(:long) %>
+      <%= Time.now.localtime.strftime("%Z") %>
     </span>
   </div>
 
   <div class="admin-links">
-    <a class="admin-item" href="https://github.com/jhunschejones/jpstudy/actions" target="_blank">
-      <span class="underline">Build</span>
-      <%= heroicon "external-link", variant: :outline %>
-    </a>
-    <a class="admin-item heroku-link" href="https://dashboard.heroku.com/apps/jpstudy" target="_blank">
-      <span class="underline">Deploy</span>
-      <%= heroicon "external-link", variant: :outline %>
-    </a>
-    <a class="admin-item nr-link" href="<%= ENV["NR_MONITORING_URL"] %>" target="_blank">
-      <span class="underline">APM</span>
-      <%= heroicon "external-link", variant: :outline %>
-    </a>
-    <a class="admin-item nr-link" href="<%= ENV["NR_LOGS_URL"] %>" target="_blank">
-      <span class="underline">Logs</span>
-      <%= heroicon "external-link", variant: :outline %>
-    </a>
+    <span class="admin-item">
+      <a href="https://github.com/jhunschejones/jpstudy/actions" target="_blank">
+        <span class="underline">Build</span>
+        <%= heroicon "external-link", variant: :outline %>
+      </a>
+    </span>
+    <span class="admin-item">
+      <a href="https://dashboard.heroku.com/apps/jpstudy" target="_blank">
+        <span class="underline">Deploy</span>
+        <%= heroicon "external-link", variant: :outline %>
+      </a>
+    </span>
+    <span class="admin-item">
+      <a href="<%= ENV["NR_MONITORING_URL"] %>" target="_blank">
+        <span class="underline">APM</span>
+        <%= heroicon "external-link", variant: :outline %>
+      </a>
+    </span>
+    <span class="admin-item">
+      <a href="<%= ENV["NR_LOGS_URL"] %>" target="_blank">
+        <span class="underline">Logs</span>
+        <%= heroicon "external-link", variant: :outline %>
+      </a>
+    </span>
+
     <button class="close-admin-tools-button" data-action="click->admin-tools#close">
       <%= heroicon "x" %>
     </button>

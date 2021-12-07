@@ -9,7 +9,7 @@ html {
   position: relative;
   overflow: hidden;
   background-color: #374151;
-  padding: 4px;
+  padding: 4px 4px 2px 4px;
   display: flex;
   justify-content: space-between;
   .admin-details,
@@ -22,11 +22,13 @@ html {
     text-align: center;
     font-size: 0.8em;
     background-color: #374151;
-    border: none;
-    margin: 0px;
-    text-decoration: none;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
     svg {
       height: 0.8em;
+      display: none; // remove these?
     }
     .underline {
       text-decoration: underline;
@@ -37,7 +39,7 @@ html {
       &:not([style*="display:none"]):not(:first-child)::before {
         content: "|";
         color: #6B7280;
-        padding: 0px 4px 0px 6px;
+        padding: 0px 5px 0px 7px;
       }
     }
   }
@@ -46,24 +48,12 @@ html {
       &:not(:nth-last-child(-n+2))::after {
         content: "|";
         color: #6B7280;
-        padding: 0px 6px 0px 4px;
+        padding: 0px 7px 0px 5px;
       }
-    }
-    a {
-      &:hover {
-        color: #D1D5DB;
-      }
-    }
-    .nr-link {
-      color: #008996;
-      &:hover {
-        color: #1DCAD3;
-      }
-    }
-    .heroku-link {
-      color: #8a6ab4;
-      &:hover {
-        color: #b88fee;
+      a {
+        &:hover {
+          color: #D1D5DB;
+        }
       }
     }
     .close-admin-tools-button {
@@ -81,7 +71,7 @@ html {
       justify-content: center;
       float: right;
       padding: 2px;
-      margin-left: 8px;
+      margin-left: 10px;
 
       &:hover {
         cursor: pointer;

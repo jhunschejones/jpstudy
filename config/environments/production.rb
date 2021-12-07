@@ -110,7 +110,7 @@ Rails.application.configure do
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
-    config.log_tags  = [ "jpstudy" ]
+    config.log_tags  = [ ENV["HEROKU_APP_NAME"] ] # using https://devcenter.heroku.com/articles/dyno-metadata
   end
 
   # Do not dump schema after migrations.
