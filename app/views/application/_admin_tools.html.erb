@@ -8,12 +8,14 @@
       <%= ENV["HEROKU_SLUG_DESCRIPTION"] %>
     </span>
     <span class="admin-item desktop-only">
-      <%= Time.parse(ENV["HEROKU_RELEASE_CREATED_AT"]).localtime.to_formatted_s(:long) %>
-      <%= Time.now.localtime.strftime("%Z") %>
+      <%= Time.parse(ENV["HEROKU_RELEASE_CREATED_AT"]).localtime.strftime("%b. %d, %Y %H:%M %Z") %>
     </span>
-    <span class="admin-item desktop-only">
+    <span class="admin-item desktop-only user-count-admin-item">
       <% user_count = Rails.cache.fetch("user-count/#{Date.today}") { User.count } %>
-      <%= pluralize user_count, "user" %>
+      <%= heroicon "user", variant: :outline, options: { class: "user-count-icon" } %>
+      <span class="user-count">
+        Users: <%= user_count %>
+      </span>
     </span>
   </div>
 
@@ -21,25 +23,25 @@
     <span class="admin-item">
       <a href="https://github.com/jhunschejones/jpstudy/actions" target="_blank">
         <span class="underline">Build</span>
-        <%= heroicon "external-link", variant: :outline %>
+        <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>
     </span>
     <span class="admin-item">
       <a href="https://dashboard.heroku.com/apps/jpstudy" target="_blank">
         <span class="underline">Deploy</span>
-        <%= heroicon "external-link", variant: :outline %>
+        <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>
     </span>
     <span class="admin-item">
       <a href="<%= ENV["NR_MONITORING_URL"] %>" target="_blank">
         <span class="underline">APM</span>
-        <%= heroicon "external-link", variant: :outline %>
+        <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>
     </span>
     <span class="admin-item">
       <a href="<%= ENV["NR_LOGS_URL"] %>" target="_blank">
         <span class="underline">Logs</span>
-        <%= heroicon "external-link", variant: :outline %>
+        <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>
     </span>
 

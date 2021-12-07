@@ -26,7 +26,7 @@ html {
       color: inherit;
       text-decoration: none;
     }
-    svg {
+    .external-link-icon {
       height: 0.8em;
       display: none; // remove these?
     }
@@ -35,11 +35,29 @@ html {
     }
   }
   .admin-details {
+    margin-left: 2px;
     .admin-item {
       &:not([style*="display:none"]):not(:first-child)::before {
         content: "|";
         color: #6B7280;
         padding: 0px 5px 0px 7px;
+      }
+    }
+    .user-count-admin-item {
+      cursor: default;
+      .user-count {
+        display: none;
+      }
+      .user-count-icon {
+        height: 1em;
+        margin-bottom: -2px;
+        margin-left: -2px;
+        &:hover {
+          display: none;
+          ~ .user-count {
+            display: inline-block;
+          }
+        }
       }
     }
   }
