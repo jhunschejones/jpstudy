@@ -15,10 +15,10 @@ module WordsHelper
 
   def use_turbo_for_word_form?
     # `request.referrer` is `nil` when we're on a normal form page and it has a
-    # url when we've dropped the form into another page with Turbo.
+    # url when we've dropped the form onto another page using Turbo.
     return false unless request.referrer.present?
 
-    return true if request.referrer == words_url # always use Turbo on the word list page
+    return true if request.referrer.split("?").first == words_url # always use Turbo on the word list page, irregardless of query params
     return false if defined?(@word) && @word.id.nil? # do not use Turbo on the plain, new word page
     return true if defined?(@word) && request.referrer == word_url(@word) # use Turbo on the word show page
 
