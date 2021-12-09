@@ -88,7 +88,13 @@ export default class extends Controller {
     const insertBeforeIndex = this.indexToInsertAt(wordsAddedOnDates, thisWordsDate);
     const thisTurboFrame = this.element.closest("turbo-frame");
     thisTurboFrame.parentNode.removeChild(thisTurboFrame);
-    allOtherWords[insertBeforeIndex].closest("turbo-frame").parentNode.appendChild(thisTurboFrame);
+    if (insertBeforeIndex == allOtherWords.length) {
+      // the word should go last
+      allOtherWords[allOtherWords.length - 1].closest("turbo-frame").parentNode.appendChild(thisTurboFrame);
+    } else {
+      // the word should go in the middle somewhere
+      allOtherWords[insertBeforeIndex].closest("turbo-frame").parentNode.appendChild(thisTurboFrame);
+    }
     return true;
   }
 
