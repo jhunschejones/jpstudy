@@ -637,3 +637,5 @@ production:
   <<: *default_settings
   transaction_tracer:
     record_redis_arguments: true
+  browser_monitoring:
+    auto_instrument: false
