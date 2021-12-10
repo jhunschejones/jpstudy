@@ -94,5 +94,8 @@ export default class extends Controller {
     if (this.keysPressed["s"]) {
       return document.querySelector("#stats-nav-link").click();
     }
+    if (this.keysPressed["k"]) {
+      return Turbo.visit("/keyboard_shortcuts");
+    }
   }
 }
