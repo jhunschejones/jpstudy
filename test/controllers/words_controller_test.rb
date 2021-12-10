@@ -7,6 +7,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       get words_path
       assert_redirected_to user_path(users(:elemouse))
     end
+
+    it "returns the words list page" do
+      login(users(:carl))
+      get words_path
+      assert_response :success
+      assert_select ".page-title", "Words"
+    end
   end
 
   describe "#search" do
@@ -14,6 +21,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get search_words_path
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the word search form" do
+      login(users(:carl))
+      get search_words_path
+      assert_response :success
+      assert_select ".page-title", "Word search"
     end
   end
 
@@ -23,6 +37,14 @@ class WordsControllerTest < ApplicationControllerTestCase
       get new_word_path
       assert_redirected_to user_path(users(:elemouse))
     end
+
+    it "returns the new word form with turbo disabled" do
+      login(users(:carl))
+      get new_word_path
+      assert_response :success
+      assert_select ".page-title", "Add a new word"
+      assert_select "form[data-turbo='false']"
+    end
   end
 
   describe "#edit" do
@@ -30,6 +52,14 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get edit_word_path(words(:形容詞))
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the word edit form with turbo disabled" do
+      login(users(:carl))
+      get edit_word_path(words(:形容詞))
+      assert_response :success
+      assert_select ".page-title", "Editing word"
+      assert_select "form[data-turbo='false']"
     end
   end
 
@@ -42,7 +72,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
-    it "sets the added_to_list_at timestamp on card creation" do
+    it "creates a word with an added_to_list_at timestamp" do
       login(users(:carl))
       freeze_time do
         assert_difference "Word.count", 1 do
@@ -50,21 +80,24 @@ class WordsControllerTest < ApplicationControllerTestCase
         end
         assert_equal "新し", Word.last.japanese
         assert_equal Time.now.utc, Word.last.added_to_list_at
-        assert_redirected_to words_path
       end
     end
 
     it "leaves optional attributes as nil when not provided" do
       login(users(:carl))
-      assert_difference "Word.count", 1 do
-        post words_path, params: { word: { english: "new", japanese: "新し" } }
-      end
-      assert_equal "新し", Word.last.japanese
+      post words_path, params: { word: { english: "new", japanese: "新し" } }
       assert_nil Word.last.cards_created_at
       assert_nil Word.last.note
       assert_nil Word.last.source_name
       assert_nil Word.last.source_reference
-      assert_redirected_to words_path
+    end
+
+    it "redirects to the word list page with the new word" do
+      login(users(:carl))
+      post words_path, params: { word: { english: "new", japanese: "新し" } }
+      follow_redirect!
+      assert_equal path, words_path
+      assert_select ".japanese", "新し"
     end
   end
 
@@ -76,6 +109,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       end
       assert_redirected_to user_path(users(:elemouse))
     end
+
+    it "updates the word" do
+      login(users(:carl))
+      assert_changes "Word.find(words(:形容詞).id).english" do
+        patch word_path(words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
+      end
+    end
   end
 
   describe "#destroy" do
@@ -85,6 +125,13 @@ class WordsControllerTest < ApplicationControllerTestCase
         delete word_path(words(:形容詞))
       end
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "deletes the word" do
+      login(users(:carl))
+      assert_difference "Word.count", -1 do
+        delete word_path(words(:形容詞))
+      end
     end
   end
 
@@ -96,6 +143,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       end
       assert_redirected_to user_path(users(:elemouse))
     end
+
+    it "deletes all the users words" do
+      login(users(:carl))
+      delete destroy_all_words_path
+      assert_equal 0, users(:carl).words.count
+    end
   end
 
   describe "#in_out" do
@@ -103,6 +156,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get in_out_words_path
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the words import export page" do
+      login(users(:carl))
+      get in_out_words_path
+      assert_response :success
+      assert_select ".page-title", "Own your creations"
     end
   end
 
@@ -112,6 +172,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       get import_words_path
       assert_redirected_to user_path(users(:elemouse))
     end
+
+    it "returns the words import page" do
+      login(users(:carl))
+      get import_words_path
+      assert_response :success
+      assert_select ".page-title", "Import content"
+    end
   end
 
   describe "#export" do
@@ -119,6 +186,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get export_words_path
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the words export page" do
+      login(users(:carl))
+      get export_words_path
+      assert_response :success
+      assert_select ".page-title", "Export your content"
     end
   end
 
@@ -155,6 +229,16 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get download_words_path(format: :csv)
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "downloads a csv" do
+      login(users(:carl))
+      freeze_time do
+        get download_words_path(format: :csv)
+        assert_response :success
+        assert_equal "text/csv", response.headers["Content-Type"]
+        assert response.headers["Content-Disposition"].include?("attachment; filename=\"words_export_#{Time.now.utc.to_i}.csv\""), "likely missing expected CSV file in response"
+      end
     end
   end
 
