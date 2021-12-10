@@ -32,7 +32,7 @@ class SessionsControllerTest < ApplicationControllerTestCase
     assert_equal square_customer_id, users(:carl).reload.square_customer_id
   end
 
-  it "does not the square_customer_id when param is present and invalid" do
+  it "does not set the square_customer_id when param is present but invalid" do
     assert_no_changes "User.find(users(:carl).id).square_customer_id" do
       post login_path, params: {
         email: users(:carl).email,
