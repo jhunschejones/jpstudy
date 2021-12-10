@@ -143,11 +143,11 @@ export default class extends Controller {
 
       if (keysPressed["w"] || keysPressed["a"]) {
         e.preventDefault(); // stops key value from being entered into an input field
-        return window.location = "/words";
+        return Turbo.visit("/words");
       }
       if (keysPressed["c"]) {
         e.preventDefault();
-        return window.location = "/words?filter=cards_not_created&order=oldest_first";
+        return Turbo.visit("/words?filter=cards_not_created&order=oldest_first");
       }
       if (keysPressed["n"]) {
         e.preventDefault();
@@ -155,19 +155,19 @@ export default class extends Controller {
         if (newWordBtton) {
           return newWordBtton.click();
         }
-        return window.location = "/words/new";
+        return Turbo.visit("/words/new");
       }
       if (keysPressed["f"]) {
         e.preventDefault();
-        return window.location = "/words/search";
+        return Turbo.visit("/words/search");
       }
       if (keysPressed["e"]) {
         e.preventDefault();
-        return window.location = "/words/export";
+        return Turbo.visit("/words/export");
       }
       if (keysPressed["i"]) {
         e.preventDefault();
-        return window.location = "/words/import";
+        return Turbo.visit("/words/import");
       }
       if (keysPressed["s"]) {
         e.preventDefault();
