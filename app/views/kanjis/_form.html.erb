@@ -1,0 +1,32 @@
+<%= form_with(model: kanji) do |form| %>
+  <% if kanji.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(kanji.errors.count, "error") %> prohibited this kanji from being saved:</h2>
+
+      <ul>
+        <% kanji.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :character, style: "display: block" %>
+    <%= form.text_field :character %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

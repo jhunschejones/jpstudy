@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_19_053422) do
+ActiveRecord::Schema.define(version: 2021_12_11_035659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
+
+  create_table "kanjis", force: :cascade do |t|
+    t.string "character", null: false
+    t.string "status"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "character"], name: "index_kanjis_on_user_id_and_character", unique: true
+    t.index ["user_id"], name: "index_kanjis_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -38,6 +48,7 @@ ActiveRecord::Schema.define(version: 2021_11_19_053422) do
     t.bigint "words_count"
     t.bigint "next_word_goal"
     t.bigint "daily_word_target"
+    t.bigint "kanjis_count"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
@@ -58,5 +69,6 @@ ActiveRecord::Schema.define(version: 2021_11_19_053422) do
     t.index ["user_id"], name: "index_words_on_user_id"
   end
 
+  add_foreign_key "kanjis", "users"
   add_foreign_key "words", "users"
 end

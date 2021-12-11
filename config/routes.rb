@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :kanjis
   root to: "words#index"
 
   controller :static_pages do

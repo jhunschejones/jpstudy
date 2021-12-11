@@ -20,6 +20,7 @@ class User < ApplicationRecord
   validates :role, inclusion: { in: VALID_USER_ROLES, message: "must be one of [#{VALID_USER_ROLES.join(", ")}]" }
 
   has_many :words, dependent: :destroy
+  has_many :kanjis, dependent: :destroy
 
   before_destroy :clean_up_square_data
 

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @kanji %>
+
+<div>
+  <%= link_to "Edit this kanji", edit_kanji_path(@kanji) %> |
+  <%= link_to "Back to kanjis", kanjis_path %>
+
+  <%= button_to "Destroy this kanji", kanji_path(@kanji), method: :delete %>
+</div>
