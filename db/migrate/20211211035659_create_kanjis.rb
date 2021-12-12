@@ -7,10 +7,7 @@ class CreateKanjis < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :kanjis, [:user_id, :character], unique: true
 
-    # TODO: move this to its own migration
-    # Based on https://blog.appsignal.com/2018/06/19/activerecords-counter-cache.html
-    add_column :users, :kanjis_count, :bigint
+    add_index :kanjis, [:user_id, :character], unique: true
   end
 end
