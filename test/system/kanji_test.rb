@@ -1,17 +1,17 @@
 require "application_system_test_case"
 
-class KanjisTest < ApplicationSystemTestCase
+class KanjiTest < ApplicationSystemTestCase
   # setup do
-  #   @kanji = kanjis(:one)
+  #   @kanji = kanji(:one)
   # end
 
   # test "visiting the index" do
-  #   visit kanjis_url
-  #   assert_selector "h1", text: "Kanjis"
+  #   visit kanji_url
+  #   assert_selector "h1", text: "Kanji"
   # end
 
   # test "should create kanji" do
-  #   visit kanjis_url
+  #   visit kanji_url
   #   click_on "New kanji"
 
   #   fill_in "Character", with: @kanji.character

@@ -1,12 +1,12 @@
 require "test_helper"
 
-class KanjisControllerTest < ActionDispatch::IntegrationTest
+class KanjiControllerTest < ActionDispatch::IntegrationTest
   # setup do
-  #   @kanji = kanjis(:one)
+  #   @kanji = kanji(:one)
   # end
 
   # test "should get index" do
-  #   get kanjis_url
+  #   get kanji_url
   #   assert_response :success
   # end
 
@@ -17,7 +17,7 @@ class KanjisControllerTest < ActionDispatch::IntegrationTest
 
   # test "should create kanji" do
   #   assert_difference("Kanji.count") do
-  #     post kanjis_url, params: { kanji: { character: @kanji.character, status: @kanji.status, user_id: @kanji.user_id } }
+  #     post kanji_url, params: { kanji: { character: @kanji.character, status: @kanji.status, user_id: @kanji.user_id } }
   #   end
 
   #   assert_redirected_to kanji_url(Kanji.last)
@@ -43,6 +43,6 @@ class KanjisControllerTest < ActionDispatch::IntegrationTest
   #     delete kanji_url(@kanji)
   #   end
 
-  #   assert_redirected_to kanjis_url
+  #   assert_redirected_to kanji_url
   # end
 end

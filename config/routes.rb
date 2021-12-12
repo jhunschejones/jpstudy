@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :kanjis
   root to: "words#index"
 
   controller :static_pages do
@@ -49,6 +48,16 @@ Rails.application.routes.draw do
       get :download
       delete :destroy_all
       get :search
+    end
+  end
+
+  resource :kanji, only: [], controller: :kanji do
+    collection do
+      get :next
+      get :import
+      post :upload
+      get :export
+      get :download
     end
   end
 end

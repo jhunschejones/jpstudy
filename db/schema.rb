@@ -16,14 +16,14 @@ ActiveRecord::Schema.define(version: 2021_12_12_040435) do
   enable_extension "citext"
   enable_extension "plpgsql"
 
-  create_table "kanjis", force: :cascade do |t|
+  create_table "kanji", force: :cascade do |t|
     t.string "character", null: false
     t.string "status"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id", "character"], name: "index_kanjis_on_user_id_and_character", unique: true
-    t.index ["user_id"], name: "index_kanjis_on_user_id"
+    t.index ["user_id", "character"], name: "index_kanji_on_user_id_and_character", unique: true
+    t.index ["user_id"], name: "index_kanji_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_12_12_040435) do
     t.bigint "words_count"
     t.bigint "next_word_goal"
     t.bigint "daily_word_target"
-    t.bigint "kanjis_count"
+    t.bigint "kanji_count"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
@@ -69,6 +69,6 @@ ActiveRecord::Schema.define(version: 2021_12_12_040435) do
     t.index ["user_id"], name: "index_words_on_user_id"
   end
 
-  add_foreign_key "kanjis", "users"
+  add_foreign_key "kanji", "users"
   add_foreign_key "words", "users"
 end
