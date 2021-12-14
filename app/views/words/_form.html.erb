@@ -1,13 +1,13 @@
 <div class="word-form" data-controller="word-form">
   <%= form_with(model: word, html: { data: { turbo: use_turbo_for_word_form? } }) do |form| %>
     <div class="form-field">
-      <%= form.label :english %>
-      <%= form.text_field :english, required: true, autocomplete: "off", data: { lpignore: true }, autofocus: true %>
+      <%= form.label :japanese %>
+      <%= form.text_field :japanese, required: true, autocomplete: "off", data: { lpignore: true }, autofocus: true %>
     </div>
 
     <div class="form-field">
-      <%= form.label :japanese %>
-      <%= form.text_field :japanese, required: true, autocomplete: "off", data: { lpignore: true } %>
+      <%= form.label :english %>
+      <%= form.text_field :english, required: true, autocomplete: "off", data: { lpignore: true } %>
     </div>
 
     <div class="form-field">
