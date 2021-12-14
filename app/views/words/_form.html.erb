@@ -12,7 +12,10 @@
 
     <div class="form-field">
       <%= form.label :source_name %>
-      <%= form.text_field :source_name, data: { lpignore: true, word_form_target: "sourceName", action: "word-form#validateSource" } %>
+      <%= form.text_field :source_name, list: "word-source-name", autocomplete: "off", data: { lpignore: true, word_form_target: "sourceName", action: "word-form#validateSource" } %>
+      <datalist id="word-source-name">
+        <%= options_for_select(source_name_datalist_values) %>
+      </datalist>
     </div>
 
     <div class="form-field">

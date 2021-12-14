@@ -26,6 +26,16 @@ module WordsHelper
     return false
   end
 
+  def source_name_datalist_values
+    return [] unless @current_user
+    @current_user
+      .words
+      .distinct
+      .where.not(source_name: nil)
+      .order(:source_name)
+      .pluck(:source_name)
+  end
+
   private
 
   def filter_params
