@@ -11,6 +11,8 @@ class Kanji < ApplicationRecord
   validates :character, presence: true, uniqueness: true, format: { with: KANJI_REGEX }
   validates :status, allow_nil: true, inclusion: { in: VALID_STATUSES, message: "status must be either '#{VALID_STATUSES.join("', or '")}'" }
 
+  scope :added, -> { where(status: ADDED_STATUS) }
+
   def self.all_new_for(user:)
     all_kanji_in_words = user.words.pluck(:japanese)
       .flat_map { |word| word.split("") }
