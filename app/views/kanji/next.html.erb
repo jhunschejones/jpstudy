@@ -1,10 +1,32 @@
 <div class="next-kanji-page">
   <h1 class="page-title">Next kanji</h1>
 
-  <div class="next-kanji"><%= @next_kanji %></div>
+  <p class="light-gray">
+    The Next Kanji tool finds new kanji in your word list and allows you to save each kanji  marked as either "skipped" or "added". The new character is coppied to the clipboard when the page loads and you may use the resources linked below the new character to look up definitions.
+  </p>
+
+  <div class="next-kanji" data-controller="kanji" data-kanji-target="character">
+    <%= @next_kanji %>
+  </div>
 
   <div class="actions">
     <%= button_to("Skip", kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) %>
     <%= button_to("Add", kanji_path, class: "button-blue", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) %>
+  </div>
+
+  <h3 class="resources-title">Resources</h3>
+  <div class="resources">
+    <%= link_to("https://www.japandict.com/kanji/#{@next_kanji}", target: "_blank", title: "JapanDict kanji search") do %>
+      <span class="resource-name">JapanDict</span>
+      <%= image_tag "resource_icons/japandict.png" %>
+    <% end %>
+    <%= link_to("https://app.kanjialive.com/#{@next_kanji}", target: "_blank", title: "Kanjialive kanji search") do %>
+      <span class="resource-name">Kanjialive</span>
+      <%= image_tag "resource_icons/kanjialive.jpeg" %>
+    <% end %>
+    <%= link_to("https://en.wiktionary.org/wiki/#{@next_kanji}#Japanese", target: "_blank", title: "Wiktionary kanji search") do %>
+      <span class="resource-name">Wictionary</span>
+      <%= image_tag "resource_icons/wictionary.png" %>
+    <% end %>
   </div>
 </div>
