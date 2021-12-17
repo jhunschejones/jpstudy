@@ -27,9 +27,8 @@ export default class extends Controller {
       return form.submit();
     }
 
-    // The form submission does not work here when using Turbo unless we
-    // manually re-send the event.
-    // https://discuss.hotwired.dev/t/triggering-turbo-frame-with-js/1622/46
-    form.dispatchEvent(new CustomEvent("submit", { bubbles: true }));
+    // For turbo workflows, requestSubmit() sends the event that the event that Turbo
+    // hooks into to intercept the form submission.
+    form.requestSubmit();
   }
 }
