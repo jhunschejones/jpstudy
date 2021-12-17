@@ -1,9 +1,10 @@
 <div class="next-kanji-page">
-  <h1 class="page-title">Next kanji</h1>
-
-  <p class="light-gray">
-    The Next Kanji tool finds new kanji in your word list and allows you to save each kanji  marked as either "skipped" or "added". The new character is coppied to the clipboard when the page loads and you may use the resources linked below the new character to look up definitions.
-  </p>
+  <h1 class="page-title">
+    Next kanji
+    <%= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>
+      <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+    <% end %>
+  </h1>
 
   <div class="next-kanji" data-controller="kanji" data-kanji-target="character">
     <%= @next_kanji %>

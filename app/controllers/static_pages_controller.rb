@@ -8,6 +8,9 @@ class StaticPagesController < ApplicationController
   def word_list_instructions
   end
 
+  def next_kanji_instructions
+  end
+
   def word_limit_explanation
   end
 

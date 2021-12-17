@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   controller :static_pages do
     get "about" => :about
     get "word_list_instructions" => :word_list_instructions
+    get "next_kanji_instructions" => :next_kanji_instructions
     get "word_limit" => :word_limit_explanation
     get "keyboard_shortcuts" => :keyboard_shortcuts
   end
