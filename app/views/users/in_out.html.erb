@@ -8,17 +8,15 @@
   <div class="actions">
     <%= link_to "Import words", import_words_path, class: "button-purple" %>
     <%= link_to "Export words", export_words_path, class: "button-blue" %>
-  </div>
-
-  <div class="actions">
+    <br/>
     <%= link_to "Import kanji", import_kanji_path, class: "button-purple" %>
     <%= link_to "Export kanji", export_kanji_path, class: "button-blue" %>
   </div>
 
-  <h3>DANGER ZONE</h3>
+  <h2 class="danger-zone-header alert-red">⚠️ DANGER ZONE ⚠️</h2>
 
   <p>
-    Use this button clear all the words you have previously added. Please note this is a destructive action and cannot be undone.
+    You may choose to permanently delete all the words or kanji you have previously added. Please note this is a destructive action and cannot be undone.
   </p>
 
   <div class="actions">
@@ -31,6 +29,19 @@
         controller: "confirmation disable",
         action: "confirmation#confirm disable#disableButton",
         confirmation_message_value: "⚠️ Are you sure you want to delete all #{@current_user.words.size} of the words you have added? This action is permanent and cannot be undone. ⚠️",
+        disable_with_value: "Deleting...",
+        disable_target: "button"
+      }
+    ) %>
+    <%= button_to(
+      "Delete all kanji",
+      destroy_all_kanji_path,
+      method: :delete,
+      class: "button-red",
+      data: {
+        controller: "confirmation disable",
+        action: "confirmation#confirm disable#disableButton",
+        confirmation_message_value: "⚠️ Are you sure you want to delete all #{@current_user.kanji.size} of the kanji you have added? This action is permanent and cannot be undone. ⚠️",
         disable_with_value: "Deleting...",
         disable_target: "button"
       }

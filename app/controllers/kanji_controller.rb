@@ -92,6 +92,11 @@ class KanjiController < ApplicationController
     end
   end
 
+  def destroy_all
+    destroyed_kanji_count = @current_user.kanji.destroy_all.size
+    redirect_to in_out_user_path(@current_user), success: "#{destroyed_kanji_count} kanji deleted."
+  end
+
   private
 
   def kanji_params

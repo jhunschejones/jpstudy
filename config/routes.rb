@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       post :upload
       get :export
       get :download
+      delete :destroy_all
     end
   end
 end

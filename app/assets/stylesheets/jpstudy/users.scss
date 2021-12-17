@@ -78,17 +78,22 @@
 }
 
 .user-in-out-page {
-  h3 {
-    margin-top: 36px
+  .danger-zone-header {
+    margin-top: 42px
   }
   .actions {
-    &:not(:last-child) {
-      margin-bottom: 12px;
-    }
+    margin-top: 24px;
     a {
       display: inline-block;
       &:not(:last-child) {
         margin-right: 8px;
+        margin-bottom: 16px;
+      }
+    }
+    button {
+      display: inline-block;
+      &:not(:last-child) {
+        margin-bottom: 16px;
       }
     }
   }
