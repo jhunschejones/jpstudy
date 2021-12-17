@@ -60,3 +60,25 @@
     }
   }
 }
+
+.next-kanji-page {
+  .next-kanji {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 4em;
+  }
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+    button {
+      display: inline-block;
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+}

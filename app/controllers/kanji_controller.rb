@@ -8,6 +8,15 @@ class KanjiController < ApplicationController
   KANJI_BATCH_SIZE = 1000
 
   def next
+    @next_kanji = Kanji.next_for(user: @current_user)
+  end
+
+  def create
+    kanji = Kanji.new(kanji_params.merge(user: @current_user))
+    unless kanji.save
+      flash[:alert] = "Unable to save kanji: #{kanji.errors.full_messages.join(", ")}"
+    end
+    redirect_to next_kanji_path
   end
 
   def import
@@ -86,6 +95,10 @@ class KanjiController < ApplicationController
   private
 
   def kanji_params
-    params.require(:kanji).permit(:character, :status, :user_id)
+    params
+      .require(:kanji)
+      .permit(:character, :status, :user_id)
+      .reject { |_, value| value.blank? }
+      .each_value { |value| value.try(:strip!) }
   end
 end

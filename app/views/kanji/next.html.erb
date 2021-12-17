@@ -1,1 +1,10 @@
-Next
+<div class="next-kanji-page">
+  <h1 class="page-title">Next kanji</h1>
+
+  <div class="next-kanji"><%= @next_kanji %></div>
+
+  <div class="actions">
+    <%= button_to("Skip", kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) %>
+    <%= button_to("Add", kanji_path, class: "button-blue", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) %>
+  </div>
+</div>

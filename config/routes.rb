@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :kanji, only: [], controller: :kanji do
+  resource :kanji, only: [:create], controller: :kanji do
     collection do
       get :next
       get :import
