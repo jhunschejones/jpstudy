@@ -15,7 +15,7 @@ class KanjiController < ApplicationController
 
   def upload
     unless params[:csv_file]&.content_type == "text/csv"
-      return redirect_to import_words_path, alert: "Missing CSV file or unsupported file format"
+      return redirect_to import_kanji_path, alert: "Missing CSV file or unsupported file format"
     end
 
     kanji_added = 0
@@ -54,7 +54,7 @@ class KanjiController < ApplicationController
       if params[:overwrite_matching_kanji]
         "#{kanji_updated} existing kanji updated, #{kanji_added} new kanji imported."
       else
-        "#{kanji_added} new kanji imported, #{words_already_exist} kanji already #{"exist".pluralize(kanji_added)}."
+        "#{kanji_added} new kanji imported, #{kanji_already_exist} kanji already #{kanji_already_exist.zero? ? "exist" : "exists"}."
       end
     redirect_to in_out_user_path(@current_user)
   end

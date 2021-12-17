@@ -5,7 +5,7 @@ class Kanji < ApplicationRecord
   SKIPPED_STATUS = "skipped".freeze
   KANJI_REGEX = /[一-龯]/
 
-  belongs_to :user, counter_cache: true
+  belongs_to :user, counter_cache: :kanji_count
   validates :character, presence: true, uniqueness: true, format: { with: KANJI_REGEX }
 
   def self.all_new_for(user:)
