@@ -13,6 +13,14 @@ export default class extends Controller {
   }
 
   execute(e) {
+    // short, manual de-bounce for keyboard shortcuts
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this._parseKeyboardShortcuts(e);
+    }, 100);
+  }
+
+  _parseKeyboardShortcuts(e) {
     switch (e.key) {
       case "Alt":
         this.keysPressed["option"] = true;
