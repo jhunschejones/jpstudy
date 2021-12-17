@@ -1,0 +1,62 @@
+.kanji-import-page {
+  .csv-format {
+    font-family: 'Roboto Mono', monospace;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .import-csv-form {
+    margin-top: 28px;
+    font-size: 1.1em;
+    input[type="file"] {
+      font-size: 1em;
+      margin: 0px 0px 14px 1px;
+      width: 100%;
+    }
+    ::-webkit-file-upload-button {
+      // to style the file upload button
+      padding: 2px 6px;
+      border-radius: 0.6em;
+      border-style: solid;
+      border-color: #D1D5DB;
+      background-color: #E5E7EB;
+      cursor: pointer;
+      color: #1F2937;
+    }
+    .inner-form-instructions {
+      margin-top: 36px;
+    }
+    .includes-headers-field-row,
+    .overwrite-matching-kanji-field-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .label-text {
+        margin-left: 6px;
+      }
+    }
+    input[type="submit"] {
+      margin-top: 36px;
+      display: block;
+    }
+  }
+}
+
+.kanji-export-page {
+  .actions {
+    margin-top: 28px;
+    .export-button {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      width: fit-content;
+      padding-left: 12px;
+      &:not(:last-child) {
+        margin: 0px 6px 6px 0px;
+      }
+      .download-icon {
+        margin-right: 2px;
+      }
+    }
+  }
+}

@@ -1,1 +1,14 @@
-Export
+<div class="kanji-export-page">
+  <h1 class="page-title">Export your kanji</h1>
+
+  <p>
+    Download a CSV of your kanji list for data backup or to use in another study tool.
+  </p>
+
+  <div class="actions">
+    <%= link_to(download_words_path(format: :csv), target: "_blank", class: "button-blue export-button") do %>
+      <%= heroicon "document-download", variant: :outline, options: { class: "download-icon" } %>
+      Download all kanji
+    <% end %>
+  </div>
+</div>

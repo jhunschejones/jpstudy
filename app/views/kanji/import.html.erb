@@ -1,1 +1,38 @@
-Import
+<div class="kanji-import-page">
+  <h1 class="page-title">Import kanji</h1>
+
+  <p>
+    Prepare a CSV of kanji to import into your jpstudy kanji list. The CSV collums will need to exactly match the following format. The first column is <strong>required</strong> to be present and the remaining column(s) may be left blank if desired.
+  </p>
+
+  <ul class="csv-format">
+    <li>[0]<strong>Character</strong></li>
+    <li>[1]Status (added/skipped)</li>
+  </ul>
+
+  <%= form_tag(upload_kanji_path, method: :post, multipart: true, class: "import-csv-form") do %>
+    <%= file_field_tag :csv_file %>
+
+    <div class="includes-headers-field-row">
+      <%= label_tag :csv_includes_headers, class: "switch", tabindex: "-1" do %>
+        <%= check_box_tag :csv_includes_headers, true, true %>
+        <span class="slider round"></span>
+      <% end %>
+      <span class="label-text">CSV includes headers</span>
+    </div>
+
+    <p class="inner-form-instructions">
+      The import tool will prevent the creation of duplicate kanji based on the first column of the CSV. You may also use this tool to <em>update</em> existing kanji for easier bulk changes.
+    </p>
+
+    <div class="overwrite-matching-kanji-field-row">
+      <%= label_tag :overwrite_matching_kanji, class: "switch", tabindex: "-1" do %>
+        <%= check_box_tag :overwrite_matching_kanji, true, false %>
+        <span class="slider round"></span>
+      <% end %>
+      <span class="label-text">Overwrite matching kanji</span>
+    </div>
+
+    <%= submit_tag("Import kanji", class: "button-purple", data: { controller: "disable", disable_with_value: "Importing...", action: "disable#disableButton", disable_target: "button" }) %>
+  <% end %>
+</div>
