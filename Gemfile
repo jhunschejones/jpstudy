@@ -12,9 +12,9 @@ gem "redis", "~> 4.0"
 
 gem "bcrypt", "~> 3.1.7"
 
-gem "importmap-rails", "~> 0.9"
-gem "turbo-rails", "~> 0.9"
-gem "stimulus-rails", "~> 0.7"
+gem "importmap-rails", "~> 1.0"
+gem "turbo-rails", "~> 1.0"
+gem "stimulus-rails", "~> 1.0"
 gem "sassc-rails", "~> 2.1"
 gem "heroicon"
 
