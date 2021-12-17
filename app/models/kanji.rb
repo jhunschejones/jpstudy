@@ -19,4 +19,12 @@ class Kanji < ApplicationRecord
   def self.next_for(user:)
     all_new_for(user: user).first
   end
+
+  def add
+    update(status: ADDED_STATUS)
+  end
+
+  def skip
+    update(status: SKIPPED_STATUS)
+  end
 end

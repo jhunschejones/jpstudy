@@ -76,3 +76,20 @@
     margin-top: 32px;
   }
 }
+
+.user-in-out-page {
+  h3 {
+    margin-top: 36px
+  }
+  .actions {
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+    a {
+      display: inline-block;
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+}

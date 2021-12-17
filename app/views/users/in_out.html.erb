@@ -1,4 +1,4 @@
-<div class="words-in-out-page">
+<div class="user-in-out-page">
   <h1 class="page-title">Own your creations</h1>
 
   <p>
@@ -6,8 +6,13 @@
   </p>
 
   <div class="actions">
-    <%= link_to "Import tool", import_words_path, class: "button-purple" %>
-    <%= link_to "Export tool", export_words_path, class: "button-blue" %>
+    <%= link_to "Import words", import_words_path, class: "button-purple" %>
+    <%= link_to "Export words", export_words_path, class: "button-blue" %>
+  </div>
+
+  <div class="actions">
+    <%= link_to "Import kanji", import_kanji_path, class: "button-purple" %>
+    <%= link_to "Export kanji", export_kanji_path, class: "button-blue" %>
   </div>
 
   <h3>DANGER ZONE</h3>

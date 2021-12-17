@@ -17,10 +17,10 @@
         <%= heroicon "presentation-chart-bar" %>
         <small class="icon-subtext">Stats</small>
       <% end %>
-    <% end %>
-    <%= link_to(in_out_words_path, class: "in-out-link") do %>
-      <%= heroicon "switch-vertical" %>
-      <small class="icon-subtext">I/O</small>
+      <%= link_to(in_out_user_path(@current_user), class: "in-out-link") do %>
+        <%= heroicon "switch-vertical" %>
+        <small class="icon-subtext">I/O</small>
+      <% end %>
     <% end %>
     <%= link_to(about_path, class: "about-link") do %>
       <%= heroicon "heart" %>

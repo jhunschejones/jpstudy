@@ -272,20 +272,6 @@
   }
 }
 
-.words-in-out-page {
-  h3 {
-    margin-top: 36px
-  }
-  .actions {
-    a {
-      display: inline-block;
-      &:not(:last-child) {
-        margin-right: 8px;
-      }
-    }
-  }
-}
-
 .words-export-page {
   .actions {
     margin-top: 28px;

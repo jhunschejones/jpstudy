@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :stats, :edit_targets, :before_you_go]
+  before_action :set_user, except: [:new, :create]
+  before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
   before_action :protect_user, except: [:new, :create]
   skip_before_action :authenticate_user, only: [:new, :create]
-  before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
+  before_action :secure_behind_subscription, only: [:in_out]
 
   def show
   end
@@ -96,6 +97,9 @@ class UsersController < ApplicationController
   end
 
   def before_you_go
+  end
+
+  def in_out
   end
 
   private

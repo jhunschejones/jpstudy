@@ -151,21 +151,6 @@ class WordsControllerTest < ApplicationControllerTestCase
     end
   end
 
-  describe "#in_out" do
-    it "requires subscription or trial to access" do
-      login(users(:elemouse))
-      get in_out_words_path
-      assert_redirected_to user_path(users(:elemouse))
-    end
-
-    it "returns the words import export page" do
-      login(users(:carl))
-      get in_out_words_path
-      assert_response :success
-      assert_select ".page-title", "Own your creations"
-    end
-  end
-
   describe "#import" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
@@ -212,7 +197,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_difference "Word.count", 49 do
         post upload_words_path, params: { csv_file: csv_file, csv_includes_headers: true }
       end
-      assert_redirected_to in_out_words_path
+      assert_redirected_to in_out_user_path(users(:carl))
       assert_equal "49 new words imported, 1 word already exists.", flash[:success]
 
       new_word = Word.find_by(japanese: "大人")

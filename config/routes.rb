@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       get :stats
       get :edit_targets
       get :before_you_go
+      get :in_out
     end
   end
 
@@ -41,7 +42,6 @@ Rails.application.routes.draw do
   resources :words do
     post :toggle_card_created
     collection do
-      get :in_out
       get :import
       post :upload
       get :export
