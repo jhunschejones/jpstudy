@@ -80,7 +80,7 @@ nav {
     float: right;
     width: fit-content;
     form, button {
-      font-size: 1em;
+      font-size: 1em !important;
     }
   }
   @media (max-width: 500px) {
