@@ -81,6 +81,8 @@ nav {
     float: right;
     width: fit-content;
     .logout-button {
+      height: 50px;
+      overflow: hidden;
       -webkit-appearance: none;
     }
   }
