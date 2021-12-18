@@ -90,19 +90,19 @@ export default class extends Controller {
       }
       return Turbo.visit("/words/new");
     }
-    if (this.keysPressed["f"]) {
+    if (this.keysPressed["s"]) {
       return Turbo.visit("/words/search");
     }
-    if (this.keysPressed["e"]) {
-      return Turbo.visit("/words/export");
-    }
     if (this.keysPressed["i"]) {
-      return Turbo.visit("/words/import");
+      return document.querySelector(".in-out-link").click();
     }
-    if (this.keysPressed["s"]) {
+    if (this.keysPressed["t"]) {
       return document.querySelector("#stats-nav-link").click();
     }
     if (this.keysPressed["k"]) {
+      return Turbo.visit("/kanji/next");
+    }
+    if (this.keysPressed["h"]) {
       return Turbo.visit("/keyboard_shortcuts");
     }
   }
