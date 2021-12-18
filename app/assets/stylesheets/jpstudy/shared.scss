@@ -38,7 +38,7 @@ nav {
   }
   .left-links {
     .dropdown-menu {
-      display: none;
+      visibility: hidden;
       .hamburger {
         justify-content: center;
         height: 50px;
@@ -58,7 +58,7 @@ nav {
           flex-direction: row;
           .icon-subtext {
             margin-left: 8px;
-            font-size: 0.8em;
+            font-size: 0.9em;
           }
         }
       }
@@ -78,13 +78,16 @@ nav {
   }
   .right-links {
     float: right;
+    .icon-subtext {
+      font-size: 0.7em;
+    }
   }
   @media (max-width: 500px) {
     .center-links {
-      display: none;
+      visibility: hidden;
     }
     .left-links .dropdown-menu {
-      display: block;
+      visibility: visible;
     }
   }
 }
