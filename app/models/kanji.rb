@@ -14,7 +14,10 @@ class Kanji < ApplicationRecord
   scope :added, -> { where(status: ADDED_STATUS) }
 
   def self.all_new_for(user:)
-    all_kanji_in_words = user.words.pluck(:japanese)
+    all_kanji_in_words = user.words
+      .order(added_to_list_at: :asc)
+      .order(created_at: :asc)
+      .pluck(:japanese)
       .flat_map { |word| word.split("") }
       .uniq
       .select { |character| character =~ KANJI_REGEX }
