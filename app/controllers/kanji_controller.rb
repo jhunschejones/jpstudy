@@ -1,3 +1,5 @@
+require "csv"
+
 class KanjiController < ApplicationController
   before_action :secure_behind_subscription
 
@@ -59,7 +61,7 @@ class KanjiController < ApplicationController
       if params[:overwrite_matching_kanji]
         "#{kanji_updated} existing kanji updated, #{kanji_added} new kanji imported."
       else
-        "#{kanji_added} new kanji imported, #{kanji_already_exist} kanji already #{kanji_already_exist.zero? ? "exist" : "exists"}."
+        "#{kanji_added} new kanji imported, #{kanji_already_exist} kanji already exist."
       end
     redirect_to in_out_user_path(@current_user)
   end
