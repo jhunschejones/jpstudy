@@ -11,7 +11,7 @@
 
   <br/>
 
-  <div class="user-actions">
+  <div class="actions">
     <%= link_to("Export words", export_words_path, class: "button-blue") %>
     <%= link_to("Export kanji", export_kanji_path, class: "button-blue") %>
     <%= button_to("Delete account", user_path(@user), method: :delete, class: "button-red", data: { controller: "disable confirmation", action: "disable#disableButton confirmation#confirm", disable_with_value: "Deleting account...", disable_target: "button", confirmation_message_value: "⚠️ Are you sure you want to delete your account? This action is permanent and will cause you to lose access to the site and any content you created. ⚠️" }) %>
