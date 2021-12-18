@@ -86,6 +86,7 @@ class UsersController < ApplicationController
     @words_ready_for_cards_count = @current_user.words.cards_not_created.size
     @words_with_cards_created_today = @current_user.words.where(cards_created_at: Date.today.all_day).size
     @kanji_aded_count = @current_user.kanji.added.count
+    @kanji_to_add_count = Kanji.all_new_for(user: @current_user).size
 
     # Instance variable gets set to nil if next_word_goal and daily_word_target are not configured yet
     @days_to_word_target =
