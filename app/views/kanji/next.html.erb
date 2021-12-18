@@ -6,16 +6,26 @@
     <% end %>
   </h1>
 
-  <div class="next-kanji" data-controller="kanji" data-kanji-target="character">
-    <%= @next_kanji %>
+  <div class="next-kanji-container" data-controller="kanji" data-action="click->kanji#copy">
+    <div class="next-kanji-card">
+      <span class="tooltiptext">Click to copy</span>
+      <span class="character" data-kanji-target="character">
+        <%= @next_kanji %>
+      <span>
+    </div>
   </div>
 
   <div class="actions">
-    <%= button_to("Skip", kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) %>
-    <%= button_to("Add", kanji_path, class: "button-blue", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) %>
+    <%= button_to(kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+      <%= heroicon "eye-off", variant: :outline, options: { class: "skip-button-icon" } %>
+      Skip
+    <% end %>
+    <%= button_to(kanji_path, class: "button-purple", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+      <%= heroicon "plus", options: { class: "add-button-icon" } %>
+      Add
+    <% end %>
   </div>
 
-  <h3 class="resources-title">Resources:</h3>
   <div class="resources">
     <%= link_to("https://app.kanjialive.com/#{@next_kanji}", target: "_blank", title: "Kanjialive kanji search") do %>
       <span class="resource-name">Kanjialive</span>

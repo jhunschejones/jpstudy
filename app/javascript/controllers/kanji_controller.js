@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [ "character" ]
 
-  initialize() {
+  copy() {
     navigator.clipboard.writeText(this.characterTarget.innerText);
   }
 }

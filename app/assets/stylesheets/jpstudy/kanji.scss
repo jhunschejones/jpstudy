@@ -65,30 +65,77 @@
   .page-title {
     text-align: center;
   }
-  .next-kanji {
-    margin-top: 40px;
-    text-align: center;
-    font-size: 4em;
+  .next-kanji-container {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0px 24px 0px;
+    .next-kanji-card {
+      cursor: pointer;
+      padding: 12px 28px;
+      width: fit-content;
+      // == materialize shadow
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      border-style: solid;
+      border-width: 1px;
+      border-color: #F3F4F6;
+      border-radius: 4px;
+
+      .character {
+        font-size: 4em;
+      }
+
+      .tooltiptext {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 500ms;
+        transition-delay: 1.5s;
+        margin: -50px 0px 0px -26px;
+        width: 120px;
+        background-color: #374151;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 100%; /* At the bottom of the tooltip */
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: #374151 transparent transparent transparent;
+        }
+      }
+
+      &:hover {
+        .tooltiptext {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+    }
   }
   .actions {
     display: flex;
     justify-content: center;
-    margin-top: 16px;
-    &:not(:last-child) {
-      margin-bottom: 12px;
-    }
     button {
       display: inline-block;
-      &:not(:last-child) {
-        margin-right: 8px;
+      margin: 0px 4px;
+      .skip-button-icon {
+        height: 17px;
+        margin: -2px 0px -3px -4px;
+      }
+      .add-button-icon {
+        height: 24px;
+        margin: -2px -4px -6px -8px;
       }
     }
   }
-  .resources-title {
-    margin-top: 50px;
-    text-align: center;
-  }
   .resources {
+    margin-top: 40px;
     display: flex;
     justify-content: center;
     a {
@@ -96,16 +143,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      &:not(:last-child) {
-        margin-right: 10px;
-      }
+      margin: 0px 5px 0px 5px;
       .resource-name {
         font-size: 0.7em;
         color: #9CA3AF;
       }
       img {
         margin-top: 6px;
-        width: 40px;
+        width: 38px;
         opacity: 0.7;
       }
       &:hover {
