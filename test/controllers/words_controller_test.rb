@@ -162,7 +162,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       get import_words_path
       assert_response :success
-      assert_select ".page-title", "Import content"
+      assert_select ".page-title", "Import words"
     end
   end
 
@@ -177,7 +177,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       get export_words_path
       assert_response :success
-      assert_select ".page-title", "Export your content"
+      assert_select ".page-title", "Export your word list"
     end
   end
 
