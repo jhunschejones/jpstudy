@@ -4,7 +4,7 @@ class Word < ApplicationRecord
   validates_presence_of :source_name, if: :source_reference?, message: "is required for source reference"
   validate :user_word_limit_not_exceeded, on: :create
 
-  belongs_to :user, counter_cache: true
+  belongs_to :user, counter_cache: true, inverse_of: :words
 
   scope :cards_not_created, -> { where(cards_created: false) }
 
