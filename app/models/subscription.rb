@@ -1,6 +1,6 @@
 class Subscription
 
-  attr_reader :id, :start_date, :next_charge_date
+  attr_reader :id, :start_date, :next_charge_date, :status, :buyer_self_management_token
 
   def initialize(props)
     @id = props[:id]

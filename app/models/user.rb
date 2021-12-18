@@ -76,29 +76,41 @@ class User < ApplicationRecord
     active_subscriptions.first
   end
 
+  def clear_square_subscriptions_cache
+    Rails.cache.delete(square_subscriptions_cache_key)
+  end
+
   private
 
-  def square_subscriptions
+  def square_subscriptions(revalidate_at: Time.now.utc.tomorrow)
     return [] if square_customer_id.nil?
-    @subscriptions ||= begin
-      # https://github.com/square/square-ruby-sdk/blob/master/doc/api/subscriptions.md#search-subscriptions
-      result = SQUARE_CLIENT
-        .subscriptions
-        .search_subscriptions(
-          body: {
-            query: {
-              filter: {
-                customer_ids: [square_customer_id]
+    expires_in = (revalidate_at - Time.now.utc).to_i.seconds # a negative value here will be a cache miss
+    Rails.cache.fetch(square_subscriptions_cache_key, expires_in: expires_in, force: !(Rails.configuration.cache_classes || ENV["VERY_CACHE"])) do
+      Rails.logger.info("#{square_subscriptions_cache_key} :: cache miss")
+      @subscriptions ||= begin
+        # https://github.com/square/square-ruby-sdk/blob/master/doc/api/subscriptions.md#search-subscriptions
+        result = SQUARE_CLIENT
+          .subscriptions
+          .search_subscriptions(
+            body: {
+              query: {
+                filter: {
+                  customer_ids: [square_customer_id]
+                }
               }
             }
-          }
-        )
-      raise "Square error #{result.errors.inspect}" if result.error?
-      result
-        .data
-        .subscriptions
-        .map { |subscription_props| Subscription.new(subscription_props) }
+          )
+        raise "Square error #{result.errors.inspect}" if result.error?
+        result
+          .data
+          .subscriptions
+          .map { |subscription_props| Subscription.new(subscription_props) }
+      end
     end
+  end
+
+  def square_subscriptions_cache_key
+    @square_subscriptions_cache_key ||= "#{username}/square_subscriptions"
   end
 
   def clean_up_square_data
@@ -110,5 +122,6 @@ class User < ApplicationRecord
       result = SQUARE_CLIENT.customers.delete_customer(customer_id: square_customer_id)
       raise "Square error #{result.errors.inspect}" if result.error?
     end
+    clear_square_subscriptions_cache
   end
 end

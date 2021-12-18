@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :square, only: [] do
+  resource :square, only: [], controller: :square do
     collection do
       post :subscription_created
       post :subscription_updated

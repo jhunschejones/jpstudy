@@ -2,6 +2,7 @@ class SquareController < ApplicationController
   skip_before_action :authenticate_user
   skip_before_action :verify_authenticity_token
   before_action :validate_webhook, except: [:logout]
+  before_action :set_current_user, only: [:logout] # Set the user is logged in, if not silently pass the request through
 
   def subscription_created
     # https://developer.squareup.com/reference/square/webhooks/subscription.created
@@ -30,6 +31,9 @@ class SquareController < ApplicationController
   # Special redirect link for Square to send users to after checking out
   def logout
     reset_session
+    if @current_user
+      clear_square_subscriptions_cache
+    end
     redirect_to login_url(message_id: "S01")
   end
 
