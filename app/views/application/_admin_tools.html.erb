@@ -14,7 +14,7 @@
       <%= Time.parse(ENV["HEROKU_RELEASE_CREATED_AT"]).localtime.strftime("%b. %d, %Y %H:%M %Z") %>
     </span>
     <span class="admin-item desktop-only user-count-admin-item">
-      <% user_count = Rails.cache.fetch("user-count/#{Date.today}") { User.count } %>
+      <% user_count = Rails.cache.fetch("admin-tools/user-count", expires_in: (Time.now.utc.tomorrow - Time.now.utc).to_i.seconds) { User.count } %>
       <%= heroicon "user", variant: :outline, options: { class: "user-count-icon" } %>
       <span class="user-count">
         Users: <%= user_count %>
