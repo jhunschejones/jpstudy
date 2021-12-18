@@ -78,8 +78,9 @@ nav {
   }
   .right-links {
     float: right;
-    .icon-subtext {
-      font-size: 0.7em;
+    width: fit-content;
+    form, button {
+      font-size: 1em;
     }
   }
   @media (max-width: 500px) {
