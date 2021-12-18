@@ -1,4 +1,4 @@
-<div class="user-in-out-page">
+<div class="in-out-page">
   <h1 class="page-title">Own your creations</h1>
 
   <p>
@@ -18,40 +18,40 @@
     <%= link_to "Export kanji", export_kanji_path, class: "button-blue" %>
   </div>
 
-  <br/>
+  <div class="danger-zone">
+    <h2 class="danger-zone-header alert-red">⚠️ DANGER ZONE ⚠️</h2>
 
-  <h2 class="danger-zone-header alert-red">⚠️ DANGER ZONE ⚠️</h2>
+    <p>
+      You may choose to permanently delete all the words or kanji you have previously added. Please note this is a destructive action and cannot be undone.
+    </p>
 
-  <p>
-    You may choose to permanently delete all the words or kanji you have previously added. Please note this is a destructive action and cannot be undone.
-  </p>
-
-  <div class="actions">
-    <%= button_to(
-      "Delete all words",
-      destroy_all_words_path,
-      method: :delete,
-      class: "button-red",
-      data: {
-        controller: "confirmation disable",
-        action: "confirmation#confirm disable#disableButton",
-        confirmation_message_value: "⚠️ Are you sure you want to delete all #{@current_user.words.size} of the words you have added? This action is permanent and cannot be undone. ⚠️",
-        disable_with_value: "Deleting...",
-        disable_target: "button"
-      }
-    ) %>
-    <%= button_to(
-      "Delete all kanji",
-      destroy_all_kanji_path,
-      method: :delete,
-      class: "button-red",
-      data: {
-        controller: "confirmation disable",
-        action: "confirmation#confirm disable#disableButton",
-        confirmation_message_value: "⚠️ Are you sure you want to delete all #{@current_user.kanji.size} of the kanji you have added? This action is permanent and cannot be undone. ⚠️",
-        disable_with_value: "Deleting...",
-        disable_target: "button"
-      }
-    ) %>
+    <div class="actions">
+      <%= button_to(
+        "Delete all words",
+        destroy_all_words_path,
+        method: :delete,
+        class: "button-red",
+        data: {
+          controller: "confirmation disable",
+          action: "confirmation#confirm disable#disableButton",
+          confirmation_message_value: "⚠️ Are you sure you want to delete all #{@current_user.words.size} of the words you have added? This action is permanent and cannot be undone. ⚠️",
+          disable_with_value: "Deleting...",
+          disable_target: "button"
+        }
+      ) %>
+      <%= button_to(
+        "Delete all kanji",
+        destroy_all_kanji_path,
+        method: :delete,
+        class: "button-red",
+        data: {
+          controller: "confirmation disable",
+          action: "confirmation#confirm disable#disableButton",
+          confirmation_message_value: "⚠️ Are you sure you want to delete all #{@current_user.kanji.size} of the kanji you have added? This action is permanent and cannot be undone. ⚠️",
+          disable_with_value: "Deleting...",
+          disable_target: "button"
+        }
+      ) %>
+    </div>
   </div>
 </div>

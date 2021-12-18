@@ -88,10 +88,7 @@
   }
 }
 
-.user-in-out-page {
-  .danger-zone-header {
-    margin-top: 42px
-  }
+.in-out-page {
   .tool-title {
     margin: 16px 0px 8px 0px;
   }
@@ -102,6 +99,18 @@
     .button-blue,
     .button-red {
       margin: 8px 8px 0px 0px;
+    }
+  }
+  .danger-zone {
+    margin: 80px 0px 12px 0px;
+    @media (max-height: 700px) {
+      margin-top: 60px;
+    }
+    border: 2px solid #DC2626;
+    border-radius: 16px;
+    padding: 12px;
+    .danger-zone-header {
+      margin: 0px;
     }
   }
 }

@@ -93,7 +93,7 @@ export default class extends Controller {
     if (this.keysPressed["s"]) {
       return Turbo.visit("/words/search");
     }
-    if (this.keysPressed["i"]) {
+    if (this.keysPressed["i"] || this.keysPressed["e"]) {
       return document.querySelector(".in-out-link").click();
     }
     if (this.keysPressed["t"]) {
