@@ -7,6 +7,7 @@ dev_user = User.find_by(email: ENV.fetch("DEV_USER_EMAIL")) || begin
     password_confirmation: ENV.fetch("DEV_USER_PASSWORD"),
     verified: true,
     word_limit: User::DEFAULT_WORD_LIMIT,
+    kanji_limit: User::DEFAULT_KANJI_LIMIT,
     trial_starts_at: Time.now,
     trial_ends_at: Time.now + 14.days
   )

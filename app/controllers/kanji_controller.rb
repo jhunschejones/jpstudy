@@ -1,10 +1,7 @@
 class KanjiController < ApplicationController
   before_action :secure_behind_subscription
 
-  ORDERED_CSV_FIELDS = [
-    :character,
-    :status
-  ]
+  ORDERED_CSV_FIELDS = [:character, :status]
   KANJI_BATCH_SIZE = 1000
 
   def next
@@ -54,10 +51,9 @@ class KanjiController < ApplicationController
       )
     end
 
-    # TODO: add kanji limit functionality
-    # if @current_user.has_reached_kanji_limit?
-    #   flash[:alert] = "You have reached your #{view_context.link_to("kanji limit", kanji_limit_path)}. Some new kanji may not have been added."
-    # end
+    if @current_user.has_reached_kanji_limit?
+      flash[:alert] = "You have reached your #{view_context.link_to("kanji limit", content_limits_path)}. Some new kanji may not have been added."
+    end
 
     flash[:success] =
       if params[:overwrite_matching_kanji]

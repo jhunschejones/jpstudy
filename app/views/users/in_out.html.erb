@@ -5,13 +5,20 @@
     jpstudy is built on the idea that users should own the content they create. To support that goal, we have always shipped both import and export features as a part of the app. You can use these tools to migrate to jpstudy from a previous study tool, or to access your data for easy use elsewhere. Whether you are coming or going, we've got you covered.
   </p>
 
+  <h3 class="tool-title">Import tools:</h3>
+
   <div class="actions">
     <%= link_to "Import words", import_words_path, class: "button-purple" %>
-    <%= link_to "Export words", export_words_path, class: "button-blue" %>
-    <br/>
     <%= link_to "Import kanji", import_kanji_path, class: "button-purple" %>
+  </div>
+
+  <h3 class="tool-title">Export tools:</h3>
+  <div class="actions">
+    <%= link_to "Export words", export_words_path, class: "button-blue" %>
     <%= link_to "Export kanji", export_kanji_path, class: "button-blue" %>
   </div>
+
+  <br/>
 
   <h2 class="danger-zone-header alert-red">⚠️ DANGER ZONE ⚠️</h2>
 

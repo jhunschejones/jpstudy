@@ -62,6 +62,9 @@
 }
 
 .next-kanji-page {
+  .page-title {
+    text-align: center;
+  }
   .next-kanji {
     margin-top: 40px;
     text-align: center;
@@ -70,7 +73,7 @@
   .actions {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 16px;
     &:not(:last-child) {
       margin-bottom: 12px;
     }

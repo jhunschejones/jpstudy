@@ -51,7 +51,8 @@
   .title {
     margin: 12px 0px 0px 0px;
   }
-  .word-limit-field {
+  .word-limit-field,
+  .kanji-limit-field {
     display: flex;
     align-items: top;
     strong {
@@ -60,6 +61,9 @@
     .info-icon {
       margin: -2px 0px 0px 2px;
     }
+  }
+  .kanji-limit-field {
+    margin-top: -4px;
   }
 }
 
@@ -88,20 +92,16 @@
   .danger-zone-header {
     margin-top: 42px
   }
+  .tool-title {
+    margin: 16px 0px 8px 0px;
+  }
   .actions {
-    margin-top: 24px;
-    a {
-      display: inline-block;
-      &:not(:last-child) {
-        margin-right: 8px;
-        margin-bottom: 16px;
-      }
-    }
-    button {
-      display: inline-block;
-      &:not(:last-child) {
-        margin-bottom: 16px;
-      }
+    display: flex;
+    flex-wrap: wrap;
+    .button-purple,
+    .button-blue,
+    .button-red {
+      margin: 8px 8px 0px 0px;
     }
   }
 }

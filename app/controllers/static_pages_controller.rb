@@ -11,7 +11,7 @@ class StaticPagesController < ApplicationController
   def next_kanji_instructions
   end
 
-  def word_limit_explanation
+  def content_limits
   end
 
   def keyboard_shortcuts

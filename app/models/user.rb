@@ -7,6 +7,7 @@ class User < ApplicationRecord
     ADMIN_ROLE = "admin"
   ]
   DEFAULT_WORD_LIMIT = 1000
+  DEFAULT_KANJI_LIMIT = 1000
 
   has_secure_password
 
@@ -42,6 +43,10 @@ class User < ApplicationRecord
   def has_reached_word_limit?
     # calling `words.size` here uses the counter_cache instead of making an extra query
     word_limit && words.size >= word_limit
+  end
+
+  def has_reached_kanji_limit?
+    kanji_limit && kanji.size >= kanji_limit
   end
 
   def can_access_admin_tools?

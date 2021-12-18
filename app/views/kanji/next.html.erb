@@ -15,15 +15,15 @@
     <%= button_to("Add", kanji_path, class: "button-blue", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) %>
   </div>
 
-  <h3 class="resources-title">Resources</h3>
+  <h3 class="resources-title">Resources:</h3>
   <div class="resources">
-    <%= link_to("https://www.japandict.com/kanji/#{@next_kanji}", target: "_blank", title: "JapanDict kanji search") do %>
-      <span class="resource-name">JapanDict</span>
-      <%= image_tag "resource_icons/japandict.png" %>
-    <% end %>
     <%= link_to("https://app.kanjialive.com/#{@next_kanji}", target: "_blank", title: "Kanjialive kanji search") do %>
       <span class="resource-name">Kanjialive</span>
       <%= image_tag "resource_icons/kanjialive.jpeg" %>
+    <% end %>
+    <%= link_to("https://www.japandict.com/kanji/#{@next_kanji}", target: "_blank", title: "JapanDict kanji search") do %>
+      <span class="resource-name">JapanDict</span>
+      <%= image_tag "resource_icons/japandict.png" %>
     <% end %>
     <%= link_to("https://en.wiktionary.org/wiki/#{@next_kanji}#Japanese", target: "_blank", title: "Wiktionary kanji search") do %>
       <span class="resource-name">Wictionary</span>

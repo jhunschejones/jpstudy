@@ -160,7 +160,7 @@ class WordsController < ApplicationController
     end
 
     if @current_user.has_reached_word_limit?
-      flash[:alert] = "You have reached your #{view_context.link_to("word limit", word_limit_path)}. Some new words may not have been added."
+      flash[:alert] = "You have reached your #{view_context.link_to("word limit", content_limits_path)}. Some new words may not have been added."
     end
 
     flash[:success] =
