@@ -79,8 +79,8 @@ nav {
   .right-links {
     float: right;
     width: fit-content;
-    form, button {
-      font-size: 1em !important;
+    button {
+      -webkit-appearance: none;
     }
   }
   @media (max-width: 500px) {
