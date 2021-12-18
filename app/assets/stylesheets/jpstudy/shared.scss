@@ -7,7 +7,6 @@ html {
 
 nav {
   position: relative;
-  overflow: hidden;
   background-color: #374151;
   height: 50px;
   // == extra-extra large box shadow
@@ -37,31 +36,55 @@ nav {
       font-size: 0.7em;
     }
   }
+  .left-links {
+    .dropdown-menu {
+      display: none;
+      .hamburger {
+        justify-content: center;
+        height: 50px;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 50px;
+        min-width: 160px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        z-index: 100;
+        padding-bottom: 2px;
+        background-color: #374151;
+        a {
+          float: none;
+          display: flex;
+          flex-direction: row;
+          .icon-subtext {
+            margin-left: 8px;
+            font-size: 0.8em;
+          }
+        }
+      }
+      &:hover .dropdown-content,
+      &:active .dropdown-content {
+        display: block;
+      }
+    }
+  }
   .center-links {
     float: none;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: fit-content;
   }
   .right-links {
     float: right;
   }
-  @media (max-width: 660px) {
-    .left-links { display: none; }
+  @media (max-width: 500px) {
     .center-links {
-      position: initial;
-      transform: unset;
-    }
-  }
-  @media (max-width: 400px) {
-    .about-link {
       display: none;
     }
-  }
-  @media (max-width: 350px) {
-    .in-out-link {
-      display: none;
+    .left-links .dropdown-menu {
+      display: block;
     }
   }
 }
@@ -70,7 +93,7 @@ main {
   display: flex;
   width: 100%;
   justify-content: center;
-  min-height: 90vh;
+  min-height: calc(100vh - 100px); // height of both navbars
   .page-content {
     padding: 12px 12px 24px 12px;
     width: 700px;

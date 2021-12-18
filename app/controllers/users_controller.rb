@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :stats, :edit_targets, :before_you_go]
+  before_action :set_user, except: [:new, :create]
+  before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
   before_action :protect_user, except: [:new, :create]
   skip_before_action :authenticate_user, only: [:new, :create]
-  before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
+  before_action :secure_behind_subscription, only: [:in_out]
 
   def show
   end
@@ -23,7 +24,8 @@ class UsersController < ApplicationController
         verification_sent_at: Time.now.utc,
         trial_starts_at: Time.now.utc,
         trial_ends_at: Time.now.utc + 30.days,
-        word_limit: User::DEFAULT_WORD_LIMIT
+        word_limit: User::DEFAULT_WORD_LIMIT,
+        kanji_limit: User::DEFAULT_KANJI_LIMIT
       })
     )
 
@@ -84,6 +86,9 @@ class UsersController < ApplicationController
     @words_with_cards_created_count = @current_user.words.where(cards_created: true).size
     @words_ready_for_cards_count = @current_user.words.cards_not_created.size
     @words_with_cards_created_today = @current_user.words.where(cards_created_at: Date.today.all_day).size
+    @total_kanji_count = @current_user.kanji.size
+    @kanji_added_count = @current_user.kanji.added.count
+    @kanji_to_add_count = Kanji.all_new_for(user: @current_user).size
 
     # Instance variable gets set to nil if next_word_goal and daily_word_target are not configured yet
     @days_to_word_target =
@@ -96,6 +101,9 @@ class UsersController < ApplicationController
   end
 
   def before_you_go
+  end
+
+  def in_out
   end
 
   private

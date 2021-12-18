@@ -193,4 +193,19 @@ class UsersControllerTest < ApplicationControllerTestCase
       assert_response :not_found
     end
   end
+
+  describe "#in_out" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get in_out_user_path(users(:elemouse))
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the words import export page" do
+      login(users(:carl))
+      get in_out_user_path(users(:carl))
+      assert_response :success
+      assert_select ".page-title", "Own your creations"
+    end
+  end
 end

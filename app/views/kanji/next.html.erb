@@ -1,0 +1,52 @@
+<div class="next-kanji-page">
+  <h1 class="page-title">
+    Next kanji
+    <%= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>
+      <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+    <% end %>
+  </h1>
+
+  <div class="next-kanji-container" data-controller="kanji">
+    <% if @next_kanji %>
+      <div class="next-kanji-card">
+        <button class="copy-kanji-button" data-action="click->kanji#copy" title="Click to copy character">
+          <%= heroicon "clipboard", variant: :outline, options: { class: "copy-kanji-icon", "data-kanji-target" => "copyIcon" } %>
+          <%= heroicon "check", variant: :outline, options: { class: "kanji-coppied-icon", "data-kanji-target" => "checkIcon" } %>
+        </button>
+        <span class="character" data-kanji-target="character">
+          <%= @next_kanji %>
+        <span>
+      </div>
+    <% else %>
+      <p class="no-next-kanji-message light-gray">
+        No new kanji to add 🎉
+      </p>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= button_to(kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
+      <%= heroicon "eye-off", variant: :outline, options: { class: "skip-button-icon" } %>
+      Skip
+    <% end %>
+    <%= button_to(kanji_path, class: "button-purple", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
+      <%= heroicon "plus", options: { class: "add-button-icon" } %>
+      Add
+    <% end %>
+  </div>
+
+  <div class="resources">
+    <%= link_to("https://app.kanjialive.com/#{@next_kanji}", target: "_blank", title: "Kanjialive kanji search") do %>
+      <span class="resource-name">Kanjialive</span>
+      <%= image_tag "resource_icons/kanjialive.jpeg" %>
+    <% end %>
+    <%= link_to("https://www.japandict.com/kanji/#{@next_kanji}", target: "_blank", title: "JapanDict kanji search") do %>
+      <span class="resource-name">JapanDict</span>
+      <%= image_tag "resource_icons/japandict.png" %>
+    <% end %>
+    <%= link_to("https://en.wiktionary.org/wiki/#{@next_kanji}#Japanese", target: "_blank", title: "Wiktionary kanji search") do %>
+      <span class="resource-name">Wictionary</span>
+      <%= image_tag "resource_icons/wictionary.png" %>
+    <% end %>
+  </div>
+</div>

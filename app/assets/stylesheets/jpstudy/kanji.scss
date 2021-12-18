@@ -1,0 +1,157 @@
+.kanji-import-page {
+  .csv-format {
+    font-family: 'Roboto Mono', monospace;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .import-csv-form {
+    margin-top: 28px;
+    font-size: 1.1em;
+    input[type="file"] {
+      font-size: 1em;
+      margin: 0px 0px 14px 1px;
+      width: 100%;
+    }
+    ::-webkit-file-upload-button {
+      // to style the file upload button
+      padding: 2px 6px;
+      border-radius: 0.6em;
+      border-style: solid;
+      border-color: #D1D5DB;
+      background-color: #E5E7EB;
+      cursor: pointer;
+      color: #1F2937;
+    }
+    .inner-form-instructions {
+      margin-top: 36px;
+    }
+    .includes-headers-field-row,
+    .overwrite-matching-kanji-field-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .label-text {
+        margin-left: 6px;
+      }
+    }
+    input[type="submit"] {
+      margin-top: 36px;
+      display: block;
+    }
+  }
+}
+
+.kanji-export-page {
+  .actions {
+    margin-top: 28px;
+    .export-button {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      width: fit-content;
+      padding-left: 12px;
+      &:not(:last-child) {
+        margin: 0px 6px 6px 0px;
+      }
+      .download-icon {
+        margin-right: 2px;
+      }
+    }
+  }
+}
+
+.next-kanji-page {
+  .page-title {
+    text-align: center;
+  }
+  .next-kanji-container {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0px 24px 0px;
+    .no-next-kanji-message {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 93px;
+    }
+    .next-kanji-card {
+      text-align: center;
+      position: relative;
+      padding: 12px 30px;
+      // == materialize shadow
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      border-style: solid;
+      border-width: 1px;
+      border-color: #F3F4F6;
+      border-radius: 4px;
+
+      .character {
+        font-size: 4em;
+        margin-right: -2px;
+      }
+
+      .copy-kanji-button {
+        background: none;
+        border: none;
+        padding: 0px;
+        cursor: pointer;
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        .copy-kanji-icon {
+          color: #d1d5db;
+        }
+        .kanji-coppied-icon {
+          color: #10B981;
+          display: none;
+        }
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    justify-content: center;
+    button {
+      display: inline-block;
+      margin: 0px 4px;
+      .skip-button-icon {
+        height: 17px;
+        margin: -2px 0px -3px -4px;
+      }
+      .add-button-icon {
+        height: 24px;
+        margin: -2px -4px -6px -8px;
+      }
+    }
+  }
+  .resources {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0px 5px 0px 5px;
+      .resource-name {
+        font-size: 0.7em;
+        color: #9CA3AF;
+      }
+      img {
+        margin-top: 6px;
+        width: 38px;
+        opacity: 0.7;
+      }
+      &:hover {
+        .resource-name {
+          color: #1F2937;
+        }
+        img {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

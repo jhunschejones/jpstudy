@@ -6,13 +6,17 @@
   </p>
 
   <div class="stats">
+    <h3 class="catagory-title">
+      Words&nbsp;
+      <%= heroicon "trending-up" %>
+    </h3>
     <p>
       <strong>Total words:</strong>
       <span class="<%= @current_user.has_reached_word_limit? ? "alert-red" : "" %>">
         <%= @total_words_created_count %>
       </span>
       <span class="light-gray"> / <%= @current_user.word_limit || "♾️" %></span>
-      <%= link_to(word_limit_path, title: "What is a word limit?") do %>
+      <%= link_to(content_limits_path, title: "What are content limits?") do %>
         <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
       <% end %>
     </p>
@@ -52,12 +56,34 @@
         <%= distance_of_time_in_words(@days_to_word_target.days) %>
       </p>
     <% end %>
+    <h3 class="catagory-title">
+      Kanji&nbsp;
+      <%= heroicon "trending-up" %>
+    </h3>
+    <p>
+      <strong>Total kanji:</strong>
+      <span class="<%= @current_user.has_reached_kanji_limit? ? "alert-red" : "" %>">
+        <%= @total_kanji_count %>
+      </span>
+      <span class="light-gray"> / <%= @current_user.kanji_limit || "♾️" %></span>
+      <%= link_to(content_limits_path, title: "What are content limits?") do %>
+        <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+      <% end %>
+    </p>
+    <p>
+      <strong>Kanji added:</strong>
+      <%= @kanji_added_count %>
+    </p>
+    <p>
+      <strong>New kanji to add:</strong>
+      <%= @kanji_to_add_count %>
+    </p>
   </div>
 
   <br/>
 
   <div class="actions">
-    <%= link_to "Edit targets", edit_targets_user_path, class: "button-blue" %>
+    <%= link_to "Edit study targets", edit_targets_user_path, class: "button-blue" %>
   </div>
 
   <p class="contact">

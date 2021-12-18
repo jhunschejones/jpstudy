@@ -1,37 +1,15 @@
 <%# inspiration for putting the partial in this directory: https://thoughtbot.com/blog/directory-for-shared-partials-in-rails %>
 <nav>
   <div class="left-links">
-    <%# nothing here yet %>
+    <div class="dropdown-menu">
+      <button class="hamburger"><%= heroicon "menu" %></button>
+      <div class="dropdown-content">
+        <%= render "main_nav_links" %>
+      </div>
+    </div>
   </div>
   <div class="center-links">
-    <%= link_to(words_path) do %>
-      <%= heroicon "collection" %>
-      <small class="icon-subtext">Words</small>
-    <% end %>
-    <%= link_to(search_words_path) do %>
-      <%= heroicon "search", variant: :outline %>
-      <small class="icon-subtext">Search</small>
-    <% end %>
-    <% if @current_user %>
-      <%= link_to(stats_user_path(@current_user), id: "stats-nav-link") do %>
-        <%= heroicon "presentation-chart-bar" %>
-        <small class="icon-subtext">Stats</small>
-      <% end %>
-    <% end %>
-    <%= link_to(in_out_words_path, class: "in-out-link") do %>
-      <%= heroicon "switch-vertical" %>
-      <small class="icon-subtext">I/O</small>
-    <% end %>
-    <%= link_to(about_path, class: "about-link") do %>
-      <%= heroicon "heart" %>
-      <small class="icon-subtext">About</small>
-    <% end %>
-    <% if @current_user %>
-      <%= link_to(@current_user) do %>
-        <%= heroicon "user-circle" %>
-        <small class="icon-subtext">Profile</small>
-      <% end %>
-    <% end %>
+    <%= render "main_nav_links" %>
   </div>
   <div class="right-links">
     <% if @current_user.present? %>

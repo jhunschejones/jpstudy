@@ -51,7 +51,8 @@
   .title {
     margin: 12px 0px 0px 0px;
   }
-  .word-limit-field {
+  .word-limit-field,
+  .kanji-limit-field {
     display: flex;
     align-items: top;
     strong {
@@ -61,9 +62,19 @@
       margin: -2px 0px 0px 2px;
     }
   }
+  .kanji-limit-field {
+    margin-top: -4px;
+  }
 }
 
 .user-stats-page {
+  .catagory-title {
+    margin: 0px 0px -6px 0px;
+    padding-top: 10px;
+    display: flex;
+    align-content: center;
+    color: #8B5CF6;
+  }
   .contact {
     font-style: italic;
     margin-top: 32px;
@@ -74,5 +85,40 @@
   .contact {
     font-style: italic;
     margin-top: 32px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    .button-blue,
+    .button-red {
+      margin: 8px 8px 0px 0px;
+    }
+  }
+}
+
+.in-out-page {
+  .tool-title {
+    margin: 16px 0px 8px 0px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    .button-purple,
+    .button-blue,
+    .button-red {
+      margin: 8px 8px 0px 0px;
+    }
+  }
+  .danger-zone {
+    margin: 80px 0px 12px 0px;
+    @media (max-height: 700px) {
+      margin-top: 60px;
+    }
+    border: 2px solid #DC2626;
+    border-radius: 16px;
+    padding: 12px;
+    .danger-zone-header {
+      margin: 0px;
+    }
   }
 }

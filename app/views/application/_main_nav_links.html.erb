@@ -1,0 +1,32 @@
+<%= link_to(words_path) do %>
+  <%= heroicon "collection" %>
+  <small class="icon-subtext">Words</small>
+<% end %>
+<%= link_to(next_kanji_path) do %>
+  <%= heroicon "puzzle" %>
+  <small class="icon-subtext">Kanji</small>
+<% end %>
+<%= link_to(search_words_path) do %>
+  <%= heroicon "search", variant: :outline %>
+  <small class="icon-subtext">Search</small>
+<% end %>
+<% if @current_user %>
+  <%= link_to(stats_user_path(@current_user), id: "stats-nav-link") do %>
+    <%= heroicon "presentation-chart-bar" %>
+    <small class="icon-subtext">Stats</small>
+  <% end %>
+  <%= link_to(in_out_user_path(@current_user), class: "in-out-link") do %>
+    <%= heroicon "switch-vertical" %>
+    <small class="icon-subtext">I/O</small>
+  <% end %>
+<% end %>
+<%= link_to(about_path, class: "about-link") do %>
+  <%= heroicon "heart" %>
+  <small class="icon-subtext">About</small>
+<% end %>
+<% if @current_user %>
+  <%= link_to(@current_user) do %>
+    <%= heroicon "user-circle" %>
+    <small class="icon-subtext">Profile</small>
+  <% end %>
+<% end %>

@@ -18,8 +18,14 @@ module ApplicationHelper
       return " | new word" if action_name == "new"
       return " | search" if action_name == "search"
       return " | in / out" if action_name == "in_out"
-      return " | import" if action_name == "import"
-      return " | export" if action_name == "export"
+      return " | import words" if action_name == "import"
+      return " | export words" if action_name == "export"
+    end
+
+    if controller_name == "kanji"
+      return " | next kanji" if action_name == "next"
+      return " | import kanji" if action_name == "import"
+      return " | export kanji" if action_name == "export"
     end
 
     if controller_name == "sessions"

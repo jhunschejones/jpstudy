@@ -28,7 +28,17 @@
     <span class="<%= @current_user.has_reached_word_limit? ? "alert-red" : "" %>">
       <%= @user.word_limit || "None" %>
     </span>
-    <%= link_to(word_limit_path, title: "What is a word limit?") do %>
+    <%= link_to(content_limits_path, title: "What are content limits?") do %>
+      <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+    <% end %>
+  </p>
+
+  <p class="kanji-limit-field">
+    <strong>Kanji limit:</strong>
+    <span class="<%= @current_user.has_reached_kanji_limit? ? "alert-red" : "" %>">
+      <%= @user.kanji_limit || "None" %>
+    </span>
+    <%= link_to(content_limits_path, title: "What are content limits?") do %>
       <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
     <% end %>
   </p>

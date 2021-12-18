@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   controller :static_pages do
     get "about" => :about
     get "word_list_instructions" => :word_list_instructions
-    get "word_limit" => :word_limit_explanation
+    get "next_kanji_instructions" => :next_kanji_instructions
+    get "content_limits" => :content_limits
     get "keyboard_shortcuts" => :keyboard_shortcuts
   end
 
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
       get :stats
       get :edit_targets
       get :before_you_go
+      get :in_out
     end
   end
 
@@ -41,13 +43,23 @@ Rails.application.routes.draw do
   resources :words do
     post :toggle_card_created
     collection do
-      get :in_out
       get :import
       post :upload
       get :export
       get :download
       delete :destroy_all
       get :search
+    end
+  end
+
+  resource :kanji, only: [:create], controller: :kanji do
+    collection do
+      get :next
+      get :import
+      post :upload
+      get :export
+      get :download
+      delete :destroy_all
     end
   end
 end

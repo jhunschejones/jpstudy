@@ -86,7 +86,7 @@ class WordsController < ApplicationController
 
   def destroy_all
     destroyed_words_count = @current_user.words.destroy_all.size
-    redirect_to in_out_words_path, success: "#{destroyed_words_count} #{"word".pluralize(destroyed_words_count)} deleted."
+    redirect_to in_out_user_path(@current_user), success: "#{destroyed_words_count} #{"word".pluralize(destroyed_words_count)} deleted."
   end
 
   def toggle_card_created
@@ -99,9 +99,6 @@ class WordsController < ApplicationController
       format.turbo_stream
       format.html { redirect_to @word }
     end
-  end
-
-  def in_out
   end
 
   def import
@@ -163,7 +160,7 @@ class WordsController < ApplicationController
     end
 
     if @current_user.has_reached_word_limit?
-      flash[:alert] = "You have reached your #{view_context.link_to("word limit", word_limit_path)}. Some new words may not have been added."
+      flash[:alert] = "You have reached your #{view_context.link_to("word limit", content_limits_path)}. Some new words may not have been added."
     end
 
     flash[:success] =
@@ -172,7 +169,7 @@ class WordsController < ApplicationController
       else
         "#{words_added} new #{"word".pluralize(words_added)} imported, #{words_already_exist} #{"word".pluralize(words_already_exist)} already #{"exist".pluralize(words_added)}."
       end
-    redirect_to in_out_words_path
+    redirect_to in_out_user_path(@current_user)
   rescue InvalidDateOrTime => error
     redirect_to import_words_path, alert: "Some words were unable to be imported: invalid date format: '#{error.message}'. Please use 'mm/dd/yyyy' formatted dates."
   end
