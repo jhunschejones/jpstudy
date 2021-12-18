@@ -6,21 +6,30 @@
     <% end %>
   </h1>
 
-  <div class="next-kanji-container" data-controller="kanji" data-action="click->kanji#copy">
-    <div class="next-kanji-card">
-      <span class="tooltiptext">Click to copy</span>
-      <span class="character" data-kanji-target="character">
-        <%= @next_kanji %>
-      <span>
-    </div>
+  <div class="next-kanji-container" data-controller="kanji">
+    <% if @next_kanji %>
+      <div class="next-kanji-card">
+        <button class="copy-kanji-button" data-action="click->kanji#copy" title="Click to copy character">
+          <%= heroicon "clipboard", variant: :outline, options: { class: "copy-kanji-icon", "data-kanji-target" => "copyIcon" } %>
+          <%= heroicon "check", variant: :outline, options: { class: "kanji-coppied-icon", "data-kanji-target" => "checkIcon" } %>
+        </button>
+        <span class="character" data-kanji-target="character">
+          <%= @next_kanji %>
+        <span>
+      </div>
+    <% else %>
+      <p class="no-next-kanji-message light-gray">
+        No new kanji to add 🎉!
+      </p>
+    <% end %>
   </div>
 
   <div class="actions">
-    <%= button_to(kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+    <%= button_to(kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
       <%= heroicon "eye-off", variant: :outline, options: { class: "skip-button-icon" } %>
       Skip
     <% end %>
-    <%= button_to(kanji_path, class: "button-purple", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+    <%= button_to(kanji_path, class: "button-purple", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
       <%= heroicon "plus", options: { class: "add-button-icon" } %>
       Add
     <% end %>
