@@ -42,11 +42,13 @@ class User < ApplicationRecord
 
   def has_reached_word_limit?
     # calling `words.size` here uses the counter_cache instead of making an extra query
-    word_limit && words.size >= word_limit
+    return false unless word_limit
+    words.size >= word_limit
   end
 
   def has_reached_kanji_limit?
-    kanji_limit && kanji.size >= kanji_limit
+    return false unless kanji_limit
+    kanji.size >= kanji_limit
   end
 
   def can_access_admin_tools?

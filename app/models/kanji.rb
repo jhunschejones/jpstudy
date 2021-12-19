@@ -10,6 +10,7 @@ class Kanji < ApplicationRecord
   belongs_to :user, counter_cache: :kanji_count, inverse_of: :kanji
   validates :character, presence: true, uniqueness: true, format: { with: KANJI_REGEX }
   validates :status, allow_nil: true, inclusion: { in: VALID_STATUSES, message: "status must be either '#{VALID_STATUSES.join("', or '")}'" }
+  validate :user_kanji_limit_not_exceeded, on: :create
 
   scope :added, -> { where(status: ADDED_STATUS) }
 
@@ -34,5 +35,13 @@ class Kanji < ApplicationRecord
 
   def skip
     update(status: SKIPPED_STATUS)
+  end
+
+  private
+
+  def user_kanji_limit_not_exceeded
+    if user.has_reached_kanji_limit?
+      errors.add(:user_kanji_limit, "exceeded")
+    end
   end
 end
