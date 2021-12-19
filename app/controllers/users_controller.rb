@@ -17,6 +17,20 @@ class UsersController < ApplicationController
   end
 
   def create
+    if ENV["MAX_USERS"] && User.count >= ENV["MAX_USERS"].to_i
+      @user = User.new(user_params.merge({
+        word_limit: User::DEFAULT_WORD_LIMIT,
+        kanji_limit: User::DEFAULT_KANJI_LIMIT
+      }))
+      if @user.save
+        flash[:alert] = "We are not accepting additional users for the alpha release at this time. We will contact you as soon as a spot opens."
+        return redirect_to login_url
+      else
+        flash[:alert] = "Unable to create user: #{@user.errors.full_messages.map(&:downcase).join(", ")}"
+        return redirect_to new_user_path
+      end
+    end
+
     verification_token = VerificationToken.generate
     @user = User.new(
       user_params.merge({
