@@ -1,9 +1,11 @@
 require "csv"
 
 class KanjiController < ApplicationController
+  include DateParsing
+
   before_action :secure_behind_subscription
 
-  ORDERED_CSV_FIELDS = [:character, :status]
+  ORDERED_CSV_FIELDS = [:character, :status, :added_to_list_on]
   KANJI_BATCH_SIZE = 1000
 
   def next
@@ -11,7 +13,10 @@ class KanjiController < ApplicationController
   end
 
   def create
-    kanji = Kanji.new(kanji_params.merge(user: @current_user))
+    kanji = Kanji.new(kanji_params.merge({
+      user: @current_user,
+      added_to_list_at: Time.now.utc
+    }))
     unless kanji.save
       flash[:alert] = "Unable to save kanji: #{kanji.errors.full_messages.join(", ")}"
     end
@@ -37,10 +42,14 @@ class KanjiController < ApplicationController
 
       character = row[0]
       status = row[1].downcase
+      added_to_list_at = row[2].presence && date_or_time_from(row[2])
 
       if (kanji = Kanji.find_by(character: character, user: @current_user))
         if params[:overwrite_matching_kanji]
-          kanji_updated += 1 if kanji.update(status: status)
+          kanji_updated += 1 if kanji.update(
+            status: status,
+            added_to_list_at: added_to_list_at
+          )
         end
 
         next kanji_already_exist += 1
@@ -49,7 +58,8 @@ class KanjiController < ApplicationController
       kanji_added += 1 if Kanji.create(
         character: character,
         status: status,
-        user: @current_user
+        user: @current_user,
+        added_to_list_at: added_to_list_at
       )
     end
 
@@ -73,7 +83,7 @@ class KanjiController < ApplicationController
     csv = CSV.generate(headers: true) do |csv|
       csv << ORDERED_CSV_FIELDS # add headers
 
-      user_kanji = @current_user.kanji.order(created_at: :asc)
+      user_kanji = @current_user.kanji.order(added_to_list_at: :asc).order(created_at: :asc)
 
       # manually grabbing ids to use in batch because `.find_each` does not respect ordering by a custom field
       kanji_ids = user_kanji.pluck(:id)

@@ -37,6 +37,10 @@ class Kanji < ApplicationRecord
     update(status: SKIPPED_STATUS)
   end
 
+  def added_to_list_on
+    (added_to_list_at.present? ? added_to_list_at : created_at).strftime("%m/%d/%Y")
+  end
+
   private
 
   def user_kanji_limit_not_exceeded

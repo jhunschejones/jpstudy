@@ -32,12 +32,16 @@
       <strong>Next learning goal:</strong>
       <% if @current_user.next_word_goal %>
         <%= pluralize @current_user.next_word_goal, "word" %>
+      <% else %>
+        <span class="light-gray">Not set</span>
       <% end %>
     </p>
     <p>
       <strong>Study target:</strong>
       <% if @current_user.daily_word_target %>
         <%= pluralize @current_user.daily_word_target, "new card" %> per day
+      <% else %>
+        <span class="light-gray">Not set</span>
       <% end %>
     </p>
     <p>
@@ -56,6 +60,7 @@
         <%= distance_of_time_in_words(@days_to_word_target.days) %>
       </p>
     <% end %>
+
     <h3 class="catagory-title">
       Kanji&nbsp;
       <%= heroicon "trending-up" %>
@@ -78,6 +83,38 @@
       <strong>New kanji to add:</strong>
       <%= @kanji_to_add_count %>
     </p>
+    <p>
+      <strong>Next learning goal:</strong>
+      <% if @current_user.next_kanji_goal %>
+        <%= @current_user.next_kanji_goal %> kanji
+      <% else %>
+        <span class="light-gray">Not set</span>
+      <% end %>
+    </p>
+    <p>
+      <strong>Study target:</strong>
+      <% if @current_user.daily_kanji_target %>
+        <%= @current_user.daily_kanji_target %> kanji per day
+      <% else %>
+        <span class="light-gray">Not set</span>
+      <% end %>
+    </p>
+    <p>
+      <strong>Kanji added today:</strong>
+      <% if @current_user.daily_kanji_target && @kanji_added_today >= @current_user.daily_kanji_target %>
+        <strong class="success-green">
+          <%= @kanji_added_today %>
+        </strong>
+      <% else %>
+        <%= @kanji_added_today %>
+      <% end %>
+    </p>
+    <% if @days_to_kanji_target %>
+      <p>
+        <strong>Time to learning goal:</strong>
+        <%= distance_of_time_in_words(@days_to_kanji_target.days) %>
+      </p>
+    <% end %>
   </div>
 
   <br/>

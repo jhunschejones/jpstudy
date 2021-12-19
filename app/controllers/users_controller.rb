@@ -100,14 +100,20 @@ class UsersController < ApplicationController
     @words_with_cards_created_count = @current_user.words.where(cards_created: true).size
     @words_ready_for_cards_count = @current_user.words.cards_not_created.size
     @words_with_cards_created_today = @current_user.words.where(cards_created_at: Date.today.all_day).size
-    @total_kanji_count = @current_user.kanji.size
-    @kanji_added_count = @current_user.kanji.added.count
-    @kanji_to_add_count = Kanji.all_new_for(user: @current_user).size
-
-    # Instance variable gets set to nil if next_word_goal and daily_word_target are not configured yet
+    # Instance variable is set to nil if next_word_goal and daily_word_target are not configured yet
     @days_to_word_target =
       if @current_user.next_word_goal && @current_user.daily_word_target && @current_user.next_word_goal > @words_with_cards_created_count
         ((@current_user.next_word_goal - @words_with_cards_created_count).to_f / @current_user.daily_word_target.to_f).ceil
+      end
+
+    @total_kanji_count = @current_user.kanji.size
+    @kanji_added_count = @current_user.kanji.added.count
+    @kanji_to_add_count = Kanji.all_new_for(user: @current_user).size
+    @kanji_added_today = @current_user.kanji.added.where(added_to_list_at: Date.today.all_day).size
+    # Instance variable is set to nil if next_kanji_goal and daily_kanji_target are not configured yet
+    @days_to_kanji_target =
+      if @current_user.next_kanji_goal && @current_user.daily_kanji_target && @current_user.next_kanji_goal > @kanji_added_count
+        ((@current_user.next_kanji_goal - @kanji_added_count).to_f / @current_user.daily_kanji_target.to_f).ceil
       end
   end
 
@@ -131,7 +137,7 @@ class UsersController < ApplicationController
   end
 
   def user_target_params
-    params.require(:user).permit(:next_word_goal, :daily_word_target)
+    params.require(:user).permit(:next_word_goal, :daily_word_target, :next_kanji_goal, :daily_kanji_target)
   end
 
   def protect_user

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_18_003925) do
+ActiveRecord::Schema.define(version: 2021_12_19_231905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_12_18_003925) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "added_to_list_at", precision: 6
     t.index ["user_id", "character"], name: "index_kanji_on_user_id_and_character", unique: true
     t.index ["user_id"], name: "index_kanji_on_user_id"
   end
@@ -50,6 +51,8 @@ ActiveRecord::Schema.define(version: 2021_12_18_003925) do
     t.bigint "daily_word_target"
     t.bigint "kanji_count"
     t.bigint "kanji_limit"
+    t.bigint "next_kanji_goal"
+    t.bigint "daily_kanji_target"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end

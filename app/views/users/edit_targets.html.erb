@@ -13,6 +13,16 @@
         <%= form.text_field :daily_word_target, type: "number", placeholder: 5 %>
       </div>
 
+      <div class="field">
+        <%= form.label :next_kanji_goal %>
+        <%= form.text_field :next_kanji_goal, type: "number", placeholder: 1000 %>
+      </div>
+
+      <div class="field">
+        <%= form.label :daily_kanji_target %>
+        <%= form.text_field :daily_kanji_target, type: "number", placeholder: 3 %>
+      </div>
+
       <div class="actions">
         <%= form.submit "Update", class: "button-blue" %>
       </div>
