@@ -69,6 +69,39 @@ class UsersControllerTest < ApplicationControllerTestCase
       assert_equal "Welcome to jpstudy", last_email.subject
       assert_equal ["jack@dafox.com"], last_email.to
     end
+
+    describe "when max users is reached" do
+      setup do
+        @origional_max_users = ENV["MAX_USERS"]
+        ENV["MAX_USERS"] = User.count.to_s
+      end
+
+      teardown do
+        ENV["MAX_USERS"] = @origional_max_users
+      end
+
+      it "creates a new, unvalidated user" do
+        assert_difference "User.count", 1 do
+          post users_path, params: { user: { email: "jack@dafox.com", username: "jackthecat", name: "Jack", password: "super_secret", password_confirmation: "super_secret" } }
+        end
+        assert_equal "jackthecat", User.last.username
+        assert_nil User.last.verification_sent_at
+      end
+
+      it "does not send a welcome email" do
+        assert_no_emails do
+          post users_path, params: { user: { email: "jack@dafox.com", username: "jackthecat", name: "Jack", password: "super_secret", password_confirmation: "super_secret" } }
+        end
+      end
+
+      it "redirects to the login page with a message" do
+        expected_message = "We are not accepting additional users for the alpha release at this time. We will contact you as soon as a spot opens."
+        post users_path, params: { user: { email: "jack@dafox.com", username: "jackthecat", name: "Jack", password: "super_secret", password_confirmation: "super_secret" } }
+        follow_redirect!
+        assert_equal login_path, path
+        assert_equal expected_message, flash[:alert]
+      end
+    end
   end
 
   describe "#update" do

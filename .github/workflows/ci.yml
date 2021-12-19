@@ -29,6 +29,7 @@ jobs:
       MESSAGE_ENCRYPTION_KEY: ${{ secrets.MESSAGE_ENCRYPTION_KEY }}
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      MAX_USERS: 4
 
     steps:
     - name: Check out repository code
