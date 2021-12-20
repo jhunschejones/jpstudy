@@ -1,3 +1,9 @@
+// when the admin tools bar is showing, the min page height should be shorter
+// (adjacent sibling combinator)
+.admin-tools-bar ~ main {
+  min-height: calc(100vh - 121px); // height of both navbars + admin tools bar
+}
+
 .admin-tools-bar {
   position: relative;
   overflow: hidden;
