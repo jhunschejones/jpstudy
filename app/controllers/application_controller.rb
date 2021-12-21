@@ -29,6 +29,8 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     @current_user ||= session[:user_id].presence && User.find_by(id: session[:user_id])
+    NewRelic::Agent.add_custom_attributes({ user: @current_user&.username })
+    @current_user
   end
 
   def subscription_already_verified?
