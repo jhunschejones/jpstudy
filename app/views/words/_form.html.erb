@@ -54,7 +54,7 @@
           }
         )
       %>
-      <%= link_to "Cancel", (word.id.present? ? word_path(word) : words_path), class: "basic-button back-button" %>
+      <%= link_to "Cancel", :back, class: "basic-button back-button" %>
     </div>
   <% end %>
 </div>
