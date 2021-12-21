@@ -9,7 +9,7 @@
     max-width: 400px;
     width: 100%;
     label {
-      display: block;
+      display: inline-block;
       padding: 8px 0px 5px 0px;
       font-weight: 500;
     }
@@ -31,6 +31,10 @@
     }
     input[type="submit"] {
       margin-top: 12px;
+    }
+    .inline-explanation {
+      display: inline;
+      margin-left: 5px;
     }
     .actions {
       padding-top: 4px;

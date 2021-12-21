@@ -4,7 +4,7 @@
 
     <%= form_with(model: @user) do |form| %>
       <div class="field">
-        <%= form.label :name %>
+        <%= form.label :name %><span class="light-gray inline-explanation">(private)</span>
         <%= form.text_field :name, required: true %>
       </div>
 
@@ -14,7 +14,7 @@
       </div>
 
       <div class="field">
-        <%= form.label :email %>
+        <%= form.label :email %><span class="light-gray inline-explanation">(private)</span>
         <%= form.text_field :email, type: "email", required: true %>
       </div>
 
