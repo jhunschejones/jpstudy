@@ -9,8 +9,9 @@ class KanjiController < ApplicationController
   KANJI_BATCH_SIZE = 1000
 
   def next
-    @next_kanji = Kanji.next_for(user: @current_user)
+    @next_kanji = Kanji.next_new_for(user: @current_user)
     @previous_kanji = @current_user.kanji.order(created_at: :asc).last
+    @as_seen_in_words = @current_user.words.where("japanese ILIKE :character", character: "%#{@next_kanji.character}%")
   end
 
   def create

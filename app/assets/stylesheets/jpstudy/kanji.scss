@@ -130,7 +130,7 @@
       }
     }
   }
-  .resources {
+  .kanji-resources {
     margin-top: 40px;
     display: flex;
     justify-content: center;
@@ -157,6 +157,14 @@
           opacity: 1;
         }
       }
+    }
+  }
+  .as-seen-in {
+    margin: 40px 0px 20px 0px;
+    h3 {
+      color: #9CA3AF;
+      margin: 0px;
+      font-weight: 400;
     }
   }
 }

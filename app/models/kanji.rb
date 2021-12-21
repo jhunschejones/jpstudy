@@ -22,10 +22,12 @@ class Kanji < ApplicationRecord
       .flat_map { |word| word.split("") }
       .uniq
       .select { |character| character =~ KANJI_REGEX }
-    all_kanji_in_words - user.kanji.pluck(:character)
+    (
+      all_kanji_in_words - user.kanji.pluck(:character)
+    ).map { |character| new(character: character) }
   end
 
-  def self.next_for(user:)
+  def self.next_new_for(user:)
     all_new_for(user: user).first
   end
 
