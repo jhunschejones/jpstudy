@@ -25,11 +25,11 @@
   </div>
 
   <div class="actions">
-    <%= button_to(kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
+    <%= button_to(kanji_path, class: "basic-button", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "Skipping...", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
       <%= heroicon "eye-off", variant: :outline, options: { class: "skip-button-icon" } %>
       Skip
     <% end %>
-    <%= button_to(kanji_path, class: "button-purple", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
+    <%= button_to(kanji_path, class: "button-purple", method: :post, params: { kanji: { character: @next_kanji, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "Adding...", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
       <%= heroicon "plus", options: { class: "add-button-icon" } %>
       Add
     <% end %>
