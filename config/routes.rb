@@ -52,6 +52,8 @@ Rails.application.routes.draw do
     end
   end
 
+  # If we call this `resources` it names the url resource correctly but uses
+  # routenames like `kanji_index`
   resource :kanji, only: [:create], controller: :kanji do
     collection do
       get :next
@@ -62,4 +64,6 @@ Rails.application.routes.draw do
       delete :destroy_all
     end
   end
+  # This is really the only way to make these routes play nice
+  delete "/kanji/:id", to: "kanji#destroy", as: :delete_kanji
 end

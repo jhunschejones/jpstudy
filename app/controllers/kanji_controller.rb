@@ -10,6 +10,7 @@ class KanjiController < ApplicationController
 
   def next
     @next_kanji = Kanji.next_for(user: @current_user)
+    @previous_kanji = @current_user.kanji.order(created_at: :asc).last
   end
 
   def create
@@ -19,6 +20,21 @@ class KanjiController < ApplicationController
     }))
     unless kanji.save
       flash[:alert] = "Unable to save kanji: #{kanji.errors.full_messages.join(", ")}"
+    end
+    redirect_to next_kanji_path
+  end
+
+  def destroy
+    @kanji = @current_user.kanji.find(params[:id])
+    @kanji.destroy
+    if @kanji.status
+      flash[:notice] =
+        case @kanji.status
+        when Kanji::ADDED_STATUS
+          "Kanji #{@kanji.character} was removed from your list and is no longer marked as added."
+        when Kanji::SKIPPED_STATUS
+          "Kanji #{@kanji.character} was removed from your list and is no longer marked as skipped."
+        end
     end
     redirect_to next_kanji_path
   end
