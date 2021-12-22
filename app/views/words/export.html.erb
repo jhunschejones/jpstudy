@@ -15,15 +15,4 @@
       Words without cards
     <% end %>
   </div>
-
-  <br/>
-
-  <% if @japanese_words_without_cards.size > 0 %>
-    <h2 class="section-title">Words without cards</h2>
-
-    <p>Just need to grab the <%= pluralize @japanese_words_without_cards.size, "new word" %> you added? Here's a quick place to do it all at once!</p>
-    <div class="new-words" lang="jp">
-      <%= @japanese_words_without_cards.join(", ") %>
-    </div>
-  <% end %>
 </div>
