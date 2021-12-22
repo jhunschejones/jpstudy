@@ -11,8 +11,15 @@ class KanjiController < ApplicationController
   def next
     @next_kanji = Kanji.next_new_for(user: @current_user)
     @previous_kanji = @current_user.kanji.order(created_at: :asc).last
-    @as_seen_in_words = @current_user.words.where("japanese ILIKE :character", character: "%#{@next_kanji.character}%")
-  end
+    @as_seen_in_words =
+      if @next_kanji.nil?
+        []
+      else
+        @current_user
+          .words
+          .where("japanese ILIKE :character", character: "%#{@next_kanji.character}%")
+      end
+    end
 
   def create
     kanji = Kanji.new(kanji_params.merge({
