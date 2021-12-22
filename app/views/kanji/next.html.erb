@@ -58,7 +58,6 @@
 
   <div class="as-seen-in">
     <% if @as_seen_in_words.any? %>
-      <h3>As seen in:</h3>
       <%= render partial: "words/word", collection: @as_seen_in_words, cached: true %>
     <% end %>
   </div>
