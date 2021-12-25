@@ -23,7 +23,7 @@ module WordsHelper
     return true if defined?(@word) && request.referrer == word_url(@word) # use Turbo on the word show page
 
     # Don't use turbo if we got to the form some other way
-    return false
+    false
   end
 
   def source_name_datalist_values

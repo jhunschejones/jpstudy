@@ -19,7 +19,7 @@ class KanjiController < ApplicationController
           .words
           .where("japanese ILIKE :character", character: "%#{@next_kanji.character}%")
       end
-    end
+  end
 
   def create
     kanji = Kanji.new(kanji_params.merge({

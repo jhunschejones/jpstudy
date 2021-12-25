@@ -1,6 +1,21 @@
 require "application_controller_test_case"
 
 class KanjiControllerTest < ApplicationControllerTestCase
+  describe "#next" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get next_kanji_path
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the 'next kanji' page with the next character to add" do
+      login(users(:carl))
+      get next_kanji_path
+      assert_response :success
+      assert_select ".character", "寝"
+    end
+  end
+
   describe "#upload" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))

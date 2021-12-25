@@ -19,7 +19,7 @@ class Kanji < ApplicationRecord
       .order(added_to_list_at: :asc)
       .order(created_at: :asc)
       .pluck(:japanese)
-      .flat_map { |word| word.split("") }
+      .flat_map(&:chars)
       .uniq
       .select { |character| character =~ KANJI_REGEX }
     (
