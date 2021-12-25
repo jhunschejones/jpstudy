@@ -90,13 +90,13 @@ export default class extends Controller {
       }
       return Turbo.visit("/words/new");
     }
-    if (this.keysPressed["s"]) {
+    if (this.keysPressed["f"]) {
       return Turbo.visit("/words/search");
     }
     if (this.keysPressed["i"] || this.keysPressed["e"]) {
       return document.querySelector(".in-out-link").click();
     }
-    if (this.keysPressed["t"]) {
+    if (this.keysPressed["s"]) {
       return document.querySelector("#stats-nav-link").click();
     }
     if (this.keysPressed["k"]) {
