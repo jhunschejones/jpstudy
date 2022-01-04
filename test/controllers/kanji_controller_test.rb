@@ -16,6 +16,76 @@ class KanjiControllerTest < ApplicationControllerTestCase
     end
   end
 
+  describe "#create" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      assert_no_difference "Kanji.count" do
+        post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+      end
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "adds a kanji and redirects to the next kanji page" do
+      login(users(:carl))
+      assert_difference "Kanji.added.count", 1 do
+        post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+      end
+      follow_redirect!
+      assert_equal path, next_kanji_path
+    end
+
+    it "skips a kanji and redirects to the next kanji page" do
+      login(users(:carl))
+      assert_difference "Kanji.where(status: Kanji::SKIPPED_STATUS).count", 1 do
+        post kanji_path, params: { kanji: { character: "竜", status: Kanji::SKIPPED_STATUS } }
+      end
+      follow_redirect!
+      assert_equal path, next_kanji_path
+    end
+
+    it "doesn't allow duplicate kanji" do
+      login(users(:carl))
+      assert_no_difference "Kanji.added.count" do
+        post kanji_path, params: { kanji: { character: kanji(:形).character, status: kanji(:形).status } }
+      end
+      follow_redirect!
+      assert_equal path, next_kanji_path
+      assert_equal "Unable to save kanji: Character has already been taken", flash[:alert]
+    end
+  end
+
+  describe "#destroy" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      assert_no_difference "Kanji.count" do
+        delete delete_kanji_path(kanji(:形))
+      end
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "deletes a kanji" do
+      login(users(:carl))
+      assert_difference "Kanji.count", -1 do
+        delete delete_kanji_path(kanji(:形))
+      end
+    end
+  end
+
+  describe "#import" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get import_kanji_path
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the 'import kanji' page" do
+      login(users(:carl))
+      get import_kanji_path
+      assert_response :success
+      assert_select ".page-title", "Import kanji"
+    end
+  end
+
   describe "#upload" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
@@ -43,6 +113,21 @@ class KanjiControllerTest < ApplicationControllerTestCase
     end
   end
 
+  describe "#export" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get export_kanji_path
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the 'export kanji' page" do
+      login(users(:carl))
+      get export_kanji_path
+      assert_response :success
+      assert_select ".page-title", "Export your kanji"
+    end
+  end
+
   describe "#download" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
@@ -58,6 +143,22 @@ class KanjiControllerTest < ApplicationControllerTestCase
         assert_equal "text/csv", response.headers["Content-Type"]
         assert response.headers["Content-Disposition"].include?("attachment; filename=\"kanji_export_#{Time.now.utc.to_i}.csv\""), "likely missing expected CSV file in response"
       end
+    end
+  end
+
+  describe "#destroy_all" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      assert_no_difference "Kanji.count" do
+        delete destroy_all_kanji_path
+      end
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "deletes all the users kanji" do
+      login(users(:carl))
+      delete destroy_all_kanji_path
+      assert_equal 0, users(:carl).kanji.count
     end
   end
 

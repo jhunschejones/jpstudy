@@ -31,6 +31,22 @@ class WordsControllerTest < ApplicationControllerTestCase
     end
   end
 
+  describe "#show" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get word_path(words(:形容詞))
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the word details page" do
+      login(users(:carl))
+      get word_path(words(:形容詞))
+      assert_response :success
+      assert_select ".page-title", "Word details"
+      assert_select ".japanese", words(:形容詞).japanese
+    end
+  end
+
   describe "#new" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
@@ -148,6 +164,30 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       delete destroy_all_words_path
       assert_equal 0, users(:carl).words.count
+    end
+  end
+
+  describe "#toggle_card_created" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      assert_no_changes "Word.find(words(:形容詞).id).cards_created" do
+        post word_toggle_card_created_path(words(:形容詞))
+      end
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "toggles the card_created attribute for the word" do
+      login(users(:carl))
+      assert_changes "Word.find(words(:形容詞).id).cards_created" do
+        post word_toggle_card_created_path(words(:形容詞))
+      end
+    end
+
+    it "redirects the word details page" do
+      login(users(:carl))
+      post word_toggle_card_created_path(words(:形容詞))
+      follow_redirect!
+      assert_select ".japanese", words(:形容詞).japanese
     end
   end
 
