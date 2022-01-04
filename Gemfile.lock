@@ -117,8 +117,8 @@ GEM
     importmap-rails (1.0.1)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
-    io-console (0.5.9)
-    irb (1.4.0)
+    io-console (0.5.11)
+    irb (1.4.1)
       reline (>= 0.3.0)
     little-plugger (1.1.4)
     logging (2.3.0)
@@ -183,7 +183,7 @@ GEM
     rake (13.0.6)
     redis (4.5.1)
     regexp_parser (2.2.0)
-    reline (0.3.0)
+    reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
     ruby2_keywords (0.0.5)
@@ -236,7 +236,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.1)
+    zeitwerk (2.5.3)
 
 PLATFORMS
   x86_64-darwin-20
