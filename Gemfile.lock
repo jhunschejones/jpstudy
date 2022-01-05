@@ -133,6 +133,7 @@ GEM
     matrix (0.4.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.6.1)
     minitest (5.15.0)
     minitest-spec-rails (6.1.0)
       minitest (>= 5.0)
@@ -142,9 +143,8 @@ GEM
     multipart-post (2.1.1)
     newrelic_rpm (8.2.0)
     nio4r (2.5.8)
-    nokogiri (1.12.5-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.12.5-x86_64-linux)
+    nokogiri (1.12.5)
+      mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     pg (1.2.3)
     public_suffix (4.0.6)
@@ -215,7 +215,7 @@ GEM
       logging (~> 2.3)
     stimulus-rails (1.0.2)
       railties (>= 6.0.0)
-    thor (1.1.0)
+    thor (1.2.1)
     tilt (2.0.10)
     turbo-rails (1.0.0)
       actionpack (>= 6.0.0)
@@ -265,7 +265,7 @@ DEPENDENCIES
   webdrivers
 
 RUBY VERSION
-   ruby 3.0.3p157
+   ruby 3.1.0p0
 
 BUNDLED WITH
    2.2.32
