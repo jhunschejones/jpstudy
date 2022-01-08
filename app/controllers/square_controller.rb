@@ -32,7 +32,8 @@ class SquareController < ApplicationController
   def logout
     reset_session
     if @current_user
-      clear_square_subscriptions_cache
+      @current_user.update!(session_token: nil) # force logout
+      @current_user.clear_square_subscriptions_cache
     end
     redirect_to login_url(message_id: "S01")
   end

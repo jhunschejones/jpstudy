@@ -57,7 +57,7 @@ jobs:
       run: |
         export DISPLAY=:99
         chromedriver --url-base=/wd/hub &
-        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+        sudo Xvfb -ac :99 -screen 0 1000x1000x24 > /dev/null 2>&1 &
     - name: Run system tests
       run: bundle exec rails test:system
       continue-on-error: true # so it begins...

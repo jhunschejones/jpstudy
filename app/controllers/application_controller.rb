@@ -28,8 +28,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_user
-    @current_user ||= session[:user_id].presence && User.find_by(id: session[:user_id])
-    NewRelic::Agent.add_custom_attributes({ user: @current_user&.username })
+    @current_user ||= session[:session_token].presence && User.find_by(session_token: session[:session_token])
+    if @current_user
+      NewRelic::Agent.add_custom_attributes({ user: @current_user.username })
+    else
+      # prevent redirect loop on invalid session_token
+      reset_session
+    end
     @current_user
   end
 

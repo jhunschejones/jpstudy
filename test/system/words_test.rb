@@ -194,7 +194,7 @@ class WordsTest < ApplicationSystemTestCase
       words_before = Word.count
 
       login(users(:carl))
-      sleep TURBO_WAIT_SECONDS
+      sleep TURBO_WAIT_SECONDS * 10
       visit new_word_url
 
       # confirm we are on the new words page
@@ -215,7 +215,7 @@ class WordsTest < ApplicationSystemTestCase
       updated_english = "#{words(:無理).english} (updated)"
 
       login(users(:carl))
-      sleep TURBO_WAIT_SECONDS
+      sleep TURBO_WAIT_SECONDS * 10
       visit word_url(words(:無理))
 
       # confirm we are on the word show page

@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     # Users who are logged in don't need to log in again
-    if session[:user_id]
+    if session[:session_token]
       return redirect_to session.delete(:return_to) || words_path
     end
 
@@ -17,10 +17,13 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
     if user.try(:authenticate, params[:password])
-      session[:user_id] = user.id
-      flash.discard
+      user.session_token ||= Token.generate.digest
       # Set the square_customer_id if this login is after a confirm_subscription_email
-      user.update!(square_customer_id: square_customer_id) if params[:ref_id].present?
+      user.square_customer_id = square_customer_id if params[:ref_id].present?
+      user.save!
+
+      session[:session_token] = user.session_token
+      flash.discard
       redirect_to session.delete(:return_to) || words_path
     else
       redirect_to login_url, alert: "Invalid email/password combination"

@@ -26,9 +26,12 @@ class EmailsController < ApplicationController
 
     # If this is being used for an email change, update the new email
     if user.unverified_email
-      user.update!(email: user.unverified_email, unverified_email: nil)
+      user.email = user.unverified_email
+      user.unverified_email = nil
     end
 
+    user.session_token = nil # force logout
+    user.save!
     reset_session
     redirect_to login_url, success: "Email successfully verified! Please log in to use your account."
   end

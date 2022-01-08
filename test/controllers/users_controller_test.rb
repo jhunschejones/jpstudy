@@ -169,7 +169,7 @@ class UsersControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       delete user_path(users(:carl))
       assert_equal "Your account has been deleted.", flash[:alert]
-      assert_nil session[:user_id], "user should have been logged out"
+      assert_nil session[:session_token], "user should have been logged out"
     end
 
     it "returns not found when accessed by a different user" do
