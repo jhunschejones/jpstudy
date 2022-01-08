@@ -3,13 +3,13 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
 
   initialize() {
-    this.keysPressed = {}
+    this.keysPressed = {};
     document.onkeydown = this.execute.bind(this);
     document.onkeyup = this.reset.bind(this);
   }
 
   reset() {
-    this.keysPressed = {}
+    this.keysPressed = {};
   }
 
   execute(e) {
@@ -59,17 +59,18 @@ export default class extends Controller {
         return history.back();
       }
     }
-    if (this.keysPressed["enter"]) {
-      const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
-      if (flashCloseButtons.length > 0) {
-        return flashCloseButtons.forEach(button => { button.click(); });
-      }
-    }
 
     const focusedInputFieldsArePresent = document.querySelectorAll("input:focus,textarea:focus").length > 0;
     if (focusedInputFieldsArePresent) {
       // If we've got a form up with a field in focus, don't execute any more shortcuts
       return;
+    }
+
+    if (this.keysPressed["enter"]) {
+      const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
+      if (flashCloseButtons.length > 0) {
+        return flashCloseButtons.forEach(button => { button.click(); });
+      }
     }
 
     if (this.keysPressed["command"] || this.keysPressed["option"] || this.keysPressed["shift"]) {
