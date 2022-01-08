@@ -41,4 +41,15 @@ class SessionsControllerTest < ApplicationControllerTestCase
       }
     end
   end
+
+  # TODO: Figure out how to turn on caching just for this test
+  # it "protects against brute force attacks" do
+  #   10.times do
+  #     post login_path, params: { email: users(:carl).email, password: "wrong_password" }
+  #   end
+  #   post login_path, params: { email: users(:carl).email, password: "wrong_password" }
+  #   follow_redirect!
+  #   assert_equal login_path, path
+  #   assert_equal "Maximum login attempts exceeded. Please try again in 15 minutes.", flash[:alert]
+  # end
 end
