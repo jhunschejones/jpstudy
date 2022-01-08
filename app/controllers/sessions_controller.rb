@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
       return redirect_to login_url, alert: "Invalid email/password combination"
     end
 
-    user.session_token ||= Token.generate.digest
+    user.session_token ||= SecureRandom.base58(32)
     # Set the square_customer_id if this login is after a confirm_subscription_email
     user.square_customer_id = square_customer_id if params[:ref_id].present?
     user.save!
@@ -31,6 +31,7 @@ class SessionsController < ApplicationController
     session[:session_token] = user.session_token
     flash.discard
     reset_login_attempts
+
     redirect_to session.delete(:return_to) || words_path
   rescue ActiveSupport::MessageEncryptor::InvalidMessage
     redirect_to login_url, alert: "Invalid token. If you are trying to confirm your subscription, please try following the link from your email."
