@@ -72,6 +72,10 @@ class WordsTest < ApplicationSystemTestCase
 
       sleep TURBO_WAIT_SECONDS
 
+      page.scroll_to :bottom
+
+      sleep TURBO_WAIT_SECONDS
+
       second_page = Word.all
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .offset(WordsController::WORDS_PER_PAGE)
