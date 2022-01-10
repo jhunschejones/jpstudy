@@ -1,8 +1,6 @@
 require "application_system_test_case"
 
 class WordsTest < ApplicationSystemTestCase
-  TURBO_WAIT_SECONDS = 0.08 # wait for page to update with turbo_stream
-
   describe "users with an active trial" do
     test "can view the word list and use filters" do
       login(users(:carl))
@@ -198,7 +196,7 @@ class WordsTest < ApplicationSystemTestCase
       words_before = Word.count
 
       login(users(:carl))
-      sleep TURBO_WAIT_SECONDS * 10
+      sleep TURBO_WAIT_SECONDS * 5
       visit new_word_url
 
       # confirm we are on the new words page
@@ -219,7 +217,7 @@ class WordsTest < ApplicationSystemTestCase
       updated_english = "#{words(:無理).english} (updated)"
 
       login(users(:carl))
-      sleep TURBO_WAIT_SECONDS * 10
+      sleep TURBO_WAIT_SECONDS * 5
       visit word_url(words(:無理))
 
       # confirm we are on the word show page

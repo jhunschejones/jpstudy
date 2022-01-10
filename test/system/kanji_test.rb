@@ -1,45 +1,24 @@
 require "application_system_test_case"
 
 class KanjiTest < ApplicationSystemTestCase
-  # setup do
-  #   @kanji = kanji(:one)
-  # end
+  describe "users with an active trial" do
+    test "can view the next kanji page and mark a kanji as added" do
+      login(users(:carl))
+      sleep TURBO_WAIT_SECONDS * 5
 
-  # test "visiting the index" do
-  #   visit kanji_url
-  #   assert_selector "h1", text: "Kanji"
-  # end
+      visit next_kanji_url
+      assert_selector "h1", text: "Next kanji"
 
-  # test "should create kanji" do
-  #   visit kanji_url
-  #   click_on "New kanji"
+      initial_next_kanji = Kanji.next_new_for(user: users(:carl))
+      assert_selector ".character", text: initial_next_kanji.character
 
-  #   fill_in "Character", with: @kanji.character
-  #   fill_in "Status", with: @kanji.status
-  #   fill_in "User", with: @kanji.user_id
-  #   click_on "Create Kanji"
+      click_on "Add"
+      sleep TURBO_WAIT_SECONDS
 
-  #   assert_text "Kanji was successfully created"
-  #   click_on "Back"
-  # end
-
-  # test "should update Kanji" do
-  #   visit kanji_url(@kanji)
-  #   click_on "Edit this kanji", match: :first
-
-  #   fill_in "Character", with: @kanji.character
-  #   fill_in "Status", with: @kanji.status
-  #   fill_in "User", with: @kanji.user_id
-  #   click_on "Update Kanji"
-
-  #   assert_text "Kanji was successfully updated"
-  #   click_on "Back"
-  # end
-
-  # test "should destroy Kanji" do
-  #   visit kanji_url(@kanji)
-  #   click_on "Destroy this kanji", match: :first
-
-  #   assert_text "Kanji was successfully destroyed"
-  # end
+      next_kanji = Kanji.next_new_for(user: users(:carl))
+      # make sure we've advanced to a new next kanji and it is visible on the page
+      refute_equal initial_next_kanji.character, next_kanji.character
+      assert_selector ".character", text: next_kanji.character
+    end
+  end
 end

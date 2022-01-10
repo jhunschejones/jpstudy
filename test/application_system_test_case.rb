@@ -1,6 +1,8 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  TURBO_WAIT_SECONDS = 0.08 # wait for page to update with turbo_stream
+
   driven_by(
     :selenium,
     using: ENV["USE_HEADFULL_BROWSER"] ? :chrome : :headless_chrome,
