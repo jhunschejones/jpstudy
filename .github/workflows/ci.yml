@@ -55,7 +55,7 @@ jobs:
         sudo Xvfb -ac :99 -screen 0 1000x1000x24 > /dev/null 2>&1 &
     - name: Run system tests
       run: bundle exec rails test:system
-      continue-on-error: true
+      # continue-on-error: true
     - name: Save failed test screenshots
       if: always()
       uses: actions/upload-artifact@v2
