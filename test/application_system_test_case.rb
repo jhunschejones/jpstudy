@@ -6,7 +6,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by(
     :selenium,
     using: ENV["USE_HEADFULL_BROWSER"] ? :chrome : :headless_chrome,
-    screen_size: [1000, 1000]
+    screen_size: [1024, 768]
   )
 
   def login(user)
