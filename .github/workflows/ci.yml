@@ -9,7 +9,7 @@ on:
     branches: [ main ]
 
 jobs:
-  setup:
+  system-tests:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -44,11 +44,6 @@ jobs:
       run: sudo apt-get install libpq-dev
     - name: Setup Database
       run: bundle exec rails db:create db:migrate
-  
-  system-tests:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
     - name: Install missing fonts # required for showing Knanji characters during system tests
       run: sudo apt-get install fonts-ipafont-mincho fonts-ipafont-gothic
     - name: Install ChromeDriver
@@ -67,11 +62,41 @@ jobs:
       with:
         name: test-screenshots
         path: /home/runner/work/jpstudy/jpstudy/tmp/screenshots/*.png
-        
-  unit-tests:
-    needs: setup
-    runs-on: ubuntu-latest
 
+  unit-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    env: # shared for all steps
+      RAILS_ENV: test
+      PRIMARY_KEY: ${{ secrets.PRIMARY_KEY }}
+      DETERMINISTIC_KEY: ${{ secrets.DETERMINISTIC_KEY }}
+      KEY_DERIVATION_SALT: ${{ secrets.KEY_DERIVATION_SALT }}
+      SQUARE_ACCESS_TOKEN: ${{ secrets.SQUARE_ACCESS_TOKEN }}
+      MESSAGE_ENCRYPTION_KEY: ${{ secrets.MESSAGE_ENCRYPTION_KEY }}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      MAX_USERS: 4
     steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Install cURL
+      run: sudo apt-get install libcurl3-dev
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1.0'
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Install dependent libraries for postgres
+      run: sudo apt-get install libpq-dev
+    - name: Setup Database
+      run: bundle exec rails db:create db:migrate
     - name: Run unit tests
       run: bundle exec rails test
