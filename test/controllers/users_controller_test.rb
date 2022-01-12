@@ -15,18 +15,44 @@ class UsersControllerTest < ApplicationControllerTestCase
       assert_response :not_found
     end
 
-    it "shows the subscribe form when the user does not have an active subscription" do
-      login(users(:carl))
-      get user_path(users(:carl))
-      assert_select ".square .title", "Subscribe"
+    describe "when the user does not have an active subscription" do
+      it "shows the subscribe form" do
+        login(users(:carl))
+        get user_path(users(:carl))
+        assert_select ".square .title", "Subscribe"
+      end
     end
 
-    # TODO: Add VCR or mocking library for SQUARE_CLIENT
-    # it "shows the modify subscription form when the user has an active subscription" do
-    #   login(users(:carl))
-    #   get user_path(users(:carl))
-    #   assert_select ".square .title", "Manage your subscription"
-    # end
+    describe "when the user has an active subscription" do
+      setup do
+        users(:carl).update!(square_customer_id: 1234)
+        subscription = {
+          id: "1234",
+          start_date: Time.now.to_s,
+          charged_through_date: (Time.now + 30.days).to_s,
+          status: "ACTIVE",
+          buyer_self_management_token: "test-token"
+        }
+        search_subscriptions_result_data = mock()
+        search_subscriptions_result = mock()
+        subscriptions = mock()
+        search_subscriptions_result_data.stubs(:subscriptions).returns([subscription])
+        search_subscriptions_result.stubs(:error?).returns(false)
+        search_subscriptions_result.stubs(:data).returns(search_subscriptions_result_data)
+        subscriptions.stubs(:search_subscriptions).returns(search_subscriptions_result)
+        SQUARE_CLIENT.stubs(:subscriptions).returns(subscriptions)
+      end
+
+      teardown do
+        SQUARE_CLIENT.unstub(:subscriptions)
+      end
+
+      it "shows the modify subscription form" do
+        login(users(:carl))
+        get user_path(users(:carl))
+        assert_select ".square .title", "Manage your subscription"
+      end
+    end
   end
 
   describe "#new" do
