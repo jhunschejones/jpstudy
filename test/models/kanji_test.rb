@@ -1,7 +1,5 @@
 require "test_helper"
 
 class KanjiTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  # TODO: add model tests here
 end
