@@ -33,6 +33,6 @@ class EmailsController < ApplicationController
     user.session_token = nil # force logout
     user.save!
     reset_session
-    redirect_to login_url, success: "Email successfully verified! Please log in to use your account."
+    redirect_to login_url(message_id: "E01")
   end
 end

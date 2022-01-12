@@ -14,6 +14,8 @@ class SessionsController < ApplicationController
     case params[:message_id]
     when "S01"
       flash.now[:success] = "🙏 Thank you for subscribing! Please follow the link in your email to finalize your subscription."
+    when "E01"
+      flash.now[:success] = "Email successfully verified! Please log in to use your account."
     end
   end
 
