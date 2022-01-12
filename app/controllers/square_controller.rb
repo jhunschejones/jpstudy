@@ -13,9 +13,7 @@ class SquareController < ApplicationController
     result = SQUARE_CLIENT.customers.retrieve_customer(customer_id: customer_id)
     raise "Square error #{result.errors.inspect}" if result.error?
     billing_email = result.data.customer[:email_address]
-    # 3. TODO: Send the user an email to link their subscription to their account
-    #    Email should include a link to the login page along with a param that is an encrypted customer ID
-    #    Singining in with the param present should un-encrypt the ID, verify it is valid, then assign it to that user
+    # 3. Send the user an email to link their subscription to their account
     UserMailer
       .with(square_customer_id: customer_id, email: billing_email)
       .confirm_subscription_email
