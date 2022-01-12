@@ -26,9 +26,10 @@ class SquareController < ApplicationController
 
   def subscription_updated
     # customer_id should stay the same, we probably don't need to listen to these?
+    head :ok
   end
 
-  # Special redirect link for Square to send users to after checking out
+  # Special redirect link for Square to send users after completing checkout
   def logout
     reset_session
     if @current_user
