@@ -1,6 +1,11 @@
 class User < ApplicationRecord
   # Don't show these attributes in logs
-  self.filter_attributes = [:password, :verification_digest, :reset_digest]
+  self.filter_attributes = [
+    :password,
+    :verification_digest,
+    :reset_digest,
+    :session_token
+  ]
 
   VALID_USER_ROLES = [
     USER_ROLE = "user",
