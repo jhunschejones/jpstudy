@@ -1,6 +1,47 @@
 require "test_helper"
 
 class KanjiTest < ActiveSupport::TestCase
+  describe "validations" do
+    it "prevents english characters" do
+      assert_no_difference "Kanji.count" do
+        kanji = Kanji.create(user: users(:carl), character: "A")
+        assert_equal ["Character is invalid"], kanji.errors.full_messages
+      end
+    end
+
+    it "prevents kana characters" do
+      assert_no_difference "Kanji.count" do
+        kanji = Kanji.create(user: users(:carl), character: "ね")
+        assert_equal ["Character is invalid"], kanji.errors.full_messages
+      end
+    end
+
+    it "prevents duplicate characters" do
+      assert_no_difference "Kanji.count" do
+        kanji = Kanji.create(user: users(:carl), character: users(:carl).kanji.last.character)
+        assert_equal ["Character has already been taken"], kanji.errors.full_messages
+      end
+    end
+
+    it "prevents users from creating kanji when they've reached their kanji limit" do
+      users(:carl).update!(kanji_limit: users(:carl).kanji.count)
+      User.reset_counters(users(:carl).id, :kanji)
+      users(:carl).reload
+
+      assert_no_difference "Kanji.count" do
+        kanji = Kanji.create(user: users(:carl), character: "寝")
+        assert_equal ["User kanji limit exceeded"], kanji.errors.full_messages
+      end
+    end
+
+    it "prevents invalid statuses" do
+      assert_no_difference "Kanji.count" do
+        kanji = Kanji.create(user: users(:carl), character: "寝", status: "space_cats")
+        assert_equal ["Status status must be either 'added', or 'skipped'"], kanji.errors.full_messages
+      end
+    end
+  end
+
   describe ".all_new_for" do
     it "returns all new kanjis for a user" do
       carls_new_kanji = Kanji.all_new_for(user: users(:carl))
