@@ -1,4 +1,31 @@
 #!/bin/bash
 
-. ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple WEB_CONCURRENCY=1 RAILS_MAX_THREADS=1 \
-exec bundle exec bin/rails test:system test # calling the test commands in this order will run unit and system tests
+# ====== How to use the test script ======
+#
+# * Run all unit tests:         ./bin/test unit
+# * Run a specific unit test:   ./bin/test unit path/to/test.rb
+# * Run all system tests:       ./bin/test system
+# * Run a specific system test: ./bin/test system path/to/test.rb
+
+if [ "$1" == "unit" ]
+then
+  # run unit tests allowing argument
+  . ./tmp/.env && WEB_CONCURRENCY=1 RAILS_MAX_THREADS=1 \
+  exec bundle exec bin/rails test $2
+elif [ "$1" == "system" ]
+then
+  if [ -z "$2" ]
+  then
+    # run all system tests
+    . ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple \
+    exec bundle exec bin/rails test:system
+  else
+    # run a specific system test
+    . ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple \
+    exec bundle exec bin/rails test $2
+  fi
+else
+  # run system tests and unit tests
+  . ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple WEB_CONCURRENCY=1 RAILS_MAX_THREADS=1 \
+  exec bundle exec bin/rails test:system test # calling the test commands in this order will run unit and system tests
+fi
