@@ -31,14 +31,6 @@ class Kanji < ApplicationRecord
     all_new_for(user: user).first
   end
 
-  def add
-    update(status: ADDED_STATUS)
-  end
-
-  def skip
-    update(status: SKIPPED_STATUS)
-  end
-
   def added_to_list_on
     (added_to_list_at.present? ? added_to_list_at : created_at).strftime("%m/%d/%Y")
   end
