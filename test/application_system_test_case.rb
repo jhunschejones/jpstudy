@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  TURBO_WAIT_SECONDS = 0.08 # wait for page to update with turbo_stream
+  TURBO_WAIT_SECONDS = 0.1 # wait for page to update with turbo_stream
 
   driven_by(
     :selenium,

@@ -53,8 +53,12 @@ jobs:
         chromedriver --url-base=/wd/hub &
         sudo Xvfb -ac :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - name: Run system tests
-      run: bundle exec rails test:system
-      # continue-on-error: true
+      uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 5
+        max_attempts: 3
+        retry_on: error
+        command: bundle exec rails test:system
     - name: Save failed test screenshots
       if: always()
       uses: actions/upload-artifact@v2

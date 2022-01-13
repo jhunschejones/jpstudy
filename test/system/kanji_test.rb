@@ -4,7 +4,7 @@ class KanjiTest < ApplicationSystemTestCase
   describe "users with an active trial" do
     test "can view the next kanji page and mark a kanji as added" do
       login(users(:carl))
-      sleep TURBO_WAIT_SECONDS * 5
+      sleep TURBO_WAIT_SECONDS * 4
 
       visit next_kanji_url
       assert_selector "h1", text: "Next kanji"

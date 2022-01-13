@@ -37,7 +37,8 @@ class WordsTest < ApplicationSystemTestCase
       sleep TURBO_WAIT_SECONDS
 
       # Words with order filter appear in the right order
-      oldest_first = Word.all
+      oldest_first = users(:carl)
+        .words
         .order(added_to_list_at: :asc).order(created_at: :asc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal oldest_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with order filter are different than expected"
@@ -196,7 +197,7 @@ class WordsTest < ApplicationSystemTestCase
       words_before = Word.count
 
       login(users(:carl))
-      sleep TURBO_WAIT_SECONDS * 5
+      sleep TURBO_WAIT_SECONDS * 4
       visit new_word_url
 
       # confirm we are on the new words page
@@ -217,7 +218,7 @@ class WordsTest < ApplicationSystemTestCase
       updated_english = "#{words(:無理).english} (updated)"
 
       login(users(:carl))
-      sleep TURBO_WAIT_SECONDS * 5
+      sleep TURBO_WAIT_SECONDS * 4
       visit word_url(words(:無理))
 
       # confirm we are on the word show page
@@ -232,7 +233,7 @@ class WordsTest < ApplicationSystemTestCase
 
       click_on "Update Word"
 
-      sleep TURBO_WAIT_SECONDS
+      sleep TURBO_WAIT_SECONDS * 2
 
       # confirm we are still on the word show page
       assert_selector ".page-title", text: "Word details"
