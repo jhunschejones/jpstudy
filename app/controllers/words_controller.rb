@@ -96,10 +96,13 @@ class WordsController < ApplicationController
       @word.update!(cards_created: true, cards_created_at: Time.now.utc)
     end
     # prevent message from showing on additional words added after goal is reached by returning false
-    flash[:success] = @current_user.has_reached_daily_word_target? && "🎉 You reached your daily word target!"
+    daily_target_message = @current_user.has_reached_daily_word_target? && "🎉 You reached your daily word target!"
     respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to @word }
+      format.turbo_stream { flash.now[:success] = daily_target_message }
+      format.html {
+        flash[:success] = daily_target_message
+        redirect_to @word
+      }
     end
   end
 
