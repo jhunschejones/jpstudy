@@ -29,6 +29,8 @@ class KanjiController < ApplicationController
     unless kanji.save
       flash[:alert] = "Unable to save kanji: #{kanji.errors.full_messages.join(", ")}"
     end
+    # prevent message from showing on additional kanji added after goal is reached by returning false
+    flash[:success] = @current_user.has_reached_daily_kanji_target? && "🎉 You reached your daily kanji target!"
     redirect_to next_kanji_path
   end
 

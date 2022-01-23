@@ -74,6 +74,62 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  describe "#has_reached_daily_word_target?" do
+    it "returns false when no daily word target is set" do
+      refute users(:carl).has_reached_daily_word_target?
+    end
+
+    describe "when daily word target is set" do
+      setup do
+        users(:carl).update!(daily_word_target: 1)
+      end
+
+      it "returns false when daily word target has not been met yet" do
+        refute users(:carl).has_reached_daily_word_target?
+      end
+
+      it "returns true when user has reached daily word target" do
+        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
+        assert users(:carl).has_reached_daily_word_target?
+      end
+
+      # To keep the flash message from continuing to show up if more words are added past the users target
+      it "returns false when user has passed daily word target" do
+        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
+        Word.create!(japanese: "お先に失礼します", english: "pardon me for leaving first", user: users(:carl), cards_created_at: Time.now.utc)
+        refute users(:carl).has_reached_daily_word_target?
+      end
+    end
+  end
+
+  describe "#has_reached_daily_kanji_target?" do
+    it "returns false when no daily kanji target is set" do
+      refute users(:carl).has_reached_daily_kanji_target?
+    end
+
+    describe "when daily kanji target is set" do
+      setup do
+        users(:carl).update!(daily_kanji_target: 1)
+      end
+
+      it "returns false when daily kanji target has not been met yet" do
+        refute users(:carl).has_reached_daily_kanji_target?
+      end
+
+      it "returns true when user has reached daily kanji target" do
+        Kanji.create(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        assert users(:carl).has_reached_daily_kanji_target?
+      end
+
+      # To keep the flash message from continuing to show up if more kanji are added past the users target
+      it "returns false when user has passed daily kanji target" do
+        Kanji.create(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        Kanji.create(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        refute users(:carl).has_reached_daily_kanji_target?
+      end
+    end
+  end
+
   describe "#reset_password" do
     it "sets new password" do
       assert users(:carl).reset_password("a_new_password")

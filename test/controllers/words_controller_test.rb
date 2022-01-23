@@ -108,11 +108,18 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_nil Word.last.source_reference
     end
 
-    it "redirects to the word list page with the new word" do
+    it "redirects to the word list page with the new word for html requests" do
       login(users(:carl))
       post words_path, params: { word: { english: "new", japanese: "新し" } }
       follow_redirect!
       assert_equal path, words_path
+      assert_select ".japanese", "新し"
+    end
+
+    it "returns turbo stream response for turbo requests" do
+      login(users(:carl))
+      post words_path(format: :turbo_stream), params: { word: { english: "new", japanese: "新し" } }
+      assert_response :success
       assert_select ".japanese", "新し"
     end
   end
@@ -126,11 +133,22 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
-    it "updates the word" do
+    it "updates the word and redirects for html request" do
       login(users(:carl))
       assert_changes "Word.find(words(:形容詞).id).english" do
         patch word_path(words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
       end
+      follow_redirect!
+      assert_equal path, word_path(words(:形容詞))
+    end
+
+    it "updates the word and sends turbo stream response for turbo request" do
+      login(users(:carl))
+      assert_changes "Word.find(words(:形容詞).id).english" do
+        patch word_path(words(:形容詞), format: :turbo_stream), params: { word: { english: "adjective (grammar)" } }
+      end
+      assert_response :success
+      assert_select "span.english", text: "adjective (grammar)"
     end
   end
 
@@ -143,11 +161,22 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
-    it "deletes the word" do
+    it "deletes the word and redirects for html requests" do
       login(users(:carl))
       assert_difference "Word.count", -1 do
         delete word_path(words(:形容詞))
       end
+      follow_redirect!
+      assert_equal path, words_path
+    end
+
+    it "deletes the word and sends turbo stream response for turbo requests" do
+      login(users(:carl))
+      assert_difference "Word.count", -1 do
+        delete word_path(words(:形容詞), format: :turbo_stream)
+      end
+      assert_response :success
+      assert_select "turbo-stream[action='remove'][target='word_#{words(:形容詞).id}']"
     end
   end
 
@@ -183,11 +212,35 @@ class WordsControllerTest < ApplicationControllerTestCase
       end
     end
 
-    it "redirects the word details page" do
+    it "redirects the word details page for html requests" do
       login(users(:carl))
       post word_toggle_card_created_path(words(:形容詞))
       follow_redirect!
       assert_select ".japanese", words(:形容詞).japanese
+    end
+
+    it "returns the updated word for turbo requests" do
+      login(users(:carl))
+      post word_toggle_card_created_path(words(:形容詞), format: :turbo_stream)
+      assert_response :success
+      assert_select ".japanese", words(:形容詞).japanese
+    end
+
+    it "returns a message when word target has been reached" do
+      login(users(:carl))
+      users(:carl).update!(daily_word_target: 1)
+      post word_toggle_card_created_path(words(:よく寝た))
+      assert_equal 1, users(:carl).words.where(cards_created_at: Date.today.all_day).size
+      assert_equal "🎉 You reached your daily word target!", flash[:success]
+    end
+
+    it "does not return a message when word target has been exceeded" do
+      login(users(:carl))
+      users(:carl).update!(daily_word_target: 1)
+      Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
+      post word_toggle_card_created_path(words(:よく寝た))
+      assert_equal 2, users(:carl).words.where(cards_created_at: Date.today.all_day).size
+      refute flash[:success]
     end
   end
 

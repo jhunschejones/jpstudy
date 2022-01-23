@@ -1,3 +1,4 @@
 <%= turbo_stream.replace @word do %>
   <%= render partial: "words/word", locals: { word: @word, apply_js_filters: params[:filter] == "cards_not_created" } %>
 <% end %>
+<%= turbo_stream.replace "flashes", partial: "application/flashes" %>

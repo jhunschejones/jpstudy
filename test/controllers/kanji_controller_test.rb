@@ -52,6 +52,23 @@ class KanjiControllerTest < ApplicationControllerTestCase
       assert_equal path, next_kanji_path
       assert_equal "Unable to save kanji: Character has already been taken", flash[:alert]
     end
+
+    it "returns a message when kanji target has been reached" do
+      login(users(:carl))
+      users(:carl).update!(daily_kanji_target: 1)
+      post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+      follow_redirect!
+      assert_equal "🎉 You reached your daily kanji target!", flash[:success]
+    end
+
+    it "does not return a message when kanji target has been exceeded" do
+      login(users(:carl))
+      users(:carl).update!(daily_kanji_target: 1)
+      Kanji.create(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+      post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+      follow_redirect!
+      refute flash[:success]
+    end
   end
 
   describe "#destroy" do
