@@ -38,7 +38,7 @@ class KanjiController < ApplicationController
     @kanji = @current_user.kanji.find(params[:id])
     @kanji.destroy
     if @kanji.status
-      flash[:hide_in_sec] = 1.2
+      flash[:hide_in_ms] = 1200
       flash[:notice] =
         case @kanji.status
         when Kanji::ADDED_STATUS

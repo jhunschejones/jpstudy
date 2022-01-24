@@ -6,8 +6,8 @@
         class="flash <%= flash_type %>"
         data-controller="flash"
         data-flash-target="flashContainer"
-        <% if flash[:hide_in_sec] %>
-        data-flash-hide-in-sec-value="<%= flash[:hide_in_sec] %>"
+        <% if flash[:hide_in_ms] %>
+        data-flash-hide-in-ms-value="<%= flash[:hide_in_ms] %>"
         <% end %>
       >
         <button class="close-flash-button" data-action="click->flash#close">
