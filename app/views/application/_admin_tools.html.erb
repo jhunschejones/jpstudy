@@ -5,7 +5,7 @@
       Release <%= ENV["HEROKU_RELEASE_VERSION"] %>
     </span>
     <span class="admin-item desktop-only">
-      <a href="https://github.com/jhunschejones/jpstudy/commit/<%= ENV["HEROKU_SLUG_COMMIT"] %>" target="_blank">
+      <a href="https://github.com/jhunschejones/jpstudy/commit/<%= ENV["HEROKU_SLUG_COMMIT"] %>" target="_blank" rel="noopener noreferrer">
         <%= heroicon "code", variant: :outline, options: { class: "code-icon" } %>
         <%= ENV["HEROKU_SLUG_COMMIT"][0..6] %>
       </a>
@@ -30,25 +30,25 @@
 
   <div class="admin-links">
     <span class="admin-item">
-      <a href="https://github.com/jhunschejones/jpstudy/actions" target="_blank">
+      <a href="https://github.com/jhunschejones/jpstudy/actions" target="_blank" rel="noopener noreferrer">
         <span class="underline">Build</span>
         <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>
     </span>
     <span class="admin-item">
-      <a href="https://dashboard.heroku.com/apps/jpstudy" target="_blank">
+      <a href="https://dashboard.heroku.com/apps/jpstudy" target="_blank" rel="noopener noreferrer">
         <span class="underline">Deploy</span>
         <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>
     </span>
     <span class="admin-item">
-      <a href="<%= ENV["NR_MONITORING_URL"] %>" target="_blank">
+      <a href="<%= ENV["NR_MONITORING_URL"] %>" target="_blank" rel="noopener noreferrer">
         <span class="underline">APM</span>
         <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>
     </span>
     <span class="admin-item">
-      <a href="<%= ENV["NR_LOGS_URL"] %>" target="_blank">
+      <a href="<%= ENV["NR_LOGS_URL"] %>" target="_blank" rel="noopener noreferrer">
         <span class="underline">Logs</span>
         <%= heroicon "external-link", variant: :outline, options: { class: "external-link-icon" } %>
       </a>

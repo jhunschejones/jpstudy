@@ -41,15 +41,15 @@
 
   <div class="kanji-resources">
     <% if @next_kanji %>
-      <%= link_to("https://app.kanjialive.com/#{@next_kanji.character}", target: "_blank", title: "Kanjialive kanji search") do %>
+      <%= link_to("https://app.kanjialive.com/#{@next_kanji.character}", target: "_blank", rel: "noopener noreferrer", title: "Kanjialive kanji search") do %>
         <span class="resource-name">Kanjialive</span>
         <%= image_tag "resource_icons/kanjialive.jpg" %>
       <% end %>
-      <%= link_to("https://www.japandict.com/kanji/#{@next_kanji.character}", target: "_blank", title: "JapanDict kanji search") do %>
+      <%= link_to("https://www.japandict.com/kanji/#{@next_kanji.character}", target: "_blank", rel: "noopener noreferrer", title: "JapanDict kanji search") do %>
         <span class="resource-name">JapanDict</span>
         <%= image_tag "resource_icons/japandict.png" %>
       <% end %>
-      <%= link_to("https://en.wiktionary.org/wiki/#{@next_kanji.character}#Japanese", target: "_blank", title: "Wiktionary kanji search") do %>
+      <%= link_to("https://en.wiktionary.org/wiki/#{@next_kanji.character}#Japanese", target: "_blank", rel: "noopener noreferrer", title: "Wiktionary kanji search") do %>
         <span class="resource-name">Wictionary</span>
         <%= image_tag "resource_icons/wictionary.png" %>
       <% end %>

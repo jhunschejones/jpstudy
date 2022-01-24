@@ -6,11 +6,11 @@
   </p>
 
   <div class="actions">
-    <%= link_to(download_words_path(format: :csv), target: "_blank", class: "button-blue export-button") do %>
+    <%= link_to(download_words_path(format: :csv), target: "_blank", rel: "noopener noreferrer", class: "button-blue export-button") do %>
       <%= heroicon "document-download", variant: :outline, options: { class: "download-icon" } %>
       All words
     <% end %>
-    <%= link_to(download_words_path(format: :csv, filter: "cards_not_created"), target: "_blank", class: "button-blue export-button") do %>
+    <%= link_to(download_words_path(format: :csv, filter: "cards_not_created"), target: "_blank", rel: "noopener noreferrer", class: "button-blue export-button") do %>
       <%= heroicon "document-download", variant: :outline, options: { class: "download-icon" } %>
       Words without cards
     <% end %>

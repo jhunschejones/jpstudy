@@ -63,31 +63,31 @@
 
     <div class="resources">
       <%# The https://github.com/jhunschejones/Chrome-According-To-Josh/tree/main/japanesepod101-better-search chrome extension is required for this search to work %>
-      <%= link_to("https://www.japanesepod101.com/japanese-dictionary/?search=#{word.japanese}", target: "_blank", title: "Jpod101 dictionary search") do %>
+      <%= link_to("https://www.japanesepod101.com/japanese-dictionary/?search=#{word.japanese}", target: "_blank", rel: "noopener noreferrer", title: "Jpod101 dictionary search") do %>
         <%= image_tag "resource_icons/jpod101.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://jisho.org/search/#{word.japanese}", target: "_blank", title: "Jisho search") do %>
+      <%= link_to("https://jisho.org/search/#{word.japanese}", target: "_blank", rel: "noopener noreferrer", title: "Jisho search") do %>
         <%= image_tag "resource_icons/jisho.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://forvo.com/word/#{word.japanese}/#ja", target: "_blank", title: "Forvo search") do %>
+      <%= link_to("https://forvo.com/word/#{word.japanese}/#ja", target: "_blank", rel: "noopener noreferrer", title: "Forvo search") do %>
         <%= image_tag "resource_icons/forvo.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://tatoeba.org/en/sentences/search?from=jpn&has_audio=yes&native=&orphans=no&query=#{word.japanese}&sort=relevance&sort_reverse=&tags=&to=&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=&trans_unapproved=&trans_user=&unapproved=no&user=", target: "_blank", title: "Tatoeba sentence search") do %>
+      <%= link_to("https://tatoeba.org/en/sentences/search?from=jpn&has_audio=yes&native=&orphans=no&query=#{word.japanese}&sort=relevance&sort_reverse=&tags=&to=&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=&trans_unapproved=&trans_user=&unapproved=no&user=", target: "_blank", rel: "noopener noreferrer", title: "Tatoeba sentence search") do %>
         <%= image_tag "resource_icons/tatoeba.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://www.japanesepod101.com/japanese-word-lists/?search=#{word.japanese}&coreX=2000", target: "_blank", title: "Jpod101 sentence search") do %>
+      <%= link_to("https://www.japanesepod101.com/japanese-word-lists/?search=#{word.japanese}&coreX=2000", target: "_blank", rel: "noopener noreferrer", title: "Jpod101 sentence search") do %>
         <%= image_tag "resource_icons/jpod101_2000.jpg", height: "20px" %>
       <% end %>
-      <%= link_to("https://www.japandict.com/?s=#{word.japanese}&lang=eng", target: "_blank", title: "JapanDict search") do %>
+      <%= link_to("https://www.japandict.com/?s=#{word.japanese}&lang=eng", target: "_blank", rel: "noopener noreferrer", title: "JapanDict search") do %>
         <%= image_tag "resource_icons/japandict.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://www.google.com/search?q=#{word.japanese}&source=lnms&tbm=isch", target: "_blank", title: "Google image search") do %>
+      <%= link_to("https://www.google.com/search?q=#{word.japanese}&source=lnms&tbm=isch", target: "_blank", rel: "noopener noreferrer", title: "Google image search") do %>
         <%= image_tag "resource_icons/google-images.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://www.123rf.com/stock-photo/#{english_with_only_letters(word)}.html", target: "_blank", title: "123RF image search") do %>
+      <%= link_to("https://www.123rf.com/stock-photo/#{english_with_only_letters(word)}.html", target: "_blank", rel: "noopener noreferrer", title: "123RF image search") do %>
         <%= image_tag "resource_icons/123rf.png", height: "20px" %>
       <% end %>
-      <%= link_to("https://unsplash.com/s/photos/#{english_with_only_letters(word)}", target: "_blank", title: "Unsplash image search") do %>
+      <%= link_to("https://unsplash.com/s/photos/#{english_with_only_letters(word)}", target: "_blank", rel: "noopener noreferrer", title: "Unsplash image search") do %>
         <%= image_tag "resource_icons/unsplash.png", height: "20px" %>
       <% end %>
     </div>
