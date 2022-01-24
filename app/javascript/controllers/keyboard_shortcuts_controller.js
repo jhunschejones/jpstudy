@@ -67,7 +67,8 @@ export default class extends Controller {
     }
 
     if (this.keysPressed["enter"]) {
-      const flashCloseButtons = document.querySelectorAll("#flashes .flash .close-flash-button");
+      // Flash close buttons for flashes that are not already automatically collapsing
+      const flashCloseButtons = document.querySelectorAll("#flashes .flash:not([data-flash-hide-in-sec-value]) .close-flash-button");
       if (flashCloseButtons.length > 0) {
         return flashCloseButtons.forEach(button => { button.click(); });
       }

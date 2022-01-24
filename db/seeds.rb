@@ -19,6 +19,7 @@ Word.find_or_create_by!(
   source_name: "Minna No Nihongo",
   source_reference: "17",
   cards_created: true,
+  added_to_list_at: Time.now.utc - 5.minutes,
   user: dev_user
 )
 Word.find_or_create_by!(
@@ -26,6 +27,7 @@ Word.find_or_create_by!(
   english: "plans, schedule",
   source_name: "Nihongo So-matome",
   source_reference: "4-1",
+  added_to_list_at: Time.now.utc - 4.minutes,
   user: dev_user
 )
 Word.find_or_create_by!(
@@ -33,5 +35,6 @@ Word.find_or_create_by!(
   english: "button",
   source_name: "Minna No Nihongo",
   source_reference: "16",
+  added_to_list_at: Time.now.utc - 3.minutes,
   user: dev_user
 )

@@ -2,13 +2,20 @@
 <div id="flashes" data-turbo-cache="false">
   <% [:alert, :notice, :success].each do |flash_type| %>
     <% if flash[flash_type] %>
-      <div class="flash <%= flash_type %>" data-controller="flash" data-flash-target="flashContainer">
+      <div
+        class="flash <%= flash_type %>"
+        data-controller="flash"
+        data-flash-target="flashContainer"
+        <% if flash[:hide_in_sec] %>
+        data-flash-hide-in-sec-value="<%= flash[:hide_in_sec] %>"
+        <% end %>
+      >
         <button class="close-flash-button" data-action="click->flash#close">
           <%= heroicon "x" %>
         </button>
         <p class="message"><%= sanitize(flash[flash_type]) %></p>
       </div>
-      <% break %><%# this helps us match the previous behavior, showing only the highest priority flash if multiple are set %>
+      <% break %><%# show only the highest priority flash if multiple are set %>
     <% end %>
   <% end %>
 </div>
