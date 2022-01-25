@@ -63,6 +63,6 @@ Rails.application.configure do
   config.active_record.encryption.primary_key = ENV.fetch("PRIMARY_KEY")
   config.active_record.encryption.deterministic_key = ENV.fetch("DETERMINISTIC_KEY")
   config.active_record.encryption.key_derivation_salt = ENV.fetch("KEY_DERIVATION_SALT")
-  config.time_zone = "Pacific Time (US & Canada)"
+  config.time_zone = "Central Time (US & Canada)"
   config.active_record.encryption.encrypt_fixtures = true
 end
