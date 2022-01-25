@@ -61,8 +61,16 @@ class User < ApplicationRecord
     daily_word_target.presence && words.where(cards_created_at: Date.today.all_day).size == daily_word_target
   end
 
+  def has_reached_or_exceeded_daily_word_target?
+    daily_word_target.presence && words.where(cards_created_at: Date.today.all_day).size >= daily_word_target
+  end
+
   def has_reached_daily_kanji_target?
     daily_kanji_target.presence && kanji.added.where(added_to_list_at: Date.today.all_day).size == daily_kanji_target
+  end
+
+  def has_reached_or_exceeded_daily_kanji_target?
+    daily_kanji_target.presence && kanji.added.where(added_to_list_at: Date.today.all_day).size >= daily_kanji_target
   end
 
   def can_access_admin_tools?

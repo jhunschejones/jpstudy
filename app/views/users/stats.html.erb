@@ -46,8 +46,7 @@
     </p>
     <p>
       <strong>Cards created today:</strong>
-      <%# show a green number if the user has reached or exceeded their daily word target %>
-      <% if @current_user.daily_word_target && @words_with_cards_created_today >= @current_user.daily_word_target %>
+      <% if @current_user.has_reached_or_exceeded_daily_word_target? %>
         <strong class="success-green">
           <%= @words_with_cards_created_today %>
         </strong>
@@ -102,8 +101,7 @@
     </p>
     <p>
       <strong>Kanji added today:</strong>
-       <%# show a green number if the user has reached or exceeded their daily kanji target %>
-      <% if @current_user.daily_kanji_target && @kanji_added_today >= @current_user.daily_kanji_target %>
+      <% if @current_user.has_reached_or_exceeded_daily_kanji_target? %>
         <strong class="success-green">
           <%= @kanji_added_today %>
         </strong>

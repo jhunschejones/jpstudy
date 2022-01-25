@@ -115,6 +115,14 @@ class UsersController < ApplicationController
       if @current_user.next_kanji_goal && @current_user.daily_kanji_target && @current_user.next_kanji_goal > @kanji_added_count
         ((@current_user.next_kanji_goal - @kanji_added_count).to_f / @current_user.daily_kanji_target.to_f).ceil
       end
+
+    if @current_user.has_reached_or_exceeded_daily_word_target? && @current_user.has_reached_or_exceeded_daily_kanji_target?
+      flash.now[:success] = "🎉 You reached your daily word and kanji targets!"
+    elsif @current_user.has_reached_or_exceeded_daily_word_target?
+      flash.now[:success] = "🎉 You reached your daily word target!"
+    elsif @current_user.has_reached_or_exceeded_daily_kanji_target?
+      flash.now[:success] = "🎉 You reached your daily kanji target!"
+    end
   end
 
   def edit_targets
