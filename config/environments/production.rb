@@ -46,7 +46,7 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
-  config.action_cable.allowed_request_origins = [ "https://www.jpstudy.app/" ]
+  config.action_cable.allowed_request_origins = [ "http://www.jpstudy.app/", "https://www.jpstudy.app/" ]
   config.web_socket_server_url = "wss://www.jpstudy.app/cable"
 
   config.session_store :cookie_store, expire_after: 14.days, key: "__Host-jpstudy_session", secure: Rails.env.production?
