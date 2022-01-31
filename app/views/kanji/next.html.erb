@@ -1,4 +1,5 @@
 <div class="next-kanji-page">
+  <%= turbo_stream_from @current_user.kanji_stream_name %>
   <h1 class="page-title">
     Next kanji
     <%= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>

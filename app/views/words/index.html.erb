@@ -19,6 +19,7 @@
 
     <%= render "words/noscript/page_number" %>
     <%= turbo_frame_tag "words_#{@page}" do %>
+      <%= turbo_stream_from @current_user.words_stream_name %>
       <%= render partial: "words/word", collection: @words, cached: true %>
 
       <%= render "words/noscript/pagination" %>

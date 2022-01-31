@@ -104,6 +104,14 @@ class User < ApplicationRecord
     Rails.cache.delete(square_subscriptions_cache_key)
   end
 
+  def words_stream_name
+    "user_#{id}_words"
+  end
+
+  def kanji_stream_name
+    "user_#{id}_kanji"
+  end
+
   private
 
   def square_subscriptions(revalidate_at: Time.now.utc.tomorrow)
