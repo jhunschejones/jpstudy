@@ -81,7 +81,8 @@ export default class extends Controller {
         }
       });
 
-    // assuming we're in decending order here, as is the current usecase
+    // This assumes we're in decending order here because currently that is the
+    // on order `order` option that requires re-shuffling the words.
     const newestSortableFields = allOtherWordsSortableFields[allOtherWordsSortableFields.length - 1];
     const thisWordSortableFields = {
       addedAt: new Date(this.addedAtValue),
@@ -106,7 +107,8 @@ export default class extends Controller {
       allOtherWords[allOtherWords.length - 1].closest("turbo-frame").parentNode.appendChild(thisTurboFrame);
     } else {
       // the word should go in the middle somewhere
-      allOtherWords[insertBeforeIndex].closest("turbo-frame").parentNode.insertBefore(thisTurboFrame, allOtherWords[insertBeforeIndex].closest("turbo-frame"));
+      const turboFrameToInsertBefore = allOtherWords[insertBeforeIndex].closest("turbo-frame");
+      turboFrameToInsertBefore.parentNode.insertBefore(thisTurboFrame, turboFrameToInsertBefore);
     }
     return true;
   }
@@ -114,12 +116,11 @@ export default class extends Controller {
   // Adapted from https://www.freecodecamp.org/news/how-to-find-the-index-where-a-number-belongs-in-an-array-in-javascript-9af8453a39a8/
   indexToInsertAt(array, newElement) {
     let newArray = array.concat(newElement);
-    // Sort the new array from greatest to least.
+    // Sort the new array from greatest to least by sort prefrence.
     newArray.sort((a, b) => {
+      // Refrencing https://dev.to/markbdsouza/js-sort-an-array-of-objects-on-multiple-columns-keys-2bj1
       return (a.addedAt - b.addedAt || a.createdAt - b.createdAt || a.databaseId - b.databaseId);
-      // return (a.databaseId - b.databaseId || a.createdAt - b.createdAt || a.addedAt - b.addedAt);
     });
-    // newArray.sort((a, b) => b - a);
     // Return the index of the new element which is now in the correct place in the new array.
     return newArray.indexOf(newElement);
   }
