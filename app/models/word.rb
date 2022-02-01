@@ -9,16 +9,16 @@ class Word < ApplicationRecord
   scope :cards_not_created, -> { where(cards_created: false) }
 
   after_create_commit {
-    broadcast_prepend_later_to(user.words_stream_name, target: "words_1", locals: { apply_js_filters: true })
-    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true })
+    broadcast_replace_later_to(user.words_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".word_#{id}" })
+    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".next-kanji-page" })
   }
   after_update_commit {
-    broadcast_replace_later_to(user.words_stream_name, locals: { apply_js_filters: true })
-    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true })
+    broadcast_replace_later_to(user.words_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".word_#{id}" })
+    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".next-kanji-page" })
   }
   after_destroy_commit {
-    broadcast_remove_to(user.words_stream_name)
-    broadcast_replace_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true })
+    broadcast_replace_to(user.words_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".word_#{id}" })
+    broadcast_replace_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".next-kanji-page" })
   }
 
   def added_to_list_on

@@ -14,6 +14,16 @@ class Kanji < ApplicationRecord
 
   scope :added, -> { where(status: ADDED_STATUS) }
 
+  after_create_commit {
+    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".next-kanji-page" })
+  }
+  after_update_commit {
+    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".next-kanji-page" })
+  }
+  after_destroy_commit {
+    broadcast_replace_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: Time.now.utc, target_selector: ".next-kanji-page" })
+  }
+
   def self.all_new_for(user:)
     all_kanji_in_words = user.words
       .order(added_to_list_at: :asc)

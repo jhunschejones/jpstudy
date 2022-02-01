@@ -60,4 +60,28 @@ class KanjiTest < ActiveSupport::TestCase
       assert_nil Kanji.next_new_for(user: users(:elemouse))
     end
   end
+
+  it "broadcasts async kanji stream events on create" do
+    perform_enqueued_jobs do
+      assert_broadcasts users(:carl).kanji_stream_name, 1 do
+        Kanji.create!(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+      end
+    end
+    assert_performed_jobs 1
+  end
+
+  it "broadcasts async kanji stream events on update" do
+    perform_enqueued_jobs do
+      assert_broadcasts users(:carl).kanji_stream_name, 1 do
+        kanji(:形).update!(status: Kanji::SKIPPED_STATUS)
+      end
+    end
+    assert_performed_jobs 1
+  end
+
+  it "broadcasts synchronous kanji stream events on destroy" do
+    assert_broadcasts users(:carl).kanji_stream_name, 1 do
+      kanji(:形).destroy
+    end
+  end
 end

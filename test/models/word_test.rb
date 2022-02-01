@@ -48,7 +48,7 @@ class WordTest < ActiveSupport::TestCase
     end
   end
 
-  it "broadcasts async word and kanji stream events" do
+  it "broadcasts async word and kanji stream events on create" do
     perform_enqueued_jobs do
       assert_broadcasts users(:carl).words_stream_name, 1 do
         assert_broadcasts users(:carl).kanji_stream_name, 1 do
@@ -59,7 +59,7 @@ class WordTest < ActiveSupport::TestCase
     assert_performed_jobs 2
   end
 
-  it "broadcasts async word and kanji stream events" do
+  it "broadcasts async word and kanji stream events on update" do
     perform_enqueued_jobs do
       assert_broadcasts users(:carl).words_stream_name, 1 do
         assert_broadcasts users(:carl).kanji_stream_name, 1 do
@@ -70,7 +70,7 @@ class WordTest < ActiveSupport::TestCase
     assert_performed_jobs 2
   end
 
-  it "broadcasts synchronous word and kanji stream events" do
+  it "broadcasts synchronous word and kanji stream events on destroy" do
     assert_broadcasts users(:carl).words_stream_name, 1 do
       assert_broadcasts users(:carl).kanji_stream_name, 1 do
         words(:形容詞).destroy

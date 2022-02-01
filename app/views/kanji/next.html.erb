@@ -1,4 +1,4 @@
-<div class="next-kanji-page">
+<div class="next-kanji-page" data-last-update="<%= Time.now.utc%>">
   <%= turbo_stream_from @current_user.kanji_stream_name %>
   <h1 class="page-title">
     Next kanji

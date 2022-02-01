@@ -1,6 +1,16 @@
 <div id="page-outdated" class="page-outdated-container">
   <% if defined?(visible) && visible %>
-    <div class="page-outdated-notice" data-controller="page-outdated" data-page-outdated-target="notice">
+    <div
+      class="page-outdated-notice"
+      data-controller="page-outdated"
+      data-page-outdated-target="notice"
+      <% if defined?(last_update) %>
+      data-page-outdated-last-update-value="<%= last_update %>"
+      <% end %>
+      <% if defined?(target_selector) %>
+      data-page-outdated-target-selector-value="<%= target_selector %>"
+      <% end %>
+    >
       <button class="close-flash-button" data-action="click->page-outdated#close">
         <%= heroicon "x" %>
       </button>

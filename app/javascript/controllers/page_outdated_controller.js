@@ -3,6 +3,23 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [ "notice" ]
 
+  static values = {
+    lastUpdate: String,
+    targetSelector: String,
+  }
+
+  initialize() {
+    if (this.hasLastUpdateValue && this.hasTargetSelectorValue) {
+      setTimeout(() => {
+        const thisLastUpdate = new Date(this.lastUpdateValue);
+        const pageLastUpdate = new Date(document.querySelector(this.targetSelectorValue).dataset.lastUpdate);
+        if (thisLastUpdate > pageLastUpdate) {
+          this.noticeTarget.style.display = "block";
+        }
+      }, 1500);
+    }
+  }
+
   refresh() {
     Turbo.visit(window.location);
   }
