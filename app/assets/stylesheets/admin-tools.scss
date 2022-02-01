@@ -1,7 +1,12 @@
-// when the admin tools bar is showing, the min page height should be shorter
-// (adjacent sibling combinator)
+// When the admin tools bar is showing (adjacent sibling combinator)...
 .admin-tools-bar ~ main {
+  // The min page height should be shorter
   min-height: calc(100vh - 121px); // height of both navbars + admin tools bar
+
+  // The page outdated notice should be positioned lower on the page.
+  .page-outdated-notice {
+    top: 88px;
+  }
 }
 
 .admin-tools-bar {

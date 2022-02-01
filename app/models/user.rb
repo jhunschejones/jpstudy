@@ -74,7 +74,7 @@ class User < ApplicationRecord
   end
 
   def can_access_admin_tools?
-    role == ADMIN_ROLE && ENV["HEROKU_SLUG_COMMIT"]
+    role == ADMIN_ROLE && ENV["HEROKU_SLUG_COMMIT"] && ENV["HEROKU_RELEASE_CREATED_AT"]
   end
 
   # Returns false on failure
