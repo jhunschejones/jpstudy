@@ -10,12 +10,12 @@ export default class extends Controller {
 
   initialize() {
     if (this.hasLastUpdateValue && this.hasTargetSelectorValue) {
-      const thisLastUpdate = new Date(this.lastUpdateValue);
-      const pageLastUpdate = new Date(document.querySelector(this.targetSelectorValue).dataset.lastUpdate);
+      // Safari doesn't like dashes in dates 🙄
+      const thisLastUpdate = new Date(this.lastUpdateValue.replace(/-/g, "/"));
+      const pageLastUpdate = new Date(document.querySelector(this.targetSelectorValue).dataset.lastUpdate.replace(/-/g, "/"));
       if (thisLastUpdate > pageLastUpdate) {
         this.noticeTarget.style.display = "block";
       } else {
-        console.log(thisLastUpdate, pageLastUpdate)
         console.log("Page outdated notice not initialized due to time difference.");
       }
     } else {
