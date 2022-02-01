@@ -1,0 +1,12 @@
+<div id="page-outdated" class="page-outdated-container">
+  <% if defined?(visible) && visible %>
+    <div class="page-outdated-notice" data-controller="page-outdated" data-page-outdated-target="notice">
+      <button class="close-flash-button" data-action="click->page-outdated#close">
+        <%= heroicon "x" %>
+      </button>
+      <p>
+        This page is out of date. <a href="" data-action="click->page-outdated#refresh">Refresh</a> to see the newest data! 🎉
+      </p>
+    </div>
+  <% end %>
+</div>
