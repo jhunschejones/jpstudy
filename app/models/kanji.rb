@@ -1,4 +1,5 @@
 class Kanji < ApplicationRecord
+  include PageOutdatedNotifiable
   self.table_name = "kanji" # otherwise ActiveRecord looks for a 'kanjis' table
 
   VALID_STATUSES = [
@@ -6,7 +7,6 @@ class Kanji < ApplicationRecord
     SKIPPED_STATUS = "skipped".freeze
   ]
   KANJI_REGEX = /[一-龯]/
-  TURBO_STREAM_DELAY = 2.seconds
 
   belongs_to :user, counter_cache: :kanji_count, inverse_of: :kanji
   validates :character, presence: true, uniqueness: true, format: { with: KANJI_REGEX }
@@ -15,15 +15,9 @@ class Kanji < ApplicationRecord
 
   scope :added, -> { where(status: ADDED_STATUS) }
 
-  after_create_commit {
-    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: (Time.now - TURBO_STREAM_DELAY).utc, target_selector: ".next-kanji-page" })
-  }
-  after_update_commit {
-    broadcast_replace_later_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: (Time.now - TURBO_STREAM_DELAY).utc, target_selector: ".next-kanji-page" })
-  }
-  after_destroy_commit {
-    broadcast_replace_to(user.kanji_stream_name, target: "page-outdated", partial: "page_outdated", locals: { visible: true, last_update: (Time.now - TURBO_STREAM_DELAY).utc, target_selector: ".next-kanji-page" })
-  }
+  after_create_commit { notify_outdated_next_kanji_pages }
+  after_update_commit { notify_outdated_next_kanji_pages }
+  after_destroy_commit { notify_outdated_next_kanji_pages(async: false) }
 
   def self.all_new_for(user:)
     all_kanji_in_words = user.words
