@@ -10,15 +10,14 @@ export default class extends Controller {
 
   initialize() {
     if (this.hasLastUpdateValue && this.hasTargetSelectorValue) {
-      setTimeout(() => {
-        const thisLastUpdate = new Date(this.lastUpdateValue);
-        const pageLastUpdate = new Date(document.querySelector(this.targetSelectorValue).dataset.lastUpdate);
-        if (thisLastUpdate > pageLastUpdate) {
-          this.noticeTarget.style.display = "block";
-        } else {
-          console.log("Page outdated notice not initialized due to time difference.");
-        }
-      }, 1500);
+      const thisLastUpdate = new Date(this.lastUpdateValue);
+      const pageLastUpdate = new Date(document.querySelector(this.targetSelectorValue).dataset.lastUpdate);
+      if (thisLastUpdate > pageLastUpdate) {
+        this.noticeTarget.style.display = "block";
+      } else {
+        console.log(thisLastUpdate, pageLastUpdate)
+        console.log("Page outdated notice not initialized due to time difference.");
+      }
     } else {
       console.log("Page outdated notice not initialized due to missing values.");
     }
