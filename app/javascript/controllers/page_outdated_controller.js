@@ -15,8 +15,12 @@ export default class extends Controller {
         const pageLastUpdate = new Date(document.querySelector(this.targetSelectorValue).dataset.lastUpdate);
         if (thisLastUpdate > pageLastUpdate) {
           this.noticeTarget.style.display = "block";
+        } else {
+          console.log("Page outdated notice not initialized due to time difference.");
         }
       }, 1500);
+    } else {
+      console.log("Page outdated notice not initialized due to missing values.");
     }
   }
 
