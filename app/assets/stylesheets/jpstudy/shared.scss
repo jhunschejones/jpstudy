@@ -246,6 +246,9 @@ footer {
   justify-content: flex-end;
 
   .page-outdated-notice {
+    position: fixed;
+    top: 62px;
+
     display: none; // hidden by default
     background-color: #f472b6;
     color:  white;
