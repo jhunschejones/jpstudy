@@ -5,6 +5,7 @@ module PageOutdatedNotifiable
 
   def notify_outdated_next_kanji_pages(async: true)
     raise ArgumentError unless user
+    return if ENV["DISABLE_WEBSOCKETS"]
 
     broadcast_args = {
       target: "page-outdated",
@@ -25,6 +26,7 @@ module PageOutdatedNotifiable
 
   def notify_outdated_word_list_pages(async: true)
     raise ArgumentError unless id && user
+    return if ENV["DISABLE_WEBSOCKETS"]
 
     broadcast_args = {
       target: "page-outdated",

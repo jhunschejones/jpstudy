@@ -1,5 +1,8 @@
 <div class="next-kanji-page" data-last-update="<%= Time.now.utc%>">
-  <%= turbo_stream_from @current_user.kanji_stream_name %>
+  <% unless ENV["DISABLE_WEBSOCKETS"] %>
+    <%= turbo_stream_from @current_user.kanji_stream_name %>
+  <% end %>
+
   <h1 class="page-title">
     Next kanji
     <%= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>
