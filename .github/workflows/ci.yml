@@ -88,6 +88,8 @@ jobs:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       MAX_USERS: 4
+      WEB_CONCURRENCY: 1
+      RAILS_MAX_THREADS: 1
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
