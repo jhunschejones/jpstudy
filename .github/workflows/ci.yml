@@ -103,4 +103,9 @@ jobs:
     - name: Setup Database
       run: bundle exec rails db:create db:migrate
     - name: Run unit tests
-      run: bundle exec rails test
+      uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 5
+        max_attempts: 3
+        retry_on: error
+        command: bundle exec rails test
