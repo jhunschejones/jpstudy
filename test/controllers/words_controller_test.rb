@@ -230,7 +230,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       users(:carl).update!(daily_word_target: 1)
       post word_toggle_card_created_path(words(:よく寝た))
-      assert_equal 1, users(:carl).words.where(cards_created_at: Date.today.all_day).size
+      assert_equal 1, users(:carl).reload.words.where(cards_created_at: Date.today.all_day).size
       assert_equal "🎉 You reached your daily word target!", flash[:success]
     end
 
@@ -239,7 +239,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       users(:carl).update!(daily_word_target: 1)
       Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
       post word_toggle_card_created_path(words(:よく寝た))
-      assert_equal 2, users(:carl).words.where(cards_created_at: Date.today.all_day).size
+      assert_equal 2, users(:carl).reload.words.where(cards_created_at: Date.today.all_day).size
       refute flash[:success]
     end
   end
