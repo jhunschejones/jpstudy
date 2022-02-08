@@ -46,7 +46,7 @@ class KanjiTest < ActiveSupport::TestCase
     it "returns all new kanjis for a user" do
       carls_new_kanji = Kanji.all_new_for(user: users(:carl))
       assert carls_new_kanji.first.is_a?(Kanji)
-      assert_equal ["寝", "教", "婚", "約", "大", "切", "使", "如", "何", "言", "短", "頃", "体", "無", "理", "然", "回", "実", "陰", "様", "段", "調", "子", "悪"], carls_new_kanji.map(&:character)
+      assert_equal ["寝", "教", "婚", "約", "大", "切", "使", "如", "何", "言", "短", "頃", "体", "無", "理", "然", "回", "実", "陰", "様", "段", "調", "子", "悪"].sort, carls_new_kanji.map(&:character).sort
     end
   end
 

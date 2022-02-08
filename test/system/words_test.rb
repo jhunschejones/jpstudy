@@ -34,7 +34,7 @@ class WordsTest < ApplicationSystemTestCase
 
       click_on "Words without cards"
 
-      sleep TURBO_WAIT_SECONDS
+      sleep TURBO_WAIT_SECONDS * 2
 
       # Words with order filter appear in the right order
       oldest_first = users(:carl)
