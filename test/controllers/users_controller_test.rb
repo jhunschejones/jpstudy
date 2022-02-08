@@ -218,7 +218,7 @@ class UsersControllerTest < ApplicationControllerTestCase
     it "returns a message when daily word and kanji targets are met" do
       users(:carl).update!(daily_kanji_target: 1, daily_word_target: 1)
       Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
-      Kanji.create(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+      Kanji.create!(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
 
       login(users(:carl).reload)
       get stats_user_path(users(:carl))

@@ -66,7 +66,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       users(:carl).update!(daily_kanji_target: 1)
       users(:carl).reload
-      Kanji.create(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+      Kanji.create!(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
       post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       follow_redirect!
       refute flash[:success]

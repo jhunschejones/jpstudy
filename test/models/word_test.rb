@@ -63,7 +63,7 @@ class WordTest < ActiveSupport::TestCase
     perform_enqueued_jobs do
       assert_broadcasts users(:carl).words_stream_name, 1 do
         assert_broadcasts users(:carl).kanji_stream_name, 1 do
-          words(:形容詞).update(english: "updated")
+          words(:形容詞).update!(english: "updated")
         end
       end
     end

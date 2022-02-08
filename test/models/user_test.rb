@@ -144,14 +144,14 @@ class UserTest < ActiveSupport::TestCase
       end
 
       it "returns true when user has reached daily kanji target" do
-        Kanji.create(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        Kanji.create!(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
         assert users(:carl).reload.has_reached_daily_kanji_target?
       end
 
       # To keep the flash message from continuing to show up if more kanji are added past the users target
       it "returns false when user has passed daily kanji target" do
-        Kanji.create(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
-        Kanji.create(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        Kanji.create!(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        Kanji.create!(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
         refute users(:carl).has_reached_daily_kanji_target?
       end
     end
@@ -172,13 +172,13 @@ class UserTest < ActiveSupport::TestCase
       end
 
       it "returns true when user has reached daily kanji target" do
-        Kanji.create(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        Kanji.create!(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
         assert users(:carl).reload.has_reached_or_exceeded_daily_kanji_target?
       end
 
       it "returns true when user has passed daily kanji target" do
-        Kanji.create(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
-        Kanji.create(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        Kanji.create!(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
+        Kanji.create!(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
         assert users(:carl).reload.has_reached_or_exceeded_daily_kanji_target?
       end
     end
