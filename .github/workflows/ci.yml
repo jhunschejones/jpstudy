@@ -39,10 +39,8 @@ jobs:
       with:
         ruby-version: '3.1.0'
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Install dependent libraries for postgres
-      run: sudo apt-get install libpq-dev
     - name: Setup Database
-      run: bundle exec rails db:create db:migrate
+      run: bundle exec rails db:drop db:create db:migrate
     - name: Install missing fonts # required for showing Knanji characters during system tests
       run: sudo apt-get install fonts-ipafont-mincho fonts-ipafont-gothic
     - name: Install ChromeDriver
@@ -100,10 +98,8 @@ jobs:
       with:
         ruby-version: '3.1.0'
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Install dependent libraries for postgres
-      run: sudo apt-get install libpq-dev
     - name: Setup Database
-      run: bundle exec rails db:create db:migrate
+      run: bundle exec rails db:drop db:create db:migrate
     - name: Run unit tests
       uses: nick-invision/retry@v2
       with:

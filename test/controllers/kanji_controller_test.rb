@@ -56,7 +56,6 @@ class KanjiControllerTest < ApplicationControllerTestCase
     it "returns a message when kanji target has been reached" do
       login(users(:carl))
       users(:carl).update!(daily_kanji_target: 1)
-      users(:carl).reload
       post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       follow_redirect!
       assert_equal "🎉 You reached your daily kanji target!", flash[:success]
@@ -65,7 +64,6 @@ class KanjiControllerTest < ApplicationControllerTestCase
     it "does not return a message when kanji target has been exceeded" do
       login(users(:carl))
       users(:carl).update!(daily_kanji_target: 1)
-      users(:carl).reload
       Kanji.create!(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
       post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       follow_redirect!

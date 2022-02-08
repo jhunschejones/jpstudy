@@ -220,7 +220,7 @@ class UsersControllerTest < ApplicationControllerTestCase
       Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
       Kanji.create!(user: users(:carl), character: "寝", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
 
-      login(users(:carl).reload)
+      login(users(:carl))
       get stats_user_path(users(:carl))
       assert_equal "🎉 You reached your daily word and kanji targets!", flash[:success]
     end
