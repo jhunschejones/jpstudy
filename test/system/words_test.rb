@@ -103,9 +103,10 @@ class WordsTest < ApplicationSystemTestCase
       # confirm form was loaded with turbo on the same page
       assert_selector "h1", text: "Words"
 
-      fill_in "English", with: "a little more"
       fill_in "Japanese", with: "もう少し"
-
+      sleep TURBO_WAIT_SECONDS
+      fill_in "English", with: "a little more"
+      sleep TURBO_WAIT_SECONDS
       click_on "Create Word"
       sleep TURBO_WAIT_SECONDS
       assert_equal words_before + 1, Word.count
