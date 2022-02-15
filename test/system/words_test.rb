@@ -230,7 +230,11 @@ class WordsTest < ApplicationSystemTestCase
       # confirm form was loaded with turbo on the same page
       assert_selector ".page-title", text: "Word details"
 
+      sleep TURBO_WAIT_SECONDS
+
       fill_in "English", with: updated_english
+
+      sleep TURBO_WAIT_SECONDS
 
       click_on "Update Word"
 
