@@ -1,0 +1,25 @@
+<div class="audio-tools-container">
+  <div class="japanese-to-audio-form">
+    <h2 class="title">Japanese to audio</h2>
+
+    <%= form_tag(japanese_to_audio_media_tools_path) do |form| %>
+      <div class="field">
+        <%= label_tag :japanese %>
+        <%= text_field_tag :japanese, nil, required: true %>
+      </div>
+
+      <div class="field">
+        <%= label_tag :filename %>
+        <%= text_field_tag :filename, nil %>
+      </div>
+
+      <div class="actions">
+        <%= submit_tag "Convert", class: "button-blue" %>
+      </div>
+    <% end %>
+
+    <% if @japanese_to_audio_file && @filename %>
+      <%= link_to(@filename, @japanese_to_audio_file) %>
+    <% end %>
+  </div>
+</div>
