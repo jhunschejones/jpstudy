@@ -28,5 +28,3 @@
 /config/master.key
 
 *.DS_Store
-
-/public/audio/*.mp3
