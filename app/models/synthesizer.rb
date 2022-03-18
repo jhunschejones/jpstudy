@@ -1,6 +1,4 @@
 class Synthesizer
-  class InvalidJapanese < StandardError; end
-
   POLLY = Aws::Polly::Client.new
   S3 = Aws::S3::Resource.new
   FEMALE_VOICE_ID = "Mizuki".freeze
