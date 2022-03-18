@@ -23,6 +23,7 @@ class SynthesizerTest < ActiveSupport::TestCase
         s3: @test_s3
       )
     end
+
     it "uses aws polly to synthesize text to speach" do
       @test_polly.expects(:synthesize_speech).once.returns(stub(audio_stream: Tempfile.new))
       @synthesizer.convert_japanese_to_audio

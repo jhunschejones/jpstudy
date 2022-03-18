@@ -11,6 +11,7 @@ if [ "$1" == "unit" ]
 then
   # run unit tests allowing argument
   . ./tmp/.env && WEB_CONCURRENCY=1 RAILS_MAX_THREADS=1 \
+  AWS_ACCESS_KEY_ID=test-key-id AWS_SECRET_ACCESS_KEY=test-key-secret \
   exec bundle exec bin/rails test $2
 elif [ "$1" == "system" ]
 then
@@ -18,14 +19,17 @@ then
   then
     # run all system tests
     . ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple \
+    AWS_ACCESS_KEY_ID=test-key-id AWS_SECRET_ACCESS_KEY=test-key-secret \
     exec bundle exec bin/rails test:system
   else
     # run a specific system test
     . ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple \
+    AWS_ACCESS_KEY_ID=test-key-id AWS_SECRET_ACCESS_KEY=test-key-secret \
     exec bundle exec bin/rails test $2
   fi
 else
   # run system tests and unit tests
   . ./tmp/.env && RAILS_SYSTEM_TESTING_SCREENSHOT=simple WEB_CONCURRENCY=1 RAILS_MAX_THREADS=1 \
+  AWS_ACCESS_KEY_ID=test-key-id AWS_SECRET_ACCESS_KEY=test-key-secret \
   exec bundle exec bin/rails test:system test # calling the test commands in this order will run unit and system tests
 fi
