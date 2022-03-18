@@ -2,24 +2,40 @@
   <div class="japanese-to-audio-form">
     <h2 class="title">Japanese to audio</h2>
 
+    <p class="light-gray explanation">
+      Convert Japanese text to audio files with Amazon Polly
+    </p>
+
     <%= form_tag(japanese_to_audio_media_tools_path) do |form| %>
       <div class="field">
         <%= label_tag :japanese %>
-        <%= text_field_tag :japanese, nil, required: true %>
+        <%= text_area_tag :japanese, nil, required: true, rows: 3, minlength: 1, maxlength: MediaToolsController::MAX_TEXT_LENGTH %>
       </div>
 
       <div class="field">
-        <%= label_tag :filename %>
-        <%= text_field_tag :filename, nil %>
+        <%= label_tag :english %><span class="light-gray inline-explanation">(optional)</span>
+        <%= text_area_tag :english, nil, rows: 3, maxlength: MediaToolsController::MAX_TEXT_LENGTH %>
       </div>
 
       <div class="actions">
-        <%= submit_tag "Convert", class: "button-blue" %>
+        <%= submit_tag "Convert", class: "button-blue", data: { controller: "disable", disable_with_value: "Converting...", action: "disable#disableButton", disable_target: "button" } %>
       </div>
     <% end %>
 
-    <% if @japanese_to_audio_file && @filename %>
-      <%= link_to(@filename, @japanese_to_audio_file) %>
+    <% if @audio_url && @filename %>
+      <%= link_to(
+        @audio_url,
+        class: "download-link",
+        title: "Click to download",
+        aria_label: "Click to download",
+        download: "#{@filename}",
+        target: "_blank",
+        rel: "noopener noreferrer",
+
+      ) do %>
+        <%= @filename %>
+        <%= heroicon "cloud-download", variant: :outline %>
+      <% end %>
     <% end %>
   </div>
 </div>

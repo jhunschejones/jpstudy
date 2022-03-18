@@ -29,6 +29,9 @@ export default class extends Controller {
         this.keysPressed["command"] = true;
         break;
       default:
+        if (!e.key) {
+          return;
+        }
         this.keysPressed[e.key.toLowerCase()] = true;
     }
 
