@@ -6,6 +6,7 @@ class User < ApplicationRecord
     :reset_digest,
     :session_token
   ]
+  include Hashid::Rails
 
   VALID_USER_ROLES = [
     USER_ROLE = "user",

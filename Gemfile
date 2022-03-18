@@ -19,6 +19,9 @@ gem "sassc-rails", "~> 2.1"
 gem "heroicon"
 
 gem "square.rb"
+gem "aws-sdk-polly"
+gem "aws-sdk-s3"
+gem "hashid-rails"
 gem "newrelic_rpm"
 
 gem "bootsnap", ">= 1.4.4", require: false
