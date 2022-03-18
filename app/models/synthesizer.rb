@@ -5,6 +5,7 @@ class Synthesizer
   MALE_VOICE_ID = "Takumi".freeze
   VOICE_SPEED = "slow".freeze # x-slow, slow, medium, fast, or x-fast
   AWS_BUCKET = "jpstudy".freeze
+  CONTENT_DISPOSITION_REGEX = /.+(response-content-disposition=inline%3B%20filename%3D.+)&response-content-type/
 
   NON_WORD_NON_SPACE_CHARACTERS = /[^\w\s一-龯ぁ-んァ-ン０-９Ａ-ｚ]/
 
@@ -32,8 +33,24 @@ class Synthesizer
       .bucket(AWS_BUCKET)
       .object("polly/#{@user.hashid}/#{safe_filename_with_extension}")
     s3_file_object.put(body: polly_audio_stream)
+    audio_url = s3_file_object.presigned_url(
+      :get,
+      expires_in: 3600,
+      response_content_disposition: "inline; filename=#{safe_filename_with_extension}",
+      response_content_type: "audio/mpeg"
+    )
 
-    [s3_file_object.presigned_url(:get, expires_in: 3600), safe_filename_with_extension]
+    # Doing a funny dance here to move the chunk of the URL that ends with the filename
+    # to the end of the URL so that Anki will auto-download the file when the url is
+    # pasted in (link needs to end with `.mp3`).
+    if audio_url.match?(CONTENT_DISPOSITION_REGEX)
+      content_disposition = audio_url.match(CONTENT_DISPOSITION_REGEX)[1]
+      audio_url = audio_url
+        .gsub(content_disposition, "")
+        .gsub("?&", "?") + "&#{content_disposition}"
+    end
+
+    [audio_url, safe_filename_with_extension]
   end
 
   private

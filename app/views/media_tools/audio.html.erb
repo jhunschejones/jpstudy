@@ -26,15 +26,15 @@
       <%= link_to(
         @audio_url,
         class: "download-link",
-        title: "Click to download",
-        aria_label: "Click to download",
+        title: "Copy or download",
+        aria_label: "Copy or download",
         download: "#{@filename}",
         target: "_blank",
         rel: "noopener noreferrer",
 
       ) do %>
         <%= @filename %>
-        <%= heroicon "cloud-download", variant: :outline %>
+        <%= heroicon "clipboard-check", variant: :outline %>
       <% end %>
     <% end %>
   </div>
