@@ -2,7 +2,7 @@
   <div class="japanese-to-audio-form">
     <h2 class="title">Japanese to audio</h2>
 
-    <p class="light-gray explanation">
+    <p class="light-gray head-explanation">
       Convert Japanese text to audio files with Amazon Polly
     </p>
 
@@ -36,6 +36,11 @@
         <%= @filename %>
         <%= heroicon "clipboard-check", variant: :outline %>
       <% end %>
+
+      <p class="light-gray link-explanation">
+        <%= heroicon "clock", variant: :outline %>
+        Download link will expire in one hour
+      </p>
     <% end %>
   </div>
 </div>

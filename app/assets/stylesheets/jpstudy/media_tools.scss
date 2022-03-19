@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   justify-content: center;
-  .explanation {
+  .head-explanation {
     font-size: 0.9em;
     margin: -12px 0px 8px 0px;
   }
@@ -49,14 +49,26 @@
     }
   }
   .download-link {
+    @extend .link-blue;
     max-width: 400px;
     width: 100%;
     display: flex;
-    margin-top: 36px;
+    margin-top: 38px;
     align-items: center;
     justify-content: center;
     svg {
       margin-left: 4px;
+    }
+  }
+  .link-explanation {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    svg {
+      margin-right: 4px;
+      height: 1.3em;
     }
   }
 }
