@@ -106,11 +106,11 @@ class User < ApplicationRecord
   end
 
   def words_stream_name
-    "user_#{id}_words"
+    "user_#{hashid}_words"
   end
 
   def kanji_stream_name
-    "user_#{id}_kanji"
+    "user_#{hashid}_kanji"
   end
 
   private
