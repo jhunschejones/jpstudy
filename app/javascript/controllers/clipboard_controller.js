@@ -1,10 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "character", "checkIcon", "copyIcon" ]
+  static targets = [ "copySource", "checkIcon", "copyIcon" ]
 
   copy() {
-    navigator.clipboard.writeText(this.characterTarget.innerText);
+    navigator.clipboard.writeText(this.copySourceTarget.innerText);
     this.copyIconTarget.style.display = "none";
     this.checkIconTarget.style.display = "block";
     setTimeout(() => {
