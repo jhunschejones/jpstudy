@@ -16,7 +16,7 @@ class SynthesizerTest < ActiveSupport::TestCase
   describe "#convert_japanese_to_audio" do
     setup do
       @synthesizer = Synthesizer.new(
-        japanese: "おはいよう",
+        japanese: "おはよう",
         english: "good morning",
         user: users(:carl),
         polly: @test_polly,

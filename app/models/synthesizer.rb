@@ -45,9 +45,8 @@ class Synthesizer
     # pasted in (link needs to end with `.mp3`).
     if audio_url.match?(CONTENT_DISPOSITION_REGEX)
       content_disposition = audio_url.match(CONTENT_DISPOSITION_REGEX)[1]
-      audio_url = audio_url
-        .gsub(content_disposition, "")
-        .gsub("?&", "?") + "&#{content_disposition}"
+      audio_url_minus_content_disposition = audio_url.gsub(content_disposition, "").gsub("?&", "?")
+      audio_url = "#{audio_url_minus_content_disposition}&#{content_disposition}"
     end
 
     [audio_url, safe_filename_with_extension]

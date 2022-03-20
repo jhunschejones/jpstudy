@@ -38,27 +38,27 @@ class KanjiControllerTest < ApplicationControllerTestCase
 
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      post japanese_to_audio_media_tools_path, params: { japanese: "おはいよう" }
+      post japanese_to_audio_media_tools_path, params: { japanese: "おはよう" }
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "synthesizes an audio file, uploads to S3 and redirects with show_latest_conversion" do
       login(users(:carl))
-      post japanese_to_audio_media_tools_path, params: { japanese: "おはいよう", english: "good morning" }
+      post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning" }
       assert_redirected_to audio_media_tools_path(show_latest_conversion: true)
     end
 
     it "increments audio_conversions_used_this_month for the current user" do
       login(users(:carl))
       assert_difference "User.find(users(:carl).id).audio_conversions_used_this_month", 1 do
-        post japanese_to_audio_media_tools_path, params: { japanese: "おはいよう", english: "good morning" }
+        post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning" }
       end
     end
 
     it "prevents users who have exceeded their montly limit from creating new audio files" do
       login(users(:carl))
       users(:carl).update!(audio_conversions_used_this_month: 500)
-      post japanese_to_audio_media_tools_path, params: { japanese: "おはいよう", english: "good morning" }
+      post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning" }
       assert_redirected_to audio_media_tools_path
       assert_equal "Users are limited to 500 conversions per month. Please contact support if you need additional audio conversions.", flash[:alert]
     end
