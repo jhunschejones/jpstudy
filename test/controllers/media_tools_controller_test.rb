@@ -13,6 +13,17 @@ class KanjiControllerTest < ApplicationControllerTestCase
       get audio_media_tools_path
       assert_response :success
     end
+
+    it "shows the latest conversion when show_latest_conversion param is included" do
+      Rails.stubs(:cache).returns(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+
+      Rails.cache.write("#{users(:carl).hashid}/last_polly_audio_url", "www.example.com/good+morning.mp3")
+      Rails.cache.write("#{users(:carl).hashid}/last_polly_filename", "good morning.mp3")
+      login(users(:carl))
+      get audio_media_tools_path(show_latest_conversion: true)
+      assert_select ".download-link", text: "good morning.mp3"
+    end
   end
 
   describe "#japanese_to_audio" do
@@ -20,7 +31,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       Synthesizer::POLLY.stubs(synthesize_speech: stub(audio_stream: Tempfile.new))
       Synthesizer::S3.stubs(
         bucket: stub(object:
-          stub(put: true, presigned_url: "www.example.com/good morning.mp3")
+          stub(put: true, presigned_url: "www.example.com/good+morning.mp3")
         )
       )
     end
@@ -31,12 +42,10 @@ class KanjiControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
-    it "synthesizes an audio file, uploads to S3 and redirects with audio_url and filename" do
+    it "synthesizes an audio file, uploads to S3 and redirects with show_latest_conversion" do
       login(users(:carl))
       post japanese_to_audio_media_tools_path, params: { japanese: "おはいよう", english: "good morning" }
-      assert_redirected_to audio_media_tools_path(
-        audio_url: CGI.escape("www.example.com/good morning.mp3"), filename: "good morning.mp3"
-      )
+      assert_redirected_to audio_media_tools_path(show_latest_conversion: true)
     end
 
     it "increments audio_conversions_used_this_month for the current user" do

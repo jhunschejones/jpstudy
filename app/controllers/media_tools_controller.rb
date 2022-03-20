@@ -5,8 +5,10 @@ class MediaToolsController < ApplicationController
   MAX_MONTHLY_CONVERSIONS = 500.freeze
 
   def audio
-    @audio_url = params[:audio_url].presence && CGI.unescape(params[:audio_url])
-    @filename = params[:filename]
+    if params[:show_latest_conversion]
+      @audio_url = Rails.cache.read(user_audio_url_cache_key)
+      @filename = Rails.cache.read(user_audio_filename_cache_key)
+    end
   end
 
   def japanese_to_audio
@@ -28,11 +30,20 @@ class MediaToolsController < ApplicationController
       user: @current_user
     ).convert_japanese_to_audio
 
+    Rails.cache.write(user_audio_url_cache_key, audio_url, expires_in: 1.hour)
+    Rails.cache.write(user_audio_filename_cache_key, filename, expires_in: 1.hour)
     @current_user.update!(audio_conversions_used_this_month: conversions_used + 1)
 
-    redirect_to audio_media_tools_path(
-      audio_url: CGI.escape(audio_url),
-      filename: filename
-    )
+    redirect_to audio_media_tools_path(show_latest_conversion: true)
+  end
+
+  private
+
+  def user_audio_url_cache_key
+    "#{@current_user.hashid}/last_polly_audio_url"
+  end
+
+  def user_audio_filename_cache_key
+    "#{@current_user.hashid}/last_polly_filename"
   end
 end
