@@ -23,19 +23,23 @@
     <% end %>
 
     <% if @audio_url && @filename %>
-      <%= link_to(
-        @audio_url,
-        class: "download-link",
-        title: "Copy or download",
-        aria_label: "Copy or download",
-        download: "#{@filename}",
-        target: "_blank",
-        rel: "noopener noreferrer",
-
-      ) do %>
-        <span class="filename"><%= @filename %></span>
-        <%= heroicon "clipboard-check", variant: :outline %>
-      <% end %>
+      <div class="audio-link-container" data-controller="clipboard" data-clipboard-copy-value="<%= @audio_url %>">
+        <%= link_to(
+          @audio_url,
+          class: "download-link",
+          title: "Copy or download",
+          aria_label: "Copy or download",
+          download: "#{@filename}",
+          target: "_blank",
+          rel: "noopener noreferrer"
+        ) do %>
+          <%= @filename %>
+        <% end %>
+        <button class="copy-audio-link-button" data-action="click->clipboard#copy" title="Click to copy audio link">
+          <%= heroicon "clipboard", variant: :outline, options: { class: "copy-icon", "data-clipboard-target" => "copyIcon" } %>
+          <%= heroicon "check", variant: :outline, options: { class: "coppied-icon hidden", "data-clipboard-target" => "checkIcon" } %>
+        </button>
+      </div>
 
       <p class="light-gray link-explanation">
         <%= heroicon "clock", variant: :outline %>

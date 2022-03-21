@@ -48,23 +48,32 @@
       margin-left: 5px;
     }
   }
-  .download-link {
-    @extend .link-blue;
-    max-width: 400px;
-    width: 100%;
+  .audio-link-container {
     display: flex;
-    margin-top: 38px;
     align-items: center;
     justify-content: center;
-    svg {
-      margin-left: 4px;
-    }
-    .filename {
-      // Truncate name but leave room for the margins and download link
-      max-width: calc(100vw - 60px);
+    width: 100%;
+    max-width: 400px;
+    margin-top: 38px;
+    .download-link {
+      @extend .link-blue;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: calc(100vw - 50px);
+    }
+    .copy-audio-link-button {
+      background: none;
+      border: none;
+      padding: 0px;
+      cursor: pointer;
+      margin-left: 2px;
+      .copy-icon {
+        color: #d1d5db;
+      }
+      .coppied-icon {
+        color: #10B981;
+      }
     }
   }
   .link-explanation {
