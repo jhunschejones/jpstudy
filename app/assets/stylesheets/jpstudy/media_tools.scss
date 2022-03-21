@@ -59,6 +59,13 @@
     svg {
       margin-left: 4px;
     }
+    .filename {
+      // Truncate name but leave room for the margins and download link
+      max-width: calc(100vw - 60px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .link-explanation {
     margin-top: 24px;
