@@ -10,14 +10,14 @@
     <% end %>
   </h1>
 
-  <div class="next-kanji-container" data-controller="clipboard">
+  <div class="next-kanji-container" data-controller="clipboard" data-clipboard-copy-value="<%= @next_kanji.character %>">
     <% if @next_kanji %>
       <div class="next-kanji-card">
         <button class="copy-kanji-button" data-action="click->clipboard#copy" title="Click to copy character">
           <%= heroicon "clipboard", variant: :outline, options: { class: "copy-kanji-icon", "data-clipboard-target" => "copyIcon" } %>
-          <%= heroicon "check", variant: :outline, options: { class: "kanji-coppied-icon", "data-clipboard-target" => "checkIcon" } %>
+          <%= heroicon "check", variant: :outline, options: { class: "kanji-coppied-icon hidden", "data-clipboard-target" => "checkIcon" } %>
         </button>
-        <span class="character" data-clipboard-target="copySource">
+        <span class="character">
           <%= @next_kanji.character %>
         <span>
       </div>
