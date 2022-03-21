@@ -110,5 +110,8 @@ export default class extends Controller {
     if (this.keysPressed["h"]) {
       return Turbo.visit("/keyboard_shortcuts");
     }
+    if (this.keysPressed["p"]) {
+      return Turbo.visit("/media_tools/audio?show_latest_conversion=true");
+    }
   }
 }
