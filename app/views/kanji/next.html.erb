@@ -10,7 +10,7 @@
     <% end %>
   </h1>
 
-  <div class="next-kanji-container" data-controller="clipboard" data-clipboard-copy-value="<%= @next_kanji.character %>">
+  <div class="next-kanji-container" data-controller="clipboard" data-clipboard-copy-value="<%= @next_kanji&.character %>">
     <% if @next_kanji %>
       <div class="next-kanji-card">
         <button class="copy-kanji-button" data-action="click->clipboard#copy" title="Click to copy character">
