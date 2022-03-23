@@ -31,8 +31,13 @@ class Synthesizer
 
     s3_file_object = @s3
       .bucket(AWS_BUCKET)
-      .object("polly/#{@user.hashid}/#{safe_filename_with_extension}")
-    s3_file_object.put(body: polly_audio_stream)
+      .put_object(
+        body: polly_audio_stream,
+        key: "polly/#{@user.hashid}/#{safe_filename_with_extension}",
+        content_type: "audio/mpeg",
+        tagging: "media-source=polly"
+      )
+
     audio_url = s3_file_object.presigned_url(
       :get,
       expires_in: 3600,

@@ -30,7 +30,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
     setup do
       Synthesizer::POLLY.stubs(synthesize_speech: stub(audio_stream: Tempfile.new))
       Synthesizer::S3.stubs(
-        bucket: stub(object:
+        bucket: stub(put_object:
           stub(put: true, presigned_url: "www.example.com/good+morning.mp3")
         )
       )
