@@ -18,8 +18,10 @@ class KanjiControllerTest < ApplicationControllerTestCase
       Rails.stubs(:cache).returns(ActiveSupport::Cache.lookup_store(:memory_store))
       Rails.cache.clear
 
-      Rails.cache.write("#{users(:carl).hashid}/last_polly_audio_url", "www.example.com/good+morning.mp3")
-      Rails.cache.write("#{users(:carl).hashid}/last_polly_filename", "good morning.mp3")
+      Rails.cache.write_multi({
+        "#{users(:carl).hashid}/last_polly_audio_url" => "www.example.com/good+morning.mp3",
+        "#{users(:carl).hashid}/last_polly_filename" => "good morning.mp3"
+      })
       login(users(:carl))
       get audio_media_tools_path(show_latest_conversion: true)
       assert_select ".download-link", text: "good morning.mp3"
@@ -46,6 +48,20 @@ class KanjiControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning" }
       assert_redirected_to audio_media_tools_path(show_latest_conversion: true)
+    end
+
+    it "stores the latest polly audio_url and filename" do
+      Rails.stubs(:cache).returns(ActiveSupport::Cache.lookup_store(:memory_store))
+      Rails.cache.clear
+
+      login(users(:carl))
+      assert_nil Rails.cache.read("#{users(:carl).hashid}/last_polly_audio_url")
+      assert_nil Rails.cache.read("#{users(:carl).hashid}/last_polly_filename")
+
+      post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning" }
+
+      assert_equal "www.example.com/good+morning.mp3", Rails.cache.read("#{users(:carl).hashid}/last_polly_audio_url")
+      assert_equal "good morning.mp3", Rails.cache.read("#{users(:carl).hashid}/last_polly_filename")
     end
 
     it "increments audio_conversions_used_this_month for the current user" do
