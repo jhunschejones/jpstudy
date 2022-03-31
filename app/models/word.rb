@@ -34,7 +34,7 @@ class Word < ApplicationRecord
   private
 
   def user_word_limit_not_exceeded
-    if user.has_reached_word_limit?
+    unless user.reload.can_add_more_words?
       errors.add(:user_word_limit, "exceeded")
     end
   end

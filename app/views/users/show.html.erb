@@ -25,7 +25,7 @@
 
   <p class="word-limit-field">
     <strong>Word limit:</strong>
-    <span class="<%= @current_user.has_reached_word_limit? ? "alert-red" : "" %>">
+    <span class="<%= @current_user.can_add_more_words? ? "" : "alert-red" %>">
       <%= @user.word_limit || "None" %>
     </span>
     <%= link_to(content_limits_path, title: "What are content limits?") do %>
@@ -35,7 +35,7 @@
 
   <p class="kanji-limit-field">
     <strong>Kanji limit:</strong>
-    <span class="<%= @current_user.has_reached_kanji_limit? ? "alert-red" : "" %>">
+    <span class="<%= @current_user.can_add_more_kanji? ? "" : "alert-red" %>">
       <%= @user.kanji_limit || "None" %>
     </span>
     <%= link_to(content_limits_path, title: "What are content limits?") do %>

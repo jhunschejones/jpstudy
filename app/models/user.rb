@@ -47,15 +47,15 @@ class User < ApplicationRecord
     trial_ends_at.utc > Time.now.utc
   end
 
-  def has_reached_word_limit?
+  def can_add_more_words?
+    return true unless word_limit
     # calling `words.size` here uses the counter_cache instead of making an extra query
-    return false unless word_limit
-    words.size >= word_limit
+    words.size + 1 <= word_limit
   end
 
-  def has_reached_kanji_limit?
-    return false unless kanji_limit
-    kanji.size >= kanji_limit
+  def can_add_more_kanji?
+    return true unless kanji_limit
+    kanji.size + 1 <= kanji_limit
   end
 
   def has_reached_daily_word_target?

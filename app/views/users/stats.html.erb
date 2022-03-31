@@ -12,7 +12,7 @@
     </h3>
     <p>
       <strong>Total words:</strong>
-      <span class="<%= @current_user.has_reached_word_limit? ? "alert-red" : "" %>">
+      <span class="<%= @current_user.can_add_more_words? ? "" : "alert-red" %>">
         <%= @total_words_created_count %>
       </span>
       <span class="light-gray"> / <%= @current_user.word_limit || "♾️" %></span>
@@ -67,7 +67,7 @@
     </h3>
     <p>
       <strong>Total kanji:</strong>
-      <span class="<%= @current_user.has_reached_kanji_limit? ? "alert-red" : "" %>">
+      <span class="<%= @current_user.can_add_more_kanji? ? "" : "alert-red" %>">
         <%= @total_kanji_count %>
       </span>
       <span class="light-gray"> / <%= @current_user.kanji_limit || "♾️" %></span>

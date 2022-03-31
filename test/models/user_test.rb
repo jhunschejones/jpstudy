@@ -32,51 +32,51 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#has_reached_word_limit?" do
+  describe "#can_add_more_words?" do
     setup do
       User.reset_counters(users(:carl).id, :words)
       users(:carl).reload
     end
 
-    it "returns false when no word limit is set" do
+    it "returns true when no word limit is set" do
       users(:carl).update!(word_limit: nil)
-      refute users(:carl).has_reached_word_limit?
+      assert users(:carl).can_add_more_words?
     end
 
-    it "returns false when the user has not reached their word limit" do
+    it "returns true when the user has not reached their word limit" do
       users(:carl).update!(word_limit: 25)
       assert_equal 21, users(:carl).words.count
-      refute users(:carl).has_reached_word_limit?
+      assert users(:carl).can_add_more_words?
     end
 
-    it "returns true when the user has reached their word limit" do
+    it "returns flase when the user has reached their word limit" do
       users(:carl).update!(word_limit: 21)
       assert_equal 21, users(:carl).words.count
-      assert users(:carl).has_reached_word_limit?
+      refute users(:carl).can_add_more_words?
     end
   end
 
-  describe "#has_reached_kanji_limit?" do
+  describe "#can_add_more_kanji?" do
     setup do
       User.reset_counters(users(:carl).id, :kanji)
       users(:carl).reload
     end
 
-    it "returns false when no kanji limit is set" do
+    it "returns true when no kanji limit is set" do
       users(:carl).update!(kanji_limit: nil)
-      refute users(:carl).has_reached_kanji_limit?
+      assert users(:carl).can_add_more_kanji?
     end
 
-    it "returns false when the user has not reached their kanji limit" do
+    it "returns true when the user has not reached their kanji limit" do
       users(:carl).update!(kanji_limit: 5)
       assert_equal 3, users(:carl).kanji.count
-      refute users(:carl).has_reached_kanji_limit?
+      assert users(:carl).can_add_more_kanji?
     end
 
-    it "returns true when the user has reached their kanji limit" do
+    it "returns false when the user has reached their kanji limit" do
       users(:carl).update!(kanji_limit: 3)
       assert_equal 3, users(:carl).kanji.count
-      assert users(:carl).has_reached_kanji_limit?
+      refute users(:carl).can_add_more_kanji?
     end
   end
 

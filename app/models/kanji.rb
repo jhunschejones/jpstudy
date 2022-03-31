@@ -43,7 +43,7 @@ class Kanji < ApplicationRecord
   private
 
   def user_kanji_limit_not_exceeded
-    if user.has_reached_kanji_limit?
+    unless user.reload.can_add_more_kanji?
       errors.add(:user_kanji_limit, "exceeded")
     end
   end

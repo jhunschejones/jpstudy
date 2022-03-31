@@ -90,7 +90,7 @@ class KanjiController < ApplicationController
       )
     end
 
-    if @current_user.has_reached_kanji_limit?
+    unless @current_user.can_add_more_kanji?
       flash[:alert] = "You have reached your #{view_context.link_to("kanji limit", content_limits_path)}. Some new kanji may not have been added."
     end
 
