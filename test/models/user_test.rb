@@ -44,11 +44,14 @@ class UserTest < ActiveSupport::TestCase
     end
 
     it "returns false when the user has not reached their word limit" do
+      users(:carl).update!(word_limit: 25)
+      assert_equal 21, users(:carl).words.count
       refute users(:carl).has_reached_word_limit?
     end
 
     it "returns true when the user has reached their word limit" do
-      users(:carl).update!(word_limit: 20)
+      users(:carl).update!(word_limit: 21)
+      assert_equal 21, users(:carl).words.count
       assert users(:carl).has_reached_word_limit?
     end
   end
@@ -65,11 +68,14 @@ class UserTest < ActiveSupport::TestCase
     end
 
     it "returns false when the user has not reached their kanji limit" do
+      users(:carl).update!(kanji_limit: 5)
+      assert_equal 3, users(:carl).kanji.count
       refute users(:carl).has_reached_kanji_limit?
     end
 
     it "returns true when the user has reached their kanji limit" do
       users(:carl).update!(kanji_limit: 3)
+      assert_equal 3, users(:carl).kanji.count
       assert users(:carl).has_reached_kanji_limit?
     end
   end
