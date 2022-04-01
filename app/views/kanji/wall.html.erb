@@ -1,10 +1,10 @@
 <div class="kanji-wall-page">
   <h1 class="page-title">Your Kanji</h1>
-  <p class="kanji-count light gray">
-    (<%= @all_characters.size %> total)
+  <p class="kanji-count">
+    <%= @all_added_characters.size %> added
   </p>
 
   <div class="kanji-wall">
-    <%= @all_characters.join("") %>
+    <%= @all_added_characters.join("") %>
   </div>
 </div>

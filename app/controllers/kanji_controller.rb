@@ -135,7 +135,7 @@ class KanjiController < ApplicationController
   end
 
   def wall
-    @all_characters = @current_user.kanji.added.pluck(:character)
+    @all_added_characters = @current_user.kanji.added.pluck(:character)
   end
 
   private
