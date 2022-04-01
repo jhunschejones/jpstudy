@@ -218,4 +218,19 @@ class KanjiControllerTest < ApplicationControllerTestCase
       end
     end
   end
+
+  describe "#wall" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get wall_kanji_path
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the kanji wall page" do
+      login(users(:carl))
+      get wall_kanji_path
+      assert_response :success
+      assert_select ".kanji-wall", /#{users(:carl).kanji.added.first.character}/
+    end
+  end
 end

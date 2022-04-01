@@ -132,6 +132,10 @@ class KanjiController < ApplicationController
     redirect_to in_out_user_path(@current_user), success: "#{destroyed_kanji_count} kanji deleted."
   end
 
+  def wall
+    @all_characters = @current_user.kanji.added.pluck(:character)
+  end
+
   private
 
   def kanji_params

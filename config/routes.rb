@@ -62,6 +62,7 @@ Rails.application.routes.draw do
       get :export
       get :download
       delete :destroy_all
+      get :wall
     end
   end
   # This is really the only way to make these routes play nice

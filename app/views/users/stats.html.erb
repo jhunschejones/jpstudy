@@ -63,7 +63,9 @@
 
     <h3 class="catagory-title">
       Kanji&nbsp;
-      <%= heroicon "trending-up" %>
+      <%= link_to wall_kanji_path do %>
+        <%= heroicon "trending-up" %>
+      <% end %>
     </h3>
     <p>
       <strong>Total kanji:</strong>

@@ -164,3 +164,20 @@
     margin: 65px 0px 20px 0px;
   }
 }
+
+.kanji-wall-page {
+  .page-title {
+    text-align: center;
+  }
+  .kanji-count {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  .kanji-wall {
+    margin-top: 30px;
+    font-size: 1.1em;
+    text-align: justify;
+  }
+}
