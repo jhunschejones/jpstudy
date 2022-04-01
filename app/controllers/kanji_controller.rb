@@ -86,7 +86,8 @@ class KanjiController < ApplicationController
         character: character,
         status: status,
         user: @current_user,
-        added_to_list_at: added_to_list_at
+        added_to_list_at: added_to_list_at,
+        skip_turbostream_callbacks: true
       )
     end
 
@@ -128,7 +129,8 @@ class KanjiController < ApplicationController
   end
 
   def destroy_all
-    destroyed_kanji_count = @current_user.kanji.destroy_all.size
+    # ⚠️ `delete_all` skips callbacks and returns the count of records affected
+    destroyed_kanji_count = @current_user.kanji.delete_all
     redirect_to in_out_user_path(@current_user), success: "#{destroyed_kanji_count} kanji deleted."
   end
 

@@ -15,9 +15,11 @@ class Kanji < ApplicationRecord
 
   scope :added, -> { where(status: ADDED_STATUS) }
 
-  after_create_commit { notify_outdated_next_kanji_pages }
-  after_update_commit { notify_outdated_next_kanji_pages }
-  after_destroy_commit { notify_outdated_next_kanji_pages(async: false) }
+  after_create_commit { notify_socket_subscribers(async: true) }
+  after_update_commit { notify_socket_subscribers(async: true) }
+  after_destroy_commit { notify_socket_subscribers(async: false) }
+
+  attr_accessor :skip_turbostream_callbacks
 
   def self.all_new_for(user:)
     all_kanji_in_words = user.words
@@ -45,6 +47,12 @@ class Kanji < ApplicationRecord
   def user_kanji_limit_not_exceeded
     unless user.reload.can_add_more_kanji?
       errors.add(:user_kanji_limit, "exceeded")
+    end
+  end
+
+  def notify_socket_subscribers(async: true)
+    unless skip_turbostream_callbacks
+      notify_outdated_next_kanji_pages(async: async)
     end
   end
 end

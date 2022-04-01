@@ -194,6 +194,14 @@ class WordsControllerTest < ApplicationControllerTestCase
       delete destroy_all_words_path
       assert_equal 0, users(:carl).words.count
     end
+
+    it "redirects with a user message" do
+      login(users(:carl))
+      words_count = users(:carl).words.count
+      delete destroy_all_words_path
+      assert_redirected_to in_out_user_path(users(:carl))
+      assert_equal "#{words_count} words deleted.", flash[:success]
+    end
   end
 
   describe "#toggle_card_created" do
@@ -299,6 +307,14 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert new_word.cards_created
       assert_equal users(:carl).id, new_word.user_id
       assert_equal "10/05/2020", new_word.added_to_list_on
+    end
+
+    it "does not trigger infinity websocket updates" do
+      login(users(:carl))
+      csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
+      assert_no_enqueued_jobs do
+        post upload_words_path, params: { csv_file: csv_file, csv_includes_headers: true }
+      end
     end
   end
 

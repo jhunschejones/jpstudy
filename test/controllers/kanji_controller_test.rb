@@ -128,6 +128,14 @@ class KanjiControllerTest < ApplicationControllerTestCase
       assert_equal users(:carl).id, new_kanji.user_id
       assert_equal "12/17/2021", new_kanji.added_to_list_on
     end
+
+    it "does not trigger infinity websocket updates" do
+      login(users(:carl))
+      csv_file = fixture_file_upload("test/fixtures/files/kanji_export_1639956633.csv", "text/csv")
+      assert_no_enqueued_jobs do
+        post upload_kanji_path, params: { csv_file: csv_file, csv_includes_headers: true }
+      end
+    end
   end
 
   describe "#export" do
@@ -176,6 +184,14 @@ class KanjiControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       delete destroy_all_kanji_path
       assert_equal 0, users(:carl).kanji.count
+    end
+
+    it "redirects with a user message" do
+      login(users(:carl))
+      kanji_count = users(:carl).kanji.count
+      delete destroy_all_kanji_path
+      assert_redirected_to in_out_user_path(users(:carl))
+      assert_equal "#{kanji_count} kanji deleted.", flash[:success]
     end
   end
 

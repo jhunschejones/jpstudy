@@ -10,18 +10,11 @@ class Word < ApplicationRecord
 
   scope :cards_not_created, -> { where(cards_created: false) }
 
-  after_create_commit {
-    notify_outdated_word_list_pages
-    notify_outdated_next_kanji_pages
-  }
-  after_update_commit {
-    notify_outdated_word_list_pages
-    notify_outdated_next_kanji_pages
-  }
-  after_destroy_commit {
-    notify_outdated_word_list_pages(async: false)
-    notify_outdated_next_kanji_pages(async: false)
-  }
+  after_create_commit { notify_socket_subscribers(async: true) }
+  after_update_commit { notify_socket_subscribers(async: true) }
+  after_destroy_commit { notify_socket_subscribers(async: false) }
+
+  attr_accessor :skip_turbostream_callbacks
 
   def added_to_list_on
     (added_to_list_at.present? ? added_to_list_at : created_at).strftime("%m/%d/%Y")
@@ -36,6 +29,13 @@ class Word < ApplicationRecord
   def user_word_limit_not_exceeded
     unless user.reload.can_add_more_words?
       errors.add(:user_word_limit, "exceeded")
+    end
+  end
+
+  def notify_socket_subscribers(async: true)
+    unless skip_turbostream_callbacks
+      notify_outdated_word_list_pages(async: async)
+      notify_outdated_next_kanji_pages(async: async)
     end
   end
 end

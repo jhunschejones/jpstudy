@@ -89,7 +89,8 @@ class WordsController < ApplicationController
   end
 
   def destroy_all
-    destroyed_words_count = @current_user.words.destroy_all.size
+    # ⚠️ `delete_all` skips callbacks and returns the count of records affected
+    destroyed_words_count = @current_user.words.delete_all
     redirect_to in_out_user_path(@current_user), success: "#{destroyed_words_count} #{"word".pluralize(destroyed_words_count)} deleted."
   end
 
@@ -163,7 +164,8 @@ class WordsController < ApplicationController
         cards_created_at: cards_created_at,
         added_to_list_at: added_to_list_at,
         note: note,
-        user: @current_user
+        user: @current_user,
+        skip_turbostream_callbacks: true
       )
     end
 
