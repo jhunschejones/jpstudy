@@ -25,7 +25,7 @@ import "controllers"
 //   }
 // });
 
-// === Force-remove styles from coppied text ===
+// === Force-remove styles from copied text ===
 document.addEventListener("copy", function(event) {
   const textOnly = document.getSelection().toString();
   const clipdata = event.clipboardData || window.clipboardData;

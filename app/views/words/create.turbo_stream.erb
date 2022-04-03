@@ -9,7 +9,7 @@
 
   <%= turbo_stream.remove "no-words-message" %>
 <% else %>
-  <%# coppied from app/views/words/_form.html.erb:30 %>
+  <%# copied from app/views/words/_form.html.erb:30 %>
   <%= turbo_stream.replace "create-word-button" do %>
     <%= submit_tag "Create Word", id: "create-word-button", class: "button-blue submit", data: { controller: "disable", disable_with_value: "Saving...", disable_use_direct_form_submit_value: !use_turbo_for_word_form?, action: "disable#disableButton", disable_target: "button" } %>
   <% end %>
