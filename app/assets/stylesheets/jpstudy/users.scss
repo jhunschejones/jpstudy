@@ -38,6 +38,9 @@
     }
     .actions {
       padding-top: 4px;
+      input, a {
+        display: inline;
+      }
     }
   }
 }
@@ -72,19 +75,52 @@
 }
 
 .user-stats-page {
+  position: relative;
   .catagory-title {
-    margin: 0px 0px -6px 0px;
-    padding-top: 10px;
+    margin: 36px 0px 6px 0px;
     display: flex;
+    justify-content: center;
     align-content: center;
     color: #8B5CF6;
+    font-size: 1.4em;
     a {
       color: #8B5CF6;
     }
   }
-  .contact {
-    font-style: italic;
-    margin-top: 32px;
+  .stats-card-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    .stats-card {
+      margin: 12px;
+      padding: 8px 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      border-style: solid;
+      border-width: 1px;
+      border-color: #F3F4F6;
+      border-radius: 4px;
+      min-width: 275px;
+      @media (max-width: 673px) {
+        width: 100%;
+      }
+      .catagory-subtitle {
+        margin: 4px 0px 8px 0px;
+        font-weight: 400;
+        color: #8B5CF6;
+      }
+      p {
+        margin: 6px 0px;
+      }
+      a {
+        text-decoration: underline dotted;
+      }
+      .edit-link {
+        .icon {
+          height: 16px;
+        }
+      }
+    }
   }
 }
 

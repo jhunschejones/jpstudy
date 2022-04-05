@@ -59,7 +59,7 @@ class UsersController < ApplicationController
   def update
     if user_target_params.present?
       @user.update(user_target_params)
-      return redirect_to stats_user_path(@user), success: "Your targets have been updated."
+      return redirect_to stats_user_path(@user), success: "Your study targets have been updated."
     end
 
     if changing_email?
@@ -96,7 +96,6 @@ class UsersController < ApplicationController
   end
 
   def stats
-    @total_words_created_count = @current_user.words.size
     @words_with_cards_created_count = @current_user.words.where(cards_created: true).size
     @words_ready_for_cards_count = @current_user.words.cards_not_created.size
     @words_with_cards_created_today = @current_user.words.where(cards_created_at: Date.today.all_day).size
@@ -106,7 +105,6 @@ class UsersController < ApplicationController
         ((@current_user.next_word_goal - @words_with_cards_created_count).to_f / @current_user.daily_word_target.to_f).ceil
       end
 
-    @total_kanji_count = @current_user.kanji.size
     @kanji_added_count = @current_user.kanji.added.count
     @kanji_to_add_count = Kanji.all_new_for(user: @current_user).size
     @kanji_added_today = @current_user.kanji.added.where(added_to_list_at: Date.today.all_day).size

@@ -237,7 +237,7 @@ class UsersControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       get edit_targets_user_path(users(:carl))
       assert_response :success
-      assert_select ".title", "Edit your target"
+      assert_select ".title", "Edit your study targets"
     end
 
     it "returns not found when accessed by a different user" do

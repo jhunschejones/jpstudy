@@ -2,7 +2,10 @@
   <h1 class="page-title">Your stats</h1>
 
   <p>
-    Statistics can be a motivating way to see how your daily choices are adding up to tangible progress toward your study goals. At jpstudy, we don't collect user data like location or last login date, but we'd love to tell you about the stats we <em>do</em> know, based on the content you've created!
+    Statistics can be a motivating way to see how your daily choices add up to tangible
+    progress toward your study goals. At jpstudy, we don't collect user data like location
+    or last login date, but we'd love to tell you about some stats we <em>do</em> know,
+    based on the content you've created!
   </p>
 
   <div class="stats">
@@ -10,122 +13,126 @@
       Words&nbsp;
       <%= heroicon "trending-up" %>
     </h3>
-    <p>
-      <strong>Total words:</strong>
-      <span class="<%= @current_user.can_add_more_words? ? "" : "alert-red" %>">
-        <%= @total_words_created_count %>
-      </span>
-      <span class="light-gray"> / <%= @current_user.word_limit || "♾️" %></span>
-      <%= link_to(content_limits_path, title: "What are content limits?") do %>
-        <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
-      <% end %>
-    </p>
-    <p>
-      <strong>Words with cards created:</strong>
-      <%= @words_with_cards_created_count %>
-    </p>
-    <p>
-      <strong>Words ready for cards:</strong>
-      <%= @words_ready_for_cards_count %>
-    </p>
-    <p>
-      <strong>Next learning goal:</strong>
-      <% if @current_user.next_word_goal %>
-        <%= pluralize @current_user.next_word_goal, "word" %>
-      <% else %>
-        <span class="light-gray">Not set</span>
-      <% end %>
-    </p>
-    <p>
-      <strong>Study target:</strong>
-      <% if @current_user.daily_word_target %>
-        <%= pluralize @current_user.daily_word_target, "new card" %> per day
-      <% else %>
-        <span class="light-gray">Not set</span>
-      <% end %>
-    </p>
-    <p>
-      <strong>Cards created today:</strong>
-      <% if @current_user.has_reached_or_exceeded_daily_word_target? %>
-        <strong class="success-green">
-          <%= @words_with_cards_created_today %>
-        </strong>
-      <% else %>
-        <%= @words_with_cards_created_today %>
-      <% end %>
-    </p>
-    <% if @days_to_word_target %>
-      <p>
-        <strong>Time to learning goal:</strong>
-        <%= distance_of_time_in_words(@days_to_word_target.days) %>
-      </p>
-    <% end %>
+
+    <div class="stats-card-container">
+      <div class="stats-card">
+        <h4 class="catagory-subtitle">
+          Totals:
+        </h4>
+        <p>
+          <span class="light-gray">Words with cards created:</span>
+          <%= @words_with_cards_created_count %>
+        </p>
+        <p>
+          <span class="light-gray">Words ready for cards:</span>
+          <%= @words_ready_for_cards_count %>
+        </p>
+      </div>
+
+      <div class="stats-card">
+        <h4 class="catagory-subtitle">
+          <span>Study targets:</span>
+          <%= link_to edit_targets_user_path, class: "edit-link light-gray", title: "Edit your study targets" do %>
+            <%= heroicon "pencil-alt", variant: :outline, options: { class: "icon" } %>
+          <% end %>
+        </h4>
+        <p>
+          <span class="light-gray">Next learning goal:</span>
+          <% if @current_user.next_word_goal %>
+            <%= pluralize @current_user.next_word_goal, "word" %>
+          <% else %>
+            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
+          <% end %>
+        </p>
+        <p>
+          <span class="light-gray">Study target:</span>
+          <% if @current_user.daily_word_target %>
+            <%= pluralize @current_user.daily_word_target, "new card" %> per day
+          <% else %>
+            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
+          <% end %>
+        </p>
+        <p>
+          <span class="light-gray">Cards created today:</span>
+          <% if @current_user.has_reached_or_exceeded_daily_word_target? %>
+            <strong class="success-green">
+              <%= @words_with_cards_created_today %>
+            </strong>
+          <% else %>
+            <%= @words_with_cards_created_today %>
+          <% end %>
+        </p>
+        <% if @days_to_word_target %>
+          <p>
+            <strong>Time to learning goal:</strong>
+            <%= distance_of_time_in_words(@days_to_word_target.days) %>
+          </p>
+        <% end %>
+      </div>
+    </div>
 
     <h3 class="catagory-title">
       Kanji&nbsp;
-      <%= link_to wall_kanji_path do %>
+      <%= link_to wall_kanji_path, title: "You found an easter egg 🥚 \nClick here to check out your Kanji wall!" do %>
         <%= heroicon "trending-up" %>
       <% end %>
     </h3>
-    <p>
-      <strong>Total kanji:</strong>
-      <span class="<%= @current_user.can_add_more_kanji? ? "" : "alert-red" %>">
-        <%= @total_kanji_count %>
-      </span>
-      <span class="light-gray"> / <%= @current_user.kanji_limit || "♾️" %></span>
-      <%= link_to(content_limits_path, title: "What are content limits?") do %>
-        <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
-      <% end %>
-    </p>
-    <p>
-      <strong>Kanji added:</strong>
-      <%= @kanji_added_count %>
-    </p>
-    <p>
-      <strong>New kanji to add:</strong>
-      <%= @kanji_to_add_count %>
-    </p>
-    <p>
-      <strong>Next learning goal:</strong>
-      <% if @current_user.next_kanji_goal %>
-        <%= @current_user.next_kanji_goal %> kanji
-      <% else %>
-        <span class="light-gray">Not set</span>
-      <% end %>
-    </p>
-    <p>
-      <strong>Study target:</strong>
-      <% if @current_user.daily_kanji_target %>
-        <%= @current_user.daily_kanji_target %> kanji per day
-      <% else %>
-        <span class="light-gray">Not set</span>
-      <% end %>
-    </p>
-    <p>
-      <strong>Kanji added today:</strong>
-      <% if @current_user.has_reached_or_exceeded_daily_kanji_target? %>
-        <strong class="success-green">
-          <%= @kanji_added_today %>
-        </strong>
-      <% else %>
-        <%= @kanji_added_today %>
-      <% end %>
-    </p>
-    <% if @days_to_kanji_target %>
-      <p>
-        <strong>Time to learning goal:</strong>
-        <%= distance_of_time_in_words(@days_to_kanji_target.days) %>
-      </p>
-    <% end %>
+
+    <div class="stats-card-container">
+      <div class="stats-card">
+        <h4 class="catagory-subtitle">
+          Totals:
+        </h4>
+        <p>
+          <span class="light-gray">Kanji added:</span>
+          <%= @kanji_added_count %>
+        </p>
+        <p>
+          <span class="light-gray">New kanji to add:</span>
+          <%= @kanji_to_add_count %>
+        </p>
+      </div>
+
+      <div class="stats-card">
+        <h4 class="catagory-subtitle">
+          <span>Study targets:</span>
+          <%= link_to edit_targets_user_path, class: "edit-link light-gray", title: "Edit your study targets" do %>
+            <%= heroicon "pencil-alt", variant: :outline, options: { class: "icon" } %>
+          <% end %>
+        </h4>
+        <p>
+          <span class="light-gray">Next learning goal:</span>
+          <% if @current_user.next_kanji_goal %>
+            <%= @current_user.next_kanji_goal %> kanji
+          <% else %>
+            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
+          <% end %>
+        </p>
+        <p>
+          <span class="light-gray">Study target:</span>
+          <% if @current_user.daily_kanji_target %>
+            <%= @current_user.daily_kanji_target %> kanji per day
+          <% else %>
+            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
+          <% end %>
+        </p>
+        <p>
+          <span class="light-gray">Kanji added today:</span>
+          <% if @current_user.has_reached_or_exceeded_daily_kanji_target? %>
+            <strong class="success-green">
+              <%= @kanji_added_today %>
+            </strong>
+          <% else %>
+            <%= @kanji_added_today %>
+          <% end %>
+        </p>
+        <% if @days_to_kanji_target %>
+          <p>
+            <strong>Time to learning goal:</strong>
+            <%= distance_of_time_in_words(@days_to_kanji_target.days) %>
+          </p>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <br/>
-
-  <div class="actions">
-    <%= link_to "Edit study targets", edit_targets_user_path, class: "button-blue" %>
-  </div>
-
-  <p class="contact">
-    Questions? Other stats you'd like to see? We'd love to hear your thoughts! You can reach us any time at <a href="mailto:support@jpstudy.app">support@jpstudy.app</a>.
-  </p>
 </div>

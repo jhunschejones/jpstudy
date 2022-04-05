@@ -1,6 +1,6 @@
 <div class="user-edit-form-container">
   <div class="user-word-target-form">
-    <h2 class="title">Edit your target</h2>
+    <h2 class="title">Edit your study targets</h2>
 
     <%= form_with(model: @user) do |form| %>
       <div class="field">
@@ -25,6 +25,7 @@
 
       <div class="actions">
         <%= form.submit "Update", class: "button-blue" %>
+        <%= link_to "Cancel", :back, class: "basic-button back-button" %>
       </div>
     <% end %>
   </div>
