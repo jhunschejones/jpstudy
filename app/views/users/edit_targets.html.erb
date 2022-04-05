@@ -25,7 +25,7 @@
 
       <div class="actions">
         <%= form.submit "Update", class: "button-blue" %>
-        <%= link_to "Cancel", :back, class: "basic-button back-button" %>
+        <%= link_to "Cancel", stats_user_path(@current_user), class: "basic-button back-button" %>
       </div>
     <% end %>
   </div>

@@ -117,8 +117,12 @@
         text-decoration: underline dotted;
       }
       .edit-link {
+        float: right;
+        margin-right: -5px;
+        margin-top: -2px;
+        color: #D1D5DB;
         .icon {
-          height: 16px;
+          height: 18px;
         }
       }
     }
