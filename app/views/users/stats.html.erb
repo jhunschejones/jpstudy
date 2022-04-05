@@ -64,7 +64,7 @@
         </p>
         <% if @days_to_word_target %>
           <p>
-            <strong>Time to learning goal:</strong>
+            <span class="light-gray">Time to learning goal:</span>
             <%= distance_of_time_in_words(@days_to_word_target.days) %>
           </p>
         <% end %>
@@ -128,7 +128,7 @@
         </p>
         <% if @days_to_kanji_target %>
           <p>
-            <strong>Time to learning goal:</strong>
+            <span class="light-gray">Time to learning goal:</span>
             <%= distance_of_time_in_words(@days_to_kanji_target.days) %>
           </p>
         <% end %>
