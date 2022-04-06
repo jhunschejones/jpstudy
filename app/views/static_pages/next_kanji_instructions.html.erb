@@ -2,7 +2,7 @@
   <h1 class="title">Next kanji instructions</h1>
 
   <p>
-    The <%= link_to "next kanji", next_kanji_path %> tool was the second major feature we added to jpstudy, and is an incredible way to leverage all the data you've created in your <%= link_to "word list", words_path(@current_user) %> to learn new kanji as well!
+    The <%= link_to "next kanji", next_kanji_path(@current_user) %> tool was the second major feature we added to jpstudy, and is an incredible way to leverage all the data you've created in your <%= link_to "word list", words_path(@current_user) %> to learn new kanji as well!
   </p>
 
   <h3 class="title">How does this tool work?</h3>
@@ -12,7 +12,7 @@
   </p>
 
   <p>
-    If you already have a list of kanji you've been studying, you can use our <%= link_to "import tool", import_kanji_path %> to pick up right where you left off. Moving on from jpstudy? No worries, simply <%= link_to "export", export_kanji_path %> the kanji you've added on our site before you go.
+    If you already have a list of kanji you've been studying, you can use our <%= link_to "import tool", import_kanji_path(@current_user) %> to pick up right where you left off. Moving on from jpstudy? No worries, simply <%= link_to "export", export_kanji_path(@current_user) %> the kanji you've added on our site before you go.
   </p>
 
   <p class="contact">

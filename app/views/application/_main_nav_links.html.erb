@@ -2,7 +2,7 @@
   <%= heroicon "collection" %>
   <small class="icon-subtext">Words</small>
 <% end %>
-<%= link_to(next_kanji_path) do %>
+<%= link_to(@current_user ? next_kanji_path(@current_user) : login_path) do %>
   <%= heroicon "puzzle" %>
   <small class="icon-subtext">Kanji</small>
 <% end %>

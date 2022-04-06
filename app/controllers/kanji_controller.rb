@@ -31,7 +31,7 @@ class KanjiController < ApplicationController
     end
     # prevent message from showing on additional kanji added after goal is reached by returning false
     flash[:success] = @current_user.has_reached_daily_kanji_target? && "🎉 You reached your daily kanji target!"
-    redirect_to next_kanji_path
+    redirect_to next_kanji_path(@current_user)
   end
 
   def destroy
@@ -47,7 +47,7 @@ class KanjiController < ApplicationController
           "Kanji #{@kanji.character} was removed from your list and is no longer marked as skipped."
         end
     end
-    redirect_to next_kanji_path
+    redirect_to next_kanji_path(@current_user)
   end
 
   def import
@@ -55,7 +55,7 @@ class KanjiController < ApplicationController
 
   def upload
     unless params[:csv_file]&.content_type == "text/csv"
-      return redirect_to import_kanji_path, alert: "Missing CSV file or unsupported file format"
+      return redirect_to import_kanji_path(@current_user), alert: "Missing CSV file or unsupported file format"
     end
 
     kanji_added = 0
@@ -63,7 +63,7 @@ class KanjiController < ApplicationController
     kanji_already_exist = 0
     CSV.read(params[:csv_file].path).each_with_index do |row, index|
       if index.zero?
-        return redirect_to import_kanji_path, alert: "Incorrectly formatted CSV" if row.size != ORDERED_CSV_FIELDS.size
+        return redirect_to import_kanji_path(@current_user), alert: "Incorrectly formatted CSV" if row.size != ORDERED_CSV_FIELDS.size
         next if params[:csv_includes_headers]
       end
 
