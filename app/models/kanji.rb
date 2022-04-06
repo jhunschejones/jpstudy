@@ -14,6 +14,7 @@ class Kanji < ApplicationRecord
   validate :user_kanji_limit_not_exceeded, on: :create
 
   scope :added, -> { where(status: ADDED_STATUS) }
+  scope :skipped, -> { where(status: SKIPPED_STATUS) }
 
   after_create_commit { notify_socket_subscribers(async: true) }
   after_update_commit { notify_socket_subscribers(async: true) }
