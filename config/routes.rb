@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: "sessions#login"
+  root to: "sessions#new"
 
   controller :static_pages do
     get "about" => :about
