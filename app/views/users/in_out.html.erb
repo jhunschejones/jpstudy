@@ -8,13 +8,13 @@
   <h3 class="tool-title">Import tools:</h3>
 
   <div class="actions">
-    <%= link_to "Import words", import_words_path, class: "button-purple" %>
+    <%= link_to "Import words", import_words_path(@current_user), class: "button-purple" %>
     <%= link_to "Import kanji", import_kanji_path, class: "button-purple" %>
   </div>
 
   <h3 class="tool-title">Export tools:</h3>
   <div class="actions">
-    <%= link_to "Export words", export_words_path, class: "button-blue" %>
+    <%= link_to "Export words", export_words_path(@current_user), class: "button-blue" %>
     <%= link_to "Export kanji", export_kanji_path, class: "button-blue" %>
   </div>
 
@@ -28,7 +28,7 @@
     <div class="actions">
       <%= button_to(
         "Delete all words",
-        destroy_all_words_path,
+        destroy_all_words_path(@current_user),
         method: :delete,
         class: "button-red",
         data: {

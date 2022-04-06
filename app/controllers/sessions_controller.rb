@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
   def new
     # Users who are logged in don't need to log in again
     if session[:session_token]
-      return redirect_to session.delete(:return_to) || words_path
+      return redirect_to session.delete(:return_to) || words_path(User.find_by(session_token: session[:session_token]))
     end
 
     # Provide a controlled list of hard-coded messages to use with redirects
@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
     flash.discard
     reset_login_attempts
 
-    redirect_to session.delete(:return_to) || words_path
+    redirect_to session.delete(:return_to) || words_path(user.username)
   rescue ActiveSupport::MessageEncryptor::InvalidMessage
     redirect_to login_url, alert: "Invalid token. If you are trying to confirm your subscription, please try following the link from your email."
   end

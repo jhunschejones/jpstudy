@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: "words#index"
+  root to: "sessions#login"
 
   controller :static_pages do
     get "about" => :about
@@ -40,15 +40,17 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :words do
-    post :toggle_card_created
-    collection do
-      get :import
-      post :upload
-      get :export
-      get :download
-      delete :destroy_all
-      get :search
+  scope ":username", constraints: { username: /[a-zA-Z0-9]+/ } do
+    resources :words do
+      post :toggle_card_created
+      collection do
+        get :import
+        post :upload
+        get :export
+        get :download
+        delete :destroy_all
+        get :search
+      end
     end
   end
 

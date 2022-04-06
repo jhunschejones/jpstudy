@@ -3,13 +3,13 @@
     <span class="light-gray"><%= @page %></span>
     &nbsp;
   <% elsif @page > 1 %>
-    <%= link_to "< #{@page - 1}", words_path(filter_params_plus(page: @page - 1)), class: "link-blue" %>
+    <%= link_to "< #{@page - 1}", words_path(@current_user, filter_params_plus(page: @page - 1)), class: "link-blue" %>
     &nbsp;
     <span class="light-gray"><%= @page %></span>
     &nbsp;
   <% end %>
   <% if @next_page %>
     <% params_plus_next_page = params.to_unsafe_hash.slice(:search, :filter).merge(page: @next_page) %>
-    <%= link_to "#{@next_page} >", words_path(filter_params_plus(page: @next_page)), class: "link-blue" %>
+    <%= link_to "#{@next_page} >", words_path(@current_user, filter_params_plus(page: @next_page)), class: "link-blue" %>
   <% end %>
 </noscript>

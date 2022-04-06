@@ -4,13 +4,13 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#index" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get words_path
+      get words_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the words list page" do
       login(users(:carl))
-      get words_path
+      get words_path(users(:carl))
       assert_response :success
       assert_select ".page-title", "Words"
     end
@@ -19,13 +19,13 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#search" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get search_words_path
+      get search_words_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the word search form" do
       login(users(:carl))
-      get search_words_path
+      get search_words_path(users(:carl))
       assert_response :success
       assert_select ".page-title", "Word search"
     end
@@ -34,13 +34,13 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#show" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get word_path(words(:形容詞))
+      get word_path(users(:elemouse), words(:形容詞))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the word details page" do
       login(users(:carl))
-      get word_path(words(:形容詞))
+      get word_path(users(:carl), words(:形容詞))
       assert_response :success
       assert_select ".page-title", "Word details"
       assert_select ".japanese", words(:形容詞).japanese
@@ -50,13 +50,13 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#new" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get new_word_path
+      get new_word_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the new word form with turbo disabled" do
       login(users(:carl))
-      get new_word_path
+      get new_word_path(users(:carl))
       assert_response :success
       assert_select ".page-title", "Add a new word"
       assert_select "form[data-turbo='false']"
@@ -66,13 +66,13 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#edit" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get edit_word_path(words(:形容詞))
+      get edit_word_path(users(:elemouse), words(:形容詞))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the word edit form with turbo disabled" do
       login(users(:carl))
-      get edit_word_path(words(:形容詞))
+      get edit_word_path(users(:carl), words(:形容詞))
       assert_response :success
       assert_select ".page-title", "Editing word"
       assert_select "form[data-turbo='false']"
@@ -83,7 +83,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_difference "Word.count" do
-        post words_path, params: { word: { english: "new", japanese: "新し" } }
+        post words_path(users(:elemouse)), params: { word: { english: "new", japanese: "新し" } }
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -92,7 +92,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       freeze_time do
         assert_difference "Word.count", 1 do
-          post words_path, params: { word: { english: "new", japanese: "新し" } }
+          post words_path(users(:carl)), params: { word: { english: "new", japanese: "新し" } }
         end
         assert_equal "新し", Word.last.japanese
         assert_equal Time.now.utc, Word.last.added_to_list_at
@@ -101,7 +101,7 @@ class WordsControllerTest < ApplicationControllerTestCase
 
     it "leaves optional attributes as nil when not provided" do
       login(users(:carl))
-      post words_path, params: { word: { english: "new", japanese: "新し" } }
+      post words_path(users(:carl)), params: { word: { english: "new", japanese: "新し" } }
       assert_nil Word.last.cards_created_at
       assert_nil Word.last.note
       assert_nil Word.last.source_name
@@ -110,15 +110,15 @@ class WordsControllerTest < ApplicationControllerTestCase
 
     it "redirects to the word list page with the new word for html requests" do
       login(users(:carl))
-      post words_path, params: { word: { english: "new", japanese: "新し" } }
+      post words_path(users(:carl)), params: { word: { english: "new", japanese: "新し" } }
       follow_redirect!
-      assert_equal path, words_path
+      assert_equal path, words_path(users(:carl))
       assert_select ".japanese", "新し"
     end
 
     it "returns turbo stream response for turbo requests" do
       login(users(:carl))
-      post words_path(format: :turbo_stream), params: { word: { english: "new", japanese: "新し" } }
+      post words_path(users(:carl), format: :turbo_stream), params: { word: { english: "new", japanese: "新し" } }
       assert_response :success
       assert_select ".japanese", "新し"
     end
@@ -128,7 +128,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_changes "Word.find(words(:形容詞).id).english" do
-        patch word_path(words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
+        patch word_path(users(:elemouse), words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -136,16 +136,16 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "updates the word and redirects for html request" do
       login(users(:carl))
       assert_changes "Word.find(words(:形容詞).id).english" do
-        patch word_path(words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
+        patch word_path(users(:carl), words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
       end
       follow_redirect!
-      assert_equal path, word_path(words(:形容詞))
+      assert_equal path, word_path(users(:carl), words(:形容詞))
     end
 
     it "updates the word and sends turbo stream response for turbo request" do
       login(users(:carl))
       assert_changes "Word.find(words(:形容詞).id).english" do
-        patch word_path(words(:形容詞), format: :turbo_stream), params: { word: { english: "adjective (grammar)" } }
+        patch word_path(users(:carl), words(:形容詞), format: :turbo_stream), params: { word: { english: "adjective (grammar)" } }
       end
       assert_response :success
       assert_select "span.english", text: "adjective (grammar)"
@@ -156,7 +156,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_difference "Word.count" do
-        delete word_path(words(:形容詞))
+        delete word_path(users(:elemouse), words(:形容詞))
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -164,7 +164,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "deletes the word and redirects for html requests" do
       login(users(:carl))
       assert_difference "Word.count", -1 do
-        delete word_path(words(:形容詞))
+        delete word_path(users(:carl), words(:形容詞))
       end
       follow_redirect!
       assert_equal path, words_path
@@ -173,7 +173,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "deletes the word and sends turbo stream response for turbo requests" do
       login(users(:carl))
       assert_difference "Word.count", -1 do
-        delete word_path(words(:形容詞), format: :turbo_stream)
+        delete word_path(users(:carl), words(:形容詞), format: :turbo_stream)
       end
       assert_response :success
       assert_select "turbo-stream[action='remove'][target='word_#{words(:形容詞).id}']"
@@ -184,21 +184,21 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_difference "Word.count" do
-        delete destroy_all_words_path
+        delete destroy_all_words_path(users(:elemouse))
       end
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "deletes all the users words" do
       login(users(:carl))
-      delete destroy_all_words_path
+      delete destroy_all_words_path(users(:carl))
       assert_equal 0, users(:carl).words.count
     end
 
     it "redirects with a user message" do
       login(users(:carl))
       words_count = users(:carl).words.count
-      delete destroy_all_words_path
+      delete destroy_all_words_path(users(:carl))
       assert_redirected_to in_out_user_path(users(:carl))
       assert_equal "#{words_count} words deleted.", flash[:success]
     end
@@ -208,7 +208,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_changes "Word.find(words(:形容詞).id).cards_created" do
-        post word_toggle_card_created_path(words(:形容詞))
+        post word_toggle_card_created_path(users(:elemouse), words(:形容詞))
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -216,20 +216,20 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "toggles the card_created attribute for the word" do
       login(users(:carl))
       assert_changes "Word.find(words(:形容詞).id).cards_created" do
-        post word_toggle_card_created_path(words(:形容詞))
+        post word_toggle_card_created_path(users(:carl), words(:形容詞))
       end
     end
 
     it "redirects the word details page for html requests" do
       login(users(:carl))
-      post word_toggle_card_created_path(words(:形容詞))
+      post word_toggle_card_created_path(users(:carl), words(:形容詞))
       follow_redirect!
       assert_select ".japanese", words(:形容詞).japanese
     end
 
     it "returns the updated word for turbo requests" do
       login(users(:carl))
-      post word_toggle_card_created_path(words(:形容詞), format: :turbo_stream)
+      post word_toggle_card_created_path(users(:carl), words(:形容詞), format: :turbo_stream)
       assert_response :success
       assert_select ".japanese", words(:形容詞).japanese
     end
@@ -237,7 +237,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "returns a message when word target has been reached" do
       login(users(:carl))
       users(:carl).update!(daily_word_target: 1)
-      post word_toggle_card_created_path(words(:よく寝た))
+      post word_toggle_card_created_path(users(:carl), words(:よく寝た))
       assert_equal 1, users(:carl).words.where(cards_created_at: Date.today.all_day).size
       assert_equal "🎉 You reached your daily word target!", flash[:success]
     end
@@ -246,7 +246,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       users(:carl).update!(daily_word_target: 1)
       Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
-      post word_toggle_card_created_path(words(:よく寝た))
+      post word_toggle_card_created_path(users(:carl), words(:よく寝た))
       assert_equal 2, users(:carl).words.where(cards_created_at: Date.today.all_day).size
       refute flash[:success]
     end
@@ -255,13 +255,13 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#import" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get import_words_path
+      get import_words_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the words import page" do
       login(users(:carl))
-      get import_words_path
+      get import_words_path(users(:carl))
       assert_response :success
       assert_select ".page-title", "Import words"
     end
@@ -270,13 +270,13 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#export" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get export_words_path
+      get export_words_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the words export page" do
       login(users(:carl))
-      get export_words_path
+      get export_words_path(users(:carl))
       assert_response :success
       assert_select ".page-title", "Export your word list"
     end
@@ -287,7 +287,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
       assert_no_difference "Word.count" do
-        post upload_words_path, params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_words_path(users(:elemouse)), params: { csv_file: csv_file, csv_includes_headers: true }
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -296,7 +296,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
       assert_difference "Word.count", 49 do
-        post upload_words_path, params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_words_path(users(:carl)), params: { csv_file: csv_file, csv_includes_headers: true }
       end
       assert_redirected_to in_out_user_path(users(:carl))
       assert_equal "49 new words imported, 1 word already exists.", flash[:success]
@@ -313,7 +313,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
       assert_no_enqueued_jobs do
-        post upload_words_path, params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_words_path(users(:carl)), params: { csv_file: csv_file, csv_includes_headers: true }
       end
     end
   end
@@ -321,14 +321,14 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#download" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get download_words_path(format: :csv)
+      get download_words_path(users(:elemouse), format: :csv)
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "downloads a csv" do
       login(users(:carl))
       freeze_time do
-        get download_words_path(format: :csv)
+        get download_words_path(users(:carl), format: :csv)
         assert_response :success
         assert_equal "text/csv", response.headers["Content-Type"]
         assert response.headers["Content-Disposition"].include?("attachment; filename=\"words_export_#{Time.now.utc.to_i}.csv\""), "likely missing expected CSV file in response"

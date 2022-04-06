@@ -8,7 +8,7 @@ class SessionsControllerTest < ApplicationControllerTestCase
 
     post login_path, params: { email: users(:carl).email, password: "secret_secret" }
     follow_redirect!
-    assert_equal words_path, path
+    assert_equal words_path(users(:carl)), path
   end
 
   it "logs a user out" do

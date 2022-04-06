@@ -2,7 +2,7 @@
   <h1 class="title">Next kanji instructions</h1>
 
   <p>
-    The <%= link_to "next kanji", next_kanji_path %> tool was the second major feature we added to jpstudy, and is an incredible way to leverage all the data you've created in your <%= link_to "word list", words_path %> to learn new kanji as well!
+    The <%= link_to "next kanji", next_kanji_path %> tool was the second major feature we added to jpstudy, and is an incredible way to leverage all the data you've created in your <%= link_to "word list", words_path(@current_user) %> to learn new kanji as well!
   </p>
 
   <h3 class="title">How does this tool work?</h3>

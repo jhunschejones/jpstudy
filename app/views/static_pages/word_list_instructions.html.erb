@@ -2,7 +2,7 @@
   <h1 class="title">The jpstudy word list</h1>
 
   <p>
-    The <%= link_to "word list", words_path %> is our favorite feature on jpstudy, and the first one we are implementing during the alpha.
+    The <%= link_to "word list", words_path(@current_user) %> is our favorite feature on jpstudy, and the first one we are implementing during the alpha.
   </p>
 
   <h3 class="title">How does this tool work?</h3>
@@ -12,7 +12,7 @@
   </p>
 
   <p>
-    If you already have a list of words you've been studying, you can use our <%= link_to "import tool", import_words_path %> to pick up right where you left off. Moving on from jpstudy? No worries, simply <%= link_to "export", export_words_path %> the word list you created on our site.
+    If you already have a list of words you've been studying, you can use our <%= link_to "import tool", import_words_path(@current_user) %> to pick up right where you left off. Moving on from jpstudy? No worries, simply <%= link_to "export", export_words_path(@current_user) %> the word list you created on our site.
   </p>
 
   <h3 class="title">How do I use the resource links?</h3>

@@ -16,7 +16,7 @@
     <li>[7]Note</li>
   </ul>
 
-  <%= form_tag(upload_words_path, method: :post, multipart: true, class: "import-csv-form") do %>
+  <%= form_tag(upload_words_path(@current_user), method: :post, multipart: true, class: "import-csv-form") do %>
     <%= file_field_tag :csv_file %>
 
     <div class="includes-headers-field-row">
