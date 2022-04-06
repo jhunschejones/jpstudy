@@ -41,4 +41,9 @@ class ApplicationController < ActionController::Base
   def subscription_already_verified?
     session[:reverify_subscription_at] && Time.parse(session[:reverify_subscription_at]).utc > Time.now.utc
   end
+
+  def protect_user_scoped_resource
+    authenticate_user
+    head :not_found if params[:username] && @current_user.username != params[:username]
+  end
 end

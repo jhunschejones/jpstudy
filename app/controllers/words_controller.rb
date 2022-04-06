@@ -4,6 +4,7 @@ class WordsController < ApplicationController
   include DateParsing
 
   before_action :secure_behind_subscription
+  before_action :protect_user_scoped_resource
   before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
   ORDERED_CSV_FIELDS = [
@@ -148,7 +149,8 @@ class WordsController < ApplicationController
             cards_created: cards_created,
             cards_created_at: cards_created_at,
             added_to_list_at: added_to_list_at,
-            note: note
+            note: note,
+            skip_turbostream_callbacks: true
           )
         end
 

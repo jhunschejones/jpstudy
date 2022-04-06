@@ -4,6 +4,7 @@ class KanjiController < ApplicationController
   include DateParsing
 
   before_action :secure_behind_subscription
+  before_action :protect_user_scoped_resource
 
   ORDERED_CSV_FIELDS = [:character, :status, :added_to_list_on]
   KANJI_BATCH_SIZE = 1000
@@ -75,7 +76,8 @@ class KanjiController < ApplicationController
         if params[:overwrite_matching_kanji]
           kanji_updated += 1 if kanji.update(
             status: status,
-            added_to_list_at: added_to_list_at
+            added_to_list_at: added_to_list_at,
+            skip_turbostream_callbacks: true
           )
         end
 
