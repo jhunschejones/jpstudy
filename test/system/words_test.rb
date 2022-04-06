@@ -199,7 +199,7 @@ class WordsTest < ApplicationSystemTestCase
 
       login(users(:carl))
       sleep TURBO_WAIT_SECONDS * 4
-      visit new_word_url
+      visit new_word_url(users(:carl))
 
       # confirm we are on the new words page
       assert_selector ".page-title", text: "Add a new word"
@@ -220,7 +220,7 @@ class WordsTest < ApplicationSystemTestCase
 
       login(users(:carl))
       sleep TURBO_WAIT_SECONDS * 4
-      visit word_url(words(:無理))
+      visit word_url(users(:carl), words(:無理))
 
       # confirm we are on the word show page
       assert_selector ".page-title", text: "Word details"
