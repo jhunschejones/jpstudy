@@ -58,7 +58,7 @@ export default class extends Controller {
       }
 
       // escape will go back one page from the search page
-      if (window.location.pathname == "/words/search") {
+      if (window.location.pathname.match(/\/words\/search/g)) {
         return history.back();
       }
     }
@@ -83,29 +83,31 @@ export default class extends Controller {
     }
 
     if (this.keysPressed["w"] || this.keysPressed["a"]) {
-      return Turbo.visit("/words");
+      return document.getElementById("words-link").click();
     }
     if (this.keysPressed["c"]) {
-      return Turbo.visit("/words?filter=cards_not_created&order=oldest_first");
+      document.getElementById("words-link").click();
+      return Turbo.visit(`${window.location}?filter=cards_not_created&order=oldest_first`);
     }
     if (this.keysPressed["n"]) {
       const newWordBtton = document.querySelector("#new-word-form .new-word");
       if (newWordBtton) {
         return newWordBtton.click();
       }
-      return Turbo.visit("/words/new");
+      // document.getElementById("words-link").click();
+      // return Turbo.visit(`${window.location}/new`);
     }
     if (this.keysPressed["f"]) {
-      return Turbo.visit("/words/search");
+      return document.getElementById("word-search-link").click();
     }
     if (this.keysPressed["i"] || this.keysPressed["e"]) {
       return document.querySelector(".in-out-link").click();
     }
     if (this.keysPressed["s"]) {
-      return document.querySelector("#stats-nav-link").click();
+      return document.getElementById("user-stats-link").click();
     }
     if (this.keysPressed["k"]) {
-      return Turbo.visit("/kanji/next");
+      return document.getElementById("kanji-link").click();
     }
     if (this.keysPressed["h"]) {
       return Turbo.visit("/keyboard_shortcuts");
