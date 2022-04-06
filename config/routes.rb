@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get "email/verify", to: "emails#verify"
 
   get "/signup", to: "users#new"
-  resources :users, except: [:index], param: :username do
+  resources :users, except: [:index], param: :username, path: "" do
     member do
       get :stats
       get :edit_targets
