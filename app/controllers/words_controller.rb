@@ -61,7 +61,7 @@ class WordsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream { flash.now[:notice] = "Unable to create word: #{@word.errors.full_messages.join(", ")}" }
-        format.html { redirect_to new_word_path, notice: "Unable to create word: #{@word.errors.full_messages.join(", ")}" }
+        format.html { redirect_to new_word_path(@current_user), notice: "Unable to create word: #{@word.errors.full_messages.join(", ")}" }
       end
     end
   end
@@ -71,11 +71,11 @@ class WordsController < ApplicationController
       flash[:hide_in_ms] = CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS
       respond_to do |format|
         format.turbo_stream { flash.now[:success] = "'#{@word.japanese}' was successfully updated." }
-        format.html { redirect_to @word, success: "'#{@word.japanese}' was successfully updated." }
+        format.html { redirect_to word_path(@current_user, @word), success: "'#{@word.japanese}' was successfully updated." }
       end
     else
       flash[:notice] = "Unable to update word: #{@word.errors.full_messages.map(&:downcase).join(", ")}"
-      redirect_to edit_word_path(@word)
+      redirect_to edit_word_path(@current_user, @word)
     end
   end
 
@@ -84,7 +84,7 @@ class WordsController < ApplicationController
     flash[:hide_in_ms] = CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS
     respond_to do |format|
       format.turbo_stream { flash.now[:notice] = "'#{@word.japanese}' was successfully deleted." }
-      format.html { redirect_to words_path, notice: "'#{@word.japanese}' was successfully deleted." }
+      format.html { redirect_to words_path(@current_user), notice: "'#{@word.japanese}' was successfully deleted." }
     end
   end
 
@@ -106,7 +106,7 @@ class WordsController < ApplicationController
       format.turbo_stream { flash.now[:success] = daily_target_message }
       format.html {
         flash[:success] = daily_target_message
-        redirect_to @word
+        redirect_to word_path(@current_user, @word)
       }
     end
   end
@@ -119,7 +119,7 @@ class WordsController < ApplicationController
 
   def upload
     unless params[:csv_file]&.content_type == "text/csv"
-      return redirect_to import_words_path, alert: "Missing CSV file or unsupported file format"
+      return redirect_to import_words_path(@current_user), alert: "Missing CSV file or unsupported file format"
     end
 
     words_added = 0
@@ -127,7 +127,7 @@ class WordsController < ApplicationController
     words_already_exist = 0
     CSV.read(params[:csv_file].path).each_with_index do |row, index|
       if index.zero?
-        return redirect_to import_words_path, alert: "Incorrectly formatted CSV" if row.size != ORDERED_CSV_FIELDS.size
+        return redirect_to import_words_path(@current_user), alert: "Incorrectly formatted CSV" if row.size != ORDERED_CSV_FIELDS.size
         next if params[:csv_includes_headers]
       end
 
@@ -181,7 +181,7 @@ class WordsController < ApplicationController
       end
     redirect_to in_out_user_path(@current_user)
   rescue InvalidDateOrTime => error
-    redirect_to import_words_path, alert: "Some words were unable to be imported: invalid date format: '#{error.message}'. Please use 'mm/dd/yyyy' formatted dates."
+    redirect_to import_words_path(@current_user), alert: "Some words were unable to be imported: invalid date format: '#{error.message}'. Please use 'mm/dd/yyyy' formatted dates."
   end
 
   def download

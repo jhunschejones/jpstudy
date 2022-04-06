@@ -4,13 +4,13 @@ class KanjiControllerTest < ApplicationControllerTestCase
   describe "#next" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get next_kanji_path
+      get next_kanji_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the 'next kanji' page with the next character to add" do
       login(users(:carl))
-      get next_kanji_path
+      get next_kanji_path(users(:carl))
       assert_response :success
       assert_select ".character", "寝"
     end
@@ -20,7 +20,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_difference "Kanji.count" do
-        post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+        post kanji_path(users(:elemouse)), params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -28,35 +28,35 @@ class KanjiControllerTest < ApplicationControllerTestCase
     it "adds a kanji and redirects to the next kanji page" do
       login(users(:carl))
       assert_difference "Kanji.added.count", 1 do
-        post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+        post kanji_path(users(:carl)), params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       end
       follow_redirect!
-      assert_equal path, next_kanji_path
+      assert_equal path, next_kanji_path(users(:carl))
     end
 
     it "skips a kanji and redirects to the next kanji page" do
       login(users(:carl))
       assert_difference "Kanji.where(status: Kanji::SKIPPED_STATUS).count", 1 do
-        post kanji_path, params: { kanji: { character: "竜", status: Kanji::SKIPPED_STATUS } }
+        post kanji_path(users(:carl)), params: { kanji: { character: "竜", status: Kanji::SKIPPED_STATUS } }
       end
       follow_redirect!
-      assert_equal path, next_kanji_path
+      assert_equal path, next_kanji_path(users(:carl))
     end
 
     it "doesn't allow duplicate kanji" do
       login(users(:carl))
       assert_no_difference "Kanji.added.count" do
-        post kanji_path, params: { kanji: { character: kanji(:形).character, status: kanji(:形).status } }
+        post kanji_path(users(:carl)), params: { kanji: { character: kanji(:形).character, status: kanji(:形).status } }
       end
       follow_redirect!
-      assert_equal path, next_kanji_path
+      assert_equal path, next_kanji_path(users(:carl))
       assert_equal "Unable to save kanji: Character has already been taken", flash[:alert]
     end
 
     it "returns a message when kanji target has been reached" do
       login(users(:carl))
       users(:carl).update!(daily_kanji_target: 1)
-      post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+      post kanji_path(users(:carl)), params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       follow_redirect!
       assert_equal "🎉 You reached your daily kanji target!", flash[:success]
     end
@@ -65,7 +65,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       users(:carl).update!(daily_kanji_target: 1)
       Kanji.create!(user: users(:carl), character: "礼", status: Kanji::ADDED_STATUS, added_to_list_at: Time.now.utc)
-      post kanji_path, params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
+      post kanji_path(users(:carl)), params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       follow_redirect!
       refute flash[:success]
     end
@@ -75,7 +75,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_difference "Kanji.count" do
-        delete delete_kanji_path(kanji(:形))
+        delete delete_kanji_path(users(:elemouse), kanji(:形))
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -83,7 +83,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
     it "deletes a kanji" do
       login(users(:carl))
       assert_difference "Kanji.count", -1 do
-        delete delete_kanji_path(kanji(:形))
+        delete delete_kanji_path(users(:carl), kanji(:形))
       end
     end
   end
@@ -91,13 +91,13 @@ class KanjiControllerTest < ApplicationControllerTestCase
   describe "#import" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get import_kanji_path
+      get import_kanji_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the 'import kanji' page" do
       login(users(:carl))
-      get import_kanji_path
+      get import_kanji_path(users(:carl))
       assert_response :success
       assert_select ".page-title", "Import kanji"
     end
@@ -108,7 +108,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       csv_file = fixture_file_upload("test/fixtures/files/kanji_export_1639956633.csv", "text/csv")
       assert_no_difference "Word.count" do
-        post upload_kanji_path, params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_kanji_path(users(:elemouse)), params: { csv_file: csv_file, csv_includes_headers: true }
       end
       assert_redirected_to user_path(users(:elemouse))
     end
@@ -117,7 +117,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       csv_file = fixture_file_upload("test/fixtures/files/kanji_export_1639956633.csv", "text/csv")
       assert_difference "Kanji.count", 46 do
-        post upload_kanji_path, params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_kanji_path(users(:carl)), params: { csv_file: csv_file, csv_includes_headers: true }
       end
       assert_redirected_to in_out_user_path(users(:carl))
       assert_equal "46 new kanji imported, 3 kanji already exist.", flash[:success]
@@ -133,7 +133,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       login(users(:carl))
       csv_file = fixture_file_upload("test/fixtures/files/kanji_export_1639956633.csv", "text/csv")
       assert_no_enqueued_jobs do
-        post upload_kanji_path, params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_kanji_path(users(:carl)), params: { csv_file: csv_file, csv_includes_headers: true }
       end
     end
   end
@@ -141,13 +141,13 @@ class KanjiControllerTest < ApplicationControllerTestCase
   describe "#export" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get export_kanji_path
+      get export_kanji_path(users(:elemouse))
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "returns the 'export kanji' page" do
       login(users(:carl))
-      get export_kanji_path
+      get export_kanji_path(users(:carl))
       assert_response :success
       assert_select ".page-title", "Export your kanji"
     end
@@ -156,14 +156,14 @@ class KanjiControllerTest < ApplicationControllerTestCase
   describe "#download" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get download_kanji_path(format: :csv)
+      get download_kanji_path(users(:elemouse), format: :csv)
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "downloads a csv" do
       login(users(:carl))
       freeze_time do
-        get download_kanji_path(format: :csv)
+        get download_kanji_path(users(:carl), format: :csv)
         assert_response :success
         assert_equal "text/csv", response.headers["Content-Type"]
         assert response.headers["Content-Disposition"].include?("attachment; filename=\"kanji_export_#{Time.now.utc.to_i}.csv\""), "likely missing expected CSV file in response"
@@ -175,23 +175,38 @@ class KanjiControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_difference "Kanji.count" do
-        delete destroy_all_kanji_path
+        delete destroy_all_kanji_path(users(:elemouse))
       end
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "deletes all the users kanji" do
       login(users(:carl))
-      delete destroy_all_kanji_path
+      delete destroy_all_kanji_path(users(:carl))
       assert_equal 0, users(:carl).kanji.count
     end
 
     it "redirects with a user message" do
       login(users(:carl))
       kanji_count = users(:carl).kanji.count
-      delete destroy_all_kanji_path
+      delete destroy_all_kanji_path(users(:carl))
       assert_redirected_to in_out_user_path(users(:carl))
       assert_equal "#{kanji_count} kanji deleted.", flash[:success]
+    end
+  end
+
+  describe "#wall" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get wall_kanji_path(users(:elemouse))
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "returns the kanji wall page" do
+      login(users(:carl))
+      get wall_kanji_path(users(:carl))
+      assert_response :success
+      assert_select ".kanji-wall", /#{users(:carl).kanji.added.first.character}/
     end
   end
 
@@ -232,21 +247,6 @@ class KanjiControllerTest < ApplicationControllerTestCase
       assert_raises KanjiController::InvalidDateOrTime, "space_cats" do
         KanjiController.new.send(:date_or_time_from, "space_cats")
       end
-    end
-  end
-
-  describe "#wall" do
-    it "requires subscription or trial to access" do
-      login(users(:elemouse))
-      get wall_kanji_path
-      assert_redirected_to user_path(users(:elemouse))
-    end
-
-    it "returns the kanji wall page" do
-      login(users(:carl))
-      get wall_kanji_path
-      assert_response :success
-      assert_select ".kanji-wall", /#{users(:carl).kanji.added.first.character}/
     end
   end
 end

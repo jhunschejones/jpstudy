@@ -6,7 +6,7 @@ class KanjiTest < ApplicationSystemTestCase
       login(users(:carl))
       sleep TURBO_WAIT_SECONDS * 4
 
-      visit next_kanji_url
+      visit next_kanji_url(users(:carl))
       assert_selector "h1", text: "Next kanji"
 
       initial_next_kanji = Kanji.next_new_for(user: users(:carl))

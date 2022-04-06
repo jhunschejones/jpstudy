@@ -6,7 +6,7 @@
   </p>
 
   <div class="actions">
-    <%= link_to(download_kanji_path(format: :csv), target: "_blank", rel: "noopener noreferrer", class: "button-blue export-button") do %>
+    <%= link_to(download_kanji_path(@current_user, format: :csv), target: "_blank", rel: "noopener noreferrer", class: "button-blue export-button") do %>
       <%= heroicon "document-download", variant: :outline, options: { class: "download-icon" } %>
       Download all kanji
     <% end %>

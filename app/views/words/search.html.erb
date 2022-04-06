@@ -2,7 +2,7 @@
   <div class="search-form-container">
     <h1 class="page-title">Word search</h1>
     <br/>
-    <%= form_tag(words_path, method: :get) do |form| %>
+    <%= form_tag(words_path(@current_user), method: :get) do |form| %>
       <div class="field">
         <%= label_tag :search, "English or Japanese" %>
         <%= text_field_tag :search, nil, type: "text", autofocus: true, required: true, maxlength: 30 %>

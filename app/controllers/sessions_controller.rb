@@ -1,5 +1,13 @@
 class SessionsController < ApplicationController
   MAX_LOGIN_ATTEMPTS = 10.freeze
+  ALLOWED_DESTINATIONS = {
+    "R01" => :words,
+    "R02" => :kanji,
+    "R03" => :word_search,
+    "R04" => :user_stats,
+    "R05" => :io,
+    "R06" => :user_profile,
+  }.freeze
 
   skip_before_action :authenticate_user
   before_action :prevent_brute_force, only: [:create]
@@ -7,7 +15,11 @@ class SessionsController < ApplicationController
   def new
     # Users who are logged in don't need to log in again
     if session[:session_token]
-      return redirect_to session.delete(:return_to) || words_path
+      return redirect_to(session.delete(:return_to)) if session[:return_to]
+      user = User.find_by(session_token: session[:session_token])
+      # prevent infinate redirects for expired session tokens
+      return reset_session && redirect_to(login_path) if user.nil?
+      return redirect_to words_path(user)
     end
 
     # Provide a controlled list of hard-coded messages to use with redirects
@@ -34,7 +46,23 @@ class SessionsController < ApplicationController
     flash.discard
     reset_login_attempts
 
-    redirect_to session.delete(:return_to) || words_path
+    destination = ALLOWED_DESTINATIONS[params[:destination]]
+    case destination
+    when :kanji
+      redirect_to next_kanji_path(user)
+    when :words
+      redirect_to words_path(user)
+    when :word_search
+      redirect_to search_words_path(user)
+    when :user_stats
+      redirect_to stats_user_path(user)
+    when :io
+      redirect_to in_out_user_path(user)
+    when :user_profile
+      redirect_to user
+    else
+      redirect_to session.delete(:return_to) || words_path(user.username)
+    end
   rescue ActiveSupport::MessageEncryptor::InvalidMessage
     redirect_to login_url, alert: "Invalid token. If you are trying to confirm your subscription, please try following the link from your email."
   end

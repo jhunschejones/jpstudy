@@ -10,6 +10,7 @@
       <%= form.text_field :password, required: true, type: "password", autocomplete: "off" %>
 
       <%= form.hidden_field :ref_id, value: params[:ref_id]&.strip %>
+      <%= form.hidden_field :destination, value: params[:destination]&.strip %>
 
       <div class="actions">
         <%= form.submit "Log in", class: "button-blue" %>

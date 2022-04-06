@@ -73,7 +73,7 @@
 
     <h3 class="catagory-title">
       Kanji&nbsp;
-      <%= link_to wall_kanji_path, title: "You found an easter egg 🥚 \nClick here to check out your Kanji wall!" do %>
+      <%= link_to wall_kanji_path(@current_user), title: "You found an easter egg 🥚 \nClick here to check out your Kanji wall!" do %>
         <%= heroicon "trending-up" %>
       <% end %>
     </h3>

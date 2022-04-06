@@ -11,7 +11,7 @@
     <li>[2]Added to list on (mm/dd/yyyy)</li>
   </ul>
 
-  <%= form_tag(upload_kanji_path, method: :post, multipart: true, class: "import-csv-form") do %>
+  <%= form_tag(upload_kanji_path(@current_user), method: :post, multipart: true, class: "import-csv-form") do %>
     <%= file_field_tag :csv_file %>
 
     <div class="includes-headers-field-row">
