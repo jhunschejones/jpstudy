@@ -1,6 +1,6 @@
 <div class="next-kanji-page" data-last-update="<%= Time.now.utc%>">
   <% unless ENV["DISABLE_WEBSOCKETS"] %>
-    <%= turbo_stream_from @current_user.kanji_stream_name %>
+    <%= turbo_stream_from @resource_owner.kanji_stream_name %>
   <% end %>
 
   <h1 class="page-title">
@@ -29,17 +29,19 @@
   </div>
 
   <div class="actions">
-    <%= button_to(delete_kanji_path(@current_user, @previous_kanji || 0), class: "basic-button", method: :delete, title: "Remove the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
-      <%= heroicon "rewind", options: { class: "back-button-icon" } %>
-      Undo
-    <% end %>
-    <%= button_to(kanji_path(@current_user), class: "button-pink", method: :post, params: { kanji: { character: @next_kanji&.character, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "Skipping...", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
-      <%= heroicon "eye-off", variant: :outline, options: { class: "skip-button-icon" } %>
-      Skip
-    <% end %>
-    <%= button_to(kanji_path(@current_user), class: "button-purple", method: :post, params: { kanji: { character: @next_kanji&.character, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "Adding...", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
-      <%= heroicon "plus", options: { class: "add-button-icon" } %>
-      Add
+    <% if @current_user&.can_modify_resources_belonging_to(@resource_owner) %>
+      <%= button_to(delete_kanji_path(@resource_owner, @previous_kanji || 0), class: "basic-button", method: :delete, title: "Remove the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
+        <%= heroicon "rewind", options: { class: "back-button-icon" } %>
+        Undo
+      <% end %>
+      <%= button_to(kanji_path(@resource_owner), class: "button-pink", method: :post, params: { kanji: { character: @next_kanji&.character, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "Skipping...", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
+        <%= heroicon "eye-off", variant: :outline, options: { class: "skip-button-icon" } %>
+        Skip
+      <% end %>
+      <%= button_to(kanji_path(@resource_owner), class: "button-purple", method: :post, params: { kanji: { character: @next_kanji&.character, status: Kanji::ADDED_STATUS } }, data: { controller: "disable", disable_with_value: "Adding...", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
+        <%= heroicon "plus", options: { class: "add-button-icon" } %>
+        Add
+      <% end %>
     <% end %>
   </div>
 

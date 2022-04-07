@@ -45,5 +45,14 @@ class ApplicationController < ActionController::Base
   def protect_user_scoped_resource
     authenticate_user
     head :not_found if params[:username] && @current_user.username != params[:username]
+    @resource_owner ||= begin
+      if params[:username].blank?
+        nil
+      elsif params[:username] == @current_user&.username
+        @current_user # save a query if we've already looked this user up safely earlier
+      else
+        User.find_by(username: params[:username])
+      end
+    end
   end
 end

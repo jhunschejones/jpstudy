@@ -113,6 +113,10 @@ class User < ApplicationRecord
     "user_#{hashid}_kanji"
   end
 
+  def can_modify_resources_belonging_to(resource_owner)
+    self == resource_owner
+  end
+
   private
 
   def square_subscriptions(revalidate_at: Time.now.utc.tomorrow)

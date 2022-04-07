@@ -1,13 +1,15 @@
 <div class="words-list-page">
   <h1 class="page-title">
-    <%= link_to "Words", words_path(@current_user), class: "home-link" %>
+    <%= link_to "Words", words_path(@resource_owner), class: "home-link" %>
     <%= link_to(word_list_instructions_path, title: "What does this feature do?") do %>
       <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
     <% end %>
   </h1>
 
   <div class="actions">
-    <%= render "new_word_button" %>
+    <% if @current_user&.can_modify_resources_belonging_to(@resource_owner) %>
+      <%= render "new_word_button" %>
+    <% end %>
   </div>
 
   <%= render "filters" %>
@@ -20,13 +22,13 @@
     <%= render "words/noscript/page_number" %>
     <%= turbo_frame_tag "words_#{@page}" do %>
       <% unless ENV["DISABLE_WEBSOCKETS"] %>
-        <%= turbo_stream_from @current_user.words_stream_name %>
+        <%= turbo_stream_from @resource_owner.words_stream_name %>
       <% end %>
       <%= render partial: "words/word", collection: @words, cached: true %>
 
       <%= render "words/noscript/pagination" %>
       <% if @next_page %>
-        <%= turbo_frame_tag "words_#{@next_page}", loading: :lazy, src: words_path(@current_user, filter_params_plus(page: @next_page)) do %>
+        <%= turbo_frame_tag "words_#{@next_page}", loading: :lazy, src: words_path(@resource_owner, filter_params_plus(page: @next_page)) do %>
           <div class="loading-container">
             <% cache("skeleton_words_v1", skip_digest: true) do %>
               <% WordsController::WORDS_PER_PAGE.times do %>

@@ -11,7 +11,8 @@ export default class extends Controller {
     addedAt: String,
     createdAt: String,
     databaseId: String,
-    wordId: String
+    wordId: String,
+    wordOwner: String
   }
 
   connect() {

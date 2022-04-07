@@ -12,6 +12,7 @@
     data-word-database-id-value="<%= word.id %>"
     data-word-target="wordCard"
     data-last-update="<%= Time.now.utc %>"
+    data-word-owner="<%= word.user.username %>"
   >
     <div class="delete">
       <%= button_to(word_path(@current_user, word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm", turbo: !(defined?(delete_without_turbo) && delete_without_turbo) }) do %>

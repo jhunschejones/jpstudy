@@ -10,13 +10,13 @@ class KanjiController < ApplicationController
   KANJI_BATCH_SIZE = 1000
 
   def next
-    @next_kanji = Kanji.next_new_for(user: @current_user)
-    @previous_kanji = @current_user.kanji.order(created_at: :asc).last
+    @next_kanji = Kanji.next_new_for(user: @resource_owner)
+    @previous_kanji = @resource_owner.kanji.order(created_at: :asc).last
     @as_seen_in_words =
       if @next_kanji.nil?
         []
       else
-        @current_user
+        @resource_owner
           .words
           .where("japanese ILIKE :character", character: "%#{@next_kanji.character}%")
       end
@@ -39,7 +39,7 @@ class KanjiController < ApplicationController
     @kanji = @current_user.kanji.find(params[:id])
     @kanji.destroy
     if @kanji.status
-      flash[:hide_in_ms] = 1200
+      flash[:hide_in_ms] = 1800
       flash[:notice] =
         case @kanji.status
         when Kanji::ADDED_STATUS
@@ -137,7 +137,7 @@ class KanjiController < ApplicationController
   end
 
   def wall
-    @all_added_characters = @current_user.kanji.added.pluck(:character)
+    @all_added_characters = @resource_owner.kanji.added.pluck(:character)
   end
 
   private

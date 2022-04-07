@@ -27,14 +27,16 @@ class WordsController < ApplicationController
     @offset = (@page - 1) * WORDS_PER_PAGE
     @order = filter_params[:order] == "oldest_first" ? :asc : :desc
 
-    @words = @current_user.words.order(added_to_list_at: @order).order(created_at: @order)
+    @words = @resource_owner.words.includes(:user).order(added_to_list_at: @order).order(created_at: @order)
     if filter_params[:search]
       @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH - 1]}%")
     end
     @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
 
     @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
-    @next_page = @page + 1 if @words.size == WORDS_PER_PAGE
+    # Calling `.to_a` at the end here executes the query before calling `.size`. If we don't do it in
+    # this order, an extra SQL COUNT query gets run here before the Word Load query.
+    @next_page = @page + 1 if @words.to_a.size == WORDS_PER_PAGE
   end
 
   def search
