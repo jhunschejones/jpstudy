@@ -7,7 +7,8 @@ class WordsTest < ApplicationSystemTestCase
       assert_selector "h1", text: "Words"
 
       # Words before filters appear in the right order
-      newest_first = Word.all
+      newest_first = Word
+        .where(user: users(:carl))
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal newest_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with no filter are different than expected"
@@ -17,7 +18,7 @@ class WordsTest < ApplicationSystemTestCase
 
       sleep TURBO_WAIT_SECONDS
 
-      without_cards = Word.all.cards_not_created
+      without_cards = Word.where(user: users(:carl)).cards_not_created
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal without_cards, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with cards filter are different than expected"
@@ -27,7 +28,7 @@ class WordsTest < ApplicationSystemTestCase
       sleep TURBO_WAIT_SECONDS
 
       # Order and Cards filters work together as expected
-      oldest_without_cards_first = Word.all.cards_not_created
+      oldest_without_cards_first = Word.where(user: users(:carl)).cards_not_created
         .order(added_to_list_at: :asc).order(created_at: :asc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal oldest_without_cards_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with order filter are different than expected"
@@ -56,7 +57,8 @@ class WordsTest < ApplicationSystemTestCase
       assert_selector "h1", text: "Words"
 
       # Only loads first page innitially
-      first_page = Word.all
+      first_page = Word
+        .where(user: users(:carl))
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
 
@@ -75,13 +77,15 @@ class WordsTest < ApplicationSystemTestCase
 
       sleep TURBO_WAIT_SECONDS
 
-      second_page = Word.all
+      second_page = Word
+        .where(user: users(:carl))
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .offset(WordsController::WORDS_PER_PAGE)
         .limit(WordsController::WORDS_PER_PAGE)
         .pluck(:japanese)
 
-      third_page = Word.all
+      third_page = Word
+        .where(user: users(:carl))
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .offset(WordsController::WORDS_PER_PAGE * 2)
         .limit(WordsController::WORDS_PER_PAGE)

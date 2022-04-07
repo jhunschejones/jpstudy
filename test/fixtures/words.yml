@@ -1,5 +1,21 @@
 # https://www.honeybadger.io/blog/how-to-dump-a-rails-model-to-a-yaml-file/
 
+キツネ:
+  japanese: キツネ
+  english: fox
+  source_name: Duolingo
+  cards_created: true
+  user: elemouse
+  added_to_list_at: <%= Date.strptime("10/01/2021", "%m/%d/%y") %>
+
+クマ:
+  japanese: クマ
+  english: bear
+  source_name: Duolingo
+  cards_created: true
+  user: daisy
+  added_to_list_at: <%= Date.strptime("10/01/2021", "%m/%d/%y") %>
+
 形容詞:
   japanese: 形容詞
   english: adjective

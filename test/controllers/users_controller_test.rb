@@ -270,6 +270,12 @@ class UsersControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not return the import export page for another user" do
+      login(users(:daisy))
+      get in_out_user_path(users(:carl))
+      assert_response :not_found
+    end
+
     it "returns the words import export page" do
       login(users(:carl))
       get in_out_user_path(users(:carl))

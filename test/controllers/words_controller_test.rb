@@ -8,6 +8,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not return the word list for another user" do
+      login(users(:daisy))
+      get words_path(users(:carl))
+      assert_response :not_found
+    end
+
     it "returns the words list page" do
       login(users(:carl))
       get words_path(users(:carl))
@@ -23,6 +29,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not return the word search for another user" do
+      login(users(:daisy))
+      get search_words_path(users(:carl))
+      assert_response :not_found
+    end
+
     it "returns the word search form" do
       login(users(:carl))
       get search_words_path(users(:carl))
@@ -36,6 +48,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get word_path(users(:elemouse), words(:形容詞))
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "does not return the word details page for another users word" do
+      login(users(:daisy))
+      get word_path(users(:carl), words(:形容詞))
+      assert_response :not_found
     end
 
     it "returns the word details page" do
@@ -54,6 +72,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not return the new page for another user" do
+      login(users(:daisy))
+      get new_word_path(users(:carl))
+      assert_response :not_found
+    end
+
     it "returns the new word form with turbo disabled" do
       login(users(:carl))
       get new_word_path(users(:carl))
@@ -68,6 +92,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get edit_word_path(users(:elemouse), words(:形容詞))
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "does not return the edit page for another users word" do
+      login(users(:daisy))
+      get edit_word_path(users(:carl), words(:形容詞))
+      assert_response :not_found
     end
 
     it "returns the word edit form with turbo disabled" do
@@ -86,6 +116,14 @@ class WordsControllerTest < ApplicationControllerTestCase
         post words_path(users(:elemouse)), params: { word: { english: "new", japanese: "新し" } }
       end
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "does not create a word for another user" do
+      login(users(:daisy))
+      assert_no_difference "Word.count" do
+        post words_path(users(:carl)), params: { word: { english: "new", japanese: "新し" } }
+      end
+      assert_response :not_found
     end
 
     it "creates a word with an added_to_list_at timestamp" do
@@ -128,9 +166,17 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_changes "Word.find(words(:形容詞).id).english" do
-        patch word_path(users(:elemouse), words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
+        patch word_path(users(:elemouse), words(:キツネ)), params: { word: { english: "adjective (grammar)" } }
       end
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "prevents users from modifing another users word" do
+      login(users(:daisy))
+      assert_no_changes "Word.find(words(:形容詞).id).english" do
+        patch word_path(users(:carl), words(:形容詞)), params: { word: { english: "adjective (grammar)" } }
+      end
+      assert_response :not_found
     end
 
     it "updates the word and redirects for html request" do
@@ -156,9 +202,17 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       assert_no_difference "Word.count" do
-        delete word_path(users(:elemouse), words(:形容詞))
+        delete word_path(users(:elemouse), words(:キツネ))
       end
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "prevents a user from deleting another users word" do
+      login(users(:daisy))
+      assert_no_difference "Word.count" do
+        delete word_path(users(:carl), words(:形容詞))
+      end
+      assert_response :not_found
     end
 
     it "deletes the word and redirects for html requests" do
@@ -189,6 +243,14 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not delete other users words" do
+      login(users(:daisy))
+      assert_no_difference "Word.count" do
+        delete destroy_all_words_path(users(:carl))
+      end
+      assert_response :not_found
+    end
+
     it "deletes all the users words" do
       login(users(:carl))
       delete destroy_all_words_path(users(:carl))
@@ -211,6 +273,14 @@ class WordsControllerTest < ApplicationControllerTestCase
         post word_toggle_card_created_path(users(:elemouse), words(:形容詞))
       end
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "prevents users from modifying other users words" do
+      login(users(:daisy))
+      assert_no_changes "Word.find(words(:形容詞).id).cards_created" do
+        post word_toggle_card_created_path(users(:carl), words(:形容詞))
+      end
+      assert_response :not_found
     end
 
     it "toggles the card_created attribute for the word" do
@@ -259,6 +329,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not return the import page for another user" do
+      login(users(:daisy))
+      get import_words_path(users(:carl))
+      assert_response :not_found
+    end
+
     it "returns the words import page" do
       login(users(:carl))
       get import_words_path(users(:carl))
@@ -274,6 +350,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not return the export page for another user" do
+      login(users(:daisy))
+      get export_words_path(users(:carl))
+      assert_response :not_found
+    end
+
     it "returns the words export page" do
       login(users(:carl))
       get export_words_path(users(:carl))
@@ -283,20 +365,30 @@ class WordsControllerTest < ApplicationControllerTestCase
   end
 
   describe "#upload" do
+    setup do
+      @csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
+    end
+
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
       assert_no_difference "Word.count" do
-        post upload_words_path(users(:elemouse)), params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_words_path(users(:elemouse)), params: { csv_file: @csv_file, csv_includes_headers: true }
       end
       assert_redirected_to user_path(users(:elemouse))
     end
 
+    it "does not allow a user to upload words for another user" do
+      login(users(:daisy))
+      assert_no_difference "Word.count" do
+        post upload_words_path(users(:carl)), params: { csv_file: @csv_file, csv_includes_headers: true }
+      end
+      assert_response :not_found
+    end
+
     it "uploads a valid CSV" do
       login(users(:carl))
-      csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
       assert_difference "Word.count", 49 do
-        post upload_words_path(users(:carl)), params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_words_path(users(:carl)), params: { csv_file: @csv_file, csv_includes_headers: true }
       end
       assert_redirected_to in_out_user_path(users(:carl))
       assert_equal "49 new words imported, 1 word already exists.", flash[:success]
@@ -311,9 +403,8 @@ class WordsControllerTest < ApplicationControllerTestCase
 
     it "does not trigger infinity websocket updates" do
       login(users(:carl))
-      csv_file = fixture_file_upload("test/fixtures/files/words_export_1637975848.csv", "text/csv")
       assert_no_enqueued_jobs do
-        post upload_words_path(users(:carl)), params: { csv_file: csv_file, csv_includes_headers: true }
+        post upload_words_path(users(:carl)), params: { csv_file: @csv_file, csv_includes_headers: true }
       end
     end
   end
@@ -323,6 +414,12 @@ class WordsControllerTest < ApplicationControllerTestCase
       login(users(:elemouse))
       get download_words_path(users(:elemouse), format: :csv)
       assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "does not allow a user to download another users words" do
+      login(users(:daisy))
+      get download_words_path(users(:carl), format: :csv)
+      assert_response :not_found
     end
 
     it "downloads a csv" do

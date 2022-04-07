@@ -9,7 +9,7 @@ class Kanji < ApplicationRecord
   KANJI_REGEX = /[一-龯]/
 
   belongs_to :user, counter_cache: :kanji_count, inverse_of: :kanji
-  validates :character, presence: true, uniqueness: true, format: { with: KANJI_REGEX }
+  validates :character, presence: true, uniqueness: { scope: [:character, :user] }, format: { with: KANJI_REGEX }
   validates :status, allow_nil: true, inclusion: { in: VALID_STATUSES, message: "status must be either '#{VALID_STATUSES.join("', or '")}'" }
   validate :user_kanji_limit_not_exceeded, on: :create
 
