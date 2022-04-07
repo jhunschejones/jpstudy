@@ -3,8 +3,8 @@ require "csv"
 class KanjiController < ApplicationController
   include DateParsing
 
-  before_action :secure_behind_subscription
   before_action :protect_user_scoped_resource
+  before_action :secure_behind_subscription
 
   ORDERED_CSV_FIELDS = [:character, :status, :added_to_list_on]
   KANJI_BATCH_SIZE = 1000
