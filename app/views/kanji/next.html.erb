@@ -29,7 +29,7 @@
   </div>
 
   <div class="actions">
-    <% if @current_user&.can_modify_resources_belonging_to(@resource_owner) %>
+    <% if @current_user&.can_modify_resources_belonging_to?(@resource_owner) %>
       <%= button_to(delete_kanji_path(@resource_owner, @previous_kanji || 0), class: "basic-button", method: :delete, title: "Remove the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
         <%= heroicon "rewind", options: { class: "back-button-icon" } %>
         Undo

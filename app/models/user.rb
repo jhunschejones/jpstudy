@@ -113,8 +113,20 @@ class User < ApplicationRecord
     "user_#{hashid}_kanji"
   end
 
-  def can_modify_resources_belonging_to(resource_owner)
+  def can_modify_resources_belonging_to?(resource_owner)
+    # This is where logic will live for resource admin permissions
+    #
+    # NOTE: logic in the `secure_behind_subscription` before action may also need
+    # to be modified when shared resource modification is added as a feature.
     self == resource_owner
+  end
+
+  def has_set_resource_as_public?(resource_name)
+    # This is where logic will live for resource sharing (READ) permissions
+    #
+    # NOTE: logic in the `secure_behind_subscription` before action may also need
+    # to be modified when shared resource viewing is added as a feature.
+    false
   end
 
   private

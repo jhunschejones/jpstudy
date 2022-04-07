@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
     set_current_user
+    set_resource_owner
     unless @current_user.present?
       session[:return_to] ||= request.url
       redirect_to login_url, notice: "ようこそ！ Please log in to access your account and full site functionality."
@@ -43,9 +44,7 @@ class ApplicationController < ActionController::Base
     session[:reverify_subscription_at] && Time.parse(session[:reverify_subscription_at]).utc > Time.now.utc
   end
 
-  def protect_user_scoped_resource
-    authenticate_user
-    head :not_found if params[:username] && @current_user.username != params[:username]
+  def set_resource_owner
     @resource_owner ||= begin
       if params[:username].blank?
         nil

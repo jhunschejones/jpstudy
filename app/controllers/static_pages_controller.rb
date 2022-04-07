@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
   skip_before_action :authenticate_user
-  before_action :set_current_user # Set the user is logged in, if not silently pass the request through
+  before_action :set_current_user # tries to look up user from session and silently continues if one cannot be found
 
   def about
   end

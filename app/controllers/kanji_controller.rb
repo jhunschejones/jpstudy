@@ -8,6 +8,7 @@ class KanjiController < ApplicationController
 
   ORDERED_CSV_FIELDS = [:character, :status, :added_to_list_on]
   KANJI_BATCH_SIZE = 1000
+  POTENTIAL_PUBLIC_PATHS = ["next", "wall", "export", "download"]
 
   def next
     @next_kanji = Kanji.next_new_for(user: @resource_owner)
@@ -148,5 +149,14 @@ class KanjiController < ApplicationController
       .permit(:character, :status, :user_id)
       .reject { |_, value| value.blank? }
       .each_value { |value| value.try(:strip!) }
+  end
+
+  def protect_user_scoped_resource
+    return true if @current_user && @resource_owner && @current_user == @resource_owner
+    if POTENTIAL_PUBLIC_PATHS.include?(action_name)
+      # Potentially shareable resource
+      return true if @resource_owner&.has_set_resource_as_public?(:kanji)
+    end
+    head :not_found
   end
 end

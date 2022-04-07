@@ -7,7 +7,7 @@
   </h1>
 
   <div class="actions">
-    <% if @current_user&.can_modify_resources_belonging_to(@resource_owner) %>
+    <% if @current_user&.can_modify_resources_belonging_to?(@resource_owner) %>
       <%= render "new_word_button" %>
     <% end %>
   </div>
