@@ -1,6 +1,6 @@
 <%= turbo_frame_tag dom_id(word) do %>
   <div
-    class="word <%= dom_id(word) %>"
+    class="word <%= dom_id(word) %> hide-modify-buttons"
     data-controller="word"
     data-word-word-id-value="<%= dom_id(word) %>"
     data-word-cards-created-value="<%= word.cards_created? %>"
@@ -10,9 +10,9 @@
     data-word-added-at-value="<%= word.added_to_list_at %>"
     data-word-created-at-value="<%= word.created_at %>"
     data-word-database-id-value="<%= word.id %>"
+    data-word-owner-value="<%= word.user.username %>"
     data-word-target="wordCard"
     data-last-update="<%= Time.now.utc %>"
-    data-word-owner="<%= word.user.username %>"
   >
     <div class="delete">
       <%= button_to(word_path(@current_user, word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm", turbo: !(defined?(delete_without_turbo) && delete_without_turbo) }) do %>

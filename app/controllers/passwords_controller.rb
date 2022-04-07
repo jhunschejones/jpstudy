@@ -53,6 +53,7 @@ class PasswordsController < ApplicationController
     if user.reset_password(params[:password])
       user.update!(session_token: nil) # force logout
       reset_session
+      clear_username_cookie
       redirect_to login_url, success: "Password successfully reset! Please log in with your new password."
     else
       redirect_to password_reset_path, alert: user.errors.full_messages

@@ -14,5 +14,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     fill_in "Email", with: user.email
     fill_in "Password", with: "secret_secret"
     click_on "Log in"
+    page.driver.browser.manage.add_cookie(name: "username", value: user.username)
   end
 end

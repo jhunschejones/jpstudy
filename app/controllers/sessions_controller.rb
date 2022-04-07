@@ -18,7 +18,11 @@ class SessionsController < ApplicationController
       return redirect_to(session.delete(:return_to)) if session[:return_to]
       user = User.find_by(session_token: session[:session_token])
       # prevent infinate redirects for expired session tokens
-      return reset_session && redirect_to(login_path) if user.nil?
+      if user.nil?
+        reset_session
+        clear_username_cookie
+        return redirect_to(login_path)
+      end
       return redirect_to words_path(user)
     end
 
@@ -43,6 +47,12 @@ class SessionsController < ApplicationController
     user.save!
 
     session[:session_token] = user.session_token
+    cookies[:username] = {
+      value: user.username,
+      secure: Rails.env.production?,
+      same_site: :strict,
+      domain: Rails.env.production? ? "jpstudy.app" : "localhost"
+    }
     flash.discard
     reset_login_attempts
 
@@ -69,6 +79,7 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
+    clear_username_cookie
     redirect_to login_url, notice: "Succesfully logged out. またね！"
   end
 

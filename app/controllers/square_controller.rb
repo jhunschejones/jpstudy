@@ -30,6 +30,7 @@ class SquareController < ApplicationController
   # Special redirect link for Square to send users after completing checkout
   def logout
     reset_session
+    clear_username_cookie
     if @current_user
       @current_user.update!(session_token: nil) # force logout
       @current_user.clear_square_subscriptions_cache

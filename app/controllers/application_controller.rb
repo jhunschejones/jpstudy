@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
     else
       # prevent redirect loop on invalid session_token
       reset_session
+      clear_username_cookie
     end
     @current_user
   end
@@ -54,5 +55,9 @@ class ApplicationController < ActionController::Base
         User.find_by(username: params[:username])
       end
     end
+  end
+
+  def clear_username_cookie
+    cookies.delete(:username, domain: Rails.env.production? ? "jpstudy.app" : "localhost")
   end
 end

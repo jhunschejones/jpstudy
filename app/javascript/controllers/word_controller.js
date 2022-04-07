@@ -12,10 +12,14 @@ export default class extends Controller {
     createdAt: String,
     databaseId: String,
     wordId: String,
-    wordOwner: String
+    owner: String
   }
 
   connect() {
+    if (this.getCookie("username").trim() == this.ownerValue.trim()) {
+      this.element.classList.toggle("hide-modify-buttons", false);
+    }
+
     // Only filter in JS if this is a new word added by turbo_stream
     if (!this.applyJsFilters()) {
       return;
@@ -124,5 +128,22 @@ export default class extends Controller {
     });
     // Return the index of the new element which is now in the correct place in the new array.
     return newArray.indexOf(newElement);
+  }
+
+  // https://www.w3schools.com/js/js_cookies.asp
+  getCookie(cookieName) {
+    let name = cookieName + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let cookieArray = decodedCookie.split(";");
+    for(let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) == " ") {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) == 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
   }
 }

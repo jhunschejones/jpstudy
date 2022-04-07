@@ -33,6 +33,7 @@ class EmailsController < ApplicationController
     user.session_token = nil # force logout
     user.save!
     reset_session
+    clear_username_cookie
     redirect_to login_url(message_id: "E01")
   end
 end

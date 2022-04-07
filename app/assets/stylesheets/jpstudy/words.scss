@@ -139,6 +139,12 @@
 
   &.hidden { display: none; }
 
+  &.hide-modify-buttons {
+    .edit, .delete, .cards-created {
+      display: none;
+    }
+  }
+
   .delete button,
   .edit a,
   .cards-created button {
