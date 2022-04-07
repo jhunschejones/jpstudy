@@ -54,6 +54,7 @@ Rails.application.configure do
   config.session_store :cookie_store, expire_after: 14.days, key: "__Host-jpstudy_session", secure: Rails.env.production?
 
   config.action_dispatch.cookies_same_site_protection = :strict
+  config.action_dispatch.signed_cookie_digest = "SHA256"
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true

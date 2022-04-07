@@ -47,7 +47,7 @@ class SessionsController < ApplicationController
     user.save!
 
     session[:session_token] = user.session_token
-    cookies[:username] = {
+    cookies.signed[:username] = {
       value: user.username,
       secure: Rails.env.production?,
       same_site: :strict,

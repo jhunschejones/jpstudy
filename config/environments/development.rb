@@ -32,6 +32,8 @@ Rails.application.configure do
 
   config.action_controller.always_permitted_parameters = ["controller", "action", "username"]
 
+  config.action_dispatch.signed_cookie_digest = "SHA256"
+
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 

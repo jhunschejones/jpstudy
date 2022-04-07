@@ -16,7 +16,7 @@ export default class extends Controller {
   }
 
   connect() {
-    if (this.getCookie("username").trim() == this.ownerValue.trim()) {
+    if (this.getSignedCookie("username").trim() == this.ownerValue.trim()) {
       this.element.classList.toggle("hide-modify-buttons", false);
     }
 
@@ -132,9 +132,9 @@ export default class extends Controller {
 
   // https://www.w3schools.com/js/js_cookies.asp
   getCookie(cookieName) {
-    let name = cookieName + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let cookieArray = decodedCookie.split(";");
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(";");
     for(let i = 0; i < cookieArray.length; i++) {
       let cookie = cookieArray[i];
       while (cookie.charAt(0) == " ") {
@@ -145,5 +145,18 @@ export default class extends Controller {
       }
     }
     return "";
+  }
+
+  // https://dev.to/ayushn21/demystifying-cookie-security-in-rails-6-1j2f
+  getSignedCookie(cookieName) {
+    try {
+      const cookie = this.getCookie(cookieName).split("--")[0];
+      const cookiePayload = JSON.parse(atob(cookie));
+      const decodedStoredValue = atob(cookiePayload._rails.message);
+      return JSON.parse(decodedStoredValue);
+    } catch {
+      // Unable to parse signed cookie
+      return "";
+    }
   }
 }
