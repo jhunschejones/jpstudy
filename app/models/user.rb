@@ -119,7 +119,10 @@ class User < ApplicationRecord
   end
 
   def has_set_resource_as_public?(resource_name)
-    # This is where logic will live for resource sharing (READ) permissions
+    # This is where logic will live for resource sharing (READ) permissions.
+    #
+    # So far the possible values for `resource_name` are `:kanji`, `:words`,
+    # and `:stats`.
     #
     # NOTE: remove public routes from the `secure_behind_subscription` before_filter
     # when enabling this feature

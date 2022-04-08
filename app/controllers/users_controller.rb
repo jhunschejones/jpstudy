@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, except: [:new, :create]
   before_action :set_current_user, only: [:new] # tries to look up user from session and silently continues if one cannot be found
-  before_action :protect_user, except: [:new, :create]
+  before_action :protect_user, except: [:new, :create, :stats]
+  before_action ->{ protect_user_scoped_read_actions_for(:stats) }, only: [:stats]
   skip_before_action :authenticate_user, only: [:new, :create]
   before_action :secure_behind_subscription, only: [:in_out]
 

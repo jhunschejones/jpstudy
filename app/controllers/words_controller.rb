@@ -3,25 +3,18 @@ require "csv"
 class WordsController < ApplicationController
   include DateParsing
 
-  before_action :secure_behind_subscription # except: [:index, :show, :search, :export, :download] # Turn on for public resource feature
-  before_action ->{ protect_user_scoped_read_actions_for(:words) }, only: [:index, :show, :search, :export, :download]
-  before_action :protect_user_scoped_modify_actions, except: [:index, :show, :search, :export, :download]
-  before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
-
-  ORDERED_CSV_FIELDS = [
-    :english,
-    :japanese,
-    :source_name,
-    :source_reference,
-    :cards_created,
-    :cards_created_on,
-    :added_to_list_on,
-    :note
-  ]
+  ORDERED_CSV_FIELDS = [:english, :japanese, :source_name, :source_reference,
+    :cards_created, :cards_created_on, :added_to_list_on, :note]
   WORDS_PER_PAGE = 10
   MAX_SEARCH_LENGTH = 30
   WORD_BATCH_SIZE = 1000
   CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS = 1200
+  READ_ACTIONS = [:index, :show, :search, :export, :download]
+
+  before_action :secure_behind_subscription # except: READ_ACTIONS # Turn on for public resource feature
+  before_action ->{ protect_user_scoped_read_actions_for(:words) }, only: READ_ACTIONS
+  before_action :protect_user_scoped_modify_actions, except: READ_ACTIONS
+  before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory

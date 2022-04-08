@@ -3,12 +3,13 @@ require "csv"
 class KanjiController < ApplicationController
   include DateParsing
 
-  before_action :secure_behind_subscription # except: [:next, :wall, :export, :download] # Turn on for public resource feature
-  before_action ->{ protect_user_scoped_read_actions_for(:kanji) }, only: [:next, :wall, :export, :download]
-  before_action :protect_user_scoped_modify_actions, except: [:next, :wall, :export, :download]
-
   ORDERED_CSV_FIELDS = [:character, :status, :added_to_list_on]
   KANJI_BATCH_SIZE = 1000
+  READ_ACTIONS = [:next, :wall, :export, :download]
+
+  before_action :secure_behind_subscription # except: READ_ACTIONS # Turn on for public resource feature
+  before_action ->{ protect_user_scoped_read_actions_for(:kanji) }, only: READ_ACTIONS
+  before_action :protect_user_scoped_modify_actions, except: READ_ACTIONS
 
   def next
     @next_kanji = Kanji.next_new_for(user: @resource_owner)
