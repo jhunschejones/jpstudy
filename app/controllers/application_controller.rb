@@ -59,4 +59,15 @@ class ApplicationController < ActionController::Base
   def clear_username_cookie
     cookies.delete(:username, domain: Rails.env.production? ? "jpstudy.app" : "localhost")
   end
+
+  def protect_user_scoped_read_actions_for(resource_name)
+    return true if @current_user && @current_user == @resource_owner
+    return true if @resource_owner&.has_set_resource_as_public?(resource_name)
+    head :not_found
+  end
+
+  def protect_user_scoped_modify_actions
+    return true if @current_user&.can_modify_resources_belonging_to?(@resource_owner)
+    head :not_found
+  end
 end

@@ -114,18 +114,15 @@ class User < ApplicationRecord
   end
 
   def can_modify_resources_belonging_to?(resource_owner)
-    # This is where logic will live for resource admin permissions
-    #
-    # NOTE: logic in the `secure_behind_subscription` before action may also need
-    # to be modified when shared resource modification is added as a feature.
+    return false if resource_owner.nil?
     self == resource_owner
   end
 
   def has_set_resource_as_public?(resource_name)
     # This is where logic will live for resource sharing (READ) permissions
     #
-    # NOTE: logic in the `secure_behind_subscription` before action may also need
-    # to be modified when shared resource viewing is added as a feature.
+    # NOTE: remove public routes from the `secure_behind_subscription` before_filter
+    # when enabling this feature
     false
   end
 
