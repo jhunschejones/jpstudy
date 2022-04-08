@@ -3,8 +3,9 @@ require "csv"
 class WordsController < ApplicationController
   include DateParsing
 
-  before_action :protect_user_scoped_resource
-  before_action :secure_behind_subscription
+  before_action :secure_behind_subscription # except: [:index, :show, :search, :export, :download] # Turn on for public resource feature
+  before_action ->{ protect_user_scoped_read_actions_for(:words) }, only: [:index, :show, :search, :export, :download]
+  before_action :protect_user_scoped_modify_actions, except: [:index, :show, :search, :export, :download]
   before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_card_created]
 
   ORDERED_CSV_FIELDS = [
@@ -21,7 +22,6 @@ class WordsController < ApplicationController
   MAX_SEARCH_LENGTH = 30
   WORD_BATCH_SIZE = 1000
   CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS = 1200
-  POTENTIAL_PUBLIC_PATHS = ["index", "show", "search", "export", "download"]
 
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
@@ -235,14 +235,5 @@ class WordsController < ApplicationController
     params
       .permit(:filter, :search, :page, :order)
       .each_value { |value| value.try(:strip!) }
-  end
-
-  def protect_user_scoped_resource
-    return true if @current_user && @resource_owner && @current_user == @resource_owner
-    if POTENTIAL_PUBLIC_PATHS.include?(action_name)
-      # Potentially shareable resource
-      return true if @resource_owner&.has_set_resource_as_public?(:kanji)
-    end
-    head :not_found
   end
 end
