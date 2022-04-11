@@ -8,7 +8,6 @@ class WordsController < ApplicationController
   WORDS_PER_PAGE = 10
   MAX_SEARCH_LENGTH = 30
   WORD_BATCH_SIZE = 1000
-  CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS = 1200
   READ_ACTIONS = [:index, :show, :search, :export, :download]
 
   before_action :secure_behind_subscription # except: READ_ACTIONS # Turn on for public resource feature
@@ -50,7 +49,7 @@ class WordsController < ApplicationController
     @word = Word.new(word_params.merge({ user: @current_user, added_to_list_at: Time.now.utc }))
 
     if @word.save
-      flash[:hide_in_ms] = CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS
+      flash[:hide_in_ms] = 1200
       respond_to do |format|
         format.turbo_stream { flash.now[:success] = "'#{@word.japanese}' was successfully created." }
         format.html { redirect_to words_url, success: "'#{@word.japanese}' was successfully created." }
@@ -65,7 +64,7 @@ class WordsController < ApplicationController
 
   def update
     if @word.update(word_params)
-      flash[:hide_in_ms] = CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS
+      flash[:hide_in_ms] = 1800
       respond_to do |format|
         format.turbo_stream { flash.now[:success] = "'#{@word.japanese}' was successfully updated." }
         format.html { redirect_to word_path(@current_user, @word), success: "'#{@word.japanese}' was successfully updated." }
@@ -78,7 +77,7 @@ class WordsController < ApplicationController
 
   def destroy
     @word.destroy
-    flash[:hide_in_ms] = CREATE_UPDATE_DESTROY_HIDE_FLASH_IN_MS
+    flash[:hide_in_ms] = 1800
     respond_to do |format|
       format.turbo_stream { flash.now[:notice] = "'#{@word.japanese}' was successfully deleted." }
       format.html { redirect_to words_path(@current_user), notice: "'#{@word.japanese}' was successfully deleted." }
