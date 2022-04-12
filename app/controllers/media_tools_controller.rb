@@ -6,9 +6,9 @@ class MediaToolsController < ApplicationController
 
   def audio
     if params[:show_latest_conversion]
-      @audio_url, @filename = Rails.cache
-        .read_multi(user_audio_url_cache_key, user_audio_filename_cache_key)
-        .values_at(user_audio_url_cache_key, user_audio_filename_cache_key)
+      # remember to run `rails dev:cache` to test in local dev 💡
+      @audio_url = Rails.cache.read(user_audio_url_cache_key)
+      @filename = Rails.cache.read(user_audio_filename_cache_key)
     end
   end
 

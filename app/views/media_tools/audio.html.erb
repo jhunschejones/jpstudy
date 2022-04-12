@@ -23,7 +23,12 @@
     <% end %>
 
     <% if @audio_url && @filename %>
-      <div class="audio-link-container" data-controller="clipboard" data-clipboard-copy-value="<%= @audio_url %>">
+      <div
+        class="audio-link-container"
+        data-controller="clipboard"
+        data-clipboard-copy-value="<%= @audio_url %>"
+        data-turbo-cache="false"
+      >
         <%= link_to(
           @audio_url,
           class: "download-link",
