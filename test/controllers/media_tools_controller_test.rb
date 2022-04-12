@@ -24,7 +24,15 @@ class KanjiControllerTest < ApplicationControllerTestCase
       })
       login(users(:carl))
       get audio_media_tools_path(show_latest_conversion: true)
+      assert_response :success
       assert_select ".download-link", text: "good morning.mp3"
+    end
+
+    it "remembers the position of the use_neural_voice switch" do
+      login(users(:carl))
+      get audio_media_tools_path(show_latest_conversion: true, use_neural_voice: true)
+      assert_response :success
+      assert_select ".neural-voice-field input[name='use_neural_voice'][checked]", 1
     end
   end
 
@@ -84,6 +92,12 @@ class KanjiControllerTest < ApplicationControllerTestCase
       post japanese_to_audio_media_tools_path, params: { japanese: "16日にちの地震じしんで、宮城県みやぎけん白石しろいし市しを走はしっていた東北新幹線とうほくしんかんせんが脱線だっせんしました。それ以外いがいの場所ばしょでも線路せんろや電柱でんちゅうなどが壊こわれました。17日にちから東北新幹線とうほくしんかんせんは那須塩原なすしおばら駅えきと盛岡駅もりおかえきの間あいだで運転うんてんすることができなくなっています。このため、東京駅とうきょうえきと那須塩原なすしおばら駅えきの間あいだ、盛岡駅もりおかえきと新函館しんはこだて北斗駅ほくとえきの間あいだで、数かずを少すくなくして運転うんてんしています。", english: "good morning" }
       assert_redirected_to audio_media_tools_path
       assert_equal "Input text must be no longer than 135 characters", flash[:notice]
+    end
+
+    it "redirects to audio page with expected params" do
+      login(users(:carl))
+      post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning", use_neural_voice: true }
+      assert_redirected_to audio_media_tools_path(show_latest_conversion: true, use_neural_voice: true)
     end
   end
 end

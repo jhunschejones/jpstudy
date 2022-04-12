@@ -28,14 +28,17 @@ class MediaToolsController < ApplicationController
     audio_url, filename = Synthesizer.new(
       japanese: params[:japanese],
       english: params[:english].presence,
-      user: @current_user
+      user: @current_user,
+      neural_voice: params[:use_neural_voice] == "true"
     ).convert_japanese_to_audio
 
     Rails.cache.write(user_audio_url_cache_key, audio_url, expires_in: 1.hour)
     Rails.cache.write(user_audio_filename_cache_key, filename, expires_in: 1.hour)
     @current_user.update!(audio_conversions_used_this_month: conversions_used + 1)
 
-    redirect_to audio_media_tools_path(show_latest_conversion: true)
+    redirect_params = { show_latest_conversion: true }
+    redirect_params[:use_neural_voice] = true if params[:use_neural_voice] == "true"
+    redirect_to audio_media_tools_path(redirect_params)
   end
 
   private

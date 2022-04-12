@@ -17,6 +17,14 @@
         <%= text_area_tag :english, nil, rows: 3, maxlength: MediaToolsController::MAX_TEXT_LENGTH %>
       </div>
 
+      <div class="field neural-voice-field">
+        <%= label_tag :use_neural_voice, class: "switch", tabindex: "-1" do %>
+          <%= check_box_tag :use_neural_voice, true, params[:use_neural_voice] == "true" %>
+          <span class="slider round"></span>
+        <% end %>
+        <span class="label-text">Use neural voice</span>
+      </div>
+
       <div class="actions">
         <%= submit_tag "Convert", class: "button-blue", data: { controller: "disable", disable_with_value: "Converting...", action: "disable#disableButton", disable_target: "button" } %>
       </div>

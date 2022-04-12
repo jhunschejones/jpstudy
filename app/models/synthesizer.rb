@@ -9,11 +9,12 @@ class Synthesizer
 
   NON_WORD_NON_SPACE_CHARACTERS = /[^\w\s一-龯ぁ-んァ-ン０-９Ａ-ｚ]/
 
-  def initialize(japanese:, english: nil, user:, polly: POLLY, s3: S3)
+  def initialize(japanese:, english: nil, user:, polly: POLLY, neural_voice: false, s3: S3)
     @japanese = japanese
     @english = english
     @user = user
     @polly = polly
+    @neural_voice = neural_voice
     @s3 = s3
   end
 
@@ -24,8 +25,9 @@ class Synthesizer
         {
           output_format: "mp3",
           text: "<speak><prosody rate='#{VOICE_SPEED}'>#{@japanese}</prosody></speak>",
-          voice_id: FEMALE_VOICE_ID,
-          text_type: "ssml"
+          voice_id: @neural_voice ? MALE_VOICE_ID : FEMALE_VOICE_ID, # neural Japanese is only available for Takumi
+          text_type: "ssml",
+          engine: @neural_voice ? "neural" : "standard"
         }
       ).audio_stream
 

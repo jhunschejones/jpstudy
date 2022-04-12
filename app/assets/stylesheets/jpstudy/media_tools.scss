@@ -9,7 +9,7 @@
   .japanese-to-audio-form {
     max-width: 400px;
     width: 100%;
-    label {
+    label:not(.switch) {
       display: inline-block;
       padding: 14px 0px 5px 0px;
       font-weight: 500;
@@ -38,6 +38,15 @@
       width: calc(100% - 26px);
       &:focus {
         outline-color: #3B82F6;
+      }
+    }
+    .neural-voice-field {
+      margin: 12px 0px 24px 0px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .label-text {
+        margin-left: 6px;
       }
     }
     input[type="submit"] {
