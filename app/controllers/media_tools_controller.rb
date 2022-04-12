@@ -2,13 +2,16 @@ class MediaToolsController < ApplicationController
   before_action :secure_behind_subscription
 
   MAX_TEXT_LENGTH = 135.freeze
-  MAX_MONTHLY_CONVERSIONS = 500.freeze
 
   def audio
     if params[:show_latest_conversion]
       # remember to run `rails dev:cache` to test in local dev 💡
       @audio_url = Rails.cache.read(user_audio_url_cache_key)
       @filename = Rails.cache.read(user_audio_filename_cache_key)
+    end
+
+    unless @current_user.can_do_more_audio_conversions?
+      flash.now[:alert] = "Users are limited to #{User::MAX_MONTHLY_AUDIO_CONVERSIONS} conversions per month. Please contact support if you need additional audio conversions."
     end
   end
 
@@ -20,8 +23,8 @@ class MediaToolsController < ApplicationController
       flash[:notice] = "Input text must be no longer than #{MAX_TEXT_LENGTH} characters"
       return redirect_to audio_media_tools_path
     end
-    if (conversions_used = @current_user.audio_conversions_used_this_month) >= MAX_MONTHLY_CONVERSIONS
-      flash[:alert] = "Users are limited to #{MAX_MONTHLY_CONVERSIONS} conversions per month. Please contact support if you need additional audio conversions."
+    unless @current_user.can_do_more_audio_conversions?
+      flash[:alert] = "Users are limited to #{User::MAX_MONTHLY_AUDIO_CONVERSIONS} conversions per month. Please contact support if you need additional audio conversions."
       return redirect_to audio_media_tools_path
     end
 
@@ -34,6 +37,7 @@ class MediaToolsController < ApplicationController
 
     Rails.cache.write(user_audio_url_cache_key, audio_url, expires_in: 1.hour)
     Rails.cache.write(user_audio_filename_cache_key, filename, expires_in: 1.hour)
+    conversions_used = @current_user.audio_conversions_used_this_month
     @current_user.update!(audio_conversions_used_this_month: conversions_used + 1)
 
     redirect_params = { show_latest_conversion: true }

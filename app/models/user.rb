@@ -14,6 +14,7 @@ class User < ApplicationRecord
   ]
   DEFAULT_WORD_LIMIT = 1000
   DEFAULT_KANJI_LIMIT = 1000
+  MAX_MONTHLY_AUDIO_CONVERSIONS = 500
 
   has_secure_password
 
@@ -56,6 +57,10 @@ class User < ApplicationRecord
   def can_add_more_kanji?
     return true unless kanji_limit
     kanji.size + 1 <= kanji_limit
+  end
+
+  def can_do_more_audio_conversions?
+    audio_conversions_used_this_month < MAX_MONTHLY_AUDIO_CONVERSIONS
   end
 
   def has_reached_daily_word_target?

@@ -57,6 +57,20 @@
     <% end %>
   </p>
 
+  <p class="audio-conversion-limit-field">
+    <strong>Audio limit:</strong>
+    <span class="<%= @current_user.can_do_more_audio_conversions? ? "" : "alert-red" %>">
+      <span class="<%= @current_user.can_do_more_audio_conversions? ? "light-gray" : "alert-red" %>">
+        <%= @current_user.audio_conversions_used_this_month %> /
+      </span>
+      <%= User::MAX_MONTHLY_AUDIO_CONVERSIONS %>
+    </span>
+    <%= link_to(content_limits_path, title: "What are content limits?") do %>
+      <%= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+    <% end %>
+  </p>
+
+
   <div class="user-actions">
     <%= link_to("Edit profile", edit_user_path(@user), class: "button-blue edit-button") %>
     <%= link_to("Delete account", before_you_go_user_path(@user), class: "button-red") %>

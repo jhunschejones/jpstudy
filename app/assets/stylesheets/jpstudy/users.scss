@@ -59,7 +59,8 @@
     margin: 12px 0px 0px 0px;
   }
   .word-limit-field,
-  .kanji-limit-field {
+  .kanji-limit-field,
+  .audio-conversion-limit-field {
     display: flex;
     align-items: top;
     strong {
@@ -69,7 +70,8 @@
       margin: -2px 0px 0px 2px;
     }
   }
-  .kanji-limit-field {
+  .kanji-limit-field,
+  .audio-conversion-limit-field {
     margin-top: -4px;
   }
 }

@@ -10,6 +10,10 @@
   <%= heroicon "search", variant: :outline %>
   <small class="icon-subtext">Search</small>
 <% end %>
+<%= link_to(audio_media_tools_path) do %>
+  <%= heroicon "volume-up" %>
+  <small class="icon-subtext">Audio</small>
+<% end %>
 <%= link_to(@current_user ? stats_user_path(@current_user) : login_path(destination: "R04"), id: "user-stats-link") do %>
   <%= heroicon "presentation-chart-bar" %>
   <small class="icon-subtext">Stats</small>

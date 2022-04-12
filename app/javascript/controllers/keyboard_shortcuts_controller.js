@@ -82,7 +82,7 @@ export default class extends Controller {
       return;
     }
 
-    if (this.keysPressed["w"] || this.keysPressed["a"]) {
+    if (this.keysPressed["w"]) {
       return document.getElementById("words-link").click();
     }
     if (this.keysPressed["c"]) {
@@ -94,8 +94,6 @@ export default class extends Controller {
       if (newWordBtton) {
         return newWordBtton.click();
       }
-      // document.getElementById("words-link").click();
-      // return Turbo.visit(`${window.location}/new`);
     }
     if (this.keysPressed["f"]) {
       return document.getElementById("word-search-link").click();
@@ -112,7 +110,7 @@ export default class extends Controller {
     if (this.keysPressed["h"]) {
       return Turbo.visit("/keyboard_shortcuts");
     }
-    if (this.keysPressed["p"]) {
+    if (this.keysPressed["a"]) {
       return Turbo.visit("/media_tools/audio?show_latest_conversion=true");
     }
   }

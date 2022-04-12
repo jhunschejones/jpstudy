@@ -26,7 +26,7 @@
       </div>
 
       <div class="actions">
-        <%= submit_tag "Convert", class: "button-blue", data: { controller: "disable", disable_with_value: "Converting...", action: "disable#disableButton", disable_target: "button" } %>
+        <%= submit_tag "Convert", class: "button-blue", disabled: !@current_user.can_do_more_audio_conversions?, data: { controller: "disable", disable_with_value: "Converting...", action: "disable#disableButton", disable_target: "button" } %>
       </div>
     <% end %>
 
