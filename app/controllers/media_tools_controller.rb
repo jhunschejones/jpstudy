@@ -13,6 +13,7 @@ class MediaToolsController < ApplicationController
         .split(AUDIO_FILENAME_SEPARATOR)
         .flat_map { |part| part.split(AUDIO_URL_SEPARATOR) }
         .reject(&:empty?)
+        .map { |part| CGI.unescape(part) }
     end
 
     unless @current_user.can_do_more_audio_conversions?
@@ -40,9 +41,9 @@ class MediaToolsController < ApplicationController
       neural_voice: params[:use_neural_voice] == "true"
     ).convert_japanese_to_audio
 
-    Rails.cache.write(
+    raise "Cache write failed" unless Rails.cache.write(
       user_converted_audio_key,
-      "#{AUDIO_URL_SEPARATOR}#{audio_url}#{AUDIO_FILENAME_SEPARATOR}#{filename}",
+      "#{AUDIO_URL_SEPARATOR}#{CGI.escape(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{CGI.escape(filename)}",
       expires_in: 1.hour
     )
     conversions_used = @current_user.audio_conversions_used_this_month
