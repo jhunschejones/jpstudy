@@ -14,7 +14,7 @@ class MediaToolsController < ApplicationController
         .split(AUDIO_FILENAME_SEPARATOR)
         .flat_map { |part| part.split(AUDIO_URL_SEPARATOR) }
         .reject(&:empty?)
-        .map { |part| CGI.unescape(part) }
+        .map { |part| Base64.decode64(part) }
     end
 
     unless @current_user.can_do_more_audio_conversions?
@@ -45,7 +45,7 @@ class MediaToolsController < ApplicationController
     # remember to run `rails dev:cache` to test in local dev 💡
     write_succeeded = Rails.cache.write(
       user_converted_audio_key,
-      "#{AUDIO_URL_SEPARATOR}#{CGI.escape(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{CGI.escape(filename)}",
+      "#{AUDIO_URL_SEPARATOR}#{Base64.encode64(audio_url).strip}#{AUDIO_FILENAME_SEPARATOR}#{Base64.encode64(filename).strip}",
       expires_in: 1.hour
     )
     raise "Failed cache write" unless write_succeeded
