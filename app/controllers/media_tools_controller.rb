@@ -8,6 +8,7 @@ class MediaToolsController < ApplicationController
   def audio
     # remember to run `rails dev:cache` to test in local dev 💡
     last_audio_file = Rails.cache.read(user_converted_audio_key)
+
     if last_audio_file
       @audio_url, @filename = last_audio_file
         .split(AUDIO_FILENAME_SEPARATOR)
@@ -41,11 +42,14 @@ class MediaToolsController < ApplicationController
       neural_voice: params[:use_neural_voice] == "true"
     ).convert_japanese_to_audio
 
-    raise "Cache write failed" unless Rails.cache.write(
+    # remember to run `rails dev:cache` to test in local dev 💡
+    write_succeeded = Rails.cache.write(
       user_converted_audio_key,
       "#{AUDIO_URL_SEPARATOR}#{CGI.escape(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{CGI.escape(filename)}",
       expires_in: 1.hour
     )
+    raise "Failed cache write" unless write_succeeded
+
     conversions_used = @current_user.audio_conversions_used_this_month
     @current_user.update!(audio_conversions_used_this_month: conversions_used + 1)
 
