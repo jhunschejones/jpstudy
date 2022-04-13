@@ -7,7 +7,7 @@ class MediaToolsController < ApplicationController
 
   def audio
     # remember to run `rails dev:cache` to test in local dev 💡
-    last_audio_file = Rails.cache.read(user_converted_audio_key)
+    last_audio_file = Rails.cache.read(converted_audio_cache_key)
 
     if last_audio_file
       @audio_url, @filename = last_audio_file
@@ -43,13 +43,13 @@ class MediaToolsController < ApplicationController
     ).convert_japanese_to_audio
 
     # remember to run `rails dev:cache` to test in local dev 💡
-    cache_value = "#{AUDIO_URL_SEPARATOR}#{Base64.encode64(audio_url).strip}#{AUDIO_FILENAME_SEPARATOR}#{Base64.encode64(filename).strip}"
-    write_succeeded = Rails.cache.write(
-      user_converted_audio_key,
-      cache_value,
-      expires_in: 1.hour
-    )
-    raise "FAILED CACHE WRITE: #{cache_value.inspect}" unless write_succeeded
+    cache_value = "#{AUDIO_URL_SEPARATOR}#{encoded_cache_value_for(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{encoded_cache_value_for(filename)}"
+    write_succeeded = Rails.cache.write(converted_audio_cache_key, cache_value, expires_in: 1.hour)
+    unless write_succeeded
+      Rails.logger.warn("Failed cache value encodings: audio_url #{audio_url.encoding}, filename #{filename.encoding}")
+      Rails.logger.warn("Failed cache value: #{cache_value}")
+      raise "JPSTUDY ERROR: FAILED CACHE WRITE"
+    end
 
     conversions_used = @current_user.audio_conversions_used_this_month
     @current_user.update!(audio_conversions_used_this_month: conversions_used + 1)
@@ -61,7 +61,11 @@ class MediaToolsController < ApplicationController
 
   private
 
-  def user_converted_audio_key
+  def converted_audio_cache_key
     "#{@current_user.hashid}/last_converted_audio_file"
+  end
+
+  def encoded_cache_value_for(string)
+    Base64.encode64(string.force_encoding(Encoding::UTF_8)).strip
   end
 end
