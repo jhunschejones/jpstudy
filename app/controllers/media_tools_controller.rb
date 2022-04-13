@@ -43,12 +43,13 @@ class MediaToolsController < ApplicationController
     ).convert_japanese_to_audio
 
     # remember to run `rails dev:cache` to test in local dev 💡
+    cache_value = "#{AUDIO_URL_SEPARATOR}#{Base64.encode64(audio_url).strip}#{AUDIO_FILENAME_SEPARATOR}#{Base64.encode64(filename).strip}"
     write_succeeded = Rails.cache.write(
       user_converted_audio_key,
-      "#{AUDIO_URL_SEPARATOR}#{Base64.encode64(audio_url).strip}#{AUDIO_FILENAME_SEPARATOR}#{Base64.encode64(filename).strip}",
+      cache_value,
       expires_in: 1.hour
     )
-    raise "Failed cache write" unless write_succeeded
+    raise "FAILED CACHE WRITE: #{cache_value.inspect}" unless write_succeeded
 
     conversions_used = @current_user.audio_conversions_used_this_month
     @current_user.update!(audio_conversions_used_this_month: conversions_used + 1)
