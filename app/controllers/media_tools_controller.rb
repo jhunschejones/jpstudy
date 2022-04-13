@@ -2,12 +2,17 @@ class MediaToolsController < ApplicationController
   before_action :secure_behind_subscription
 
   MAX_TEXT_LENGTH = 135.freeze
+  AUDIO_URL_SEPARATOR = "polly_audio_url::"
+  AUDIO_FILENAME_SEPARATOR = "last_polly_filename::"
 
   def audio
-    if params[:show_latest_conversion]
-      # remember to run `rails dev:cache` to test in local dev 💡
-      @audio_url = Rails.cache.read(user_audio_url_cache_key)
-      @filename = Rails.cache.read(user_audio_filename_cache_key)
+    # remember to run `rails dev:cache` to test in local dev 💡
+    last_audio_file = Rails.cache.read(user_converted_audio_key)
+    if last_audio_file
+      @audio_url, @filename = last_audio_file
+        .split(AUDIO_FILENAME_SEPARATOR)
+        .flat_map { |part| part.split(AUDIO_URL_SEPARATOR) }
+        .reject(&:empty?)
     end
 
     unless @current_user.can_do_more_audio_conversions?
@@ -29,29 +34,28 @@ class MediaToolsController < ApplicationController
     end
 
     audio_url, filename = Synthesizer.new(
-      japanese: params[:japanese],
-      english: params[:english].presence,
+      japanese: params[:japanese].strip,
+      english: params[:english].presence&.strip,
       user: @current_user,
       neural_voice: params[:use_neural_voice] == "true"
     ).convert_japanese_to_audio
 
-    Rails.cache.write(user_audio_url_cache_key, audio_url, expires_in: 1.hour)
-    Rails.cache.write(user_audio_filename_cache_key, filename, expires_in: 1.hour)
+    Rails.cache.write(
+      user_converted_audio_key,
+      "#{AUDIO_URL_SEPARATOR}#{audio_url}#{AUDIO_FILENAME_SEPARATOR}#{filename}",
+      expires_in: 1.hour
+    )
     conversions_used = @current_user.audio_conversions_used_this_month
     @current_user.update!(audio_conversions_used_this_month: conversions_used + 1)
 
-    redirect_params = { show_latest_conversion: true }
+    redirect_params = {}
     redirect_params[:use_neural_voice] = true if params[:use_neural_voice] == "true"
     redirect_to audio_media_tools_path(redirect_params)
   end
 
   private
 
-  def user_audio_url_cache_key
-    "#{@current_user.hashid}/last_polly_audio_url"
-  end
-
-  def user_audio_filename_cache_key
-    "#{@current_user.hashid}/last_polly_filename"
+  def user_converted_audio_key
+    "#{@current_user.hashid}/last_converted_audio_file"
   end
 end
