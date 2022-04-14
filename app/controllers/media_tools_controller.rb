@@ -66,6 +66,7 @@ class MediaToolsController < ApplicationController
   end
 
   def encoded_cache_value_for(string)
-    Base64.encode64(string.force_encoding(Encoding::UTF_8)).strip
+    # strict_encode64 does not add newlines like encode64 💡
+    Base64.strict_encode64(string.force_encoding(Encoding::UTF_8))
   end
 end
