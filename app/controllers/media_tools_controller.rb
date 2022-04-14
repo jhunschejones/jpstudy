@@ -14,7 +14,7 @@ class MediaToolsController < ApplicationController
         .split(AUDIO_FILENAME_SEPARATOR)
         .flat_map { |part| part.split(AUDIO_URL_SEPARATOR) }
         .reject(&:empty?)
-        .map { |part| Base64.decode64(part) }
+        .map { |part| decode_cached_value(part) }
     end
 
     unless @current_user.can_do_more_audio_conversions?
@@ -68,5 +68,9 @@ class MediaToolsController < ApplicationController
   def encoded_cache_value_for(string)
     # strict_encode64 does not add newlines like encode64 💡
     Base64.strict_encode64(string.force_encoding(Encoding::UTF_8))
+  end
+
+  def decode_cached_value(string)
+    Base64.decode64(string).force_encoding(Encoding::UTF_8)
   end
 end
