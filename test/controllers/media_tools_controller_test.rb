@@ -20,7 +20,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
 
       Rails.cache.write(
         "#{users(:carl).hashid}/last_converted_audio_file",
-        "polly_audio_url::\"www.example.com/good+morning.mp3\"last_polly_filename::\"good morning.mp3\""
+        "polly_audio_url::www.example.com/good+morning.mp3last_polly_filename::good morning.mp3"
       )
       login(users(:carl))
       get audio_media_tools_path
@@ -73,7 +73,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
 
       post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning" }
 
-      assert_equal "polly_audio_url::\"www.example.com/good+morning.mp3\"last_polly_filename::\"good morning.mp3\"", Rails.cache.read("#{users(:carl).hashid}/last_converted_audio_file")
+      assert_equal "polly_audio_url::www.example.com/good+morning.mp3last_polly_filename::good morning.mp3", Rails.cache.read("#{users(:carl).hashid}/last_converted_audio_file")
     end
 
     it "increments audio_conversions_used_this_month for the current user" do
