@@ -46,8 +46,10 @@ class MediaToolsController < ApplicationController
     cache_value = "#{AUDIO_URL_SEPARATOR}#{encoded_cache_value_for(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{encoded_cache_value_for(filename)}"
     write_succeeded = Rails.cache.write(converted_audio_cache_key, cache_value, expires_in: 1.hour)
     unless write_succeeded
-      Rails.logger.warn("Failed cache value encodings: audio_url #{audio_url.encoding}, filename #{filename.encoding}")
+      Rails.logger.warn("Failed cache value encodings: cache_value #{cache_value.encoding}, audio_url #{audio_url.encoding}, filename #{filename.encoding}")
       Rails.logger.warn("Failed cache value: #{cache_value}")
+      Rails.logger.warn("Raw audio_url: #{audio_url}")
+      Rails.logger.warn("Raw filename: #{filename}")
       raise "JPSTUDY ERROR: FAILED CACHE WRITE"
     end
 
