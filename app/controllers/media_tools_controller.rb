@@ -42,15 +42,18 @@ class MediaToolsController < ApplicationController
       neural_voice: params[:use_neural_voice] == "true"
     ).convert_japanese_to_audio
 
-    # remember to run `rails dev:cache` to test in local dev 💡
-    cache_value = "#{AUDIO_URL_SEPARATOR}#{encoded_cache_value_for(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{encoded_cache_value_for(filename)}"
-    write_succeeded = Rails.cache.write(converted_audio_cache_key, cache_value, expires_in: 1.hour)
-    unless write_succeeded
-      Rails.logger.warn("Failed cache value encodings: cache_value #{cache_value.encoding}, audio_url #{audio_url.encoding}, filename #{filename.encoding}")
-      Rails.logger.warn("Failed cache value: #{cache_value}")
-      Rails.logger.warn("Raw audio_url: #{audio_url}")
-      Rails.logger.warn("Raw filename: #{filename}")
-      raise "JPSTUDY ERROR: FAILED CACHE WRITE"
+    in_utf8 do
+      # remember to run `rails dev:cache` to test in local dev 💡
+      cache_value = "#{AUDIO_URL_SEPARATOR}#{encoded_cache_value_for(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{encoded_cache_value_for(filename)}"
+      write_succeeded = Rails.cache.write(converted_audio_cache_key, cache_value, expires_in: 1.hour)
+      unless write_succeeded
+        Rails.logger.warn("Failed cache value encodings: converted_audio_cache_key #{converted_audio_cache_key.encoding}, cache_value #{cache_value.encoding}")
+        Rails.logger.warn("Failed cache key: #{converted_audio_cache_key}")
+        Rails.logger.warn("Failed cache value: #{cache_value}")
+        Rails.logger.warn("Raw audio_url: #{audio_url}")
+        Rails.logger.warn("Raw filename: #{filename}")
+        raise "JPSTUDY ERROR: FAILED CACHE WRITE"
+      end
     end
 
     conversions_used = @current_user.audio_conversions_used_this_month
@@ -76,5 +79,12 @@ class MediaToolsController < ApplicationController
   def decode_cached_value(string)
     # Base64.decode64(string).force_encoding(Encoding::UTF_8)
     string.force_encoding(Encoding::UTF_8)
+  end
+
+  def in_utf8
+    origional_encoding = Encoding.default_external
+    Encoding.default_external = Encoding::UTF_8
+    yield
+    Encoding.default_external = origional_encoding
   end
 end
