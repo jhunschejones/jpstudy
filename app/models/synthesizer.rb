@@ -9,68 +9,69 @@ class Synthesizer
 
   NON_WORD_NON_SPACE_CHARACTERS = /[^\w\s一-龯ぁ-んァ-ン０-９Ａ-ｚ]/
 
-  def initialize(japanese:, english: nil, user:, polly: POLLY, neural_voice: false, s3: S3)
-    @japanese = japanese
-    @english = english
+  def initialize(user:, polly: POLLY, s3: S3)
     @user = user
     @polly = polly
-    @neural_voice = neural_voice
     @s3 = s3
   end
 
-  # returns a 2-element array of audio_url and filename
-  def convert_japanese_to_audio
+  def convert_japanese_to_audio(japanese:, english: nil, neural_voice: false)
     polly_audio_stream = @polly
       .synthesize_speech(
         {
           output_format: "mp3",
-          text: "<speak><prosody rate='#{VOICE_SPEED}'>#{@japanese}</prosody></speak>",
-          voice_id: @neural_voice ? MALE_VOICE_ID : FEMALE_VOICE_ID, # neural Japanese is only available for Takumi
+          text: "<speak><prosody rate='#{VOICE_SPEED}'>#{japanese}</prosody></speak>",
+          voice_id: neural_voice ? MALE_VOICE_ID : FEMALE_VOICE_ID, # neural Japanese is only available for Takumi
           text_type: "ssml",
-          engine: @neural_voice ? "neural" : "standard"
+          engine: neural_voice ? "neural" : "standard"
         }
       ).audio_stream
 
-    s3_file_object = @s3
-      .bucket(AWS_BUCKET)
-      .put_object(
+    s3_file_key = "polly/#{@user.hashid}/#{safe_filename_with_extension(english)}"
+    @s3.bucket(AWS_BUCKET).put_object(
         body: polly_audio_stream,
-        key: "polly/#{@user.hashid}/#{safe_filename_with_extension}",
+        key: s3_file_key,
         content_type: "audio/mpeg",
         tagging: "media-source=polly"
       )
 
-    audio_url = s3_file_object.presigned_url(
-      :get,
-      expires_in: 3600,
-      response_content_disposition: "inline; filename=#{safe_filename_with_extension}",
-      response_content_type: "audio/mpeg"
-    )
+    s3_file_key
+  end
 
-    # Doing a funny dance here to move the chunk of the URL that ends with the filename
-    # to the end of the URL so that Anki will auto-download the file when the url is
-    # pasted in (link needs to end with `.mp3`).
+  # returns a tuple of filename, audio_url
+  def url_for_japanese_audio(s3_key:)
+    filename = s3_key.gsub("polly/#{@user.hashid}/", "")
+    audio_url = @s3
+      .bucket(AWS_BUCKET)
+      .object(s3_key)
+      .presigned_url(
+        :get,
+        expires_in: 3600,
+        response_content_disposition: "inline; filename=#{filename}",
+        response_content_type: "audio/mpeg"
+      )
+
+    # Doing a little hacky dance here to get the URL to end in `.mp3`,
+    # thereby allowing Anki's auto-download feature to work.
     if audio_url.match?(CONTENT_DISPOSITION_REGEX)
       content_disposition = audio_url.match(CONTENT_DISPOSITION_REGEX)[1]
       audio_url_minus_content_disposition = audio_url.gsub(content_disposition, "").gsub("?&", "?")
       audio_url = "#{audio_url_minus_content_disposition}&#{content_disposition}"
     end
 
-    [audio_url, safe_filename_with_extension]
+    [filename, audio_url]
   end
 
   private
 
-  def safe_filename
-    @safe_filename ||= begin
-      return default_filename if @english.nil? || @english.empty?
-      safe_filename = @english.gsub(NON_WORD_NON_SPACE_CHARACTERS, "")
-      safe_filename.empty? ? default_filename : safe_filename
-    end
+  def safe_filename(filename)
+    return default_filename if filename.nil? || filename.empty?
+    safe_filename = filename.gsub(NON_WORD_NON_SPACE_CHARACTERS, "")
+    safe_filename.empty? ? default_filename : safe_filename
   end
 
-  def safe_filename_with_extension
-    "#{safe_filename}.mp3"
+  def safe_filename_with_extension(filename)
+    "#{safe_filename(filename)}.mp3"
   end
 
   def default_filename

@@ -2,6 +2,14 @@ require "application_controller_test_case"
 
 class KanjiControllerTest < ApplicationControllerTestCase
   describe "#audio" do
+    setup do
+      Synthesizer::S3.stubs(
+        bucket: stub(object:
+          stub(presigned_url: "www.example.com/good+morning.mp3")
+        )
+      )
+    end
+
     it "requires subscription or trial to access" do
       login(users(:elemouse))
       get audio_media_tools_path
@@ -20,7 +28,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
 
       Rails.cache.write(
         "#{users(:carl).hashid}/last_converted_audio_file",
-        "polly_audio_url::www.example.com/good+morning.mp3last_polly_filename::good morning.mp3"
+        "polly/#{users(:carl).hashid}/good morning.mp3"
       )
       login(users(:carl))
       get audio_media_tools_path
@@ -41,7 +49,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       Synthesizer::POLLY.stubs(synthesize_speech: stub(audio_stream: Tempfile.new))
       Synthesizer::S3.stubs(
         bucket: stub(put_object:
-          stub(put: true, presigned_url: "www.example.com/good+morning.mp3")
+          stub(put: true)
         )
       )
     end
@@ -64,7 +72,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
       assert_redirected_to audio_media_tools_path(use_neural_voice: true)
     end
 
-    it "stores the url and name for the last converted audio file" do
+    it "stores the s3 key for the last converted audio file" do
       Rails.stubs(:cache).returns(ActiveSupport::Cache.lookup_store(:memory_store))
       Rails.cache.clear
 
@@ -73,7 +81,7 @@ class KanjiControllerTest < ApplicationControllerTestCase
 
       post japanese_to_audio_media_tools_path, params: { japanese: "おはよう", english: "good morning" }
 
-      assert_equal "polly_audio_url::www.example.com/good+morning.mp3last_polly_filename::good morning.mp3", Rails.cache.read("#{users(:carl).hashid}/last_converted_audio_file")
+      assert_equal "polly/#{users(:carl).hashid}/good morning.mp3", Rails.cache.read("#{users(:carl).hashid}/last_converted_audio_file")
     end
 
     it "increments audio_conversions_used_this_month for the current user" do

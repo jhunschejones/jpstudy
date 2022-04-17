@@ -10,11 +10,9 @@ class MediaToolsController < ApplicationController
     last_audio_file = Rails.cache.read(converted_audio_cache_key)
 
     if last_audio_file
-      @audio_url, @filename = last_audio_file
-        .split(AUDIO_FILENAME_SEPARATOR)
-        .flat_map { |part| part.split(AUDIO_URL_SEPARATOR) }
-        .reject(&:empty?)
-        .map { |part| decode_cached_value(part) }
+      @filename, @audio_url = Synthesizer
+        .new(user: @current_user)
+        .url_for_japanese_audio(s3_key: last_audio_file)
     end
 
     unless @current_user.can_do_more_audio_conversions?
@@ -35,25 +33,20 @@ class MediaToolsController < ApplicationController
       return redirect_to audio_media_tools_path
     end
 
-    audio_url, filename = Synthesizer.new(
-      japanese: params[:japanese].strip,
-      english: params[:english].presence&.strip,
-      user: @current_user,
-      neural_voice: params[:use_neural_voice] == "true"
-    ).convert_japanese_to_audio
+    s3_file_key = Synthesizer
+      .new(user: @current_user)
+      .convert_japanese_to_audio(
+        japanese: params[:japanese].strip,
+        english: params[:english].presence&.strip,
+        neural_voice: params[:use_neural_voice] == "true"
+      )
 
-    in_utf8 do
-      # remember to run `rails dev:cache` to test in local dev 💡
-      cache_value = "#{AUDIO_URL_SEPARATOR}#{encoded_cache_value_for(audio_url)}#{AUDIO_FILENAME_SEPARATOR}#{encoded_cache_value_for(filename)}"
-      write_succeeded = Rails.cache.write(converted_audio_cache_key, cache_value, expires_in: 1.hour)
-      unless write_succeeded
-        Rails.logger.warn("Failed cache value encodings: converted_audio_cache_key #{converted_audio_cache_key.encoding}, cache_value #{cache_value.encoding}")
-        Rails.logger.warn("Failed cache key: #{converted_audio_cache_key}")
-        Rails.logger.warn("Failed cache value: #{cache_value}")
-        Rails.logger.warn("Raw audio_url: #{audio_url}")
-        Rails.logger.warn("Raw filename: #{filename}")
-        raise "JPSTUDY ERROR: FAILED CACHE WRITE"
-      end
+    # remember to run `rails dev:cache` to test in local dev 💡
+    write_succeeded = Rails.cache.write(converted_audio_cache_key, s3_file_key, expires_in: 1.hour)
+    unless write_succeeded
+      Rails.logger.warn("Failed cache key: #{converted_audio_cache_key}")
+      Rails.logger.warn("Failed cache value: #{s3_file_key}")
+      raise "JPSTUDY ERROR: FAILED CACHE WRITE"
     end
 
     conversions_used = @current_user.audio_conversions_used_this_month
@@ -68,23 +61,5 @@ class MediaToolsController < ApplicationController
 
   def converted_audio_cache_key
     "#{@current_user.hashid}/last_converted_audio_file"
-  end
-
-  def encoded_cache_value_for(string)
-    # strict_encode64 does not add newlines like encode64 💡
-    # Base64.strict_encode64(string.force_encoding(Encoding::UTF_8))
-    string.force_encoding(Encoding::UTF_8)
-  end
-
-  def decode_cached_value(string)
-    # Base64.decode64(string).force_encoding(Encoding::UTF_8)
-    string.force_encoding(Encoding::UTF_8)
-  end
-
-  def in_utf8
-    origional_encoding = Encoding.default_external
-    Encoding.default_external = Encoding::UTF_8
-    yield
-    Encoding.default_external = origional_encoding
   end
 end
