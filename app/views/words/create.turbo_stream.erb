@@ -1,6 +1,7 @@
 <% if @word.valid? %>
   <%= turbo_stream.prepend "words_1" do %>
-    <%= render partial: "words/word", locals: { word: @word, apply_js_filters: true } %>
+    <span class="hidden word-<%= @word.id %>-sent-via-turbostream"></span>
+    <%= render partial: "words/word", locals: { word: @word } %>
   <% end %>
 
   <%= turbo_stream.replace "new-word-form" do %>

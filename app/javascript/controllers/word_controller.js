@@ -5,14 +5,14 @@ export default class extends Controller {
 
   static values = {
     cardsCreated: Boolean,
-    applyJsFilters: Boolean,
     japaneseWord: String,
     englishWord: String,
     addedAt: String,
     createdAt: String,
     databaseId: String,
     wordId: String,
-    owner: String
+    owner: String,
+    filtersApplied: Boolean
   }
 
   connect() {
@@ -20,12 +20,26 @@ export default class extends Controller {
       this.element.classList.toggle("hide-modify-buttons", false);
     }
 
-    // Only filter in JS if this is a new word added by turbo_stream
-    if (!this.applyJsFilters()) {
+    // Only run this on the words list page
+    if (!window.location.pathname.endsWith("/words")) {
       return;
     }
-    // gotta set this back so that we don't go through the hiding loop again
-    this.applyJsFiltersValue = false;
+
+    // Only filter in JS if this is a new word added to the word list by turbo_stream
+    // or the cards created toggle is pressed and responded to by turbo_stream
+    const sentViaTurbostream = document.querySelector(`.word-${this.wordIdValue}-sent-via-turbostream`);
+    if (sentViaTurbostream) {
+      sentViaTurbostream.parentNode.removeChild(sentViaTurbostream);
+    } else {
+      return;
+    }
+
+    // ⚠️ Set and read this data value so that we only go through the filter loop once
+    if (this.filtersAppliedValue) {
+      return;
+    } else {
+      this.filtersAppliedValue = true;
+    }
 
     const thisTurboFrame = this.wordCardTarget.closest("turbo-frame");
 
@@ -46,10 +60,6 @@ export default class extends Controller {
   }
 
   // === Private ===
-
-  applyJsFilters() {
-    return this.applyJsFiltersValue;
-  }
 
   filterWordsWithCardsAlreadyCreated() {
     return new URLSearchParams(location.search).get("filter") === "cards_not_created";
@@ -75,7 +85,7 @@ export default class extends Controller {
 
   // return false if should not place, true after element is placed
   placeAmongExistingCards() {
-    const allOtherWords = document.querySelectorAll(`.word:not(.skeleton-word):not(.${this.wordIdValue})`);
+    const allOtherWords = document.querySelectorAll(`.word:not(.skeleton-word):not(#word_${this.wordIdValue} *)`);
     const allOtherWordsSortableFields = Array
       .from(allOtherWords)
       .map((word) => {

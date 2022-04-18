@@ -1,4 +1,7 @@
+<%= turbo_stream.prepend "words_1" do %>
+  <span class="hidden word-<%= @word.id %>-sent-via-turbostream"></span>
+<% end %>
 <%= turbo_stream.replace @word do %>
-  <%= render partial: "words/word", locals: { word: @word, apply_js_filters: params[:filter] == "cards_not_created" } %>
+  <%= render partial: "words/word", locals: { word: @word } %>
 <% end %>
 <%= turbo_stream.replace "flashes", partial: "application/flashes" %>

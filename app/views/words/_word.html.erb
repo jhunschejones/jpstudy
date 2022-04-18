@@ -1,10 +1,9 @@
 <%= turbo_frame_tag dom_id(word) do %>
   <div
-    class="word <%= dom_id(word) %> hide-modify-buttons"
+    class="word hide-modify-buttons"
     data-controller="word"
-    data-word-word-id-value="<%= dom_id(word) %>"
+    data-word-word-id-value="<%= word.id %>"
     data-word-cards-created-value="<%= word.cards_created? %>"
-    data-word-apply-js-filters-value="<%= (defined?(apply_js_filters) && apply_js_filters) || false %>"
     data-word-japanese-word-value="<%= word.japanese %>"
     data-word-english-word-value="<%= word.english %>"
     data-word-added-at-value="<%= word.added_to_list_at %>"
