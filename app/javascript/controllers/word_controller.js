@@ -16,11 +16,20 @@ export default class extends Controller {
   }
 
   connect() {
+    // === RUN ON ALL PAGES WHEN A WORD PARTIAL IS CONNECTED ===
+
     if (this.getSignedCookie("username").trim() == this.ownerValue.trim()) {
       this.element.classList.toggle("hide-modify-buttons", false);
     }
 
-    // Only run this on the words list page
+    const deleteWithoutTurbo = document.querySelector(`.word-${this.wordIdValue}-delete-without-turbo`);
+    if (deleteWithoutTurbo) {
+      deleteWithoutTurbo.parentNode.removeChild(deleteWithoutTurbo);
+      document.querySelector(`#word_${this.wordIdValue} .delete button`).dataset["turbo"] = false;
+    }
+
+    // === ONLY RUN THE LOGIC BELOW THIS CHECK ON THE WORDS LIST PAGE ===
+
     if (!window.location.pathname.endsWith("/words")) {
       return;
     }

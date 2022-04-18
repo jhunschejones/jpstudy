@@ -14,12 +14,12 @@
     data-last-update="<%= Time.now.utc %>"
   >
     <div class="delete">
-      <%= button_to(word_path(@current_user, word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm", turbo: !(defined?(delete_without_turbo) && delete_without_turbo) }) do %>
+      <%= button_to(word_path(@current_user, word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" }) do %>
         <%= heroicon "trash", variant: :outline %>
       <% end %>
     </div>
     <div class="edit">
-      <%= link_to(edit_word_path(@current_user, word, filter_params)) do %>
+      <%= link_to(edit_word_path(@current_user, word)) do %>
         <%= heroicon "pencil-alt", variant: :outline %>
       <% end %>
     </div>
@@ -32,7 +32,7 @@
       </div>
     <% end %>
     <div class="cards-created">
-      <%= button_to(word_toggle_card_created_path(@current_user, word), method: :post, params: filter_params, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+      <%= button_to(word_toggle_card_created_path(@current_user, word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
         <% if word.cards_created? %>
           <span title="Cards created">
             <%= heroicon "check", options: { class: "checked" } %>

@@ -2,6 +2,7 @@
 
 <br/>
 
-<%= turbo_frame_tag dom_id(@word) do %>
-  <%= render(@word, delete_without_turbo: controller_name == "words" && action_name == "show") %>
+<% if controller_name == "words" && action_name == "show" %>
+  <span class="hidden word-<%= @word.id %>-delete-without-turbo"></span>
 <% end %>
+<%= render(@word) %>
