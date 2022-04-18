@@ -81,7 +81,7 @@
         color: #d1d5db;
       }
       .copied-icon {
-        color: #10B981;
+        @extend .success-green;
       }
     }
   }

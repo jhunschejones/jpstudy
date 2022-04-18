@@ -85,7 +85,7 @@
       }
     }
     .filter-description {
-      color: #9CA3AF;
+      @extend .light-gray;
       padding-left: 6px;
     }
     .filter-on svg {
@@ -93,10 +93,10 @@
     }
     .filter-on svg,
     .search-results svg {
-      color: #8B5CF6;
+      @extend .purple;
     }
     .filter-off svg {
-      color: #9CA3AF;
+      @extend .light-gray;
     }
   }
   .words-list-container {
@@ -104,7 +104,7 @@
     #no-words-message {
       text-align: center;
       padding-top: 40px;
-      color: #9CA3AF;
+      @extend .light-gray;
       p {
         margin: 4px 0px;
       }
@@ -164,10 +164,10 @@
         cursor: pointer;
       }
       &.unchecked {
-        color: #9CA3AF;
+        @extend .light-gray;
       }
       &.checked {
-        color: #10B981;
+        @extend .success-green;
       }
     }
     &:disabled {
@@ -217,7 +217,7 @@
     .english {
       .right-arrow {
         height: 12px;
-        color: #9CA3AF;
+        @extend .light-gray;
       }
     }
     @media (max-width: 600px) {
@@ -227,7 +227,7 @@
     }
   }
   .source {
-    color: #9CA3AF;
+    @extend .light-gray;
     padding-bottom: 7px;
     @media (max-width: 600px) {
       .added-on {

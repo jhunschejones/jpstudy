@@ -103,7 +103,7 @@
           color: #d1d5db;
         }
         .kanji-copied-icon {
-          color: #10B981;
+          @extend .success-green;
         }
       }
     }
@@ -141,7 +141,7 @@
       margin: 0px 5px 0px 5px;
       .resource-name {
         font-size: 0.7em;
-        color: #9CA3AF;
+        @extend .light-gray;
       }
       img {
         margin-top: 6px;
@@ -173,7 +173,7 @@
     margin: 0;
     text-align: center;
     font-size: 0.9em;
-    color: #9CA3AF;
+    @extend .light-gray;
   }
   .kanji-wall {
     margin-top: 30px;

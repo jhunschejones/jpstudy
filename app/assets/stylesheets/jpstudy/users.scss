@@ -79,15 +79,13 @@
 .user-stats-page {
   position: relative;
   .catagory-title {
+    @extend .purple;
     margin: 36px 0px 6px 0px;
     display: flex;
     justify-content: center;
     align-content: center;
-    color: #8B5CF6;
     font-size: 1.4em;
-    a {
-      color: #8B5CF6;
-    }
+    a { @extend .purple; }
   }
   .stats-card-container {
     display: flex;
@@ -108,9 +106,9 @@
         width: 100%;
       }
       .catagory-subtitle {
-        margin: 4px 0px 8px 0px;
+        margin: 4px 0px 0px 0px;
         font-weight: 500;
-        color: #8B5CF6;
+        @extend .purple;
       }
       p {
         margin: 6px 0px;

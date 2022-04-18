@@ -10,8 +10,7 @@
 
   <div class="stats">
     <h3 class="catagory-title">
-      Words&nbsp;
-      <%= heroicon "trending-up" %>
+      Words&nbsp;<%= heroicon "trending-up" %>
     </h3>
 
     <div class="stats-card-container">
@@ -19,16 +18,19 @@
         <%= link_to edit_targets_user_path, class: "edit-link", title: "Edit your study targets" do %>
           <%= heroicon "pencil-alt", variant: :outline, options: { class: "icon" } %>
         <% end %>
-        <h4 class="catagory-subtitle">
-          <span>Study targets:</span>
-        </h4>
+        <h4 class="catagory-subtitle">Study targets:</h4>
         <p>
-          <span class="light-gray">Learning goal:</span>
-          <% if @current_user.next_word_goal %>
-            <%= pluralize @current_user.next_word_goal, "word" %>
+          <span class="light-gray">Cards created today:</span>
+          <% if @current_user.daily_word_target.blank? %>
+            <% word_count_class = "normal-weight" %>
+          <% elsif @current_user.has_reached_or_exceeded_daily_word_target? %>
+            <% word_count_class = "success-green" %>
           <% else %>
-            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
+            <% word_count_class = "notice-orange" %>
           <% end %>
+          <strong class="<%= word_count_class %>">
+            <%= @words_with_cards_created_today %>
+          </strong>
         </p>
         <p>
           <span class="light-gray">Daily target:</span>
@@ -39,13 +41,11 @@
           <% end %>
         </p>
         <p>
-          <span class="light-gray">Cards created today:</span>
-          <% if @current_user.has_reached_or_exceeded_daily_word_target? %>
-            <strong class="success-green">
-              <%= @words_with_cards_created_today %>
-            </strong>
+          <span class="light-gray">Learning goal:</span>
+          <% if @current_user.next_word_goal %>
+            <%= pluralize @current_user.next_word_goal, "word" %>
           <% else %>
-            <%= @words_with_cards_created_today %>
+            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
           <% end %>
         </p>
         <% if @days_to_word_target %>
@@ -57,9 +57,7 @@
       </div>
 
       <div class="stats-card">
-        <h4 class="catagory-subtitle">
-          Totals:
-        </h4>
+        <h4 class="catagory-subtitle">Totals:</h4>
         <p>
           <span class="light-gray">New words ready for cards:</span>
           <%= @words_ready_for_cards_count %>
@@ -67,6 +65,20 @@
         <p>
           <span class="light-gray">Words with cards created:</span>
           <%= @words_with_cards_created_count %>
+        </p>
+        <p>
+          <span class="light-gray">Next JLPT level:</span>
+          <% if @words_with_cards_created_count <= 800 %>
+            N5, 800 words
+          <% elsif @words_with_cards_created_count <= 1500 %>
+            N4, 1500 words
+          <% elsif @words_with_cards_created_count <= 3700 %>
+            N3, 3700 words
+          <% elsif @words_with_cards_created_count <= 6000 %>
+            N2, 6000 words
+          <% else %>
+            N1, 10000 words
+          <% end %>
         </p>
       </div>
     </div>
@@ -83,16 +95,19 @@
         <%= link_to edit_targets_user_path, class: "edit-link", title: "Edit your study targets" do %>
           <%= heroicon "pencil-alt", variant: :outline, options: { class: "icon" } %>
         <% end %>
-        <h4 class="catagory-subtitle">
-          <span>Study targets:</span>
-        </h4>
+        <h4 class="catagory-subtitle">Study targets:</h4>
         <p>
-          <span class="light-gray">Learning goal:</span>
-          <% if @current_user.next_kanji_goal %>
-            <%= @current_user.next_kanji_goal %> kanji
+          <% if @current_user.daily_kanji_target.blank? %>
+            <% kanji_count_class = "normal-weight" %>
+          <% elsif @current_user.has_reached_or_exceeded_daily_kanji_target? %>
+            <% kanji_count_class = "success-green" %>
           <% else %>
-            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
+            <% kanji_count_class = "notice-orange" %>
           <% end %>
+          <span class="light-gray">Kanji added today:</span>
+          <strong class="<%= kanji_count_class %>">
+            <%= @kanji_added_today %>
+          </strong>
         </p>
         <p>
           <span class="light-gray">Daily target:</span>
@@ -103,13 +118,11 @@
           <% end %>
         </p>
         <p>
-          <span class="light-gray">Kanji added today:</span>
-          <% if @current_user.has_reached_or_exceeded_daily_kanji_target? %>
-            <strong class="success-green">
-              <%= @kanji_added_today %>
-            </strong>
+          <span class="light-gray">Learning goal:</span>
+          <% if @current_user.next_kanji_goal %>
+            <%= @current_user.next_kanji_goal %> kanji
           <% else %>
-            <%= @kanji_added_today %>
+            <%= link_to "not set", edit_targets_user_path, class: "link-blue", title: "Edit your study targets" %>
           <% end %>
         </p>
         <% if @days_to_kanji_target %>
@@ -121,9 +134,7 @@
       </div>
 
       <div class="stats-card">
-        <h4 class="catagory-subtitle">
-          Totals:
-        </h4>
+        <h4 class="catagory-subtitle">Totals:</h4>
         <p>
           <span class="light-gray">New kanji:</span>
           <%= @kanji_to_add_count %>
