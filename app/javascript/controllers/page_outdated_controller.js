@@ -9,7 +9,7 @@ export default class extends Controller {
   }
 
   initialize() {
-    if (this.hasLastUpdateValue && this.hasTargetSelectorValue) {
+    if (this.hasLastUpdateValue && this.hasTargetSelectorValue && document.querySelector(this.targetSelectorValue)) {
       setTimeout(() => {
         // Safari doesn't like dashes in dates 🙄
         const thisLastUpdate = new Date(this.lastUpdateValue.replace(/-/g, "/"));
@@ -17,11 +17,14 @@ export default class extends Controller {
         if (thisLastUpdate > pageLastUpdate) {
           this.noticeTarget.style.display = "block";
         } else {
-          console.log("Page outdated notice not initialized due to time difference.");
+          // console.log("Page outdated notice not initialized due to time difference.");
         }
       }, 500);
     } else {
-      console.log("Page outdated notice not initialized due to missing values.");
+      // We can hit this path if the data just hasn't been set, or if the item
+      // to check the time on is no longer on the page. In these cases it's just
+      // a no-op.
+      // console.log("Page outdated notice not initialized due to missing values.");
     }
   }
 
