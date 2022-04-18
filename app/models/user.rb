@@ -28,8 +28,8 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { minimum: 1, maximum: 39 }, format: { with: /\A[a-zA-Z0-9]+\z/, message: "can only contain letters and numbers" }
   validates :role, inclusion: { in: VALID_USER_ROLES, message: "must be one of [#{VALID_USER_ROLES.join(", ")}]" }
 
-  has_many :words, dependent: :destroy, inverse_of: :user
-  has_many :kanji, dependent: :destroy, inverse_of: :user
+  has_many :words, dependent: :delete_all, inverse_of: :user
+  has_many :kanji, dependent: :delete_all, inverse_of: :user
 
   before_destroy :clean_up_square_data
 

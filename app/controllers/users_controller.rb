@@ -94,7 +94,7 @@ class UsersController < ApplicationController
     @user.destroy
     reset_session
     clear_username_cookie
-    redirect_to login_url, alert: "Your account has been deleted."
+    redirect_to login_url, notice: "Your account has been deleted."
   end
 
   def stats

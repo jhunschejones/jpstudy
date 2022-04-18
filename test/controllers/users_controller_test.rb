@@ -194,7 +194,7 @@ class UsersControllerTest < ApplicationControllerTestCase
     it "returns a confirmation message and logs the user out" do
       login(users(:carl))
       delete user_path(users(:carl))
-      assert_equal "Your account has been deleted.", flash[:alert]
+      assert_equal "Your account has been deleted.", flash[:notice]
       assert_nil session[:session_token], "user should have been logged out"
     end
 

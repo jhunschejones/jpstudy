@@ -18,9 +18,20 @@ module WordsHelper
     # url when we've dropped the form onto another page using Turbo.
     return false unless request.referrer.present?
 
-    return true if request.referrer.split("?").first == words_url # always use Turbo on the word list page, irregardless of query params
-    return false if defined?(@word) && @word.id.nil? # do not use Turbo on the plain, new word page
-    return true if defined?(@word) && request.referrer == word_url(@word) # use Turbo on the word show page
+    # brand new users can use a link in empty_words_message to get to the new
+    # word form, and we want `cancel` to redirect back (plus the optimization
+    # of turbo requests won't make as big a difference yet)
+    return false if defined?(@word) && @word.id.nil? && @current_user.words.size.zero?
+
+     # always use Turbo on the word list page in all other conditions, irregardless
+     # of query params
+    return true if request.referrer.split("?").first == words_url
+
+    # do not use Turbo on the plain, new word page, if we've made it this far
+    return false if defined?(@word) && @word.id.nil?
+
+    # use Turbo on the word show page
+    return true if defined?(@word) && request.referrer == word_url(@word)
 
     # Don't use turbo if we got to the form some other way
     false

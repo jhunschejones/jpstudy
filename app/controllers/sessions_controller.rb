@@ -30,6 +30,8 @@ class SessionsController < ApplicationController
     case params[:message_id]
     when "S01"
       flash.now[:success] = "🙏 Thank you for subscribing! Please follow the link in your email to finalize your subscription."
+    when "S02"
+      flash.now[:success] = "Last step! Sign in to finish connecting your account to your shiny new subscription. ✨"
     when "E01"
       flash.now[:success] = "Email successfully verified! Please log in to use your account."
     end
@@ -58,10 +60,10 @@ class SessionsController < ApplicationController
 
     destination = ALLOWED_DESTINATIONS[params[:destination]]
     case destination
-    when :kanji
-      redirect_to next_kanji_path(user)
     when :words
       redirect_to words_path(user)
+    when :kanji
+      redirect_to next_kanji_path(user)
     when :word_search
       redirect_to search_words_path(user)
     when :user_stats
