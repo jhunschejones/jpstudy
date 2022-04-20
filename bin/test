@@ -7,6 +7,8 @@
 # * Run all system tests:       ./bin/test system
 # * Run a specific system test: ./bin/test system path/to/test.rb
 
+git pull -q && bundle install --quiet
+
 if [ "$1" == "unit" ]
 then
   # run unit tests allowing argument
