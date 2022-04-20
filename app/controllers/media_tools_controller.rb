@@ -42,10 +42,17 @@ class MediaToolsController < ApplicationController
       )
 
     # remember to run `rails dev:cache` to test in local dev 💡
-    write_succeeded = Rails.cache.write(converted_audio_cache_key, s3_file_key, expires_in: 1.hour)
-    unless write_succeeded
+    max_tries = ENV.fetch("REDIS_WRITE_TRIES", "1").to_i
+    tries = 0
+    last_write_succeeded = false
+    until last_write_succeeded || tries >= max_tries
+      last_write_succeeded = Rails.cache.write(converted_audio_cache_key, s3_file_key, expires_in: 1.hour)
+      tries += 1
+    end
+    unless last_write_succeeded
       Rails.logger.warn("Failed cache key: #{converted_audio_cache_key}")
       Rails.logger.warn("Failed cache value: #{s3_file_key}")
+      Rails.logger.warn("Cache write tries: #{tries}")
       raise "JPSTUDY ERROR: FAILED CACHE WRITE"
     end
 
