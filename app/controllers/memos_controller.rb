@@ -24,6 +24,6 @@ class MemosController < ApplicationController
 
   def set_memo
     # For now, each user only has one memo record
-    @memo = @resource_owner.memos.first || Memo.create!(user: @resource_owner)
+    @memo = @resource_owner.memos.with_rich_text_content.first || Memo.create!(user: @resource_owner)
   end
 end
