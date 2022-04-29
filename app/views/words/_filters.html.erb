@@ -9,14 +9,14 @@
   <% end %>
   <% if params[:order] == "oldest_first" %>
     <%= link_to words_path(@current_user, filter_params_minus(:order)), title: "Showing oldest words first", class: "filter-on" do %>
-      <%= heroicon "arrow-up" %> <%# gets flipped in CSS %>
+      <%= heroicon "sort-ascending" %>
       <span class="filter-description">
         Oldest first
       </span>
     <% end %>
   <% else %>
     <%= link_to words_path(@current_user, filter_params_plus(order: "oldest_first")), title: "Showing newest words first", class: "filter-off" do %>
-      <%= heroicon "arrow-up" %>
+      <%= heroicon "sort-descending" %>
       <span class="filter-description">
         Newest first
       </span>

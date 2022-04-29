@@ -88,9 +88,6 @@
       @extend .light-gray;
       padding-left: 6px;
     }
-    .filter-on svg {
-      transform: rotate(180deg);
-    }
     .filter-on svg,
     .search-results svg {
       @extend .purple;
