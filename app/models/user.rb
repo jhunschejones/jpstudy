@@ -30,6 +30,7 @@ class User < ApplicationRecord
 
   has_many :words, dependent: :delete_all, inverse_of: :user
   has_many :kanji, dependent: :delete_all, inverse_of: :user
+  has_many :memos, dependent: :delete_all, inverse_of: :user
 
   before_destroy :clean_up_square_data
 
@@ -127,7 +128,7 @@ class User < ApplicationRecord
     # This is where logic will live for resource sharing (READ) permissions.
     #
     # So far the possible values for `resource_name` are `:kanji`, `:words`,
-    # and `:stats`.
+    # `:memos` and `:stats`.
     #
     # NOTE: remove public routes from the `secure_behind_subscription` before_filter
     # when enabling this feature

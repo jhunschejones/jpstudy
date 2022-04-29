@@ -14,6 +14,10 @@
   <%= heroicon "volume-up" %>
   <small class="icon-subtext">Audio</small>
 <% end %>
+<%= link_to(@current_user ? memos_path(@current_user) : login_path(destination: "R7"), id: "memos-link") do %>
+  <%= heroicon "document-text" %>
+  <small class="icon-subtext">Memos</small>
+<% end %>
 <%= link_to(@current_user ? stats_user_path(@current_user) : login_path(destination: "R04"), id: "user-stats-link") do %>
   <%= heroicon "presentation-chart-bar" %>
   <small class="icon-subtext">Stats</small>

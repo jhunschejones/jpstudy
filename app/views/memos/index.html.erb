@@ -1,0 +1,24 @@
+<div class="memos-page">
+  <h1 class="page-title">
+    Study memos
+    <%#= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>
+      <%#= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
+    <%# end %>
+  </h1>
+
+  <p class="light-gray head-explanation">
+    A little scratch pad to keep notes about your studying 📝
+  </p>
+
+  <div class="memo-form">
+    <%= form_with(model: @memo, url: memo_path(@resource_owner, @memo)) do |form| %>
+      <div class="field">
+        <%= form.rich_text_area :content %>
+      </div>
+
+      <div class="field">
+        <%= form.submit "Save memos", class: "button-blue" %>
+      </div>
+    <% end %>
+  </div>
+</div>

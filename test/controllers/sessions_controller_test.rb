@@ -88,6 +88,9 @@ class SessionsControllerTest < ApplicationControllerTestCase
 
       post login_path, params: { email: users(:carl).email, password: "secret_secret", destination: "R06" }
       assert_redirected_to user_path(users(:carl))
+
+      post login_path, params: { email: users(:carl).email, password: "secret_secret", destination: "R07" }
+      assert_redirected_to memos_path(users(:carl))
     end
 
     it "protects against brute force attacks" do

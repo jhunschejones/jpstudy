@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
     "R04" => :user_stats,
     "R05" => :io,
     "R06" => :user_profile,
+    "R07" => :memos
   }.freeze
 
   skip_before_action :authenticate_user
@@ -72,6 +73,8 @@ class SessionsController < ApplicationController
       redirect_to in_out_user_path(user)
     when :user_profile
       redirect_to user
+    when :memos
+      redirect_to memos_path(user)
     else
       redirect_to session.delete(:return_to) || words_path(user.username)
     end

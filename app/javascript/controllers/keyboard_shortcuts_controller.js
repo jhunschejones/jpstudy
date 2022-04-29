@@ -63,7 +63,7 @@ export default class extends Controller {
       }
     }
 
-    const focusedInputFieldsArePresent = document.querySelectorAll("input:focus,textarea:focus").length > 0;
+    const focusedInputFieldsArePresent = document.querySelectorAll("input:focus,textarea:focus,trix-editor:focus").length > 0;
     if (focusedInputFieldsArePresent) {
       // If we've got a form up with a field in focus, don't execute any more shortcuts
       return;
@@ -112,6 +112,9 @@ export default class extends Controller {
     }
     if (this.keysPressed["a"]) {
       return Turbo.visit("/media_tools/audio");
+    }
+    if (this.keysPressed["m"]) {
+      return document.getElementById("memos-link").click();
     }
   }
 }

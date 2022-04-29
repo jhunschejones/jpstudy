@@ -1,6 +1,8 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
+import "trix"
+import "@rails/actiontext"
 
 // https://github.com/hotwired/turbo/issues/294#issuecomment-877842232
 // document.addEventListener("turbo:before-fetch-request", (event) => {

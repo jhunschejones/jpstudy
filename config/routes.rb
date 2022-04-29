@@ -68,6 +68,8 @@ Rails.application.routes.draw do
     end
     # This is really the only way to make these routes play nice
     delete "/kanji/:id", to: "kanji#destroy", as: :delete_kanji
+
+    resources :memos, only: [:index, :update]
   end
 
   resources :media_tools, only: [] do

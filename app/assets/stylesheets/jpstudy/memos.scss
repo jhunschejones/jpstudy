@@ -1,0 +1,15 @@
+.memos-page {
+  .head-explanation {
+    font-size: 0.9em;
+    margin: 6px 0px 30px 0px;
+  }
+  .memo-form {
+    #memo_content {
+      min-height: 50vh;
+      height: fit-content;
+    }
+   .field {
+      margin-bottom: 12px;
+    }
+  }
+}
