@@ -8,7 +8,7 @@ if Rails.env.production?
   Rails.application.config.content_security_policy do |policy|
     policy.default_src     :none
     policy.font_src        :self, "https://fonts.gstatic.com"
-    policy.img_src         :self
+    policy.img_src         :self, :data
     policy.object_src      :none
     policy.script_src      :self, "https://js-agent.newrelic.com", "https://bam.nr-data.net"
     policy.style_src       :self, "https://fonts.googleapis.com", :unsafe_inline # TODO: remove unsafe_inline after https://github.com/hotwired/turbo/issues/294#issuecomment-877842232
