@@ -78,19 +78,13 @@ class SessionsControllerTest < ApplicationControllerTestCase
       assert_redirected_to next_kanji_path(users(:carl))
 
       post login_path, params: { email: users(:carl).email, password: "secret_secret", destination: "R03" }
-      assert_redirected_to search_words_path(users(:carl))
+      assert_redirected_to memos_path(users(:carl))
 
       post login_path, params: { email: users(:carl).email, password: "secret_secret", destination: "R04" }
       assert_redirected_to stats_user_path(users(:carl))
 
       post login_path, params: { email: users(:carl).email, password: "secret_secret", destination: "R05" }
       assert_redirected_to in_out_user_path(users(:carl))
-
-      post login_path, params: { email: users(:carl).email, password: "secret_secret", destination: "R06" }
-      assert_redirected_to user_path(users(:carl))
-
-      post login_path, params: { email: users(:carl).email, password: "secret_secret", destination: "R07" }
-      assert_redirected_to memos_path(users(:carl))
     end
 
     it "protects against brute force attacks" do

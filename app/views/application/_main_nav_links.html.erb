@@ -6,15 +6,11 @@
   <%= heroicon "puzzle" %>
   <small class="icon-subtext">Kanji</small>
 <% end %>
-<%= link_to(@current_user ? search_words_path(@current_user) : login_path(destination: "R03"), id: "word-search-link") do %>
-  <%= heroicon "search", variant: :outline %>
-  <small class="icon-subtext">Search</small>
-<% end %>
 <%= link_to(audio_media_tools_path) do %>
   <%= heroicon "volume-up" %>
   <small class="icon-subtext">Audio</small>
 <% end %>
-<%= link_to(@current_user ? memos_path(@current_user) : login_path(destination: "R7"), id: "memos-link") do %>
+<%= link_to(@current_user ? memos_path(@current_user) : login_path(destination: "R3"), id: "memos-link") do %>
   <%= heroicon "document-text" %>
   <small class="icon-subtext">Memos</small>
 <% end %>
@@ -30,7 +26,9 @@
   <%= heroicon "heart" %>
   <small class="icon-subtext">About</small>
 <% end %>
-<%= link_to(@current_user ? @current_user : login_path(destination: "R06")) do %>
-  <%= heroicon "user-circle" %>
-  <small class="icon-subtext">Profile</small>
+<% if @current_user %>
+  <%= link_to(@current_user) do %>
+    <%= heroicon "user-circle" %>
+    <small class="icon-subtext">Profile</small>
+  <% end %>
 <% end %>

@@ -5,7 +5,7 @@
   <% end %>
 
   <%= turbo_stream.replace "new-word-form" do %>
-    <%= render "words/new_word_button" %>
+    <%= render "words/word_actions" %>
   <% end %>
 
   <%= turbo_stream.remove "no-words-message" %>

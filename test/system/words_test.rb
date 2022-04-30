@@ -102,7 +102,7 @@ class WordsTest < ApplicationSystemTestCase
       login(users(:carl))
       assert_selector "h1", text: "Words"
 
-      click_on "New word"
+      page.find(".new-word-button").click
 
       # confirm form was loaded with turbo on the same page
       assert_selector "h1", text: "Words"

@@ -127,7 +127,7 @@
   margin-top: -36px;
   .group-button {
     @extend .basic-button;
-    padding: 6px 12px !important;
+    padding: 5px 12px !important;
     border-width: 1px;
     .create-word-button-icon {
       margin: 0px -3px 0 1px;
@@ -396,8 +396,14 @@
           outline-color: #3B82F6;
         }
       }
-      input[type="submit"] {
+      .actions {
         margin-top: 18px;
+        display: inline-flex;
+        input[type="submit"], a {
+          &:not(:last-child) {
+            margin-right: 8px;
+          }
+        }
       }
     }
   }

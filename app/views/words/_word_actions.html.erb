@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "new-word-form" do %>
+  <div class="word-actions">
+    <% if @current_user&.can_modify_resources_belonging_to?(@resource_owner) %>
+      <%= link_to(new_word_path(@resource_owner), class: "group-button new-word-button", title: "Add a new word") do %>
+        <%= heroicon "document-add", variant: :outline, options: { class: "create-word-button-icon" } %>
+      <% end %>
+      <%= link_to(search_words_path(@resource_owner), class: "group-button word-search-button", title: "Search for a word", data: { turbo: false } ) do %>
+        <%= heroicon "search", variant: :outline %>
+      <% end %>
+    <% else %>
+      <%= link_to(search_words_path(@resource_owner), class: "basic-button word-search-button", title: "Search for a word", data: { turbo: false } ) do %>
+        <%= heroicon "search", variant: :outline %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

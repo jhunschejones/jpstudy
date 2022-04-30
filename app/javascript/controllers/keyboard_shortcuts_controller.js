@@ -90,13 +90,16 @@ export default class extends Controller {
       return Turbo.visit(`${window.location}?filter=cards_not_created&order=oldest_first`);
     }
     if (this.keysPressed["n"]) {
-      const newWordBtton = document.querySelector("#new-word-form .new-word");
+      const newWordBtton = document.querySelector("#new-word-form .new-word-button");
       if (newWordBtton) {
         return newWordBtton.click();
       }
     }
     if (this.keysPressed["f"]) {
-      return document.getElementById("word-search-link").click();
+      const wordSearchButton = document.querySelector(".word-search-button");
+      if (wordSearchButton) {
+        return wordSearchButton.click();
+      }
     }
     if (this.keysPressed["i"] || this.keysPressed["e"]) {
       return document.querySelector(".in-out-link").click();

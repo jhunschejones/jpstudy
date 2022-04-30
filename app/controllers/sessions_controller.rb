@@ -3,11 +3,9 @@ class SessionsController < ApplicationController
   ALLOWED_DESTINATIONS = {
     "R01" => :words,
     "R02" => :kanji,
-    "R03" => :word_search,
+    "R03" => :memos,
     "R04" => :user_stats,
     "R05" => :io,
-    "R06" => :user_profile,
-    "R07" => :memos
   }.freeze
 
   skip_before_action :authenticate_user
@@ -65,16 +63,12 @@ class SessionsController < ApplicationController
       redirect_to words_path(user)
     when :kanji
       redirect_to next_kanji_path(user)
-    when :word_search
-      redirect_to search_words_path(user)
+    when :memos
+      redirect_to memos_path(user)
     when :user_stats
       redirect_to stats_user_path(user)
     when :io
       redirect_to in_out_user_path(user)
-    when :user_profile
-      redirect_to user
-    when :memos
-      redirect_to memos_path(user)
     else
       redirect_to session.delete(:return_to) || words_path(user.username)
     end
