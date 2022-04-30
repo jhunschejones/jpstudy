@@ -114,9 +114,35 @@
   }
 }
 
-.new-word {
+// Old, single button
+.old-single-new-word-button {
   float: right;
   margin-top: -36px;
+}
+
+// New button group
+.word-actions {
+  display: flex;
+  float: right;
+  margin-top: -36px;
+  .group-button {
+    @extend .basic-button;
+    padding: 6px 12px !important;
+    border-width: 1px;
+    .create-word-button-icon {
+      margin: 0px -3px 0 1px;
+    }
+    &:first-child {
+      border-radius: 0.6em 0 0 0.6em;
+    }
+    &:last-child {
+      border-radius: 0 0.6em 0.6em 0;
+    }
+    &:hover {
+      border-color: #d1d5db;
+      background-color: #d1d5db;
+    }
+  }
 }
 
 .word {
