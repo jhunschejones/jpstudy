@@ -11,16 +11,16 @@
   </p>
 
   <div class="memo-form" data-controller="memo">
-    <%= form_with(model: @memo, url: memo_path(@resource_owner, @memo)) do |form| %>
+    <%= form_with(model: @memo, url: memo_path(@resource_owner, @memo), data: { memo_target: "form" }) do |form| %>
       <div class="field">
         <%= form.rich_text_area :content, data: { memo_target: "content" } %>
       </div>
 
       <div class="field">
         <p class="light-gray auto-save-message">
-          <small>(Auto-saves after 10s)</small>
+          <small>(Auto-saves after 5s)</small>
         <p>
-        <%= form.submit "Save memos", class: "button-blue", data: { memo_target: "saveButton", controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
+        <%= form.submit "Save memos", class: "button-blue", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
       </div>
     <% end %>
   </div>

@@ -11,9 +11,14 @@ class MemosController < ApplicationController
 
   def update
     @memo.update!(memo_params)
-    flash[:hide_in_ms] = 1800
-    flash[:success] = "Memos saved 🎉"
-    redirect_to memos_path(@resource_owner)
+    respond_to do |format|
+      format.html do
+        flash[:hide_in_ms] = 1800
+        flash[:success] = "Memos saved 🎉"
+        redirect_to memos_path(@resource_owner)
+      end
+      format.json { head :ok }
+    end
   end
 
   private
