@@ -8,8 +8,12 @@
       min-height: 50vh;
       height: fit-content;
     }
-   .field {
+    .field {
       margin-bottom: 12px;
+    }
+    .auto-save-message {
+      float: right;
+      margin: -12px 0 0 0;
     }
   }
 }
