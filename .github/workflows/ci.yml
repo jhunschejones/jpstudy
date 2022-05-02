@@ -38,7 +38,7 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v2
     - name: Install cURL
-      run: sudo apt-get install libcurl4-openssl-dev
+      run: sudo apt-get update && apt-get install libcurl4-openssl-dev
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -100,7 +100,7 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v2
     - name: Install cURL
-      run: sudo apt-get install libcurl4-openssl-dev
+      run: sudo apt-get update && apt-get install libcurl4-openssl-dev
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
