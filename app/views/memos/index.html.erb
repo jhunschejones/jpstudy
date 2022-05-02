@@ -1,9 +1,6 @@
 <div class="memos-page">
   <h1 class="page-title">
     Study memos
-    <%#= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>
-      <%#= heroicon "information-circle", variant: :outline, options: { class: "info-icon" } %>
-    <%# end %>
   </h1>
 
   <p class="light-gray head-explanation">
@@ -20,7 +17,7 @@
         <p class="light-gray auto-save-message">
           <small>(Auto-saves after 5s)</small>
         <p>
-        <%= form.submit "Save memos", class: "button-blue", data: { controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
+        <%= form.submit "Save changes", class: "button-blue", data: { memo_target: "saveButton", controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
       </div>
     <% end %>
   </div>
