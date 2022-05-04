@@ -45,13 +45,15 @@
       </span>
     <% end %>
   <% end %>
-  <span class="light-gray">
-    <small>
-      <% if @matching_words_count == 1 %>
-        (1 word matches)
-      <% else %>
-        (<%= @matching_words_count %> words match)
-      <% end %>
-    </small>
-  </span>
+  <% if filter_params.except(:order).keys.any? %>
+    <span class="light-gray">
+      <small>
+        <% if @matching_words_count == 1 %>
+          (1 word matches)
+        <% else %>
+          (<%= @matching_words_count %> words match)
+        <% end %>
+      </small>
+    </span>
+  <% end %>
 </div>
