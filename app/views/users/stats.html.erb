@@ -26,7 +26,7 @@
           <% elsif @current_user.has_reached_or_exceeded_daily_word_target? %>
             <% word_count_class = "success-green" %>
           <% else %>
-            <% word_count_class = "notice-orange" %>
+            <% word_count_class = "pink" %>
           <% end %>
           <strong class="<%= word_count_class %>">
             <%= @words_with_cards_created_today %>
@@ -102,7 +102,7 @@
           <% elsif @current_user.has_reached_or_exceeded_daily_kanji_target? %>
             <% kanji_count_class = "success-green" %>
           <% else %>
-            <% kanji_count_class = "notice-orange" %>
+            <% kanji_count_class = "pink" %>
           <% end %>
           <span class="light-gray">Kanji added today:</span>
           <strong class="<%= kanji_count_class %>">
