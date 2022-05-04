@@ -29,6 +29,7 @@ class WordsController < ApplicationController
       @words = @words.where("source_name ILIKE :source_name", source_name: "%#{filter_params[:source_name][0..MAX_SEARCH_LENGTH - 1]}%")
     end
 
+    @matching_words_count = @words.count
     @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
     # Calling `.to_a` at the end here executes the query before calling `.size`. If we don't do it in
     # this order, an extra SQL COUNT query gets run here before the Word Load query.
