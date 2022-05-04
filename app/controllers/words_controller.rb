@@ -25,6 +25,9 @@ class WordsController < ApplicationController
       @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH - 1]}%")
     end
     @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
+    if filter_params[:source_name]
+      @words = @words.where("source_name ILIKE :source_name", source_name: "%#{filter_params[:source_name][0..MAX_SEARCH_LENGTH - 1]}%")
+    end
 
     @words = @words.offset(@offset).limit(WORDS_PER_PAGE)
     # Calling `.to_a` at the end here executes the query before calling `.size`. If we don't do it in
@@ -225,7 +228,7 @@ class WordsController < ApplicationController
 
   def filter_params
     params
-      .permit(:filter, :search, :page, :order)
+      .permit(:filter, :search, :page, :order, :source_name)
       .each_value { |value| value.try(:strip!) }
   end
 end

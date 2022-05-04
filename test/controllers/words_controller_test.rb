@@ -20,6 +20,36 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_response :success
       assert_select ".page-title", "Words"
     end
+
+    it "filters results by source_name" do
+      login(users(:carl))
+      get words_path(users(:carl), source_name: "FF 625")
+      assert_response :success
+      assert_select ".word", count: 2
+    end
+
+    it "filters results by search" do
+      login(users(:carl))
+      get words_path(users(:carl), search: "short")
+      assert_response :success
+      assert_select ".word", count: 2
+    end
+
+    it "respects order param when oldest_first" do
+      login(users(:carl))
+      get words_path(users(:carl), order: "oldest_first")
+      assert_response :success
+      assert_select ".word" do |words|
+        assert_select words.first, ".japanese", text: "形容詞"
+      end
+    end
+
+    it "filters results to words without cards" do
+      login(users(:carl))
+      get words_path(users(:carl), filter: "cards_not_created")
+      assert_response :success
+      assert_select ".word", count: 2
+    end
   end
 
   describe "#search" do

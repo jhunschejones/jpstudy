@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "wordCard" ]
+  static targets = [ "wordCard", "sourceNameLink" ]
 
   static values = {
     cardsCreated: Boolean,
@@ -22,10 +22,22 @@ export default class extends Controller {
       this.element.classList.toggle("hide-modify-buttons", false);
     }
 
+    // Using a placeholder DOM element to determine whether turbo should be used for delete
     const deleteWithoutTurbo = document.querySelector(`.word-${this.wordIdValue}-delete-without-turbo`);
     if (deleteWithoutTurbo) {
       deleteWithoutTurbo.parentNode.removeChild(deleteWithoutTurbo);
       document.querySelector(`#word_${this.wordIdValue} .delete button`).dataset["turbo"] = false;
+    }
+
+    // Update source name link to include page filter params
+    if (this.hasSourceNameLinkTarget) {
+      const pageFilterParams = new URLSearchParams(window.location.search);
+      const sourceNameUrl = new URL(this.sourceNameLinkTarget.href);
+      const sourceName = new URLSearchParams(sourceNameUrl.search).get("source_name");
+
+      pageFilterParams.set("source_name", sourceName);
+      sourceNameUrl.search = pageFilterParams.toString();
+      this.sourceNameLinkTarget.href = sourceNameUrl.toString();
     }
 
     // === ONLY RUN THE LOGIC BELOW THIS CHECK ON THE WORDS LIST PAGE ===

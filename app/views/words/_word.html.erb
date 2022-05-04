@@ -14,12 +14,12 @@
     data-last-update="<%= Time.now.utc %>"
   >
     <div class="delete">
-      <%= button_to(word_path(@current_user, word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" }) do %>
+      <%= button_to(word_path(@resource_owner, word), method: :delete, data: { controller: "confirmation", confirmation_message_value: "Are you sure you want to delete '#{word.japanese}'? This action is permanent and cannot be undone.", action: "confirmation#confirm" }) do %>
         <%= heroicon "trash", variant: :outline %>
       <% end %>
     </div>
     <div class="edit">
-      <%= link_to(edit_word_path(@current_user, word)) do %>
+      <%= link_to(edit_word_path(@resource_owner, word)) do %>
         <%= heroicon "pencil-alt", variant: :outline %>
       <% end %>
     </div>
@@ -32,7 +32,7 @@
       </div>
     <% end %>
     <div class="cards-created">
-      <%= button_to(word_toggle_card_created_path(@current_user, word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+      <%= button_to(word_toggle_card_created_path(@resource_owner, word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
         <% if word.cards_created? %>
           <span title="Cards created">
             <%= heroicon "check", options: { class: "checked" } %>
@@ -58,7 +58,11 @@
       <% if word.source_name.present? %>
         <span class="source-name">
           <span class="large-only">from </span>
-          <%= word.source_name %><%= word.source_reference.present? ? "," : "" %>
+          <%= link_to(
+            word.source_name,
+            words_path(@resource_owner, source_name: word.source_name),
+            data: { turbo: false, word_target: "sourceNameLink" }
+          ) %><%= word.source_reference.present? ? "," : "" %>
         </span>
         <span class="source-reference"><%= word.source_reference %></span>
       <% end %>

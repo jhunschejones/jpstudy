@@ -89,7 +89,8 @@
       padding-left: 6px;
     }
     .filter-on svg,
-    .search-results svg {
+    .search-results svg,
+    .source-name-filter svg {
       @extend .purple;
     }
     .filter-off svg {
@@ -259,6 +260,10 @@
       .large-only {
         display: none;
       }
+    }
+    .source-name a {
+      color: #9CA3AF;
+      text-decoration: none;
     }
   }
   .resources {
