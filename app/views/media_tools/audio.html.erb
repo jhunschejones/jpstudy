@@ -50,7 +50,10 @@
         <% end %>
         <button class="copy-audio-link-button" data-action="click->clipboard#copy" title="Click to copy audio link">
           <%= heroicon "clipboard", variant: :outline, options: { class: "copy-icon", "data-clipboard-target" => "copyIcon" } %>
-          <%= heroicon "check", variant: :outline, options: { class: "copied-icon hidden", "data-clipboard-target" => "checkIcon" } %>
+          <span class="tooltip-target">
+            <%= heroicon "check", variant: :outline, options: { class: "copied-icon hidden", "data-clipboard-target" => "checkIcon" } %>
+            <span class="tooltip-text" data-clipboard-target="tooltipText">Copied!</span>
+          </span>
         </button>
       </div>
 

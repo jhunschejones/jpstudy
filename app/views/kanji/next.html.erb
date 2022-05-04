@@ -15,7 +15,10 @@
       <div class="next-kanji-card">
         <button class="copy-kanji-button" data-action="click->clipboard#copy" title="Click to copy character">
           <%= heroicon "clipboard", variant: :outline, options: { class: "copy-kanji-icon", "data-clipboard-target" => "copyIcon" } %>
-          <%= heroicon "check", variant: :outline, options: { class: "kanji-copied-icon hidden", "data-clipboard-target" => "checkIcon" } %>
+          <span class="tooltip-target">
+            <%= heroicon "check", variant: :outline, options: { class: "kanji-copied-icon hidden", "data-clipboard-target" => "checkIcon" } %>
+            <span class="tooltip-text" data-clipboard-target="tooltipText">Copied!</span>
+          </span>
         </button>
         <span class="character">
           <%= @next_kanji.character %>
