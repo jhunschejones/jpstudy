@@ -73,6 +73,29 @@ class WordsControllerTest < ApplicationControllerTestCase
     end
   end
 
+  describe "#count" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get count_words_path(users(:elemouse), filter: "cards_not_created")
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "does not return the word count for another user" do
+      login(users(:daisy))
+      get count_words_path(users(:carl), filter: "cards_not_created")
+      assert_response :not_found
+    end
+
+    it "returns the users word count taking into account filter params" do
+      login(users(:carl))
+      get count_words_path(users(:carl), filter: "cards_not_created")
+      assert_response :success
+      json_response = JSON.parse(response.body)
+      expected_count = users(:carl).words.cards_not_created.count
+      assert_equal expected_count, json_response["wordsCount"]
+    end
+  end
+
   describe "#show" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))

@@ -50,6 +50,7 @@ Rails.application.routes.draw do
         get :download
         delete :destroy_all
         get :search
+        get :count
       end
     end
 

@@ -8,7 +8,7 @@ class WordsController < ApplicationController
   WORDS_PER_PAGE = 10
   MAX_SEARCH_LENGTH = 30
   WORD_BATCH_SIZE = 1000
-  READ_ACTIONS = [:index, :show, :search, :export, :download]
+  READ_ACTIONS = [:index, :count, :show, :search, :export, :download]
 
   before_action :secure_behind_subscription # except: READ_ACTIONS # Turn on for public resource feature
   before_action ->{ protect_user_scoped_read_actions_for(:words) }, only: READ_ACTIONS
@@ -24,7 +24,9 @@ class WordsController < ApplicationController
     if filter_params[:search]
       @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH - 1]}%")
     end
-    @words = @words.cards_not_created if filter_params[:filter] == "cards_not_created"
+    if filter_params[:filter] == "cards_not_created"
+      @words = @words.cards_not_created
+    end
     if filter_params[:source_name]
       @words = @words.where("source_name ILIKE :source_name", source_name: "%#{filter_params[:source_name][0..MAX_SEARCH_LENGTH - 1]}%")
     end
@@ -34,6 +36,21 @@ class WordsController < ApplicationController
     # Calling `.to_a` at the end here executes the query before calling `.size`. If we don't do it in
     # this order, an extra SQL COUNT query gets run here before the Word Load query.
     @next_page = @page + 1 if @words.to_a.size == WORDS_PER_PAGE
+  end
+
+  def count
+    @words = @resource_owner.words
+    if filter_params[:search]
+      @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH - 1]}%")
+    end
+    if filter_params[:filter] == "cards_not_created"
+      @words = @words.cards_not_created
+    end
+    if filter_params[:source_name]
+      @words = @words.where("source_name ILIKE :source_name", source_name: "%#{filter_params[:source_name][0..MAX_SEARCH_LENGTH - 1]}%")
+    end
+
+    render json: { "wordsCount" => @words.count }.to_json
   end
 
   def search

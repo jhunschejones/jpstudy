@@ -40,7 +40,7 @@ export default class extends Controller {
           }
           // say something if the form was unable to be submitted
           console.warn("autoSave() failed");
-        })
+        });
       }, 5000);
     }
   }

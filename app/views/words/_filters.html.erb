@@ -46,8 +46,9 @@
     <% end %>
   <% end %>
   <% if filter_params.except(:order).keys.any? %>
-    <span class="light-gray">
-      <small>
+    <%# updated dynamically in app/javascript/controllers/words_counter_controller.js %>
+    <span class="light-gray" data-controller="words-counter">
+      <small data-words-counter-target="count">
         <% if @matching_words_count == 1 %>
           (1 word matches)
         <% else %>
