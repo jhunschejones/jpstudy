@@ -28,6 +28,13 @@
       <%= form.text_area :note, rows: 3, cols: 32, data: { lpignore: true } %>
     </div>
 
+    <% if word.added_to_list_at %>
+      <div class="form-field">
+        <%= form.label :added_to_list_at %>
+        <%= form.date_field :added_to_list_at, maxlength: 10, minlength: 6,  autocomplete: "off", data: { lpignore: true } %>
+      </div>
+    <% end %>
+
     <% if word.cards_created_at %>
       <div class="form-field">
         <%= form.label :cards_created_at %>
