@@ -36,6 +36,9 @@
       display: inline;
       margin-left: 5px;
     }
+    ::placeholder {
+      color: #d1d5db; // one step lighter than .light-gray
+    }
     .actions {
       padding-top: 4px;
       input, a {
