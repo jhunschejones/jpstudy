@@ -4,6 +4,7 @@
     data-controller="word"
     data-word-word-id-value="<%= word.id %>"
     data-word-checked-off-value="<%= word.checked_off? %>"
+    data-word-starred-value="<%= word.starred? %>"
     data-word-japanese-word-value="<%= word.japanese %>"
     data-word-english-word-value="<%= word.english %>"
     data-word-added-at-value="<%= word.added_to_list_at %>"
@@ -31,6 +32,19 @@
         </div>
       </div>
     <% end %>
+    <div class="starred">
+      <%= button_to(word_toggle_starred_path(@resource_owner, word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+        <% if word.starred? %>
+          <span title="Starred">
+            <%= heroicon "star", options: { class: "starred" } %>
+          </span>
+        <% else %>
+          <span title="Not starred yet">
+            <%= heroicon "star", variant: :outline, options: { class: "not-starred" } %>
+          </span>
+        <% end %>
+      <% end %>
+    </div>
     <div class="checked-off">
       <%= button_to(word_toggle_checked_off_path(@resource_owner, word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
         <% if word.checked_off? %>

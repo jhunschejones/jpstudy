@@ -5,6 +5,7 @@ export default class extends Controller {
 
   static values = {
     checkedOff: Boolean,
+    starred: Boolean,
     japaneseWord: String,
     englishWord: String,
     addedAt: String,
@@ -47,7 +48,7 @@ export default class extends Controller {
     }
 
     // Only filter in JS if this is a new word added to the word list by turbo_stream
-    // or the checked_off toggle is pressed and responded to by turbo_stream
+    // or a toggle request is responded to by turbo_stream
     const sentViaTurbostream = document.querySelector(`.word-${this.wordIdValue}-sent-via-turbostream`);
     if (sentViaTurbostream) {
       sentViaTurbostream.parentNode.removeChild(sentViaTurbostream);
@@ -65,7 +66,11 @@ export default class extends Controller {
     const thisTurboFrame = this.wordCardTarget.closest("turbo-frame");
 
     // Apply checked off created filter
-    if (this.filterWordsCheckedOff() && this.checkedOff()) {
+    if (this.filterToOnlyWordsNotCheckedOff() && this.checkedOff()) {
+      return thisTurboFrame.parentNode.removeChild(thisTurboFrame);
+    }
+    // Apply starred created filter
+    if (this.filterToOnlyStarredWords() && !this.starred()) {
       return thisTurboFrame.parentNode.removeChild(thisTurboFrame);
     }
     // Apply search filter
@@ -82,12 +87,20 @@ export default class extends Controller {
 
   // === Private ===
 
-  filterWordsCheckedOff() {
+  filterToOnlyWordsNotCheckedOff() {
     return new URLSearchParams(location.search).get("filter") === "not_checked_off";
   }
 
   checkedOff() {
     return this.checkedOffValue;
+  }
+
+  filterToOnlyStarredWords() {
+    return new URLSearchParams(location.search).get("starred") === "true";
+  }
+
+  starred() {
+    return this.starredValue;
   }
 
   searchFilter() {

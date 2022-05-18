@@ -4,7 +4,7 @@ class WordsController < ApplicationController
   include DateParsing
 
   ORDERED_CSV_FIELDS = [:english, :japanese, :source_name, :source_reference,
-    :checked_off, :checked_off_on, :added_to_list_on, :note]
+    :starred, :checked_off, :checked_off_on, :added_to_list_on, :note]
   WORDS_PER_PAGE = 10
   MAX_SEARCH_LENGTH = 30
   WORD_BATCH_SIZE = 1000
@@ -13,7 +13,7 @@ class WordsController < ApplicationController
   before_action :secure_behind_subscription # except: READ_ACTIONS # Turn on for public resource feature
   before_action ->{ protect_user_scoped_read_actions_for(:words) }, only: READ_ACTIONS
   before_action :protect_user_scoped_modify_actions, except: READ_ACTIONS
-  before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_checked_off]
+  before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_checked_off, :toggle_starred]
 
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
@@ -26,6 +26,9 @@ class WordsController < ApplicationController
     end
     if filter_params[:filter] == "not_checked_off"
       @words = @words.not_checked_off
+    end
+    if filter_params[:starred] == "true"
+      @words = @words.where(starred: true)
     end
     if filter_params[:source_name]
       @words = @words.where("source_name ILIKE :source_name", source_name: "%#{filter_params[:source_name][0..MAX_SEARCH_LENGTH - 1]}%")
@@ -45,6 +48,9 @@ class WordsController < ApplicationController
     end
     if filter_params[:filter] == "not_checked_off"
       @words = @words.not_checked_off
+    end
+    if filter_params[:starred] == "true"
+      @words = @words.where(starred: true)
     end
     if filter_params[:source_name]
       @words = @words.where("source_name ILIKE :source_name", source_name: "%#{filter_params[:source_name][0..MAX_SEARCH_LENGTH - 1]}%")
@@ -128,6 +134,14 @@ class WordsController < ApplicationController
     end
   end
 
+  def toggle_starred
+    @word.update!(starred: !@word.starred?)
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to word_path(@current_user, @word) }
+    end
+  end
+
   def import
   end
 
@@ -152,16 +166,18 @@ class WordsController < ApplicationController
       japanese = row[1]
       source_name = row[2].presence
       source_reference = row[3].presence
-      checked_off = ["true", "t", "x", "yes", "y"].include?(row[4].downcase)
-      checked_off_at = row[5].presence && date_or_time_from(row[5])
-      added_to_list_at = row[6].presence && date_or_time_from(row[6])
-      note = row[7].presence
+      starred = ["true", "t", "x", "yes", "y"].include?(row[4]&.downcase)
+      checked_off = ["true", "t", "x", "yes", "y"].include?(row[5]&.downcase)
+      checked_off_at = row[6].presence && date_or_time_from(row[6])
+      added_to_list_at = row[7].presence && date_or_time_from(row[7])
+      note = row[8].presence
 
       if (word = Word.find_by(english: english, japanese: japanese, user: @current_user))
         if params[:overwrite_matching_words]
           words_updated += 1 if word.update(
             source_name: source_name,
             source_reference: source_reference,
+            starred: starred,
             checked_off: checked_off,
             checked_off_at: checked_off_at,
             added_to_list_at: added_to_list_at,
@@ -178,6 +194,7 @@ class WordsController < ApplicationController
         japanese: japanese,
         source_name: source_name,
         source_reference: source_reference,
+        starred: starred,
         checked_off: checked_off,
         checked_off_at: checked_off_at,
         added_to_list_at: added_to_list_at,
@@ -195,7 +212,7 @@ class WordsController < ApplicationController
       if params[:overwrite_matching_words]
         "#{words_updated} existing #{"word".pluralize(words_updated)} updated, #{words_added} new #{"word".pluralize(words_added)} imported."
       else
-        "#{words_added} new #{"word".pluralize(words_added)} imported, #{words_already_exist} #{"word".pluralize(words_already_exist)} already #{"exist".pluralize(words_added)}."
+        "#{words_added} new #{"word".pluralize(words_added)} imported, #{words_already_exist} #{"word".pluralize(words_already_exist)} already #{words_already_exist == 1 ? "exists" : "exist"}."
       end
     redirect_to in_out_user_path(@current_user)
   rescue InvalidDateOrTime => error
@@ -246,7 +263,7 @@ class WordsController < ApplicationController
 
   def filter_params
     params
-      .permit(:filter, :search, :page, :order, :source_name)
+      .permit(:filter, :search, :page, :order, :source_name, :starred)
       .each_value { |value| value.try(:strip!) }
   end
 end

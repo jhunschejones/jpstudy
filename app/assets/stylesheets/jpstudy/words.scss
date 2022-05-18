@@ -164,13 +164,14 @@
   &.hidden { display: none; }
 
   &.hide-modify-buttons {
-    .edit, .delete, .checked-off {
+    .edit, .delete, .starred, .checked-off {
       display: none;
     }
   }
 
   .delete button,
   .edit a,
+  .starred button,
   .checked-off button {
     background: none;
     border: none;
@@ -192,6 +193,9 @@
       }
       &.checked {
         @extend .success-green;
+      }
+      &.starred {
+        color: #fcd34d;
       }
     }
     &:disabled {
@@ -415,7 +419,7 @@
 }
 
 .skeleton-word {
-  .delete, .edit, .checked-off {
+  .delete, .edit, .starred, .checked-off {
     svg {
       user-select: none;
       cursor: default !important;

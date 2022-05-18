@@ -1,0 +1,6 @@
+<%= turbo_stream.prepend "words_1" do %>
+  <span class="hidden word-<%= @word.id %>-sent-via-turbostream"></span>
+<% end %>
+<%= turbo_stream.replace @word do %>
+  <%= render partial: "words/word", locals: { word: @word } %>
+<% end %>

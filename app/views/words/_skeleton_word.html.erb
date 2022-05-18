@@ -11,6 +11,13 @@
       <%= heroicon "pencil-alt", variant: :outline %>
     </a>
   </div>
+  <div class="starred">
+    <button disabled>
+      <span title="Not checked off yet">
+        <%= heroicon "star", variant: :outline, options: { class: "not-starred" } %>
+      </span>
+    </button>
+  </div>
   <div class="checked-off">
     <button disabled>
       <span title="Not checked off yet">

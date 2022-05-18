@@ -32,16 +32,31 @@
   <% end %>
   <% if params[:filter] == "not_checked_off" %>
     <%= link_to words_path(@resource_owner, filter_params_minus(:filter)), title: "Only showing words not checked off, click to disable filter", class: "filter-on" do %>
-      <%= heroicon "adjustments" %> <%# gets flipped in CSS %>
+      <%= heroicon "plus" %>
       <span class="filter-description">
-        Not checked off
+        Unchecked
       </span>
     <% end %>
   <% else %>
-    <%= link_to words_path(@resource_owner, filter_params_plus(filter: "not_checked_off")), title: "No 'checked off' applied, click to only show words that have not been checked off", class: "filter-off" do %>
-      <%= heroicon "adjustments" %>
+    <%= link_to words_path(@resource_owner, filter_params_plus(filter: "not_checked_off")), title: "No 'checked off' filter applied, click to only show words that have not been checked off", class: "filter-off" do %>
+      <%= heroicon "check" %>
       <span class="filter-description">
-        Unfiltered
+        No check filter
+      </span>
+    <% end %>
+  <% end %>
+  <% if params[:starred] == "true" %>
+    <%= link_to words_path(@resource_owner, filter_params_minus(:starred)), title: "Only showing starred words, click to disable filter", class: "filter-on" do %>
+      <%= heroicon "star" %>
+      <span class="filter-description">
+        Starred
+      </span>
+    <% end %>
+  <% else %>
+    <%= link_to words_path(@resource_owner, filter_params_plus(starred: "true")), title: "No 'starred' filter applied, click to only show words that have been stared", class: "filter-off" do %>
+      <%= heroicon "star", variant: :outline %>
+      <span class="filter-description">
+        No star filter
       </span>
     <% end %>
   <% end %>

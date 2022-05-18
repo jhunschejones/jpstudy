@@ -375,6 +375,45 @@ class WordsControllerTest < ApplicationControllerTestCase
     end
   end
 
+  describe "#toggle_starred" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      assert_no_changes "Word.find(words(:形容詞).id).starred" do
+        post word_toggle_starred_path(users(:elemouse), words(:形容詞))
+      end
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "prevents users from modifying other users words" do
+      login(users(:daisy))
+      assert_no_changes "Word.find(words(:形容詞).id).starred" do
+        post word_toggle_starred_path(users(:carl), words(:形容詞))
+      end
+      assert_response :not_found
+    end
+
+    it "toggles the starred attribute for the word" do
+      login(users(:carl))
+      assert_changes "Word.find(words(:形容詞).id).starred" do
+        post word_toggle_starred_path(users(:carl), words(:形容詞))
+      end
+    end
+
+    it "redirects the word details page for html requests" do
+      login(users(:carl))
+      post word_toggle_starred_path(users(:carl), words(:形容詞))
+      follow_redirect!
+      assert_select ".japanese", words(:形容詞).japanese
+    end
+
+    it "returns the updated word for turbo requests" do
+      login(users(:carl))
+      post word_toggle_starred_path(users(:carl), words(:形容詞), format: :turbo_stream)
+      assert_response :success
+      assert_select ".japanese", words(:形容詞).japanese
+    end
+  end
+
   describe "#import" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
@@ -449,6 +488,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       new_word = Word.find_by(japanese: "大人")
       assert_equal "adult", new_word.english
       assert_equal "FF 625", new_word.source_name
+      assert new_word.starred
       assert new_word.checked_off
       assert_equal users(:carl).id, new_word.user_id
       assert_equal "10/05/2020", new_word.added_to_list_on
