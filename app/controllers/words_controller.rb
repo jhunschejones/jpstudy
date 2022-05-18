@@ -5,6 +5,8 @@ class WordsController < ApplicationController
 
   ORDERED_CSV_FIELDS = [:english, :japanese, :source_name, :source_reference,
     :starred, :checked, :checked_on, :added_to_list_on, :note]
+  CSV_CONTENT_TYPE = "text/csv"
+  TRUTHY_CSV_VALUES = ["true", "t", "x", "yes", "y"]
   WORDS_PER_PAGE = 10
   MAX_SEARCH_LENGTH = 30
   WORD_BATCH_SIZE = 1000
@@ -149,7 +151,7 @@ class WordsController < ApplicationController
   end
 
   def upload
-    unless params[:csv_file]&.content_type == "text/csv"
+    unless params[:csv_file]&.content_type == CSV_CONTENT_TYPE
       return redirect_to import_words_path(@current_user), alert: "Missing CSV file or unsupported file format"
     end
 
@@ -166,8 +168,8 @@ class WordsController < ApplicationController
       japanese = row[1]
       source_name = row[2].presence
       source_reference = row[3].presence
-      starred = ["true", "t", "x", "yes", "y"].include?(row[4]&.downcase)
-      checked = ["true", "t", "x", "yes", "y"].include?(row[5]&.downcase)
+      starred = TRUTHY_CSV_VALUES.include?(row[4]&.downcase)
+      checked = TRUTHY_CSV_VALUES.include?(row[5]&.downcase)
       checked_at = row[6].presence && date_or_time_from(row[6])
       added_to_list_at = row[7].presence && date_or_time_from(row[7])
       note = row[8].presence
@@ -220,11 +222,12 @@ class WordsController < ApplicationController
   end
 
   def download
+    only_not_checked_words = params[:checked] == "false"
     csv = CSV.generate(headers: true) do |csv|
       csv << ORDERED_CSV_FIELDS # add headers
 
       words = @current_user.words.order(added_to_list_at: :asc).order(created_at: :asc)
-      words = words.not_checked if params[:checked] == "false"
+      words = words.not_checked if only_not_checked_words
 
       # manually grabbing ids to use in batch because `.find_each` does not respect ordering by a custom field
       word_ids = words.pluck(:id)
