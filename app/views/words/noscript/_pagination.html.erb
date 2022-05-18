@@ -9,7 +9,7 @@
     &nbsp;
   <% end %>
   <% if @next_page %>
-    <% params_plus_next_page = params.to_unsafe_hash.slice(:search, :filter).merge(page: @next_page) %>
+    <% params_plus_next_page = params.to_unsafe_hash.slice(:search, :checked).merge(page: @next_page) %>
     <%= link_to "#{@next_page} >", words_path(@current_user, filter_params_plus(page: @next_page)), class: "link-blue" %>
   <% end %>
 </noscript>

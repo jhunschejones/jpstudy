@@ -33,7 +33,7 @@ dev_user_2.update!(trial_ends_at: Time.now + 14.days)
 Word.create_with(
   source_name: "Minna No Nihongo",
   source_reference: "17",
-  checked_off: true,
+  checked: true,
   added_to_list_at: Time.now.utc - 5.minutes
 ).find_or_create_by!(
   japanese: "二日酔い",

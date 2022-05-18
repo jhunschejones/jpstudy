@@ -95,14 +95,14 @@ class UserTest < ActiveSupport::TestCase
       end
 
       it "returns true when user has reached daily word target" do
-        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_off_at: Time.now.utc)
+        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_at: Time.now.utc)
         assert users(:carl).has_reached_daily_word_target?
       end
 
       # To keep the flash message from continuing to show up if more words are added past the users target
       it "returns false when user has passed daily word target" do
-        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_off_at: Time.now.utc)
-        Word.create!(japanese: "お先に失礼します", english: "pardon me for leaving first", user: users(:carl), checked_off_at: Time.now.utc)
+        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_at: Time.now.utc)
+        Word.create!(japanese: "お先に失礼します", english: "pardon me for leaving first", user: users(:carl), checked_at: Time.now.utc)
         refute users(:carl).has_reached_daily_word_target?
       end
     end
@@ -123,13 +123,13 @@ class UserTest < ActiveSupport::TestCase
       end
 
       it "returns true when user has reached daily word target" do
-        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_off_at: Time.now.utc)
+        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_at: Time.now.utc)
         assert users(:carl).has_reached_or_exceeded_daily_word_target?
       end
 
       it "returns true when user has passed daily word target" do
-        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_off_at: Time.now.utc)
-        Word.create!(japanese: "お先に失礼します", english: "pardon me for leaving first", user: users(:carl), checked_off_at: Time.now.utc)
+        Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_at: Time.now.utc)
+        Word.create!(japanese: "お先に失礼します", english: "pardon me for leaving first", user: users(:carl), checked_at: Time.now.utc)
         assert users(:carl).has_reached_or_exceeded_daily_word_target?
       end
     end

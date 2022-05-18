@@ -52,7 +52,7 @@ module WordsHelper
   def filter_params
     params
       .to_unsafe_hash
-      .slice(:search, :filter, :order, :source_name, :starred)
+      .slice(:search, :checked, :order, :source_name, :starred)
       .each_value { |value| value.try(:strip!) }
   end
 end

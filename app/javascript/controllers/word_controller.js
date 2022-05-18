@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = [ "wordCard", "sourceNameLink" ]
 
   static values = {
-    checkedOff: Boolean,
+    checked: Boolean,
     starred: Boolean,
     japaneseWord: String,
     englishWord: String,
@@ -66,7 +66,7 @@ export default class extends Controller {
     const thisTurboFrame = this.wordCardTarget.closest("turbo-frame");
 
     // Apply checked off created filter
-    if (this.filterToOnlyWordsNotCheckedOff() && this.checkedOff()) {
+    if (this.filterToOnlyWordsNotCheckedOff() && this.checked()) {
       return thisTurboFrame.parentNode.removeChild(thisTurboFrame);
     }
     // Apply starred created filter
@@ -88,11 +88,11 @@ export default class extends Controller {
   // === Private ===
 
   filterToOnlyWordsNotCheckedOff() {
-    return new URLSearchParams(location.search).get("filter") === "not_checked_off";
+    return new URLSearchParams(location.search).get("checked") === "false";
   }
 
-  checkedOff() {
-    return this.checkedOffValue;
+  checked() {
+    return this.checkedValue;
   }
 
   filterToOnlyStarredWords() {

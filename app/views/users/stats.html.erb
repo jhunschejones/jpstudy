@@ -29,7 +29,7 @@
             <% word_count_class = "pink" %>
           <% end %>
           <strong class="<%= word_count_class %>">
-            <%= @words_checked_off_today_count %>
+            <%= @words_checked_today_count %>
           </strong>
         </p>
         <p>
@@ -60,21 +60,21 @@
         <h4 class="catagory-subtitle">Totals:</h4>
         <p>
           <span class="light-gray">Not checked off:</span>
-          <%= @words_not_checked_off_count %>
+          <%= @words_not_checked_count %>
         </p>
         <p>
           <span class="light-gray">Checked off:</span>
-          <%= @words_checked_off_count %>
+          <%= @checked_words_count %>
         </p>
         <p>
           <span class="light-gray">Next JLPT level:</span>
-          <% if @words_checked_off_count <= 800 %>
+          <% if @checked_words_count <= 800 %>
             N5 (800 words)
-          <% elsif @words_checked_off_count <= 1500 %>
+          <% elsif @checked_words_count <= 1500 %>
             N4 (1500 words)
-          <% elsif @words_checked_off_count <= 3700 %>
+          <% elsif @checked_words_count <= 3700 %>
             N3 (3700 words)
-          <% elsif @words_checked_off_count <= 6000 %>
+          <% elsif @checked_words_count <= 6000 %>
             N2 (6000 words)
           <% else %>
             N1 (10000 words)

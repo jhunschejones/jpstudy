@@ -4,7 +4,7 @@ class WordsController < ApplicationController
   include DateParsing
 
   ORDERED_CSV_FIELDS = [:english, :japanese, :source_name, :source_reference,
-    :starred, :checked_off, :checked_off_on, :added_to_list_on, :note]
+    :starred, :checked, :checked_on, :added_to_list_on, :note]
   WORDS_PER_PAGE = 10
   MAX_SEARCH_LENGTH = 30
   WORD_BATCH_SIZE = 1000
@@ -13,7 +13,7 @@ class WordsController < ApplicationController
   before_action :secure_behind_subscription # except: READ_ACTIONS # Turn on for public resource feature
   before_action ->{ protect_user_scoped_read_actions_for(:words) }, only: READ_ACTIONS
   before_action :protect_user_scoped_modify_actions, except: READ_ACTIONS
-  before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_checked_off, :toggle_starred]
+  before_action :set_word, only: [:show, :edit, :update, :destroy, :toggle_checked, :toggle_starred]
 
   def index
     @page = filter_params[:page] ? filter_params[:page].to_i : 1 # force pagination to conserve memory
@@ -24,8 +24,8 @@ class WordsController < ApplicationController
     if filter_params[:search]
       @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH - 1]}%")
     end
-    if filter_params[:filter] == "not_checked_off"
-      @words = @words.not_checked_off
+    if filter_params[:checked] == "false"
+      @words = @words.not_checked
     end
     if filter_params[:starred] == "true"
       @words = @words.where(starred: true)
@@ -46,8 +46,8 @@ class WordsController < ApplicationController
     if filter_params[:search]
       @words = @words.where("english ILIKE :search OR japanese ILIKE :search", search: "%#{filter_params[:search][0..MAX_SEARCH_LENGTH - 1]}%")
     end
-    if filter_params[:filter] == "not_checked_off"
-      @words = @words.not_checked_off
+    if filter_params[:checked] == "false"
+      @words = @words.not_checked
     end
     if filter_params[:starred] == "true"
       @words = @words.where(starred: true)
@@ -117,11 +117,11 @@ class WordsController < ApplicationController
     redirect_to in_out_user_path(@current_user), success: "#{destroyed_words_count} #{"word".pluralize(destroyed_words_count)} deleted."
   end
 
-  def toggle_checked_off
-    if @word.checked_off?
-      @word.update!(checked_off: false, checked_off_at: nil)
+  def toggle_checked
+    if @word.checked?
+      @word.update!(checked: false, checked_at: nil)
     else
-      @word.update!(checked_off: true, checked_off_at: Time.now.utc)
+      @word.update!(checked: true, checked_at: Time.now.utc)
     end
     # prevent message from showing on additional words added after goal is reached by returning false
     daily_target_message = @current_user.has_reached_daily_word_target? && "🎉 You reached your daily word target!"
@@ -167,8 +167,8 @@ class WordsController < ApplicationController
       source_name = row[2].presence
       source_reference = row[3].presence
       starred = ["true", "t", "x", "yes", "y"].include?(row[4]&.downcase)
-      checked_off = ["true", "t", "x", "yes", "y"].include?(row[5]&.downcase)
-      checked_off_at = row[6].presence && date_or_time_from(row[6])
+      checked = ["true", "t", "x", "yes", "y"].include?(row[5]&.downcase)
+      checked_at = row[6].presence && date_or_time_from(row[6])
       added_to_list_at = row[7].presence && date_or_time_from(row[7])
       note = row[8].presence
 
@@ -178,8 +178,8 @@ class WordsController < ApplicationController
             source_name: source_name,
             source_reference: source_reference,
             starred: starred,
-            checked_off: checked_off,
-            checked_off_at: checked_off_at,
+            checked: checked,
+            checked_at: checked_at,
             added_to_list_at: added_to_list_at,
             note: note,
             skip_turbostream_callbacks: true
@@ -195,8 +195,8 @@ class WordsController < ApplicationController
         source_name: source_name,
         source_reference: source_reference,
         starred: starred,
-        checked_off: checked_off,
-        checked_off_at: checked_off_at,
+        checked: checked,
+        checked_at: checked_at,
         added_to_list_at: added_to_list_at,
         note: note,
         user: @current_user,
@@ -224,7 +224,7 @@ class WordsController < ApplicationController
       csv << ORDERED_CSV_FIELDS # add headers
 
       words = @current_user.words.order(added_to_list_at: :asc).order(created_at: :asc)
-      words = words.not_checked_off if params[:filter] == "not_checked_off"
+      words = words.not_checked if params[:checked] == "false"
 
       # manually grabbing ids to use in batch because `.find_each` does not respect ordering by a custom field
       word_ids = words.pluck(:id)
@@ -250,12 +250,12 @@ class WordsController < ApplicationController
   def word_params
     prepared_params = params
       .require(:word)
-      .permit(:japanese, :english, :source_name, :source_reference, :note, :checked_off, :checked_off_at)
+      .permit(:japanese, :english, :source_name, :source_reference, :note, :checked, :checked_at)
       .reject { |_, value| value.blank? }
       .each_value { |value| value.try(:strip!) }
 
-    if prepared_params[:checked_off_at].present?
-      prepared_params.merge({ checked_off_at: date_or_time_from(prepared_params[:checked_off_at]) })
+    if prepared_params[:checked_at].present?
+      prepared_params.merge({ checked_at: date_or_time_from(prepared_params[:checked_at]) })
     else
       prepared_params
     end
@@ -263,7 +263,7 @@ class WordsController < ApplicationController
 
   def filter_params
     params
-      .permit(:filter, :search, :page, :order, :source_name, :starred)
+      .permit(:checked, :search, :page, :order, :source_name, :starred)
       .each_value { |value| value.try(:strip!) }
   end
 end

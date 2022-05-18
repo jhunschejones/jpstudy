@@ -8,7 +8,7 @@ class Word < ApplicationRecord
 
   belongs_to :user, counter_cache: true, inverse_of: :words
 
-  scope :not_checked_off, -> { where(checked_off: false) }
+  scope :not_checked, -> { where(checked: false) }
 
   after_create_commit { notify_socket_subscribers(async: true) }
   after_update_commit { notify_socket_subscribers(async: true) }
@@ -20,8 +20,8 @@ class Word < ApplicationRecord
     (added_to_list_at.present? ? added_to_list_at : created_at).strftime("%m/%d/%Y")
   end
 
-  def checked_off_on
-    checked_off_at.presence && checked_off_at.strftime("%m/%d/%Y")
+  def checked_on
+    checked_at.presence && checked_at.strftime("%m/%d/%Y")
   end
 
   private

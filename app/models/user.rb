@@ -65,11 +65,11 @@ class User < ApplicationRecord
   end
 
   def has_reached_daily_word_target?
-    daily_word_target.presence && words.where(checked_off_at: Date.today.all_day).size == daily_word_target
+    daily_word_target.presence && words.where(checked_at: Date.today.all_day).size == daily_word_target
   end
 
   def has_reached_or_exceeded_daily_word_target?
-    daily_word_target.presence && words.where(checked_off_at: Date.today.all_day).size >= daily_word_target
+    daily_word_target.presence && words.where(checked_at: Date.today.all_day).size >= daily_word_target
   end
 
   def has_reached_daily_kanji_target?

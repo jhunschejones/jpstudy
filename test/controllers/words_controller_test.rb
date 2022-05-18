@@ -46,7 +46,7 @@ class WordsControllerTest < ApplicationControllerTestCase
 
     it "filters results to words not checked off" do
       login(users(:carl))
-      get words_path(users(:carl), filter: "not_checked_off")
+      get words_path(users(:carl), checked: "false")
       assert_response :success
       assert_select ".word", count: 2
     end
@@ -76,22 +76,22 @@ class WordsControllerTest < ApplicationControllerTestCase
   describe "#count" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      get count_words_path(users(:elemouse), filter: "not_checked_off")
+      get count_words_path(users(:elemouse), checked: "false")
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "does not return the word count for another user" do
       login(users(:daisy))
-      get count_words_path(users(:carl), filter: "not_checked_off")
+      get count_words_path(users(:carl), checked: "false")
       assert_response :not_found
     end
 
     it "returns the users word count taking into account filter params" do
       login(users(:carl))
-      get count_words_path(users(:carl), filter: "not_checked_off")
+      get count_words_path(users(:carl), checked: "false")
       assert_response :success
       json_response = JSON.parse(response.body)
-      expected_count = users(:carl).words.not_checked_off.count
+      expected_count = users(:carl).words.not_checked.count
       assert_equal expected_count, json_response["wordsCount"]
     end
   end
@@ -193,7 +193,7 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "leaves optional attributes as nil when not provided" do
       login(users(:carl))
       post words_path(users(:carl)), params: { word: { english: "new", japanese: "新し" } }
-      assert_nil Word.last.checked_off_at
+      assert_nil Word.last.checked_at
       assert_nil Word.last.note
       assert_nil Word.last.source_name
       assert_nil Word.last.source_reference
@@ -319,40 +319,40 @@ class WordsControllerTest < ApplicationControllerTestCase
     end
   end
 
-  describe "#toggle_checked_off" do
+  describe "#toggle_checked" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
-      assert_no_changes "Word.find(words(:形容詞).id).checked_off" do
-        post word_toggle_checked_off_path(users(:elemouse), words(:形容詞))
+      assert_no_changes "Word.find(words(:形容詞).id).checked" do
+        post word_toggle_checked_path(users(:elemouse), words(:形容詞))
       end
       assert_redirected_to user_path(users(:elemouse))
     end
 
     it "prevents users from modifying other users words" do
       login(users(:daisy))
-      assert_no_changes "Word.find(words(:形容詞).id).checked_off" do
-        post word_toggle_checked_off_path(users(:carl), words(:形容詞))
+      assert_no_changes "Word.find(words(:形容詞).id).checked" do
+        post word_toggle_checked_path(users(:carl), words(:形容詞))
       end
       assert_response :not_found
     end
 
-    it "toggles the checked_off attribute for the word" do
+    it "toggles the checked attribute for the word" do
       login(users(:carl))
-      assert_changes "Word.find(words(:形容詞).id).checked_off" do
-        post word_toggle_checked_off_path(users(:carl), words(:形容詞))
+      assert_changes "Word.find(words(:形容詞).id).checked" do
+        post word_toggle_checked_path(users(:carl), words(:形容詞))
       end
     end
 
     it "redirects the word details page for html requests" do
       login(users(:carl))
-      post word_toggle_checked_off_path(users(:carl), words(:形容詞))
+      post word_toggle_checked_path(users(:carl), words(:形容詞))
       follow_redirect!
       assert_select ".japanese", words(:形容詞).japanese
     end
 
     it "returns the updated word for turbo requests" do
       login(users(:carl))
-      post word_toggle_checked_off_path(users(:carl), words(:形容詞), format: :turbo_stream)
+      post word_toggle_checked_path(users(:carl), words(:形容詞), format: :turbo_stream)
       assert_response :success
       assert_select ".japanese", words(:形容詞).japanese
     end
@@ -360,17 +360,17 @@ class WordsControllerTest < ApplicationControllerTestCase
     it "returns a message when word target has been reached" do
       login(users(:carl))
       users(:carl).update!(daily_word_target: 1)
-      post word_toggle_checked_off_path(users(:carl), words(:よく寝た))
-      assert_equal 1, users(:carl).words.where(checked_off_at: Date.today.all_day).size
+      post word_toggle_checked_path(users(:carl), words(:よく寝た))
+      assert_equal 1, users(:carl).words.where(checked_at: Date.today.all_day).size
       assert_equal "🎉 You reached your daily word target!", flash[:success]
     end
 
     it "does not return a message when word target has been exceeded" do
       login(users(:carl))
       users(:carl).update!(daily_word_target: 1)
-      Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_off_at: Time.now.utc)
-      post word_toggle_checked_off_path(users(:carl), words(:よく寝た))
-      assert_equal 2, users(:carl).words.where(checked_off_at: Date.today.all_day).size
+      Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_at: Time.now.utc)
+      post word_toggle_checked_path(users(:carl), words(:よく寝た))
+      assert_equal 2, users(:carl).words.where(checked_at: Date.today.all_day).size
       refute flash[:success]
     end
   end
@@ -489,7 +489,7 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_equal "adult", new_word.english
       assert_equal "FF 625", new_word.source_name
       assert new_word.starred
-      assert new_word.checked_off
+      assert new_word.checked
       assert_equal users(:carl).id, new_word.user_id
       assert_equal "10/05/2020", new_word.added_to_list_on
     end

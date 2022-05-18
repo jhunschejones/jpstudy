@@ -98,13 +98,13 @@ class UsersController < ApplicationController
   end
 
   def stats
-    @words_checked_off_count = @current_user.words.where(checked_off: true).size
-    @words_not_checked_off_count = @current_user.words.not_checked_off.size
-    @words_checked_off_today_count = @current_user.words.where(checked_off_at: Date.today.all_day).size
+    @checked_words_count = @current_user.words.where(checked: true).size
+    @words_not_checked_count = @current_user.words.not_checked.size
+    @words_checked_today_count = @current_user.words.where(checked_at: Date.today.all_day).size
     # Instance variable is set to nil if next_word_goal and daily_word_target are not configured yet
     @days_to_word_target =
-      if @current_user.next_word_goal && @current_user.daily_word_target && @current_user.next_word_goal > @words_checked_off_count
-        ((@current_user.next_word_goal - @words_checked_off_count).to_f / @current_user.daily_word_target.to_f).ceil
+      if @current_user.next_word_goal && @current_user.daily_word_target && @current_user.next_word_goal > @checked_words_count
+        ((@current_user.next_word_goal - @checked_words_count).to_f / @current_user.daily_word_target.to_f).ceil
       end
 
     @kanji_added_count = @current_user.kanji.added.count

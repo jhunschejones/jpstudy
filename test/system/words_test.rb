@@ -14,11 +14,11 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal newest_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with no filter are different than expected"
 
       # Filter to just words that have not been checked off yet
-      click_on "No check filter"
+      click_on "Unchecked"
 
       sleep TURBO_WAIT_SECONDS
 
-      words_not_checked = Word.where(user: users(:carl)).not_checked_off
+      words_not_checked = Word.where(user: users(:carl)).not_checked
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal words_not_checked, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with not checked filter are different than expected"
@@ -28,7 +28,7 @@ class WordsTest < ApplicationSystemTestCase
       sleep TURBO_WAIT_SECONDS
 
       # Order and words not checked off filters work together as expected
-      oldest_not_checked_first = Word.where(user: users(:carl)).not_checked_off
+      oldest_not_checked_first = Word.where(user: users(:carl)).not_checked
         .order(added_to_list_at: :asc).order(created_at: :asc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal oldest_not_checked_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with order filter are different than expected"
@@ -157,7 +157,7 @@ class WordsTest < ApplicationSystemTestCase
       origional_word_order = page.all(".word:not(.skeleton-word) .japanese").collect(&:text)
       sleep TURBO_WAIT_SECONDS
 
-      assert_changes "Word.find_by(japanese: '切れる').checked_off" do
+      assert_changes "Word.find_by(japanese: '切れる').checked" do
         page.all("#word_#{word_to_toggle.id} .checked-off button").first.click
         sleep TURBO_WAIT_SECONDS * 2
       end
@@ -167,7 +167,7 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal origional_word_order, word_order_after_toggle, "Toggling words not checked off at should not change word order when no filters are applied"
 
       # Filter to only unchecked words
-      click_on "No check filter"
+      click_on "Unchecked"
       sleep TURBO_WAIT_SECONDS
 
       assert_selector "#word_#{word_to_toggle.id}", count: 1

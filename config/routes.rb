@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
   scope ":username", constraints: { username: /[a-zA-Z0-9]+/ } do
     resources :words do
-      post :toggle_checked_off
+      post :toggle_checked
       post :toggle_starred
       collection do
         get :import
