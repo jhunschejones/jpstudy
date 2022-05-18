@@ -13,7 +13,7 @@ class WordsTest < ApplicationSystemTestCase
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal newest_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with no filter are different than expected"
 
-      # Filter to just words that have not been checked off yet
+      # Filter to just words that have not been checked yet
       click_on "Unchecked"
 
       sleep TURBO_WAIT_SECONDS
@@ -27,7 +27,7 @@ class WordsTest < ApplicationSystemTestCase
 
       sleep TURBO_WAIT_SECONDS
 
-      # Order and words not checked off filters work together as expected
+      # Order and words not checked filters work together as expected
       oldest_not_checked_first = Word.where(user: users(:carl)).not_checked
         .order(added_to_list_at: :asc).order(created_at: :asc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
@@ -148,7 +148,7 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal updated_english, word_to_edit.reload.english, "the word was not updated in the DB as expected"
     end
 
-    test "can toggle words checked off filter" do
+    test "can toggle words checked filter" do
       word_to_toggle = words(:切れる)
 
       login(users(:carl))
@@ -164,7 +164,7 @@ class WordsTest < ApplicationSystemTestCase
 
       word_order_after_toggle = page.all(".word:not(.skeleton-word) .japanese").collect(&:text)
 
-      assert_equal origional_word_order, word_order_after_toggle, "Toggling words not checked off at should not change word order when no filters are applied"
+      assert_equal origional_word_order, word_order_after_toggle, "Toggling words not checked should not change word order when no filters are applied"
 
       # Filter to only unchecked words
       click_on "Unchecked"
@@ -175,7 +175,7 @@ class WordsTest < ApplicationSystemTestCase
 
       sleep TURBO_WAIT_SECONDS
 
-      # toggling words not checked off should cause the card to no longer show up
+      # toggling words not checked should cause the card to no longer show up
       assert_selector "#word_#{word_to_toggle.id}", count: 0
     end
 
