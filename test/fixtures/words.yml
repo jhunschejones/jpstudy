@@ -4,7 +4,7 @@
   japanese: キツネ
   english: fox
   source_name: Duolingo
-  cards_created: true
+  checked_off: true
   user: elemouse
   added_to_list_at: <%= Date.strptime("10/01/2021", "%m/%d/%y") %>
 
@@ -12,7 +12,7 @@
   japanese: クマ
   english: bear
   source_name: Duolingo
-  cards_created: true
+  checked_off: true
   user: daisy
   added_to_list_at: <%= Date.strptime("10/01/2021", "%m/%d/%y") %>
 
@@ -20,7 +20,7 @@
   japanese: 形容詞
   english: adjective
   source_name: FF 625
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("10/01/2021", "%m/%d/%y") %>
 
@@ -29,7 +29,7 @@
   english: I slept well
   source_name: NSM N5
   source_reference: "5-2"
-  cards_created: false
+  checked_off: false
   user: carl
   added_to_list_at: <%= Date.strptime("10/02/2021", "%m/%d/%y") %>
 
@@ -38,7 +38,7 @@
   english: to tell, to show
   source_name: MNN
   source_reference: "14"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("10/03/2021", "%m/%d/%y") %>
 
@@ -47,7 +47,7 @@
   english: platform
   source_name: MNN
   source_reference: "14"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("10/04/2021", "%m/%d/%y") %>
 
@@ -55,7 +55,7 @@
   japanese: 婚約する
   english: engage
   source_name: FF 625
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("10/05/2021", "%m/%d/%y") %>
 
@@ -64,7 +64,7 @@
   english: I use it carefully
   source_name: NSM N5
   source_reference: "5-3"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("10/06/2021", "%m/%d/%y") %>
 
@@ -73,7 +73,7 @@
   english: to be built
   source_name: NSM N5
   source_reference: "5-3"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -82,7 +82,7 @@
   english: how do you say
   source_name: NSM N5
   source_reference: "5-3"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -91,7 +91,7 @@
   english: I wanted to shorten it
   source_name: NSM N5
   source_reference: "5-3"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -100,7 +100,7 @@
   english: a short while ago, just now
   source_name: NSM N5
   source_reference: "5-2"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -109,7 +109,7 @@
   english: these days
   source_name: NSM N5
   source_reference: "4-7"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -118,7 +118,7 @@
   english: to cut, to break
   source_name: NSM N5
   source_reference: "4-7"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -127,7 +127,7 @@
   english: good for ones health
   source_name: MNN
   source_reference: "19"
-  cards_created: false
+  checked_off: false
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -136,7 +136,7 @@
   english: excessive, impossible
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -145,7 +145,7 @@
   english: but, however
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -154,7 +154,7 @@
   english: many times, time and again
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -163,7 +163,7 @@
   english: diet
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -172,7 +172,7 @@
   english: actually, to tell you the truth...
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -181,7 +181,7 @@
   english: thank you (for your help)
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -190,7 +190,7 @@
   english: gradually
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>
 
@@ -199,6 +199,6 @@
   english: in bad condition
   source_name: MNN
   source_reference: "19"
-  cards_created: true
+  checked_off: true
   user: carl
   added_to_list_at: <%= Date.strptime("11/13/2021", "%m/%d/%y") %>

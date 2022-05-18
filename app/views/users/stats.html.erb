@@ -20,7 +20,7 @@
         <% end %>
         <h4 class="catagory-subtitle">Study targets:</h4>
         <p>
-          <span class="light-gray">Cards created today:</span>
+          <span class="light-gray">Words checked off today:</span>
           <% if @current_user.daily_word_target.blank? %>
             <% word_count_class = "normal-weight" %>
           <% elsif @current_user.has_reached_or_exceeded_daily_word_target? %>
@@ -29,7 +29,7 @@
             <% word_count_class = "pink" %>
           <% end %>
           <strong class="<%= word_count_class %>">
-            <%= @words_with_cards_created_today %>
+            <%= @words_checked_off_today_count %>
           </strong>
         </p>
         <p>
@@ -59,25 +59,25 @@
       <div class="stats-card">
         <h4 class="catagory-subtitle">Totals:</h4>
         <p>
-          <span class="light-gray">New words ready for cards:</span>
-          <%= @words_ready_for_cards_count %>
+          <span class="light-gray">Not checked off:</span>
+          <%= @words_not_checked_off_count %>
         </p>
         <p>
-          <span class="light-gray">Words with cards created:</span>
-          <%= @words_with_cards_created_count %>
+          <span class="light-gray">Checked off:</span>
+          <%= @words_checked_off_count %>
         </p>
         <p>
           <span class="light-gray">Next JLPT level:</span>
-          <% if @words_with_cards_created_count <= 800 %>
-            N5, 800 words
-          <% elsif @words_with_cards_created_count <= 1500 %>
-            N4, 1500 words
-          <% elsif @words_with_cards_created_count <= 3700 %>
-            N3, 3700 words
-          <% elsif @words_with_cards_created_count <= 6000 %>
-            N2, 6000 words
+          <% if @words_checked_off_count <= 800 %>
+            N5 (800 words)
+          <% elsif @words_checked_off_count <= 1500 %>
+            N4 (1500 words)
+          <% elsif @words_checked_off_count <= 3700 %>
+            N3 (3700 words)
+          <% elsif @words_checked_off_count <= 6000 %>
+            N2 (6000 words)
           <% else %>
-            N1, 10000 words
+            N1 (10000 words)
           <% end %>
         </p>
       </div>

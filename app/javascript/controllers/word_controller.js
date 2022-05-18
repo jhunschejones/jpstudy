@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = [ "wordCard", "sourceNameLink" ]
 
   static values = {
-    cardsCreated: Boolean,
+    checkedOff: Boolean,
     japaneseWord: String,
     englishWord: String,
     addedAt: String,
@@ -47,7 +47,7 @@ export default class extends Controller {
     }
 
     // Only filter in JS if this is a new word added to the word list by turbo_stream
-    // or the cards created toggle is pressed and responded to by turbo_stream
+    // or the checked_off toggle is pressed and responded to by turbo_stream
     const sentViaTurbostream = document.querySelector(`.word-${this.wordIdValue}-sent-via-turbostream`);
     if (sentViaTurbostream) {
       sentViaTurbostream.parentNode.removeChild(sentViaTurbostream);
@@ -64,8 +64,8 @@ export default class extends Controller {
 
     const thisTurboFrame = this.wordCardTarget.closest("turbo-frame");
 
-    // Apply cards already created filter
-    if (this.filterWordsWithCardsAlreadyCreated() && this.cardsAlreadyCreated()) {
+    // Apply checked off created filter
+    if (this.filterWordsCheckedOff() && this.checkedOff()) {
       return thisTurboFrame.parentNode.removeChild(thisTurboFrame);
     }
     // Apply search filter
@@ -82,12 +82,12 @@ export default class extends Controller {
 
   // === Private ===
 
-  filterWordsWithCardsAlreadyCreated() {
-    return new URLSearchParams(location.search).get("filter") === "cards_not_created";
+  filterWordsCheckedOff() {
+    return new URLSearchParams(location.search).get("filter") === "not_checked_off";
   }
 
-  cardsAlreadyCreated() {
-    return this.cardsCreatedValue;
+  checkedOff() {
+    return this.checkedOffValue;
   }
 
   searchFilter() {

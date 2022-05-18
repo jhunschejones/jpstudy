@@ -1,14 +1,14 @@
 <div class="filters">
   <% if params[:search] %>
-    <%= link_to words_path(@resource_owner, filter_params_minus(:search)), title: "Your search", class: "search-results" do %>
+    <%= link_to words_path(@resource_owner, filter_params_minus(:search)), title: "Filtering by your search, click to disable filter", class: "search-results" do %>
       <%= heroicon "search", variant: :outline %>
       <span class="filter-description">
-        You searched: '<%= params[:search]&.strip %>'
+        Search: '<%= params[:search]&.strip %>'
       </span>
     <% end %>
   <% end %>
   <% if params[:source_name] %>
-    <%= link_to words_path(@resource_owner, filter_params_minus(:source_name)), title: "Source name", class: "source-name-filter" do %>
+    <%= link_to words_path(@resource_owner, filter_params_minus(:source_name)), title: "Filtered by source name, click to disable filter", class: "source-name-filter" do %>
       <%= heroicon "book-open", variant: :outline %>
       <span class="filter-description">
         Source: '<%= params[:source_name]&.strip %>'
@@ -16,29 +16,29 @@
     <% end %>
   <% end %>
   <% if params[:order] == "oldest_first" %>
-    <%= link_to words_path(@resource_owner, filter_params_minus(:order)), title: "Showing oldest words first", class: "filter-on" do %>
+    <%= link_to words_path(@resource_owner, filter_params_minus(:order)), title: "Showing oldest words first, click to reverse order", class: "filter-on" do %>
       <%= heroicon "sort-ascending" %>
       <span class="filter-description">
         Oldest first
       </span>
     <% end %>
   <% else %>
-    <%= link_to words_path(@resource_owner, filter_params_plus(order: "oldest_first")), title: "Showing newest words first", class: "filter-off" do %>
+    <%= link_to words_path(@resource_owner, filter_params_plus(order: "oldest_first")), title: "Showing newest words first, click to reverse order", class: "filter-off" do %>
       <%= heroicon "sort-descending" %>
       <span class="filter-description">
         Newest first
       </span>
     <% end %>
   <% end %>
-  <% if params[:filter] == "cards_not_created" %>
-    <%= link_to words_path(@resource_owner, filter_params_minus(:filter)), title: "Only showing words without cards", class: "filter-on" do %>
+  <% if params[:filter] == "not_checked_off" %>
+    <%= link_to words_path(@resource_owner, filter_params_minus(:filter)), title: "Only showing words not checked off, click to disable filter", class: "filter-on" do %>
       <%= heroicon "adjustments" %> <%# gets flipped in CSS %>
       <span class="filter-description">
-        Words without cards
+        Not checked off
       </span>
     <% end %>
   <% else %>
-    <%= link_to words_path(@resource_owner, filter_params_plus(filter: "cards_not_created")), title: "Showing all words", class: "filter-off" do %>
+    <%= link_to words_path(@resource_owner, filter_params_plus(filter: "not_checked_off")), title: "No 'checked off' applied, click to only show words that have not been checked off", class: "filter-off" do %>
       <%= heroicon "adjustments" %>
       <span class="filter-description">
         Unfiltered

@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
   scope ":username", constraints: { username: /[a-zA-Z0-9]+/ } do
     resources :words do
-      post :toggle_card_created
+      post :toggle_checked_off
       collection do
         get :import
         post :upload

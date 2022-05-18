@@ -52,7 +52,7 @@ class WordTest < ActiveSupport::TestCase
     perform_enqueued_jobs do
       assert_broadcasts users(:carl).words_stream_name, 1 do
         assert_broadcasts users(:carl).kanji_stream_name, 1 do
-          Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), cards_created_at: Time.now.utc)
+          Word.create!(japanese: "自己紹介", english: "self introduction", user: users(:carl), checked_off_at: Time.now.utc)
         end
       end
     end

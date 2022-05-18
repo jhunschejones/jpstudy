@@ -13,27 +13,27 @@ class WordsTest < ApplicationSystemTestCase
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal newest_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with no filter are different than expected"
 
-      # Cards filter limits words to just words without cards
+      # Filter limits words to just words that have not been checked off yet
       click_on "Unfiltered"
 
       sleep TURBO_WAIT_SECONDS
 
-      without_cards = Word.where(user: users(:carl)).cards_not_created
+      words_not_checked = Word.where(user: users(:carl)).not_checked_off
         .order(added_to_list_at: :desc).order(created_at: :desc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
-      assert_equal without_cards, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with cards filter are different than expected"
+      assert_equal words_not_checked, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with not checked filter are different than expected"
 
       click_on "Newest first"
 
       sleep TURBO_WAIT_SECONDS
 
-      # Order and Cards filters work together as expected
-      oldest_without_cards_first = Word.where(user: users(:carl)).cards_not_created
+      # Order and words not checked off filters work together as expected
+      oldest_not_checked_first = Word.where(user: users(:carl)).not_checked_off
         .order(added_to_list_at: :asc).order(created_at: :asc)
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
-      assert_equal oldest_without_cards_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with order filter are different than expected"
+      assert_equal oldest_not_checked_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with order filter are different than expected"
 
-      click_on "Words without cards"
+      click_on "Not checked off"
 
       sleep TURBO_WAIT_SECONDS * 2
 
@@ -148,7 +148,7 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal updated_english, word_to_edit.reload.english, "the word was not updated in the DB as expected"
     end
 
-    test "can toggle cards_created" do
+    test "can toggle words checked off filter" do
       word_to_toggle = words(:切れる)
 
       login(users(:carl))
@@ -157,25 +157,25 @@ class WordsTest < ApplicationSystemTestCase
       origional_word_order = page.all(".word:not(.skeleton-word) .japanese").collect(&:text)
       sleep TURBO_WAIT_SECONDS
 
-      assert_changes "Word.find_by(japanese: '切れる').cards_created" do
-        page.all("#word_#{word_to_toggle.id} .cards-created button").first.click
+      assert_changes "Word.find_by(japanese: '切れる').checked_off" do
+        page.all("#word_#{word_to_toggle.id} .checked-off button").first.click
         sleep TURBO_WAIT_SECONDS * 2
       end
 
       word_order_after_toggle = page.all(".word:not(.skeleton-word) .japanese").collect(&:text)
 
-      assert_equal origional_word_order, word_order_after_toggle, "Toggling cards created at should not change word order when no filters are applied"
+      assert_equal origional_word_order, word_order_after_toggle, "Toggling words not checked off at should not change word order when no filters are applied"
 
-      # Filter to only words without cards
+      # Filter to only unchecked words
       click_on "Unfiltered"
       sleep TURBO_WAIT_SECONDS
 
       assert_selector "#word_#{word_to_toggle.id}", count: 1
-      page.find("#word_#{word_to_toggle.id} .cards-created button").click
+      page.find("#word_#{word_to_toggle.id} .checked-off button").click
 
       sleep TURBO_WAIT_SECONDS
 
-      # toggling cards created should cause the card to no longer show up
+      # toggling words not checked off should cause the card to no longer show up
       assert_selector "#word_#{word_to_toggle.id}", count: 0
     end
 

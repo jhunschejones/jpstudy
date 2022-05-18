@@ -3,7 +3,7 @@
     class="word hide-modify-buttons"
     data-controller="word"
     data-word-word-id-value="<%= word.id %>"
-    data-word-cards-created-value="<%= word.cards_created? %>"
+    data-word-checked-off-value="<%= word.checked_off? %>"
     data-word-japanese-word-value="<%= word.japanese %>"
     data-word-english-word-value="<%= word.english %>"
     data-word-added-at-value="<%= word.added_to_list_at %>"
@@ -31,14 +31,14 @@
         </div>
       </div>
     <% end %>
-    <div class="cards-created">
-      <%= button_to(word_toggle_card_created_path(@resource_owner, word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
-        <% if word.cards_created? %>
-          <span title="Cards created">
+    <div class="checked-off">
+      <%= button_to(word_toggle_checked_off_path(@resource_owner, word), method: :post, data: { controller: "disable", disable_with_value: "<div class=\"loader\"></div>", action: "disable#disableButton", disable_target: "button" }) do %>
+        <% if word.checked_off? %>
+          <span title="Checked off">
             <%= heroicon "check", options: { class: "checked" } %>
           </span>
         <% else %>
-          <span title="No cards created yet">
+          <span title="Not checked off yet">
             <%= heroicon "plus", variant: :outline, options: { class: "unchecked" } %>
           </span>
         <% end %>

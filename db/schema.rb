@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_29_175144) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_18_193139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -109,13 +109,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_175144) do
     t.citext "english", null: false
     t.text "source_name"
     t.text "source_reference"
-    t.boolean "cards_created", default: false
+    t.boolean "checked_off", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.text "note"
     t.datetime "added_to_list_at"
-    t.datetime "cards_created_at"
+    t.datetime "checked_off_at"
     t.index ["user_id", "japanese", "english"], name: "index_words_on_user_id_and_japanese_and_english", unique: true
     t.index ["user_id"], name: "index_words_on_user_id"
   end

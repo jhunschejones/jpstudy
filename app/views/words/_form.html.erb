@@ -35,10 +35,10 @@
       </div>
     <% end %>
 
-    <% if word.cards_created_at %>
+    <% if word.checked_off_at %>
       <div class="form-field">
-        <%= form.label :cards_created_at %>
-        <%= form.date_field :cards_created_at, maxlength: 10, minlength: 6,  autocomplete: "off", data: { lpignore: true } %>
+        <%= form.label :checked_off_at %>
+        <%= form.date_field :checked_off_at, maxlength: 10, minlength: 6,  autocomplete: "off", data: { lpignore: true } %>
       </div>
     <% end %>
 
