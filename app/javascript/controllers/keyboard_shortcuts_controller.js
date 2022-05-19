@@ -87,7 +87,7 @@ export default class extends Controller {
     }
     if (this.keysPressed["c"]) {
       document.getElementById("words-link").click();
-      return Turbo.visit(`${window.location}?filter=not_checked&order=oldest_first`);
+      return Turbo.visit(`${window.location}?checked=false&order=oldest_first`);
     }
     if (this.keysPressed["n"]) {
       const newWordBtton = document.querySelector("#new-word-form .new-word-button");
