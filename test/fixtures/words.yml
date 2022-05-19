@@ -30,6 +30,7 @@
   source_name: NSM N5
   source_reference: "5-2"
   checked: false
+  starred: true
   user: carl
   added_to_list_at: <%= Date.strptime("10/02/2021", "%m/%d/%y") %>
 

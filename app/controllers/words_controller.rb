@@ -58,7 +58,7 @@ class WordsController < ApplicationController
       @words = @words.where("source_name ILIKE :source_name", source_name: "%#{filter_params[:source_name][0..MAX_SEARCH_LENGTH - 1]}%")
     end
 
-    render json: { "wordsCount" => @words.count }.to_json
+    render json: { "wordsCount" => @words.count, "filters" => filter_params.except(:order) }
   end
 
   def search

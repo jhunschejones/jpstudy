@@ -35,6 +35,13 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_select ".word", count: 2
     end
 
+    it "filters results to starred words only" do
+      login(users(:carl))
+      get words_path(users(:carl), starred: "true")
+      assert_response :success
+      assert_select ".word", count: 1
+    end
+
     it "respects order param when oldest_first" do
       login(users(:carl))
       get words_path(users(:carl), order: "oldest_first")
@@ -86,13 +93,15 @@ class WordsControllerTest < ApplicationControllerTestCase
       assert_response :not_found
     end
 
-    it "returns the users word count taking into account filter params" do
+    it "returns the users word count, taking into account filter params" do
       login(users(:carl))
       get count_words_path(users(:carl), checked: "false")
       assert_response :success
       json_response = JSON.parse(response.body)
       expected_count = users(:carl).words.not_checked.count
+      expected_filters = { "checked" => "false" }
       assert_equal expected_count, json_response["wordsCount"]
+      assert_equal expected_filters, json_response["filters"]
     end
   end
 
