@@ -32,14 +32,14 @@
   <% end %>
   <% if params[:checked] == "false" %>
     <%= link_to words_path(@resource_owner, filter_params_minus(:checked)), title: "Only showing words that are not checked, click to disable filter", class: "filter-on" do %>
-      <%= heroicon "plus", variant: :outline %>
+      <%= heroicon "check" %>
       <span class="filter-description">
         Unchecked
       </span>
     <% end %>
   <% else %>
     <%= link_to words_path(@resource_owner, filter_params_plus(checked: "false")), title: "No filter applied, click to only show words that have not been checked", class: "filter-off" do %>
-      <%= heroicon "plus", variant: :outline %>
+      <%= heroicon "check" %>
       <span class="filter-description">
         Unchecked
       </span>
