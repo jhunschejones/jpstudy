@@ -14,7 +14,7 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal newest_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with no filter are different than expected"
 
       # Filter to just words that have not been checked yet
-      click_on "Unchecked"
+      click_on "New only"
 
       sleep TURBO_WAIT_SECONDS
 
@@ -33,7 +33,7 @@ class WordsTest < ApplicationSystemTestCase
         .limit(WordsController::WORDS_PER_PAGE).pluck(:japanese)
       assert_equal oldest_not_checked_first, page.all(".word:not(.skeleton-word) .japanese").collect(&:text), "words with order filter are different than expected"
 
-      click_on "Unchecked"
+      click_on "New only"
 
       sleep TURBO_WAIT_SECONDS * 2
 
@@ -167,7 +167,7 @@ class WordsTest < ApplicationSystemTestCase
       assert_equal origional_word_order, word_order_after_toggle, "Toggling words not checked should not change word order when no filters are applied"
 
       # Filter to only unchecked words
-      click_on "Unchecked"
+      click_on "New only"
       sleep TURBO_WAIT_SECONDS
 
       assert_selector "#word_#{word_to_toggle.id}", count: 1
