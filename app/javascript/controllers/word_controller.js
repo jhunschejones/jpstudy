@@ -19,9 +19,10 @@ export default class extends Controller {
   connect() {
     // === RUN ON ALL PAGES WHEN A WORD PARTIAL IS CONNECTED ===
 
-    if (this.getSignedCookie("username").trim() == this.ownerValue.trim()) {
-      this.element.classList.toggle("hide-modify-buttons", false);
-    }
+    // add hide-modify-buttons class in app/views/words/_word.html.erb to hide by default
+    // if (this.getSignedCookie("username").trim() == this.ownerValue.trim()) {
+    //   this.element.classList.toggle("hide-modify-buttons", false);
+    // }
 
     // Using a placeholder DOM element to determine whether turbo should be used for delete
     const deleteWithoutTurbo = document.querySelector(`.word-${this.wordIdValue}-delete-without-turbo`);

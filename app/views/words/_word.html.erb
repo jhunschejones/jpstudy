@@ -1,6 +1,6 @@
 <%= turbo_frame_tag dom_id(word) do %>
   <div
-    class="word hide-modify-buttons"
+    class="word" <%# add `hide-modify-buttons` class to hide by default and re-enable in JS in app/javascript/controllers/word_controller.js %>
     data-controller="word"
     data-word-word-id-value="<%= word.id %>"
     data-word-checked-value="<%= word.checked? %>"

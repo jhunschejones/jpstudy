@@ -28,8 +28,9 @@ export default class extends Controller {
         const contentBeingSaved = this.contentTarget.innerHTML;
         fetch(this.formTarget.action, {
           method: this.formTarget.method,
+          credentials: "same-origin",
           body: new FormData(this.formTarget),
-          headers: { Accept: "application/json" }
+          headers: { Accept: "application/json" },
         }).then((response) => {
           if (response && response.ok) {
             // update our pointer to the current state that was just saved
