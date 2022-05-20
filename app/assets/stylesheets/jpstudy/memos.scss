@@ -11,9 +11,13 @@
     .field {
       margin-bottom: 12px;
     }
-    .auto-save-message {
-      float: right;
-      margin: -12px 0 0 0;
+    .actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      input[type="submit"] {
+        margin-top: -2px;
+      }
     }
   }
 }

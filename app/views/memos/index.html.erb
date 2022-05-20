@@ -4,7 +4,7 @@
   </h1>
 
   <p class="light-gray head-explanation">
-    A little scratch pad to keep notes about your studying 📝
+    Here's a little scratch pad to keep notes about your studying 📝
   </p>
 
   <div class="memo-form" data-controller="memo">
@@ -13,10 +13,7 @@
         <%= form.rich_text_area :content, data: { memo_target: "content" } %>
       </div>
 
-      <div class="field">
-        <p class="light-gray auto-save-message">
-          <small>(Auto-saves after 5s)</small>
-        <p>
+      <div class="field actions">
         <%= form.submit "Save changes", class: "button-blue", data: { memo_target: "saveButton", controller: "disable", disable_with_value: "Saving...", action: "disable#disableButton", disable_target: "button" } %>
       </div>
     <% end %>
