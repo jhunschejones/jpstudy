@@ -4,12 +4,27 @@ export default class extends Controller {
   static targets = [ "count" ]
 
   initialize() {
-    document.addEventListener("turbo:before-fetch-response", () => {
-      this.updateWordCount();
-    });
+    this.boundUpdateWordCount = this.updateWordCount.bind(this);
+    this.initializedOnHref = window.location.href;
+  }
+
+  connect() {
+    document.addEventListener("turbo:before-fetch-response", this.boundUpdateWordCount);
+  }
+
+  disconnect() {
+    document.removeEventListener("turbo:before-fetch-response", this.boundUpdateWordCount);
   }
 
   updateWordCount() {
+    // Since this method is called on turbo:before-fetch-response, it is possible
+    // that the user has changed pages but we have not yet called `disconnect()`
+    // on the stimulus controller itself. In that case, just return early instead
+    // of trying to make the network request for the updated words count.
+    if (window.location.href != this.initializedOnHref) {
+      return;
+    }
+
     const url = new URL(window.location);
     url.pathname = `${url.pathname}/count`;
     fetch(url, {
