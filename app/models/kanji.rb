@@ -41,7 +41,9 @@ class Kanji < ApplicationRecord
   end
 
   def self.next_new_for(user:)
-    all_new_for(user: user).first
+    next_new = all_new_for(user: user).first
+    return nil unless next_new
+    find_by(user: user, character: next_new.character, status: NEW_STATUS) || next_new
   end
 
   def added_to_list_on

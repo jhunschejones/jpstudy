@@ -42,7 +42,9 @@ class KanjiController < ApplicationController
   end
 
   def bulk_create
-    # TODO enforce max length
+    if params[:text].size > 2000
+      return redirect_to finder_kanji_path(@resource_owner), alert: "Max text size is 2000 characters."
+    end
 
     found_kanji_characters = params[:text]
       .strip

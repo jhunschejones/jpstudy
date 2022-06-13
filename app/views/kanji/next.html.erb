@@ -3,6 +3,38 @@
     <%= turbo_stream_from @resource_owner.kanji_stream_name %>
   <% end %>
 
+  <div class="settings">
+    <div class="settings-dropdown">
+      <%= heroicon "cog", variant: :outline, options: { class: "settings-icon" } %>
+      <div class="settings-dropdown-content">
+        <%= link_to(
+          delete_kanji_path(@resource_owner, @next_kanji&.id || 0),
+          # class: @next_kanji&.id ? "" : "disabled-link",
+          method: :delete,
+          params: { kanji: { status: Kanji::NEW_STATUS } },
+          title: "Delete this kanji from your list",
+          data: {
+            turbo_method: :delete,
+            controller: "disable",
+            disable_with_value: "Deleting...",
+            action: "disable#disableButton",
+            disable_target: "button"
+          }) do %>
+          <span>
+            <%= heroicon "trash", variant: :outline %>
+            Delete
+          </span>
+        <% end %>
+        <%= link_to(finder_kanji_path(@resource_owner)) do %>
+          <span>
+            <%= heroicon "chip", variant: :outline %>
+            Kanji finder tool
+          </span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
   <h1 class="page-title">
     Next kanji
     <%= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>
