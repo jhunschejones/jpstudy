@@ -70,12 +70,12 @@ class KanjiController < ApplicationController
     end
 
     if characters_unable_to_add.any?
-      flash[:alert] = "#{new_count} new kanji added, #{already_exist_count} kanji already exist. Unable to add: #{characters_unable_to_add.join(", ")}"
+      flash[:alert] = "#{new_count} new kanji added, #{already_exist_count} kanji already #{already_exist_count == 1 ? "exists" : "exist"}. Unable to add: #{characters_unable_to_add.join(", ")}"
       unless @resource_owner.can_add_more_kanji?
         flash[:alert] += " because you have reached your kanji limit."
       end
     else
-      flash[:success] = "#{new_count} new kanji added, #{already_exist_count} kanji already exist."
+      flash[:success] = "#{new_count} new kanji added, #{already_exist_count} kanji already #{already_exist_count == 1 ? "exists" : "exist"}."
     end
     redirect_to finder_kanji_path(@resource_owner)
   end

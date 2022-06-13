@@ -22,6 +22,27 @@ class KanjiControllerTest < ApplicationControllerTestCase
     end
   end
 
+  describe "#finder" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      get finder_kanji_path(users(:elemouse))
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "does not allow a user to access another users kanji finder page" do
+      login(users(:daisy))
+      get finder_kanji_path(users(:carl))
+      assert_response :not_found
+    end
+
+    it "returns the  kanji finder' page" do
+      login(users(:carl))
+      get finder_kanji_path(users(:carl))
+      assert_response :success
+      assert_select "h2.title", "Kanji finder"
+    end
+  end
+
   describe "#create" do
     it "requires subscription or trial to access" do
       login(users(:elemouse))
@@ -82,6 +103,66 @@ class KanjiControllerTest < ApplicationControllerTestCase
       post kanji_path(users(:carl)), params: { kanji: { character: "竜", status: Kanji::ADDED_STATUS } }
       follow_redirect!
       refute flash[:success]
+    end
+  end
+
+  describe "#bulk_create" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      assert_no_difference "Kanji.count" do
+        post bulk_create_kanji_path(users(:elemouse)), params: { text: "手袋形" }
+      end
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "prevents users from adding kanji for other users" do
+      login(users(:daisy))
+      assert_no_difference "Kanji.count" do
+        post bulk_create_kanji_path(users(:carl)), params: { text: "手袋形" }
+      end
+      assert_response :not_found
+    end
+
+    it "adds new kanji" do
+      login(users(:carl))
+      assert_difference "Kanji.new_status.where(user_id: #{users(:carl).id}).count", 2 do
+        post bulk_create_kanji_path(users(:carl)), params: { text: "手袋形" }
+      end
+    end
+
+    it "redirects to the kanji finder page with expected message" do
+      login(users(:carl))
+      post bulk_create_kanji_path(users(:carl)), params: { text: "手袋形" }
+      follow_redirect!
+      assert_equal path, finder_kanji_path(users(:carl))
+      assert_equal "2 new kanji added, 1 kanji already exists.", flash[:success]
+    end
+  end
+
+  describe "#update" do
+    it "requires subscription or trial to access" do
+      login(users(:elemouse))
+      assert_no_changes "Kanji.find(kanji(:自).id).status" do
+        patch update_kanji_path(users(:elemouse), kanji(:自)), params: { kanji: { status: "new" } }
+      end
+      assert_redirected_to user_path(users(:elemouse))
+    end
+
+    it "prevents users from modifing another users kanji" do
+      login(users(:daisy))
+      assert_no_changes "Kanji.find(kanji(:形).id).status" do
+        patch update_kanji_path(users(:carl), kanji(:形)), params: { kanji: { status: "new" } }
+      end
+      assert_response :not_found
+    end
+
+    it "updates the kanji status and redirects to the next kanji page" do
+      login(users(:carl))
+      assert_changes "Kanji.find(kanji(:形).id).status" do
+        patch update_kanji_path(users(:carl), kanji(:形)), params: { kanji: { status: "new" } }
+      end
+      follow_redirect!
+      assert_equal path, next_kanji_path(users(:carl))
     end
   end
 
