@@ -11,7 +11,7 @@ class Kanji < ApplicationRecord
 
   belongs_to :user, counter_cache: :kanji_count, inverse_of: :kanji
   validates :character, presence: true, uniqueness: { scope: [:character, :user] }, format: { with: KANJI_REGEX }
-  validates :status, allow_nil: true, inclusion: { in: VALID_STATUSES }
+  validates :status, inclusion: { in: VALID_STATUSES, message: "must be one of '#{VALID_STATUSES.join(", ")}'" }
   validate :user_kanji_limit_not_exceeded, on: :create
 
   scope :new_status, -> { where(status: NEW_STATUS) }
@@ -27,7 +27,7 @@ class Kanji < ApplicationRecord
 
   def self.all_new_for(user:)
     added_or_skipped = user.kanji.skipped_or_added.pluck(:character)
-    new_status = user.kanji.new_status.pluck(:character)
+    new_in_db = user.kanji.new_status.pluck(:character)
     new_in_words = user.words
       .order(added_to_list_at: :asc)
       .order(created_at: :asc)
@@ -36,7 +36,7 @@ class Kanji < ApplicationRecord
       .uniq
       .select { |character| character =~ KANJI_REGEX }
 
-    all_new_characters = new_in_words + new_status - added_or_skipped
+    all_new_characters = new_in_words.union(new_in_db) - added_or_skipped
     all_new_characters.map { |character| new(character: character) }
   end
 
