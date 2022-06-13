@@ -42,19 +42,19 @@ class KanjiTest < ActiveSupport::TestCase
     end
   end
 
-  describe ".all_new_for" do
+  describe ".all_new_characters_for" do
     it "returns all new kanjis for a user from words" do
-      carls_new_kanji = Kanji.all_new_for(user: users(:carl))
+      carls_new_kanji = Kanji.all_new_characters_for(user: users(:carl))
       expected_characters = ["寝", "教", "婚", "約", "大", "切", "使", "如", "何", "言", "短", "頃", "体", "無", "理", "然", "回", "実", "陰", "様", "段", "調", "子", "悪"]
-      assert_equal expected_characters.sort, carls_new_kanji.map(&:character).sort
+      assert_equal expected_characters.sort, carls_new_kanji.sort
     end
 
     it "returns all new kanjis for a user from words and db" do
       Kanji.create!(character: "袋", status: "new", user: users(:carl))
-      carls_new_kanji = Kanji.all_new_for(user: users(:carl))
-      # new DB kanji is added to the end of the list
+      carls_new_kanji = Kanji.all_new_characters_for(user: users(:carl))
+      # new status kanji in the DB are added to the end of the list
       expected_characters = ["寝", "教", "婚", "約", "大", "切", "使", "如", "何", "言", "短", "頃", "体", "無", "理", "然", "回", "実", "陰", "様", "段", "調", "子", "悪", "袋"]
-      assert_equal expected_characters.sort, carls_new_kanji.map(&:character).sort
+      assert_equal expected_characters.sort, carls_new_kanji.sort
     end
   end
 

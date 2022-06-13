@@ -25,7 +25,7 @@ class Kanji < ApplicationRecord
 
   attr_accessor :skip_turbostream_callbacks
 
-  def self.all_new_for(user:)
+  def self.all_new_characters_for(user:)
     added_or_skipped = user.kanji.skipped_or_added.pluck(:character)
     new_in_db = user.kanji.new_status.pluck(:character)
     new_in_words = user.words
@@ -36,14 +36,13 @@ class Kanji < ApplicationRecord
       .uniq
       .select { |character| character =~ KANJI_REGEX }
 
-    all_new_characters = new_in_words.union(new_in_db) - added_or_skipped
-    all_new_characters.map { |character| new(character: character) }
+    new_in_words.union(new_in_db) - added_or_skipped
   end
 
   def self.next_new_for(user:)
-    next_new = all_new_for(user: user).first
-    return nil unless next_new
-    find_by(user: user, character: next_new.character, status: NEW_STATUS) || next_new
+    next_new_character = all_new_characters_for(user: user).first
+    return nil unless next_new_character
+    user.kanji.new_status.find_by(character: next_new_character) || new(character: next_new_character)
   end
 
   def added_to_list_on
