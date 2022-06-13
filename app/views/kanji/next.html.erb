@@ -66,9 +66,18 @@
 
   <div class="actions">
     <% if @current_user&.can_modify_resources_belonging_to?(@resource_owner) %>
-      <%= button_to(update_kanji_path(@resource_owner, @previous_kanji || 0), class: "basic-button", method: :patch, params: { kanji: { status: Kanji::NEW_STATUS } }, title: "Undo the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
-        <%= heroicon "rewind", options: { class: "back-button-icon" } %>
-        Undo
+      <% if @as_seen_in_words.any? %>
+        <%# this was probably added from the word list, not manually, safe to delete on undo %>
+        <%= button_to(delete_kanji_path(@resource_owner, @previous_kanji || 0), class: "basic-button", method: :delete, title: "Remove the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
+          <%= heroicon "rewind", options: { class: "back-button-icon" } %>
+          Undo
+        <% end %>
+      <% else %>
+        <%# this was probably added manually, don't delete the record on undo %>
+        <%= button_to(update_kanji_path(@resource_owner, @previous_kanji || 0), class: "basic-button", method: :patch, params: { kanji: { status: Kanji::NEW_STATUS } }, title: "Undo the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
+          <%= heroicon "rewind", options: { class: "back-button-icon" } %>
+          Undo
+        <% end %>
       <% end %>
       <%= button_to(kanji_path(@resource_owner), class: "button-pink", method: :post, params: { kanji: { character: @next_kanji&.character, status: Kanji::SKIPPED_STATUS } }, data: { controller: "disable", disable_with_value: "Skipping...", action: "disable#disableButton", disable_target: "button" }, disabled: @next_kanji.nil?) do %>
         <%= heroicon "eye-off", variant: :outline, options: { class: "skip-button-icon" } %>
