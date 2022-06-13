@@ -5,21 +5,21 @@ class KanjiTest < ActiveSupport::TestCase
     it "prevents english characters" do
       assert_no_difference "Kanji.count" do
         kanji = Kanji.create(user: users(:carl), character: "A")
-        assert_equal ["Character is invalid"], kanji.errors.full_messages
+        assert_includes kanji.errors.full_messages, "Character is invalid"
       end
     end
 
     it "prevents kana characters" do
       assert_no_difference "Kanji.count" do
         kanji = Kanji.create(user: users(:carl), character: "ね")
-        assert_equal ["Character is invalid"], kanji.errors.full_messages
+        assert_includes kanji.errors.full_messages, "Character is invalid"
       end
     end
 
     it "prevents duplicate characters" do
       assert_no_difference "Kanji.count" do
         kanji = Kanji.create(user: users(:carl), character: users(:carl).kanji.last.character)
-        assert_equal ["Character has already been taken"], kanji.errors.full_messages
+        assert_includes kanji.errors.full_messages, "Character has already been taken"
       end
     end
 
@@ -30,23 +30,31 @@ class KanjiTest < ActiveSupport::TestCase
 
       assert_no_difference "Kanji.count" do
         kanji = Kanji.create(user: users(:carl), character: "寝")
-        assert_equal ["User kanji limit exceeded"], kanji.errors.full_messages
+        assert_includes kanji.errors.full_messages, "User kanji limit exceeded"
       end
     end
 
     it "prevents invalid statuses" do
       assert_no_difference "Kanji.count" do
         kanji = Kanji.create(user: users(:carl), character: "寝", status: "space_cats")
-        assert_equal ["Status status must be either 'added', or 'skipped'"], kanji.errors.full_messages
+        assert_includes kanji.errors.full_messages, "Status must be one of 'new, added, skipped'"
       end
     end
   end
 
-  describe ".all_new_for" do
-    it "returns all new kanjis for a user" do
-      carls_new_kanji = Kanji.all_new_for(user: users(:carl))
-      assert carls_new_kanji.first.is_a?(Kanji)
-      assert_equal ["寝", "教", "婚", "約", "大", "切", "使", "如", "何", "言", "短", "頃", "体", "無", "理", "然", "回", "実", "陰", "様", "段", "調", "子", "悪"].sort, carls_new_kanji.map(&:character).sort
+  describe ".all_new_characters_for" do
+    it "returns all new kanjis for a user from words" do
+      carls_new_kanji = Kanji.all_new_characters_for(user: users(:carl))
+      expected_characters = ["寝", "教", "婚", "約", "大", "切", "使", "如", "何", "言", "短", "頃", "体", "無", "理", "然", "回", "実", "陰", "様", "段", "調", "子", "悪"]
+      assert_equal expected_characters.sort, carls_new_kanji.sort
+    end
+
+    it "returns all new kanjis for a user from words and db" do
+      Kanji.create!(character: "袋", status: "new", user: users(:carl))
+      carls_new_kanji = Kanji.all_new_characters_for(user: users(:carl))
+      # new status kanji in the DB are added to the end of the list
+      expected_characters = ["寝", "教", "婚", "約", "大", "切", "使", "如", "何", "言", "短", "頃", "体", "無", "理", "然", "回", "実", "陰", "様", "段", "調", "子", "悪", "袋"]
+      assert_equal expected_characters.sort, carls_new_kanji.sort
     end
   end
 

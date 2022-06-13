@@ -3,6 +3,39 @@
     <%= turbo_stream_from @resource_owner.kanji_stream_name %>
   <% end %>
 
+  <div class="settings">
+    <div class="settings-dropdown">
+      <%= heroicon "cog", variant: :outline, options: { class: "settings-icon" } %>
+      <div class="settings-dropdown-content">
+        <% if @next_kanji&.id %>
+          <%= link_to(
+            delete_kanji_path(@resource_owner, @next_kanji.id),
+            method: :delete,
+            params: { kanji: { status: Kanji::NEW_STATUS } },
+            title: "Delete this kanji from your list",
+            data: {
+              turbo_method: :delete,
+              controller: "disable",
+              disable_with_value: "Deleting...",
+              action: "disable#disableButton",
+              disable_target: "button"
+            }) do %>
+            <span class="delete-kanji">
+              <%= heroicon "trash", variant: :outline %>
+              Delete
+            </span>
+          <% end %>
+        <% end %>
+        <%= link_to(finder_kanji_path(@resource_owner)) do %>
+          <span>
+            <%= heroicon "chip", variant: :outline %>
+            Kanji finder tool
+          </span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
   <h1 class="page-title">
     Next kanji
     <%= link_to(next_kanji_instructions_path, title: "What does this feature do?") do %>
@@ -33,7 +66,7 @@
 
   <div class="actions">
     <% if @current_user&.can_modify_resources_belonging_to?(@resource_owner) %>
-      <%= button_to(delete_kanji_path(@resource_owner, @previous_kanji || 0), class: "basic-button", method: :delete, title: "Remove the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
+      <%= button_to(update_kanji_path(@resource_owner, @previous_kanji || 0), class: "basic-button", method: :patch, params: { kanji: { status: Kanji::NEW_STATUS } }, title: "Undo the last kanji that was #{@previous_kanji&.status == Kanji::SKIPPED_STATUS ? "skipped" : "added"}", data: { controller: "disable", disable_with_value: "Undoing...", action: "disable#disableButton", disable_target: "button" }, disabled: @previous_kanji.nil?) do %>
         <%= heroicon "rewind", options: { class: "back-button-icon" } %>
         Undo
       <% end %>

@@ -109,7 +109,7 @@ class UsersController < ApplicationController
 
     @kanji_added_count = @current_user.kanji.added.count
     @kanji_skipped_count = @current_user.kanji.skipped.count
-    @kanji_to_add_count = Kanji.all_new_for(user: @current_user).size
+    @kanji_to_add_count = Kanji.all_new_characters_for(user: @current_user).size
     @kanji_added_today = @current_user.kanji.added.where(added_to_list_at: Date.today.all_day).size
     # Instance variable is set to nil if next_kanji_goal and daily_kanji_target are not configured yet
     @days_to_kanji_target =
