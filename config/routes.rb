@@ -60,6 +60,8 @@ Rails.application.routes.draw do
     resource :kanji, only: [:create], controller: :kanji do
       collection do
         get :next
+        get :finder
+        post :bulk_create
         get :import
         post :upload
         get :export
@@ -70,6 +72,7 @@ Rails.application.routes.draw do
     end
     # This is really the only way to make these routes play nice
     delete "/kanji/:id", to: "kanji#destroy", as: :delete_kanji
+    patch "/kanji/:id", to: "kanji#update", as: :update_kanji
 
     resources :memos, only: [:index, :update]
   end
