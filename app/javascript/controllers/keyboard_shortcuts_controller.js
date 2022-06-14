@@ -61,6 +61,11 @@ export default class extends Controller {
       if (window.location.pathname.match(/\/words\/search/g)) {
         return history.back();
       }
+
+      const kanjiFinderBackButton = document.querySelector(".kanji-finder-form .back-button");
+      if (kanjiFinderBackButton) {
+        return kanjiFinderBackButton.click();
+      }
     }
 
     const focusedInputFieldsArePresent = document.querySelectorAll("input:focus,textarea:focus,trix-editor:focus").length > 0;
@@ -99,6 +104,10 @@ export default class extends Controller {
       const wordSearchButton = document.querySelector(".word-search-button");
       if (wordSearchButton) {
         return wordSearchButton.click();
+      }
+      const kanjiFinderLink = document.querySelector(".kanji-finder-link");
+      if (kanjiFinderLink) {
+        return kanjiFinderLink.click();
       }
     }
     if (this.keysPressed["i"] || this.keysPressed["e"]) {
