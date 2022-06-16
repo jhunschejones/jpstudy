@@ -6,14 +6,14 @@
       Search text for new kanji to add to your kanji list
     </p>
 
-    <%= form_tag(bulk_create_kanji_path(@current_user)) do |form| %>
+    <%= form_tag(bulk_create_kanji_path(@resource_owner)) do |form| %>
       <div class="field">
         <%= text_area_tag :text, nil, required: true, rows: 6, minlength: 1, maxlength: 2000 %>
       </div>
 
       <div class="actions">
         <%= submit_tag "Find and add kanji", class: "button-blue", data: { controller: "disable", disable_with_value: "Finding and adding kanji...", action: "disable#disableButton", disable_target: "button" } %>
-        <%= link_to "Back", :back, class: "basic-button back-button" %>
+        <%= link_to "Back", next_kanji_path(@resource_owner), class: "basic-button back-button" %>
       </div>
     <% end %>
   </div>
