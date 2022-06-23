@@ -13,7 +13,11 @@ class KanjiController < ApplicationController
 
   def next
     @next_kanji = Kanji.next_new_for(user: @resource_owner)
-    @previous_kanji = @resource_owner.kanji.skipped_or_added.order(created_at: :asc).last
+    @previous_kanji = @resource_owner.kanji
+      .skipped_or_added
+      .order(updated_at: :desc)
+      .order(created_at: :asc)
+      .first
     @as_seen_in_words =
       if @next_kanji.nil?
         []
@@ -83,6 +87,9 @@ class KanjiController < ApplicationController
   end
 
   def update
+    unless kanji_params[:status] == Kanji::NEW_STATUS
+      return redirect_to next_kanji_path(@resource_owner), alert: "You may only update kanji back to a new status."
+    end
     @kanji = @resource_owner.kanji.find(params[:id])
     flash[:hide_in_ms] = 1800
     flash[:notice] =
@@ -92,7 +99,7 @@ class KanjiController < ApplicationController
       when Kanji::SKIPPED_STATUS
         "Kanji #{@kanji.character} is no longer marked as skipped."
       end
-    @kanji.update(status: kanji_params[:status])
+    @kanji.update!(status: kanji_params[:status], added_to_list_at: nil)
     redirect_to next_kanji_path(@resource_owner)
   end
 

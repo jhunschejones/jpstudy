@@ -156,13 +156,23 @@ class KanjiControllerTest < ApplicationControllerTestCase
       assert_response :not_found
     end
 
-    it "updates the kanji status and redirects to the next kanji page" do
+    it "updates the kanji status to 'new' and redirects to the next kanji page" do
       login(users(:carl))
       assert_changes "Kanji.find(kanji(:形).id).status" do
         patch update_kanji_path(users(:carl), kanji(:形)), params: { kanji: { status: "new" } }
       end
       follow_redirect!
       assert_equal path, next_kanji_path(users(:carl))
+    end
+
+    it "prevents updates to statuses other than 'new'" do
+      login(users(:carl))
+      assert_no_changes "Kanji.find(kanji(:形).id).status" do
+        patch update_kanji_path(users(:carl), kanji(:形)), params: { kanji: { status: "added" } }
+      end
+      follow_redirect!
+      assert_equal path, next_kanji_path(users(:carl))
+      assert_equal "You may only update kanji back to a new status.", flash[:alert]
     end
   end
 

@@ -27,7 +27,11 @@ class Kanji < ApplicationRecord
 
   def self.all_new_characters_for(user:)
     added_or_skipped = user.kanji.skipped_or_added.pluck(:character)
-    new_in_db = user.kanji.new_status.pluck(:character)
+    new_in_db = user.kanji
+      .new_status
+      .order(updated_at: :desc)
+      .order(created_at: :asc)
+      .pluck(:character)
     new_in_words = user.words
       .order(added_to_list_at: :asc)
       .order(created_at: :asc)
