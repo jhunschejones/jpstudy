@@ -49,7 +49,7 @@ class KanjiTest < ActiveSupport::TestCase
       assert_equal expected_characters.sort, carls_new_kanji.sort
     end
 
-    it "returns all new kanjis for a user from words and db" do
+    it "returns all new kanjis for a user from words and new words in the db" do
       Kanji.create!(character: "袋", status: "new", user: users(:carl))
       carls_new_kanji = Kanji.all_new_characters_for(user: users(:carl))
       # new status kanji in the DB are added to the end of the list

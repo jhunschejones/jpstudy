@@ -15,8 +15,7 @@ class KanjiController < ApplicationController
     @next_kanji = Kanji.next_new_for(user: @resource_owner)
     @previous_kanji = @resource_owner.kanji
       .skipped_or_added
-      .order(updated_at: :desc)
-      .order(created_at: :asc)
+      .ordered
       .first
     @as_seen_in_words =
       if @next_kanji.nil?
