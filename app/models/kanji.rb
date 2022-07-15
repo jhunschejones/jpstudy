@@ -18,7 +18,6 @@ class Kanji < ApplicationRecord
   scope :added, -> { where(status: ADDED_STATUS) }
   scope :skipped, -> { where(status: SKIPPED_STATUS) }
   scope :skipped_or_added, -> { where(status: [ADDED_STATUS, SKIPPED_STATUS]) }
-  scope :ordered, -> { order(updated_at: :desc, created_at: :asc) }
 
   after_create_commit { notify_socket_subscribers(async: true) }
   after_update_commit { notify_socket_subscribers(async: true) }
@@ -30,7 +29,7 @@ class Kanji < ApplicationRecord
     added_or_skipped = user.kanji.skipped_or_added.pluck(:character)
     new_in_db = user.kanji
       .new_status
-      .ordered
+      .order(created_at: :asc, updated_at: :desc)
       .pluck(:character)
     new_in_words = user.words
       .order(added_to_list_at: :asc, created_at: :asc)
