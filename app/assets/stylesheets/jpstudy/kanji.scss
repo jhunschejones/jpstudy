@@ -62,11 +62,15 @@
 }
 
 .next-kanji-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   .settings {
     display: flex;
     flex-direction: row-reverse;
     position: relative;
     margin-bottom: -46px;
+    width: 100%;
     .settings-dropdown {
       .settings-icon {
         @extend .light-gray;
@@ -117,7 +121,7 @@
     }
   }
   .page-title {
-    text-align: center;
+    position: relative; // required so that it's not behind the .settings div
   }
   .next-kanji-container {
     display: flex;
